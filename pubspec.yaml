@@ -16,6 +16,7 @@ dependencies:
   provider: ^4.3.2+2
   url_launcher: ^5.7.5
   webview_flutter: ^1.0.1
+  path_provider: ^1.6.21
   dio: ^3.0.10
   flutter_waya:
     path: ../flutter_waya
