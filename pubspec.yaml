@@ -1,0 +1,28 @@
+name: universally
+description: A new Flutter universally package.
+version: 0.0.1
+homepage: https://github.com/Wayaer/universally.git
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^0.5.12+2
+  permission_handler: ^5.0.1+1
+  connectivity: ^0.4.9+5
+  provider: ^4.3.2+2
+  url_launcher: ^5.7.5
+  webview_flutter: ^1.0.1
+  dio: ^3.0.10
+  flutter_waya:
+    path: ../flutter_waya
+  flutter_curiosity:
+    path: ../flutter_curiosity
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
