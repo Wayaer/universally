@@ -18,10 +18,9 @@ dependencies:
   webview_flutter: ^1.0.1
   path_provider: ^1.6.21
   dio: ^3.0.10
-  flutter_waya:
-    path: ../../library/flutter_waya
-  flutter_curiosity:
-    path: ../../library/flutter_curiosity
+  flutter_curiosity: ^1.3.3
+  flutter_waya: ^1.3.2
+
 
 dev_dependencies:
   flutter_test:
