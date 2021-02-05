@@ -21,11 +21,11 @@ dependencies:
   flutter_curiosity:
     git:
       url: git://github.com/Wayaer/flutter_curiosity.git
-      ref: master
+      ref: dev
   flutter_waya:
     git:
       url: git://github.com/Wayaer/flutter_waya.git
-      ref: master
+      ref: dev
 
 
 dev_dependencies:
