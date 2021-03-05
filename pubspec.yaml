@@ -9,10 +9,8 @@ environment:
 
 dependencies:
   connectivity: ^2.0.2
-
   flutter:
     sdk: flutter
-
   flutter_curiosity:
     path: ../flutter_curiosity
   flutter_svg: ^0.19.1
