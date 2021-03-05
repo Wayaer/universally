@@ -11,24 +11,6 @@ dependencies:
   dio: ^3.0.10
   flutter:
     sdk: flutter
-<<<<<<< HEAD
-  shared_preferences: ^0.5.12+4
-  permission_handler: ^5.0.1+2
-  connectivity: ^2.0.2
-  provider: ^4.3.3
-  url_launcher: ^5.7.10
-  webview_flutter: ^1.0.7
-  path_provider: ^1.6.27
-  dio: ^3.0.10
-  flutter_curiosity:
-    git:
-      url: git://github.com/Wayaer/flutter_curiosity.git
-      ref: dev
-  flutter_waya:
-    git:
-      url: git://github.com/Wayaer/flutter_waya.git
-      ref: dev
-=======
   flutter_curiosity:
     path: ../flutter_curiosity
   flutter_waya:
@@ -39,10 +21,6 @@ dependencies:
   shared_preferences: ^2.0.3
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.1
-
-
->>>>>>> dev
-
 
 dev_dependencies:
   flutter_test:
