@@ -2,6 +2,7 @@ name: universally
 description: A new Flutter universally package.
 version: 0.0.1
 repository: https://github.com/Wayaer/universally.git
+publish_to: 'none'
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,9 +13,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_curiosity:
-    path: ../flutter_curiosity
+    git:
+      url: git://github.com/Wayaer/flutter_curiosity.git
+      ref: master
   flutter_waya:
-    path: ../flutter_waya
+    git:
+      url: git://github.com/Wayaer/flutter_waya.git
+      ref: master
   path_provider: ^2.0.1
   permission_handler: ^5.0.1+2
   provider: ^5.0.0
