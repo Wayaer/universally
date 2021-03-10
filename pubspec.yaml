@@ -22,3 +22,4 @@ dependencies:
   shared_preferences: ^2.0.3
   url_launcher: ^6.0.2
   webview_flutter: ^2.0.2
+  pull_to_refresh: ^1.6.4
