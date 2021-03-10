@@ -8,14 +8,12 @@ environment:
 
 dependencies:
   connectivity: ^3.0.2
+  dio: ^4.0.0-beta7
   flutter:
     sdk: flutter
-  flutter_curiosity: 2.0.0
+  flutter_curiosity: 2.0.1
   flutter_svg: ^0.21.0-nullsafety.0
-  flutter_waya:
-    git:
-      url: git://github.com/Wayaer/flutter_waya.git
-      ref: null-safe
+  flutter_waya: ^1.7.2
   json_annotation: ^4.0.0
   permission_handler: ^6.0.1
   provider: ^5.0.0
