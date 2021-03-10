@@ -1,6 +1,6 @@
 name: universally
 description: A new Flutter universally package.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -14,7 +14,6 @@ dependencies:
   flutter_curiosity: ^2.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   flutter_waya: ^1.7.2
-  json_annotation: ^4.0.0
   permission_handler: ^6.0.1
   provider: ^5.0.0
   pull_to_refresh: ^1.6.4
