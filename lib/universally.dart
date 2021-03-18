@@ -1,5 +1,6 @@
 library universally;
 
+export 'package:path_provider/path_provider.dart';
 export 'package:provider/provider.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:connectivity/connectivity.dart';
