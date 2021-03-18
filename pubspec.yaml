@@ -1,6 +1,6 @@
 name: universally
 description: A new Flutter universally package.
-version: 0.0.3
+version: 0.0.5
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   connectivity: ^3.0.2
-  dio: ^4.0.0-beta7
   flutter:
     sdk: flutter
   flutter_curiosity: ^2.0.0
