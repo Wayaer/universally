@@ -1,3 +1,3 @@
 # universally
 
-## 统一依赖常用插件，并可及时更新可用的最新版本
+## It depends on common plug and can update the latest available version in time
