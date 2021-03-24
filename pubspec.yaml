@@ -2,6 +2,7 @@ name: universally
 description: It depends on common plug and can update the latest available version in time
 version: 0.2.0
 repository: https://github.com/Wayaer/universally.git
+publish_to: 'none'
 
 environment:
   sdk: '>=2.10.0 <3.0.0'
@@ -14,7 +15,8 @@ dependencies:
   flutter_easyrefresh: ^2.1.8
   flutter_inappwebview: ^5.1.0+4
   flutter_svg: ^0.21.0-nullsafety.0
-  flutter_waya: ^1.8.0
+  flutter_waya:
+    path: ../flutter_waya
   path_provider: ^2.0.1
   permission_handler: ^6.0.1
   provider: ^5.0.0
