@@ -2,15 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:universally/universally.dart';
 
 /// 请求权限
-Future<bool> requestPermission(Permission permission, String text,
-    {Function showAlert, GestureTapCallback cancelTap}) async {
+Future<bool> requestPermission(Permission permission,
+    {Function showAlert}) async {
   final PermissionStatus status = await permission.status;
   if (status != PermissionStatus.granted) {
     final Map<Permission, PermissionStatus> statuses =
         await <Permission>[permission].request();
     if (!(statuses[permission] == PermissionStatus.granted)) {
       if (showAlert != null) {
-        return false;
+        showAlert.call();
       } else {
         openAppSettings();
       }
