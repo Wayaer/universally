@@ -12,3 +12,6 @@ export 'package:flutter_easyrefresh/easy_refresh.dart';
 
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:flutter_curiosity/flutter_curiosity.dart';
+
+export 'src/utils.dart';
+export 'src/web_view.dart';

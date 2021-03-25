@@ -1,6 +1,6 @@
 name: universally
 description: It depends on common plug and can update the latest available version in time
-version: 0.2.0
+version: 0.2.2
 repository: https://github.com/Wayaer/universally.git
 publish_to: 'none'
 
