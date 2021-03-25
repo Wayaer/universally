@@ -1,3 +1,7 @@
+## [0.2.1]
+ * update component
+ * add [utils]
+ * add [BaseWebView]
 ## [0.2.0]
  * replace refresh component
 ## [0.1.0]
