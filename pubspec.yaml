@@ -22,4 +22,4 @@ dependencies:
   provider: ^5.0.0
   shared_preferences: ^2.0.3
   synchronized: ^3.0.0
-  url_launcher: ^6.0.2
+  url_launcher: ^6.0.3
