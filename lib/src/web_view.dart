@@ -7,7 +7,7 @@ import 'package:universally/universally.dart';
 class BaseWebView extends StatefulWidget {
   const BaseWebView.url(
     this.htmlUrl, {
-    Key key,
+    Key? key,
     this.onWebViewCreated,
     this.isCalculateHeight = false,
     this.shouldOverrideUrlLoading,
@@ -22,7 +22,7 @@ class BaseWebView extends StatefulWidget {
 
   const BaseWebView.data(
     this.htmlData, {
-    Key key,
+    Key? key,
     this.onWebViewCreated,
     this.isCalculateHeight = false,
     this.shouldOverrideUrlLoading,
@@ -37,7 +37,7 @@ class BaseWebView extends StatefulWidget {
 
   const BaseWebView.file(
     this.htmlFile, {
-    Key key,
+    Key? key,
     this.onWebViewCreated,
     this.isCalculateHeight = false,
     this.shouldOverrideUrlLoading,
@@ -51,67 +51,67 @@ class BaseWebView extends StatefulWidget {
         super(key: key);
 
   /// 加载html 文件地址
-  final String htmlFile;
+  final String? htmlFile;
 
   /// 加载html url
-  final String htmlUrl;
+  final String? htmlUrl;
 
   /// 加载html 字符串
-  final String htmlData;
+  final String? htmlData;
 
   /// 是否重新计算高度，当迁入页面有其他内容时 设置为 true
-  final bool isCalculateHeight;
+  final bool? isCalculateHeight;
 
   /// 创建webView
-  final ValueCallback<InAppWebViewController> onWebViewCreated;
+  final ValueCallback<InAppWebViewController>? onWebViewCreated;
 
-  final Future<NavigationActionPolicy> Function(
-          InAppWebViewController controller, NavigationAction navigationAction)
+  final Future<NavigationActionPolicy>? Function(
+          InAppWebViewController controller, NavigationAction navigationAction)?
       shouldOverrideUrlLoading;
 
   /// 初始化WebView 参数
-  final InAppWebViewGroupOptions initialOptions;
+  final InAppWebViewGroupOptions? initialOptions;
 
-  final PullToRefreshController pullToRefreshController;
+  final PullToRefreshController? pullToRefreshController;
 
-  final UnmodifiableListView<UserScript> initialUserScripts;
+  final UnmodifiableListView<UserScript>? initialUserScripts;
 
   /// 表示 WebView 上下文菜单的类。它由 WebView.contextMenu
-  final ContextMenu contextMenu;
+  final ContextMenu? contextMenu;
 
-  final int windowId;
+  final int? windowId;
 
   @override
   _WebViewState createState() => _WebViewState();
 }
 
 class _WebViewState extends State<BaseWebView> {
-  InAppWebViewGroupOptions options;
+  InAppWebViewGroupOptions? options;
 
-  PullToRefreshController pullToRefreshController;
-  UnmodifiableListView<UserScript> initialUserScripts;
+  PullToRefreshController? pullToRefreshController;
+  UnmodifiableListView<UserScript>? initialUserScripts;
 
   /// 表示 WebView 上下文菜单的类。它由 WebView.contextMenu
-  ContextMenu contextMenu;
+  ContextMenu? contextMenu;
 
-  int windowId;
+  int? windowId;
 
   /// webView高度
   double webViewHeight = deviceHeight;
 
   /// html 的三种加载方式
-  InAppWebViewInitialData initialData;
-  URLRequest initialUrlRequest;
-  String initialFile;
+  InAppWebViewInitialData? initialData;
+  URLRequest? initialUrlRequest;
+  String? initialFile;
 
   @override
   void initState() {
     super.initState();
     if (widget.htmlData != null)
-      initialData = InAppWebViewInitialData(data: widget.htmlData);
+      initialData = InAppWebViewInitialData(data: widget.htmlData!);
 
     if (widget.htmlUrl != null)
-      initialUrlRequest = URLRequest(url: Uri.parse(widget.htmlUrl));
+      initialUrlRequest = URLRequest(url: Uri.parse(widget.htmlUrl!));
 
     if (widget.htmlFile != null) initialFile = widget.htmlFile;
     pullToRefreshController = widget.pullToRefreshController;
@@ -488,23 +488,24 @@ class _WebViewState extends State<BaseWebView> {
         contextMenu: contextMenu,
         onWebViewCreated:
             widget.onWebViewCreated ?? (InAppWebViewController controller) {},
-        onLoadStart: (InAppWebViewController controller, Uri url) {
+        onLoadStart: (InAppWebViewController controller, Uri? url) {
           /// WebView 开始加载
-          log('开始加载的url=> ' + widget.htmlUrl);
+          log('开始加载的url=> ' + widget.htmlUrl!);
         },
-        onLoadStop: (InAppWebViewController controller, Uri url) async {
+        onLoadStop: (InAppWebViewController controller, Uri? url) async {
           /// WebView 加载完成
-          if (widget.isCalculateHeight) {
-            final int y = await controller.getContentHeight();
+          if (widget.isCalculateHeight!) {
+            final int? y = await controller.getContentHeight();
+            if (y == null) return;
             webViewHeight = y.toDouble();
             setState(() {});
           }
         },
-        onLoadError: (InAppWebViewController controller, Uri url, int code,
+        onLoadError: (InAppWebViewController controller, Uri? url, int code,
             String message) {
           /// WebView 加载失败
         },
-        onLoadHttpError: (InAppWebViewController controller, Uri url, int code,
+        onLoadHttpError: (InAppWebViewController controller, Uri? url, int code,
             String message) {
           /// 当InAppWebView主页收到HTTP错误时，事件被激发。
         },
@@ -516,23 +517,23 @@ class _WebViewState extends State<BaseWebView> {
           /// 收到控制台信息时
           // log('WebView收到控制台信息=>' + consoleMessage.message);
         },
-        shouldOverrideUrlLoading: widget.shouldOverrideUrlLoading ??
-            (InAppWebViewController controller,
-                NavigationAction navigationAction) async {
-              /// 当网址即将在当前 WebView 中加载时，给主机应用程序一个控制的机会（要使用此事件，选项必须是）。此事件在 WebView
-              /// 的初始负载上不调用。useShouldOverrideUrlLoading=true
-              final String uri = navigationAction.request.url.toString();
-              log('shouldOverrideUrlLoading==' + uri);
-
-              /// 通过uri 实现交互
-              /// if (uri.startsWith('js://webView')) {
-              ///
-              ///   return NavigationActionPolicy.CANCEL;
-              /// }
-              return NavigationActionPolicy.ALLOW;
-            },
-        onUpdateVisitedHistory:
-            (InAppWebViewController controller, Uri url, bool androidIsReload) {
+        // shouldOverrideUrlLoading: widget.shouldOverrideUrlLoading ??
+        //     (InAppWebViewController controller,
+        //         NavigationAction? navigationAction) async {
+        //       /// 当网址即将在当前 WebView 中加载时，给主机应用程序一个控制的机会（要使用此事件，选项必须是）。此事件在 WebView
+        //       /// 的初始负载上不调用。useShouldOverrideUrlLoading=true
+        //       final String uri = navigationAction.request.url.toString();
+        //       log('shouldOverrideUrlLoading==' + uri);
+        //
+        //       /// 通过uri 实现交互
+        //       /// if (uri.startsWith('js://webView')) {
+        //       ///
+        //       ///   return NavigationActionPolicy.CANCEL;
+        //       /// }
+        //       return NavigationActionPolicy.ALLOW;
+        //     },
+        onUpdateVisitedHistory: (InAppWebViewController controller, Uri? url,
+            bool? androidIsReload) {
           /// 当主机应用程序更新其访问链接数据库时，事件被激发。当 InAppWebView 的导航状
           /// 态发生变化时，例如通过使用 javascript历史 API功能，也会激发此事件
         },
@@ -564,65 +565,65 @@ class _WebViewState extends State<BaseWebView> {
         onCloseWindow: (InAppWebViewController controller) {
           /// 主机应用程序应关闭给定的 WebView 并在必要时将其从视图系统中删除时，事件被激发。
         },
-        onJsAlert:
-            (InAppWebViewController controller, JsAlertRequest jsAlertRequest) {
+        onJsAlert: (InAppWebViewController controller,
+            JsAlertRequest jsAlertRequest) async {
           /// 当javascript调用显示警报对话的方法时，事件被激发。alert()
           return null;
         },
         onJsConfirm: (InAppWebViewController controller,
-            JsConfirmRequest jsConfirmRequest) {
+            JsConfirmRequest jsConfirmRequest) async {
           /// 当javascript调用显示确认对话的方法时，事件被激发。confirm()
           return null;
         },
         onJsPrompt: (InAppWebViewController controller,
-            JsPromptRequest jsPromptRequest) {
+            JsPromptRequest jsPromptRequest) async {
           /// 当javascript调用显示提示对话的方法时，事件被激发。prompt()
           return null;
         },
         onReceivedHttpAuthRequest: (InAppWebViewController controller,
-            URLAuthenticationChallenge challenge) {
+            URLAuthenticationChallenge challenge) async {
           /// 当 WebView 收到 HTTP 身份验证请求时，事件被激发。默认行为是取消请求。
           return null;
         },
         onReceivedServerTrustAuthRequest: (InAppWebViewController controller,
-            URLAuthenticationChallenge challenge) {
+            URLAuthenticationChallenge challenge) async {
           /// 当WebView需要执行服务器信任认证（证书验证）时启动的事件。
           return null;
         },
         onReceivedClientCertRequest: (InAppWebViewController controller,
-            URLAuthenticationChallenge challenge) {
+            URLAuthenticationChallenge challenge) async {
           /// 通知主机申请以处理 SSL 客户端证书请求。
           return null;
         },
         onFindResultReceived: (InAppWebViewController controller,
             int activeMatchOrdinal, int numberOfMatches, bool isDoneCounting) {
           /// 随着页面查找操作进度而激发的事件
-          return null;
+          // return null;
         },
         shouldInterceptAjaxRequest:
-            (InAppWebViewController controller, AjaxRequest ajaxRequest) {
+            (InAppWebViewController controller, AjaxRequest ajaxRequest) async {
           /// 事件被发送到服务器时（要使用此事件，选项必须是）。
           return null;
         },
         onAjaxReadyStateChange:
-            (InAppWebViewController controller, AjaxRequest ajaxRequest) {
+            (InAppWebViewController controller, AjaxRequest ajaxRequest) async {
           /// 每当更改属性时（要使用此事件，选项必须是）时，事件就会被激发。readyState
           /// XMLHttpRequest useShouldInterceptAjaxRequest=true
           return null;
         },
-        onAjaxProgress:
-            (InAppWebViewController controller, AjaxRequest ajaxRequest) {
-          /// 事件发射作为一个进度（要使用此事件，选项必须是）。
-          return null;
-        },
-        shouldInterceptFetchRequest:
-            (InAppWebViewController controller, FetchRequest fetchRequest) {
-          /// 当请求通过获取API发送到服务器时（要使用此事件，选项必须是）时，事件被激发。
-          /// useShouldInterceptFetchRequest=true
-          /// log('shouldInterceptFetchRequest');
-          return null;
-        },
-        onPrint: (InAppWebViewController controller, Uri url) {
+        // onAjaxProgress:
+        //     (InAppWebViewController controller, AjaxRequest ajaxRequest) async{
+        //   /// 事件发射作为一个进度（要使用此事件，选项必须是）。
+        //  return null;
+        // },
+        // shouldInterceptFetchRequest:
+        //     (InAppWebViewController controller, FetchRequest fetchRequest) {
+        //   /// 当请求通过获取API发送到服务器时（要使用此事件，选项必须是）时，事件被激发。
+        //   /// useShouldInterceptFetchRequest=true
+        //   /// log('shouldInterceptFetchRequest');
+        //   return null;
+        // },
+        onPrint: (InAppWebViewController controller, Uri? url) {
           /// 从JavaScript调用时的事件。window.print()
           /// log('从JavaScript调用时的事件');
         },
@@ -636,10 +637,10 @@ class _WebViewState extends State<BaseWebView> {
         onExitFullscreen: (InAppWebViewController controller) {
           /// 当前页面已退出全屏模式时，事件已激发。
         },
-        onPageCommitVisible: (InAppWebViewController controller, Uri url) {
+        onPageCommitVisible: (InAppWebViewController controller, Uri? url) {
           /// 当 Web 视图开始接收 Web 内容时调用。
         },
-        onTitleChanged: (InAppWebViewController controller, String title) {
+        onTitleChanged: (InAppWebViewController controller, String? title) {
           /// 当文档标题发生更改时，事件被激发。
         },
         onWindowFocus: (InAppWebViewController controller) {
@@ -650,18 +651,18 @@ class _WebViewState extends State<BaseWebView> {
           /// 当 WebView 的 JavaScript 对象失去焦点时， 事件被激发。
           /// log(' JavaScript 对象失去焦点时');
         },
-        androidOnSafeBrowsingHit: (InAppWebViewController controller, Uri url,
-            SafeBrowsingThreat threatType) {
+        androidOnSafeBrowsingHit: (InAppWebViewController controller, Uri? url,
+            SafeBrowsingThreat? threatType) async {
           /// 当 WebView 通知加载的 URL 已通过安全浏览标记时（仅在 Android 上可用），则事件被激发。
           return null;
         },
         androidOnPermissionRequest: (InAppWebViewController controller,
-            String origin, List<String> resources) {
+            String origin, List<String> resources) async {
           /// 当 WebView 请求访问指定资源的权限且当前未授予或拒绝权限时（仅在 Android 上可用）时，事件被激发。
           return null;
         },
         androidOnGeolocationPermissionsShowPrompt:
-            (InAppWebViewController controller, String origin) {
+            (InAppWebViewController controller, String origin) async {
           /// 通知主机应用程序来自指定来源的 Web 内容正在尝试使用 Geolocation API 的事件，
           /// 但当前未为该源设置任何权限状态（仅在 Android 上可用）。
           return null;
@@ -671,8 +672,8 @@ class _WebViewState extends State<BaseWebView> {
           /// 通知主机应用程序，使用之前呼叫的地理定位权限请求已被取消（仅在 Android 上提供）
           /// androidOnGeolocationPermissionsShowPrompt
         },
-        androidShouldInterceptRequest:
-            (InAppWebViewController controller, WebResourceRequest request) {
+        androidShouldInterceptRequest: (InAppWebViewController controller,
+            WebResourceRequest request) async {
           /// 通知资源请求的主机应用程序，并允许应用程序返回数据（仅在 Android 上可用）。
           /// 要使用此事件，选项必须是。useShouldInterceptRequest=true
           return null;
@@ -682,18 +683,18 @@ class _WebViewState extends State<BaseWebView> {
           /// 当给定 WebView 的渲染过程退出时（仅在 Android 上可用）时，事件被激发。
         },
         androidOnRenderProcessResponsive:
-            (InAppWebViewController controller, Uri url) {
+            (InAppWebViewController controller, Uri? url) async {
           /// 当前与 WebView 关联的无响应渲染器响应（仅在 Android 上可用）时，称为一次事件。
           return null;
         },
         androidOnRenderProcessUnresponsive:
-            (InAppWebViewController controller, Uri url) {
+            (InAppWebViewController controller, Uri? url) async {
           /// 当前与 WebView 关联的渲染器由于长期运行的阻止任务（如执行 JavaScript）
           /// （仅在 Android 上可用）而无响应时调用的事件。
           return null;
         },
         androidOnFormResubmission:
-            (InAppWebViewController controller, Uri url) {
+            (InAppWebViewController controller, Uri? url) async {
           /// 作为主机应用程序，如果浏览器应该重新发送数据，因为请求的页面是POST的结果。
           /// 默认情况下是不要重新发送数据（仅在安卓系统上提供）。
           return null;
@@ -711,7 +712,7 @@ class _WebViewState extends State<BaseWebView> {
           /// 当有一个苹果触摸图标的网址时（仅在Android上可用）时，事件就会被激发。
         },
         androidOnJsBeforeUnload: (InAppWebViewController controller,
-            JsBeforeUnloadRequest jsBeforeUnloadRequest) {
+            JsBeforeUnloadRequest jsBeforeUnloadRequest) async {
           /// 当客户端应显示对话框以确认导航远离当前页面时，事件被激发。这是 javascript
           /// 事件的结果（仅在安卓系统上提供）
           return null;
@@ -720,22 +721,23 @@ class _WebViewState extends State<BaseWebView> {
             (InAppWebViewController controller, LoginRequest loginRequest) {
           /// 处理自动登录用户的请求时（仅在 Android 上可用）时，事件被激发。
         },
-        iosOnWebContentProcessDidTerminate: (InAppWebViewController controller) {
+        iosOnWebContentProcessDidTerminate:
+            (InAppWebViewController controller) {
           /// 当Web视图的Web内容进程终止时（仅在iOS上可用）。
         },
         iosOnDidReceiveServerRedirectForProvisionalNavigation: (InAppWebViewController controller) {
           /// /当 Web 视图收到服务器重定向时调用（仅在 iOS 上可用）。
         },
-        iosOnNavigationResponse: (InAppWebViewController controller, IOSWKNavigationResponse navigationResponse) {
+        iosOnNavigationResponse: (InAppWebViewController controller, IOSWKNavigationResponse navigationResponse) async {
           /// 当网络视图在已知对导航请求的响应（仅在 iOS 上可用）后请求导航到新内容的权限时，
           /// 请致电。要使用此事件，必须是针对 iOS 的选项
           return null;
         },
-        iosShouldAllowDeprecatedTLS: (InAppWebViewController controller, URLAuthenticationChallenge challenge) {
+        iosShouldAllowDeprecatedTLS: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
           /// 当 Web 视图询问是否继续使用废弃版本的 TLS（v1.0 和 v1.1）的连接时调用（仅在 iOS 上可用）
           return null;
         });
-    if (!widget.isCalculateHeight) return webView;
+    if (!widget.isCalculateHeight!) return webView;
     return SizedBox(
         height: webViewHeight, width: double.infinity, child: webView);
   }

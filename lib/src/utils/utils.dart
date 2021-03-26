@@ -3,7 +3,7 @@ import 'package:universally/universally.dart';
 
 /// 请求权限
 Future<bool> requestPermission(Permission permission,
-    {Function showAlert}) async {
+    {Function? showAlert}) async {
   final PermissionStatus status = await permission.status;
   if (status != PermissionStatus.granted) {
     final Map<Permission, PermissionStatus> statuses =
