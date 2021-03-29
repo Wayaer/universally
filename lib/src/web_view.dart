@@ -651,6 +651,10 @@ class _WebViewState extends State<BaseWebView> {
           /// 当 WebView 的 JavaScript 对象失去焦点时， 事件被激发。
           /// log(' JavaScript 对象失去焦点时');
         },
+        onZoomScaleChanged: (InAppWebViewController controller, double oldScale,
+            double newScale) {
+          /// 当应用于 WebView 的刻度发生更改时，事件被激发。
+        },
         androidOnSafeBrowsingHit: (InAppWebViewController controller, Uri? url,
             SafeBrowsingThreat? threatType) async {
           /// 当 WebView 通知加载的 URL 已通过安全浏览标记时（仅在 Android 上可用），则事件被激发。
@@ -698,10 +702,6 @@ class _WebViewState extends State<BaseWebView> {
           /// 作为主机应用程序，如果浏览器应该重新发送数据，因为请求的页面是POST的结果。
           /// 默认情况下是不要重新发送数据（仅在安卓系统上提供）。
           return null;
-        },
-        androidOnScaleChanged: (InAppWebViewController controller,
-            double oldScale, double newScale) {
-          /// 当应用于 WebView 的刻度发生更改时，事件被激发（仅在 Android 上可用）。
         },
         androidOnReceivedIcon:
             (InAppWebViewController controller, Uint8List icon) {

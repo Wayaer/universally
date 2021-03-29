@@ -1,3 +1,5 @@
+## [0.2.3]
+ * update component
 ## [0.2.2]
  * update component
  * add [utils]
