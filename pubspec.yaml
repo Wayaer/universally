@@ -10,9 +10,9 @@ dependencies:
   connectivity: ^3.0.3
   flutter:
     sdk: flutter
-  flutter_curiosity: ^2.0.0
+  flutter_curiosity: ^2.0.3
   flutter_easyrefresh: ^2.2.0
-  flutter_inappwebview: ^5.3.1+1
+  flutter_inappwebview: ^5.3.2
   flutter_svg: ^0.21.0+1
   flutter_waya: ^1.9.8
   path_provider: ^2.0.1
