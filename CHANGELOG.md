@@ -1,5 +1,6 @@
+## [0.3.2]
+ * update version for dependencies
 ## [0.3.1]
- * update flutter_waya
  * fix bugs
 ## [0.2.3]
  * update component
