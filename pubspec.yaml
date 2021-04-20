@@ -16,7 +16,7 @@ dependencies:
   flutter_svg: ^0.21.0+1
   flutter_waya: ^1.9.10
   path_provider: ^2.0.1
-  permission_handler: ^6.1.1
+  permission_handler: ^6.1.3
   provider: ^5.0.0
   shared_preferences: ^2.0.5
   synchronized: ^3.0.0
