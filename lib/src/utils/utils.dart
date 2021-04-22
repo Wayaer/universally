@@ -19,14 +19,7 @@ Future<bool> requestPermission(Permission permission,
   return true;
 }
 
-/// 打开网页
-Future<void> openUrl(String url) async {
-  if (await canLaunch(url)) {
-    launch(url);
-  } else {
-    log('Could not launch $url');
-  }
-}
+
 
 /// 截取日期 2020-01-01
 String subDate(DateTime dateTime) => dateTime.toString().substring(0, 10);
