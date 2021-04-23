@@ -3,10 +3,11 @@ import 'package:universally/universally.dart';
 /// 请求权限
 Future<bool> requestPermission(Permission permission,
     {Function? showAlert}) async {
+  if (!isMobile) return false;
   final PermissionStatus status = await permission.status;
   if (status != PermissionStatus.granted) {
     final Map<Permission, PermissionStatus> statuses =
-        await <Permission>[permission].request();
+        await <Permission>[].request();
     if (!(statuses[permission] == PermissionStatus.granted)) {
       if (showAlert != null) {
         showAlert.call();
@@ -18,8 +19,6 @@ Future<bool> requestPermission(Permission permission,
   }
   return true;
 }
-
-
 
 /// 截取日期 2020-01-01
 String subDate(DateTime dateTime) => dateTime.toString().substring(0, 10);

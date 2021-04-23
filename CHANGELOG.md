@@ -1,3 +1,6 @@
+## [0.3.3]
+ * update version for dependencies
+ * add url_launcher.dart
 ## [0.3.2]
  * update version for dependencies
 ## [0.3.1]

@@ -14,7 +14,7 @@ export 'package:flutter_easyrefresh/easy_refresh.dart';
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 
-export 'src/utils/directory.dart';
-export 'src/utils/shared_preferences.dart';
-export 'src/utils/utils.dart';
+export 'src/directory.dart';
+export 'src/shared_preferences.dart';
+export 'src/utils.dart';
 export 'src/web_view.dart';
