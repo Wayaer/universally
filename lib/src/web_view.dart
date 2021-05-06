@@ -187,15 +187,15 @@ class _WebViewState extends State<BaseWebView> {
               /// useOnLoadResource:  ,
               ///
               /// 设置为能获得监听。默认值为 false
-              useShouldInterceptAjaxRequest: true,
+              useShouldInterceptAjaxRequest: false,
 
               ///
               /// 设置为能获得监听。默认值为 false
-              useShouldInterceptFetchRequest: true,
+              useShouldInterceptFetchRequest: false,
 
               ///
               /// 设置为能获得监听。默认值为 false
-              useShouldOverrideUrlLoading: true,
+              useShouldOverrideUrlLoading: false,
 
               /// 为 WebView 设置用户代理。
               /// userAgent:  ,
