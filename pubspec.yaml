@@ -14,7 +14,7 @@ dependencies:
   flutter_easyrefresh: ^2.2.1
   flutter_inappwebview: ^5.3.2
   flutter_svg: ^0.22.0
-  flutter_waya: ^1.9.16
+  flutter_waya: ^1.9.17
   path_provider: ^2.0.1
   permission_handler: ^7.0.0
   provider: ^5.0.0
