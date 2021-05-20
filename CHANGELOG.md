@@ -1,4 +1,4 @@
-## [0.3.8]
+## [0.3.9]
  * update version for dependencies
 ## [0.3.6]
  * update version for dependencies
