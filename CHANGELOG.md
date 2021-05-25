@@ -1,3 +1,5 @@
+## [0.5.0]
+ * add fun
 ## [0.3.9]
  * update version for dependencies
 ## [0.3.6]
