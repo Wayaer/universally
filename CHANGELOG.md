@@ -1,3 +1,5 @@
+## [0.5.1]
+ * add Alert and permission_handler
 ## [0.5.0]
  * add fun
 ## [0.3.9]
