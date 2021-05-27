@@ -1,3 +1,4 @@
+## [0.5.2]
 ## [0.5.1]
  * add Alert and permission_handler
 ## [0.5.0]

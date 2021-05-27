@@ -55,7 +55,9 @@ class AlertMessage extends StatelessWidget {
                 Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     constraints: const BoxConstraints(maxHeight: 100),
-                    child: contentText ?? BasisText(text ?? '', maxLines: 5)),
+                    child: contentText ??
+                        BasisText(text ?? '',
+                            maxLines: 5, color: Colors.black87)),
             actions: <Widget>[
               SimpleButton(
                   text: '确定',
@@ -131,7 +133,9 @@ class AlertSureAndCancel extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ?? BasisText(text ?? '', maxLines: 5)),
+                  child: contentText ??
+                      BasisText(text ?? '',
+                          maxLines: 5, color: Colors.black87)),
           actions: <Widget>[
             SimpleButton(
                 text: '取消',
@@ -175,7 +179,8 @@ class AlertOnlyMessage extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: text ?? BasisText(str ?? '', maxLines: 5)),
+                  child: text ??
+                      BasisText(str ?? '', maxLines: 5, color: Colors.black87)),
         ),
       );
 }
@@ -186,5 +191,6 @@ class _Title extends StatelessWidget {
   final String? text;
 
   @override
-  Widget build(BuildContext context) => BasisText(text ?? '提示', fontSize: 18);
+  Widget build(BuildContext context) =>
+      BasisText(text ?? '提示', fontSize: 18, color: Colors.black87);
 }
