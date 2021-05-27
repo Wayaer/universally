@@ -2,6 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+Widget? _sure;
+Widget? _cancel;
+
+/// 设置全局弹窗 确定按钮样式
+void setAlertSure(Widget? sure) => _sure = sure;
+
+/// 设置全局弹窗 取消按钮样式
+void setAlertCancel(Widget? cancel) => _cancel = cancel;
+
 /// 弹出消息 提示 仅 带确认按钮
 Future<dynamic>? showAlertMessage({
   String? text,
@@ -62,7 +71,7 @@ class AlertMessage extends StatelessWidget {
               SimpleButton(
                   text: '确定',
                   height: 45,
-                  child: sure,
+                  child: sure ?? _sure,
                   alignment: Alignment.center,
                   textStyle: const BasisTextStyle(color: Colors.black),
                   onTap: () {
@@ -140,7 +149,7 @@ class AlertSureAndCancel extends StatelessWidget {
             SimpleButton(
                 text: '取消',
                 height: 45,
-                child: cancel,
+                child: cancel ?? _cancel,
                 onTap: () {
                   isOverlay ? closeOverlay() : closePopup();
                   if (cancelTap != null) cancelTap!();
@@ -150,7 +159,7 @@ class AlertSureAndCancel extends StatelessWidget {
             SimpleButton(
                 text: '确定',
                 height: 45,
-                child: sure,
+                child: sure ?? _sure,
                 alignment: Alignment.center,
                 textStyle: const BasisTextStyle(color: Colors.black),
                 onTap: () {
