@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -35,14 +35,27 @@ android {
     defaultConfig {
         applicationId "com.universally.example"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
+    signingConfigs {
+        release {
+            storeFile file("universally.jks")
+            storePassword 'universally123'
+            keyAlias 'universally'
+            keyPassword 'universally123'
+        }
+    }
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+//            signingConfig signingConfigs.release
+            ndk {
+                abiFilters "armeabi-v7a"//, "arm64-v8a"
+            }
+        }
+        debug {
+//            signingConfig signingConfigs.release
         }
     }
 }
