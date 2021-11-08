@@ -32,9 +32,8 @@ class Sp {
       _prefs = await SharedPreferences.getInstance();
 
   /// put object.
-  static Future<bool>? putObject(String key, Object value) {
-    return _prefs?.setString(key, json.encode(value));
-  }
+  static Future<bool>? putObject(String key, Object value) =>
+      _prefs?.setString(key, json.encode(value));
 
   /// get obj.
   static T? getObj<T>(String key, T Function(Map<dynamic, dynamic> v) f,

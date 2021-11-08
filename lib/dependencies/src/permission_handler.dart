@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// 单独获取一个权限
+/// Get a separate permission
 Future<bool> getPermission(Permission permission, String? text,
     {bool showAlert = true,
     Function? alert,
@@ -31,6 +32,7 @@ Future<bool> getPermission(Permission permission, String? text,
 }
 
 /// 必须获取通过全部权限
+/// You must obtain all permissions
 Future<bool> getAllPermissions(List<Permission> permissions, String? text,
     {bool showAlert = true,
     Function? alert,
@@ -61,6 +63,7 @@ Future<bool> getAllPermissions(List<Permission> permissions, String? text,
 }
 
 /// 获取的权限中有其中一个就可以通过
+/// One of the permissions obtained can be passed
 Future<bool> getPermissions(List<Permission> permissions, String? text,
     {bool showAlert = true,
     Function? alert,
@@ -92,6 +95,7 @@ Future<bool> getPermissions(List<Permission> permissions, String? text,
 }
 
 /// 请求权限  旧版请求权限
+/// Request permission Old version request permission
 Future<bool> requestPermission(Permission permission,
     {Function? showAlert}) async {
   if (!isMobile) return false;
