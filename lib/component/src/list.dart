@@ -4,21 +4,21 @@ import 'package:universally/universally.dart';
 Footer get pullUpFooter => ClassicalFooter(
     showInfo: false,
     noMoreText: '我是有底线的~',
-    loadText: '上拉加载更多',
-    loadingText: '正在加载',
-    loadFailedText: '加载失败',
+    loadText: 'Pull up to load more',
+    loadingText: 'Being loaded',
+    loadFailedText: 'Load failed',
     textColor: UCS.titleTextColor,
     infoColor: currentColor,
-    loadedText: '加载完成',
+    loadedText: 'loaded',
     loadReadyText: '123123');
 
 Header get pullDownHeader => ClassicalHeader(
-    refreshedText: '刷新完成',
-    refreshingText: '正在刷新',
-    refreshText: '下拉刷新',
+    refreshedText: 'Refresh to complete',
+    refreshingText: 'refreshing',
+    refreshText: 'The drop-down refresh',
     textColor: UCS.titleTextColor,
     infoColor: currentColor,
-    refreshReadyText: '放开立即刷新',
+    refreshReadyText: 'Release Refresh now',
     showInfo: false);
 
 class BaseMaterialHeader extends MaterialHeader {
@@ -145,7 +145,7 @@ class BaseList extends ScrollList {
             shrinkWrap: shrinkWrap);
 }
 
-///暂无数据
+/// 暂无数据
 class NoDataWidget extends StatelessWidget {
   const NoDataWidget({Key? key, this.margin}) : super(key: key);
 
@@ -155,6 +155,6 @@ class NoDataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: margin ?? const EdgeInsets.all(100),
-        child: Center(child: TextDefault('暂无数据')));
+        child: Center(child: TextDefault('Not Data')));
   }
 }

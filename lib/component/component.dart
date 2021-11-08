@@ -10,6 +10,7 @@ export 'src/scaffold.dart';
 export 'src/text.dart';
 
 /// 清除缓存右边的组件
+/// Clear the component to the right of the cache
 class CleanCache extends StatefulWidget {
   const CleanCache({Key? key, this.color}) : super(key: key);
 

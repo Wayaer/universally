@@ -4,8 +4,7 @@ import 'package:universally/universally.dart';
 const int? defaultMaxLines = 1;
 const TextOverflow defaultOverflow = TextOverflow.ellipsis;
 
-///大字体
-///不建议修改字体大小、颜色、字号
+/// Very large font
 class TextVeryLarge extends BaseText {
   TextVeryLarge(String? text,
       {Key? key,
@@ -31,8 +30,7 @@ class TextVeryLarge extends BaseText {
             textAlign: textAlign);
 }
 
-///超大字体
-///不建议修改字体大小、颜色、字号
+/// Large font
 class TextLarge extends BaseText {
   TextLarge(String? text,
       {Key? key,
@@ -58,8 +56,8 @@ class TextLarge extends BaseText {
             textAlign: textAlign);
 }
 
-///小字体
-///不建议修改字体大小、颜色、字号
+/// 小字体
+/// Small font
 class TextSmall extends BaseText {
   TextSmall(String? text,
       {Key? key,
@@ -85,8 +83,8 @@ class TextSmall extends BaseText {
             textAlign: textAlign);
 }
 
-///默认字体
-///不建议修改字体大小、颜色、字号
+/// 默认字体
+/// The default font
 class TextDefault extends BaseText {
   TextDefault(String? text,
       {Key? key,
@@ -114,7 +112,7 @@ class TextDefault extends BaseText {
             textAlign: textAlign);
 }
 
-///BaseText
+/// BaseText
 class BaseText extends BText {
   BaseText(String? text,
       {Key? key,
@@ -148,7 +146,7 @@ class BaseText extends BText {
                     height: height));
 }
 
-///BaseTextStyle
+/// BaseTextStyle
 class TStyle extends BTextStyle {
   TStyle(
       {Color? color,
@@ -187,16 +185,4 @@ class TStyle extends BTextStyle {
   }
 }
 
-enum FontType {
-  ////细
-  normal,
-
-  ////中等
-  medium,
-
-  ///半加粗
-  semiBold,
-
-  ////加粗
-  bold
-}
+enum FontType { normal, medium, semiBold, bold }

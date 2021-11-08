@@ -15,6 +15,7 @@ class DioUtils {
   static ExtendedOverlayEntry? _loading;
 
   /// 设置Header
+  /// Set the Header
   static ValueCallbackHeader? _header;
   static ValueCallbackLoginFailure? _failure;
 
@@ -97,6 +98,7 @@ class DioUtils {
   }
 
   /// 文件上传
+  /// File upload
   static Future<BaseModel> upload(String url, dynamic data,
       {ProgressCallback? onSendProgress,
       bool loading = true,
@@ -111,7 +113,8 @@ class DioUtils {
     return _response(res);
   }
 
-  ///文件下载
+  /// 文件下载
+  /// File download
   static Future<ResponseModel> download(String url, String savePath,
           {ProgressCallback? onReceiveProgress,
           CancelToken? cancelToken,

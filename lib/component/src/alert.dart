@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// 弹出消息 提示 仅 带确认按钮
+/// A message is displayed with a confirm button only
 Future<dynamic>? showAlertMessage({
   String? text,
+  String? sureText,
+  String? titleText,
   GestureTapCallback? sureTap,
+  Widget? contentText,
   Widget? content,
   Widget? title,
   Widget? sure,
@@ -13,12 +17,16 @@ Future<dynamic>? showAlertMessage({
     showDialogPopup<dynamic>(
         widget: AlertMessage(
             text: text ?? '',
+            sureText: sureText,
+            contentText: contentText,
+            titleText: titleText,
             sureTap: sureTap,
             content: content,
             title: title,
             sure: sure));
 
 /// 弹出带确定的按钮 点击确定自动关闭
+/// Pop up the button with "OK" and click "OK" to automatically close
 class AlertMessage extends StatelessWidget {
   const AlertMessage({
     Key? key,
@@ -28,9 +36,13 @@ class AlertMessage extends StatelessWidget {
     this.sure,
     this.title,
     this.content,
+    this.sureText,
+    this.titleText,
   }) : super(key: key);
 
   final String? text;
+  final String? sureText;
+  final String? titleText;
   final Widget? contentText;
   final Widget? content;
   final Widget? title;
@@ -41,7 +53,7 @@ class AlertMessage extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         color: Colors.black.withOpacity(0.5),
         child: CupertinoAlertDialog(
-            title: title ?? const _Title(text: '提示'),
+            title: title ?? _Title(text: titleText ?? '提示'),
             content: content ??
                 Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -51,7 +63,7 @@ class AlertMessage extends StatelessWidget {
                             maxLines: 5, color: Colors.black87)),
             actions: <Widget>[
               SimpleButton(
-                  text: '确定',
+                  text: sureText ?? '确定',
                   height: 45,
                   child: sure,
                   alignment: Alignment.center,
@@ -65,8 +77,12 @@ class AlertMessage extends StatelessWidget {
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
+/// Pop up the button with OK and cancel click OK or cancel to automatically close
 Future<dynamic>? showAlertSureCancel({
   String? text,
+  String? sureText,
+  String? cancelText,
+  String? titleText,
   GestureTapCallback? sureTap,
   GestureTapCallback? cancelTap,
   bool autoClose = true,
@@ -79,6 +95,9 @@ Future<dynamic>? showAlertSureCancel({
     showDialogPopup<dynamic>(
         widget: AlertSureAndCancel(
             text: text,
+            sureText: sureText,
+            cancelText: cancelText,
+            titleText: titleText,
             contentText: contentText,
             sureTap: sureTap,
             cancelTap: cancelTap,
@@ -90,6 +109,7 @@ Future<dynamic>? showAlertSureCancel({
         options: GeneralDialogOptions(barrierLabel: ''));
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
+/// Pop up the button with OK and cancel click OK or cancel to automatically close
 class AlertSureAndCancel extends StatelessWidget {
   const AlertSureAndCancel({
     Key? key,
@@ -102,9 +122,15 @@ class AlertSureAndCancel extends StatelessWidget {
     this.title,
     this.content,
     this.autoClose = true,
+    this.sureText,
+    this.cancelText,
+    this.titleText,
   }) : super(key: key);
 
   final String? text;
+  final String? sureText;
+  final String? cancelText;
+  final String? titleText;
   final Widget? contentText;
   final Widget? title;
   final Widget? content;
@@ -114,11 +140,12 @@ class AlertSureAndCancel extends StatelessWidget {
   final Widget? sure;
 
   /// 是否自动关闭 默认为true
+  /// Auto disable The default value is true
   final bool autoClose;
 
   @override
   Widget build(BuildContext context) => CupertinoAlertDialog(
-          title: title ?? const _Title(text: '提示'),
+          title: title ?? _Title(text: titleText ?? '提示'),
           content: content ??
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -128,7 +155,7 @@ class AlertSureAndCancel extends StatelessWidget {
                           maxLines: 5, color: Colors.black87)),
           actions: <Widget>[
             SimpleButton(
-                text: '取消',
+                text: cancelText ?? '取消',
                 height: 45,
                 child: cancel,
                 onTap: () {
@@ -138,7 +165,7 @@ class AlertSureAndCancel extends StatelessWidget {
                 alignment: Alignment.center,
                 textStyle: TStyle(color: Colors.black87)),
             SimpleButton(
-                text: '确定',
+                text: sureText ?? '确定',
                 height: 45,
                 child: sure,
                 alignment: Alignment.center,
@@ -151,16 +178,22 @@ class AlertSureAndCancel extends StatelessWidget {
 }
 
 ExtendedOverlayEntry? alertOnlyMessage(String? text, {bool autoOff = true}) =>
-    showOverlay(AlertOnlyMessage(text: TextDefault(text, maxLines: 3)),
-        autoOff: autoOff);
+    showOverlay(AlertOnlyMessage(text: text), autoOff: autoOff);
 
 /// 只弹出提示 没有按钮  不能关闭
+/// Only pop-up prompt, no button, can not be closed
 class AlertOnlyMessage extends StatelessWidget {
   const AlertOnlyMessage(
-      {Key? key, this.str, this.text, this.content, this.title})
+      {Key? key,
+      this.text,
+      this.titleText,
+      this.contentText,
+      this.content,
+      this.title})
       : super(key: key);
-  final String? str;
-  final Widget? text;
+  final String? text;
+  final String? titleText;
+  final Widget? contentText;
   final Widget? content;
   final Widget? title;
 
@@ -168,24 +201,19 @@ class AlertOnlyMessage extends StatelessWidget {
   Widget build(BuildContext context) => PopupOptions(
       onTap: () {},
       child: CupertinoAlertDialog(
-          title: title ?? const _Title(text: '提示'),
+          title: title ?? _Title(text: titleText ?? '提示'),
           content: content ??
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: text ??
-                      TextDefault(str ?? '',
+                  child: contentText ??
+                      TextDefault(text ?? '',
                           maxLines: 5, color: Colors.black87))));
 }
 
-class _Title extends StatelessWidget {
-  const _Title({Key? key, this.text}) : super(key: key);
-
-  final String? text;
-
-  @override
-  Widget build(BuildContext context) =>
-      TextDefault(text ?? '提示', fontSize: 18, color: Colors.black87);
+class _Title extends TextDefault {
+  _Title({Key? key, String? text})
+      : super(text ?? '提示', fontSize: 18, color: Colors.black87, key: key);
 }
 
 ExtendedOverlayEntry? alertLoading() =>

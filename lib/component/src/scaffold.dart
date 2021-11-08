@@ -8,16 +8,16 @@ class BaseScaffold extends ExtendedScaffold {
       {Key? key,
       Widget? child,
 
-      /// [children].length > 0 时[child] 无效
+      /// [children].length > 0 [child] invalid
       List<Widget>? children,
 
-      /// [children].length > 0 && [isStack]=false 有效;
+      /// [children].length > 0 && [isStack]=false invalid;
       MainAxisAlignment? mainAxisAlignment,
 
-      /// [children].length > 0 && [isStack]=false 有效;
+      /// [children].length > 0 && [isStack]=false invalid;
       CrossAxisAlignment? crossAxisAlignment,
 
-      /// [children].length > 0 && [isStack]=false 有效;
+      /// [children].length > 0 && [isStack]=false invalid;
       Axis? direction,
       bool? isScroll,
       bool? isStack,
