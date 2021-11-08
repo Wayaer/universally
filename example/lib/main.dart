@@ -13,6 +13,24 @@ Future<void> main() async {
       mainColor: Colors.blueAccent, releaseBaseUrl: '', betaBaseUrl: '');
 
   runApp(BaseApp(
+      alertNotNetwork: (ConnectivityResult result) {
+        return alertOnlyMessage('Not Network')!;
+      },
+      showNetworkToast: (ConnectivityResult result) {
+        switch (result) {
+          case ConnectivityResult.wifi:
+            showToast('use wifi');
+            break;
+          case ConnectivityResult.ethernet:
+            showToast('use ethernet');
+            break;
+          case ConnectivityResult.mobile:
+            showToast('use Cellular networks');
+            break;
+          case ConnectivityResult.none:
+            break;
+        }
+      },
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
       consumer: (Widget child) {
@@ -22,7 +40,7 @@ Future<void> main() async {
         final appPath = await Curiosity().native.appPath;
 
         /// The third step
-        initConfig(uploadUrl: '', appPath: appPath!);
+        initConfig(appPath: appPath!);
       }));
 }
 

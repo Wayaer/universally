@@ -12,6 +12,7 @@ import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';
 
 /// 放在 main 最开始的位置
+/// Put it at the beginning of main
 Future<void> startMain({
   int toastDuration = 2,
   bool toastIgnoring = true,
@@ -20,42 +21,50 @@ Future<void> startMain({
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ///关闭辅助触控
+  /// 关闭辅助触控
+  /// Turn off auxiliary touch
   window.onSemanticsEnabledChanged = () {};
   RendererBinding.instance?.setSemanticsEnabled(false);
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  ///初始化本地储存
+  /// 初始化本地储存
+  /// Initialize local storage
   await Sp.getInstance();
 
-  ///其他信息
+  /// 其他信息
+  /// Other information
   setToastDuration(Duration(seconds: toastDuration));
 
-  ///设置toast
+  /// 设置toast
+  /// Set the toast
   setAllToastIgnoringBackground(toastIgnoring);
 
-  ///设置页面转场样式
+  /// 设置页面转场样式
+  /// Set the page transition style
   setGlobalPushMode(widgetMode);
 }
 
 ExtendedOverlayEntry? _connectivityOverlay;
 
+typedef NetworkToastBuilder = void Function(ConnectivityResult result);
+typedef NotNetworkBuilder = ExtendedOverlayEntry? Function(
+    ConnectivityResult result);
+
 /// 网络状态检测
+/// Network status detection
 Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
   required ValueTwoCallback<bool, ConnectivityResult> result,
   ValueTwoCallback<bool, ConnectivityResult>? onChanged,
+  bool willPop = false,
 
-  /// 添加网络切换toast 提示
-  /// [alertNotNetwork] 为true 时  无网络状态不会弹toast
-  bool addSwitchToast = false,
+  /// Added network toggle toast prompt
+  NetworkToastBuilder? showNetworkToast,
 
   /// 当无网络情况下，弹窗，不可做任何操作
-  bool alertNotNetwork = false,
-
-  /// [alertNotNetwork] = true 情况下 android 物理返回键是否可用
-  bool willPop = false,
+  /// When there is no network, the popup window does not perform any operations
+  NotNetworkBuilder? alertNotNetwork,
 }) async {
   if (!isMobile) {
     result(true, ConnectivityResult.wifi);
@@ -66,7 +75,9 @@ Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
   final state = await connectivity.checkConnectivity();
   result(state == ConnectivityResult.mobile || state == ConnectivityResult.wifi,
       state);
-  if (onChanged != null || addSwitchToast || alertNotNetwork) {
+  if (onChanged != null ||
+      showNetworkToast != null ||
+      alertNotNetwork != null) {
     void onChangedFun(ConnectivityResult state,
         ValueTwoCallback<bool, ConnectivityResult> onChanged) {
       onChanged(
@@ -78,7 +89,9 @@ Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
     void alertNetworkState(ConnectivityResult state) {
       if (state == ConnectivityResult.none) {
         if (isAndroid && !willPop) scaffoldWillPop = false;
-        _connectivityOverlay ??= alertOnlyMessage('当前无网络连接，请连接WIFI或打开移动数据网络');
+        if (alertNotNetwork != null) {
+          _connectivityOverlay ??= alertNotNetwork(state);
+        }
       } else {
         if (isAndroid && !willPop) scaffoldWillPop = true;
         _connectivityOverlay?.removeEntry();
@@ -86,23 +99,13 @@ Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
       }
     }
 
-    void showNetworkToast(ConnectivityResult state) {
-      // if (state == ConnectivityResult.mobile) {
-      //   showToast('正在使用移动数据');
-      // } else if (state == ConnectivityResult.wifi) {
-      //   showToast('正在使用WIFI');
-      // } else if (!alertNotNetwork) {
-      //   showToast('当前环境无网络');
-      // }
-    }
-
     if (onChanged != null && isIOS) onChangedFun(state, onChanged);
-    if (alertNotNetwork) alertNetworkState(state);
+    alertNetworkState(state);
     return connectivity.onConnectivityChanged
         .listen((ConnectivityResult state) {
       if (onChanged != null) onChangedFun(state, onChanged);
-      if (addSwitchToast) showNetworkToast(state);
-      if (alertNotNetwork) alertNetworkState(state);
+      showNetworkToast?.call(state);
+      alertNetworkState(state);
     });
   }
   return null;
@@ -124,9 +127,9 @@ class BaseApp extends StatefulWidget {
     this.paused,
     this.detached,
     this.resumed,
-    this.alertNotNetwork = false,
-    this.addNetworkToast = true,
     this.title,
+    this.showNetworkToast,
+    this.alertNotNetwork,
   }) : super(key: key);
   final List<SingleChildWidget> providers;
   final Widget home;
@@ -135,20 +138,27 @@ class BaseApp extends StatefulWidget {
   final VoidCallback? dispose;
 
   /// 处于这种状态的应用程序应该假设它们可能在任何时候暂停。前台
+  /// Applications in this state should assume that they may pause at any time. The front desk
   final VoidCallback? inactive;
 
   /// 应用程序不可见，后台  切换后台
+  /// Application not visible, background switch background
   final VoidCallback? paused;
 
   /// 应用程序可见，前台  从后台切换前台
+  /// Application visibility, foreground from background to foreground
   final VoidCallback? detached;
 
-  /// 申请将暂时暂停
   final VoidCallback? resumed;
-  final bool alertNotNetwork;
-  final bool addNetworkToast;
 
   final String? title;
+
+  /// Added network toggle toast prompt
+  final NetworkToastBuilder? showNetworkToast;
+
+  /// 当无网络情况下，弹窗，不可做任何操作
+  /// When there is no network, the popup window does not perform any operations
+  final NotNetworkBuilder? alertNotNetwork;
 
   @override
   _BaseAppState createState() => _BaseAppState();
@@ -163,9 +173,10 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     addObserver(this);
     addPostFrameCallback((duration) async {
       subscription = await connectivityListen(
-          addSwitchToast: widget.addNetworkToast,
-          result: widget.initState,
-          alertNotNetwork: widget.alertNotNetwork);
+        showNetworkToast: widget.showNetworkToast,
+        alertNotNetwork: widget.alertNotNetwork,
+        result: widget.initState,
+      );
       if (isDebug && isDesktop) {
         await 2.seconds.delayed(() {});
         final state = await Curiosity().desktop.setDesktopSizeTo5P8();
@@ -186,7 +197,6 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed:
         widget.resumed?.call();
-        // setStatusBarLight(false);
         break;
       case AppLifecycleState.detached:
         widget.detached?.call();
