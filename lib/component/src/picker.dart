@@ -18,7 +18,7 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
             titleBottom: const CustomDivider());
 }
 
-///省市区选择器
+/// 省市区选择器
 Future<String?> pickerArea(
         {String? defaultProvince,
         String? defaultCity,
@@ -29,7 +29,7 @@ Future<String?> pickerArea(
         defaultDistrict: defaultDistrict,
         options: CurrentPickerOptions(title: '选择地区'));
 
-///日期选择器
+/// 日期选择器
 Future<String?> pickerDateTime(
     {DateTime? startDate,
     DateTime? defaultDate,
@@ -113,7 +113,7 @@ Future<String?> pickerDateTime(
   return date == null ? null : dateTimeToString(date);
 }
 
-///多条数据列表选择器
+/// 多条数据列表选择器
 Future<int?> pickerMultipleChoice<T>(String title,
         {required int itemCount, required IndexedWidgetBuilder itemBuilder}) =>
     showMultipleChoicePicker<int?>(

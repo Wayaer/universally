@@ -10,6 +10,7 @@ class SqliteUtils {
   Database? _db;
 
   /// 初始化 db 创建db
+  /// Initialize the DB. Create a DB
   Future<String?> initDateBase() async {
     if (!_supportPlatform) return null;
     final String databasePath = await getDatabasesPath();
@@ -20,44 +21,51 @@ class SqliteUtils {
     final file = File(dbPath);
     if (!file.existsSync()) file.createSync(recursive: true);
     _dbPath = dbPath;
-    log('创建数据库文件 path = $_dbPath');
+    log('Creating a database file path = $_dbPath');
     return dbPath;
   }
 
   /// 打开数据库
+  /// Open the database
   Future<Database?> openDB() async {
     if (!_supportPlatform) return null;
     if (_db == null || !_db!.isOpen) {
-      log('打开缓存数据库');
+      log('Open the cached database');
       _db = await openDatabase(_dbPath);
     }
     return _db!;
   }
 
   /// 关闭数据库
+  /// Closing the database
   Future<void> close() async {
     if (!_supportPlatform) return;
     if (_db != null && _db!.isOpen) {
-      log('关闭缓存数据库');
+      log('Closing the cached database');
       await _db?.close();
     }
   }
 
   /// 指定表里添加数据
+  /// Specifies to add data to a table
   Future<int> insert(String table, Map<String, Object?> values,
       {String? nullColumnHack, ConflictAlgorithm? conflictAlgorithm}) async {
     if (!_supportPlatform) return 0;
     await openDB();
     final int? count = await _db?.insert(table, values,
         nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
-    log('$table 表里添加 $count 条数据');
+    log('Add $count entry to the $table table');
     return count ?? 0;
   }
 
   /// 指定表里更新数据 如果表里没有数据可以更新 直接插入当前数据
+  /// Insert current data into table if there is no data in table
   /// [updateValue] 需要更新的数据
+  /// [updateValue] Data to be updated
   /// [where] 符合条件的数据的字段
+  /// [where] Fields of eligible data
   /// [whereArgs] 符合条件的数据的字段内容
+  /// [whereArgs] The field content of the eligible data
   Future<int> update(String table, Map<String, Object?> updateValue,
       {String? where,
       List<Object>? whereArgs,
@@ -74,25 +82,30 @@ class SqliteUtils {
       count = await insert(table, updateValue,
           nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
     } else {
-      log('$table 表里更新 $count 条数据');
+      log('Update $count entries in $table table');
     }
     return count ?? 0;
   }
 
   /// 指定表里删除数据
+  /// Delete data from table
   /// [where] 表中字段名
+  /// [where] The name of the field in the table
   /// [whereArgs] 符合 字段[whereArgs]条件
+  /// [whereArgs] Matches field [whereArgs] conditions
   Future<int> delete(String table,
       [String? where, List<Object>? whereArgs]) async {
     await openDB();
     final int? count = await _db?.delete(table,
         where: where == null ? null : where + ' = ?', whereArgs: whereArgs);
-    log('$table 表里删除 $count 条数据');
+    log('Delete $count pieces of data in the $table table');
     return count ?? 0;
   }
 
   /// 指定表查询数据
+  /// Specifies the table to query for data
   /// [keys] 需要查询的字段名
+  /// [keys] Name of the field to be queried
   Future<List<Map<String, Object?>>> query(String table, List<String> keys,
       {bool? distinct,
       String? where,
@@ -114,11 +127,12 @@ class SqliteUtils {
         orderBy: orderBy,
         limit: limit,
         offset: offset);
-    log('$table 表里查询 ${data?.length ?? 0} 条数据');
+    log('Select ${data?.length ?? 0} from $table');
     return data ?? [];
   }
 
   /// 查询是否有某个表
+  /// Query whether a table exists
   Future<bool> hasTable(String tableName) async {
     if (!_supportPlatform) return false;
     await openDB();
@@ -132,8 +146,11 @@ class SqliteUtils {
   }
 
   /// 创建表
+  /// Create a table
   /// [tableName] 表名字
+  /// [tableName] The table name
   /// [key] 字段名以及类型
+  /// [key] Field name and type
   Future<void> createTable(List<String> tableNames, String? key) async {
     if (!_supportPlatform) return;
     close();
@@ -149,6 +166,6 @@ class SqliteUtils {
         }
       });
     });
-    log('初始化表：$tableNames ');
+    log('Initialize the table：$tableNames ');
   }
 }

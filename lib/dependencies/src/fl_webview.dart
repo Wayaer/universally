@@ -18,6 +18,7 @@ class BaseWebView extends StatefulWidget {
   final String htmlUrl;
 
   /// 是否重新计算高度，当迁入页面有其他内容时 设置为 true
+  /// Whether to recalculate the height, set to true if the migration page has other content
   final bool isCalculateHeight;
 
   final List<JavascriptChannel>? javascriptChannel;

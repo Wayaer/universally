@@ -6,9 +6,6 @@ import 'package:universally/universally.dart';
 /// [BaseLoading] loading 颜色
 late Color currentColor;
 
-/// 上传文件地址
-late String currentUploadUrl;
-
 /// 保存图片和视频的缓存地址
 String? currentCacheDir;
 
@@ -44,10 +41,8 @@ void setAppConfig({
 }
 
 /// 初始化一些信息
-void initConfig(
-    {required String uploadUrl, AppPathModel? appPath, Color? mainColor}) {
+void initConfig({AppPathModel? appPath, Color? mainColor}) {
   if (mainColor != null) currentColor = mainColor;
-  currentUploadUrl = uploadUrl;
   String? path;
   if (appPath != null) {
     if (isAndroid) {
