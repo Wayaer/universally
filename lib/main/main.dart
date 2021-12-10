@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_curiosity/flutter_curiosity.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';

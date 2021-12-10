@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class CurrentPickerOptions<T> extends PickerOptions<T> {
@@ -13,7 +12,6 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
             backgroundColor: backgroundColor,
             sureTap: sureTap,
             cancelTap: cancelTap,
-            height: height,
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
             sure: TextDefault('确定', color: currentColor),
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
@@ -41,7 +39,7 @@ Future<String?> pickerDateTime(
   DateTimePickerUnit unit;
   switch (dateTimeType) {
     case 1: //时分
-      unit = DateTimePickerUnit(
+      unit = const DateTimePickerUnit(
           year: null,
           month: null,
           day: null,
@@ -51,7 +49,7 @@ Future<String?> pickerDateTime(
               '分');
       break;
     case 2: //年月日
-      unit = DateTimePickerUnit(
+      unit = const DateTimePickerUnit(
           year: '年',
           month: '月',
           day: '日',
@@ -60,7 +58,7 @@ Future<String?> pickerDateTime(
           second: null);
       break;
     case 3: //年月
-      unit = DateTimePickerUnit(
+      unit = const DateTimePickerUnit(
           year: '年',
           month: '月',
           day: null,
@@ -69,11 +67,11 @@ Future<String?> pickerDateTime(
           second: null);
       break;
     case 4: //时分秒
-      unit = DateTimePickerUnit(
+      unit = const DateTimePickerUnit(
           year: '年', month: '月', day: '日', hour: '时', minute: '分', second: '秒');
       break;
     default:
-      unit = DateTimePickerUnit(
+      unit = const DateTimePickerUnit(
           year: '年',
           month: '月',
           day: '日',
@@ -106,7 +104,7 @@ Future<String?> pickerDateTime(
             return true;
           },
           title: '选择时间'),
-      wheel: PickerWheel(isCupertino: false),
+      wheel: const PickerWheelOptions(isCupertino: false),
       unit: unit,
       dual: true,
       startDate: startDate,
@@ -123,7 +121,7 @@ Future<int?> pickerMultipleChoice<T>(String title,
         itemBuilder: (BuildContext context, int index) => Padding(
             padding: const EdgeInsets.only(top: 2),
             child: itemBuilder(context, index)),
-        wheel: PickerWheel(
+        wheel: const PickerWheelOptions(
             useMagnifier: true,
             magnification: 1.2,
             diameterRatio: 1.2,

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:universally/universally.dart';
 
 bool _supportPlatform = isMobile || isMacOS;

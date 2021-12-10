@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_waya/flutter_waya.dart';
 import 'package:universally/universally.dart';
 
 class BaseScaffold extends ExtendedScaffold {
@@ -12,17 +10,16 @@ class BaseScaffold extends ExtendedScaffold {
       List<Widget>? children,
 
       /// [children].length > 0 && [isStack]=false 有效;
-      MainAxisAlignment? mainAxisAlignment,
+      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
 
       /// [children].length > 0 && [isStack]=false 有效;
-      CrossAxisAlignment? crossAxisAlignment,
+      CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
 
       /// [children].length > 0 && [isStack]=false 有效;
-      Axis? direction,
-      bool? isScroll,
-      bool? isStack,
+      Axis direction = Axis.vertical,
+      bool isScroll = false,
+      bool isStack = false,
       bool? resizeToAvoidBottomInset,
-      bool? appPaddingStatusBar,
       Widget? title,
       String? appBarTitle,
       Widget? appBarRightWidget,
@@ -47,7 +44,6 @@ class BaseScaffold extends ExtendedScaffold {
       PreferredSizeWidget? appBarBottom})
       : super(
             key: key,
-            paddingStatusBar: appPaddingStatusBar,
             useSingleChildScrollView: useSingleChildScrollView,
             onWillPop: onWillPop,
             onWillPopOverlayClose: onWillPopOverlayClose ?? false,
