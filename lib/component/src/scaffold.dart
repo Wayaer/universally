@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_waya/flutter_waya.dart';
 import 'package:universally/universally.dart';
 
 class BaseScaffold extends ExtendedScaffold {
@@ -22,7 +20,6 @@ class BaseScaffold extends ExtendedScaffold {
       bool isScroll = false,
       bool isStack = false,
       bool? resizeToAvoidBottomInset,
-      bool? appPaddingStatusBar,
       Widget? title,
       String? appBarTitle,
       Widget? appBarRightWidget,
