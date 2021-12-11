@@ -104,7 +104,7 @@ Future<String?> pickerDateTime(
             return true;
           },
           title: '选择时间'),
-      wheel: const PickerWheelOptions(isCupertino: false),
+      wheelOptions: const PickerWheelOptions(isCupertino: false),
       unit: unit,
       dual: true,
       startDate: startDate,
@@ -121,7 +121,7 @@ Future<int?> pickerMultipleChoice<T>(String title,
         itemBuilder: (BuildContext context, int index) => Padding(
             padding: const EdgeInsets.only(top: 2),
             child: itemBuilder(context, index)),
-        wheel: const PickerWheelOptions(
+        wheelOptions: const PickerWheelOptions(
             useMagnifier: true,
             magnification: 1.2,
             diameterRatio: 1.2,

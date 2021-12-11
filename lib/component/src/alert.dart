@@ -106,7 +106,7 @@ Future<dynamic>? showAlertSureCancel({
             sure: sure,
             autoClose: autoClose,
             content: content),
-        options: GeneralDialogOptions(barrierLabel: ''));
+        options: const GeneralDialogOptions(barrierLabel: ''));
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
@@ -198,8 +198,8 @@ class AlertOnlyMessage extends StatelessWidget {
   final Widget? title;
 
   @override
-  Widget build(BuildContext context) => PopupOptions(
-      onTap: () {},
+  Widget build(BuildContext context) => PopupModalWindows(
+      options: ModalWindowsOptions(onTap: () {}),
       child: CupertinoAlertDialog(
           title: title ?? _Title(text: titleText ?? '提示'),
           content: content ??
@@ -216,5 +216,5 @@ class _Title extends TextDefault {
       : super(text ?? '提示', fontSize: 18, color: Colors.black87, key: key);
 }
 
-ExtendedOverlayEntry? alertLoading() =>
-    showLoading(onTap: () {}, custom: const BaseLoading());
+ExtendedOverlayEntry? alertLoading() => showLoading(
+    options: ModalWindowsOptions(onTap: () {}), custom: const BaseLoading());

@@ -15,7 +15,7 @@ Future<void> startMain({
   int toastDuration = 2,
   bool toastIgnoring = true,
   bool statusBarLight = false,
-  WidgetMode widgetMode = WidgetMode.cupertino,
+  RoutePushStyle pushStyle = RoutePushStyle.cupertino,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -33,15 +33,15 @@ Future<void> startMain({
 
   /// 其他信息
   /// Other information
-  setToastDuration(Duration(seconds: toastDuration));
 
   /// 设置toast
   /// Set the toast
-  setAllToastIgnoringBackground(toastIgnoring);
+  GlobalOptions().setToastOptions(ToastOptions(
+      ignoring: toastIgnoring, duration: Duration(seconds: toastDuration)));
 
   /// 设置页面转场样式
   /// Set the page transition style
-  setGlobalPushMode(widgetMode);
+  GlobalOptions().setGlobalPushMode(pushStyle);
 }
 
 ExtendedOverlayEntry? _connectivityOverlay;
@@ -207,9 +207,9 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     return MultiProvider(
         providers: widget.providers,
         child: widget.consumer(ExtendedWidgetsApp(
-            widgetMode: WidgetMode.material,
+            pushStyle: RoutePushStyle.material,
             navigatorKey: globalKey,
-            title: widget.title,
+            title: widget.title ?? '',
             builder: (_, Widget? child) {
               final Widget current = MediaQuery(
                   data: MediaQueryData.fromWindow(window)
@@ -280,7 +280,8 @@ class MainBaseScaffold extends StatelessWidget {
           } else {
             time = now;
             showToast('再次点击返回键退出',
-                closeDuration: const Duration(milliseconds: 1500));
+                options:
+                    const ToastOptions(duration: Duration(milliseconds: 1500)));
           }
           return false;
         },

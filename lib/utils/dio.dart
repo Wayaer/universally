@@ -30,7 +30,7 @@ class DioUtils {
     _header = header;
     _failure = failure;
     dioTools = ExtendedDio.getInstance(
-        options: ExtendedOptions(
+        options: ExtendedDioOptions(
             options: _baseOptions,
             logTs: hasLogTs,
             interceptors: isRelease ? [] : [LoggerInterceptor<dynamic>()]));
