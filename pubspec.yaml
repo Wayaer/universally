@@ -19,7 +19,6 @@ dependencies:
   flutter_curiosity: ^3.3.3
   flutter_svg: ^1.0.0
   flutter_waya: ^1.16.7
-  
   fl_webview: ^0.2.5
   permission_handler: ^7.2.0
   provider: ^6.0.1
