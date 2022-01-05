@@ -16,7 +16,7 @@ class BaseIndicator extends Indicator {
             count: count,
             position: position,
             color: UCS.background,
-            activeColor: activeColor ?? currentColor,
+            activeColor: activeColor ?? GlobalConfig().currentColor,
             index: index);
 }
 

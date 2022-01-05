@@ -13,7 +13,7 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
             sureTap: sureTap,
             cancelTap: cancelTap,
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
-            sure: TextDefault('确定', color: currentColor),
+            sure: TextDefault('确定', color: GlobalConfig().currentColor),
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
             titleBottom: const CustomDivider());
 }
@@ -169,7 +169,7 @@ class AlertSingleChoice extends StatelessWidget {
         onPressed: () => closePopup(entry.key),
         isDefaultAction: true));
     actions.add(CupertinoActionSheetAction(
-        child: TextDefault('取消', color: currentColor),
+        child: TextDefault('取消', color: GlobalConfig().currentColor),
         onPressed: maybePop,
         isDefaultAction: true));
     return CupertinoActionSheet(actions: actions);

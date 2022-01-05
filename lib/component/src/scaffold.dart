@@ -63,8 +63,8 @@ class BaseScaffold extends ExtendedScaffold {
             resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? false,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
-                    footer: pullUpFooter,
-                    header: pullDownHeader,
+                    footer: currentPullUpFooter,
+                    header: currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:

@@ -51,29 +51,28 @@ class AlertMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        color: Colors.black.withOpacity(0.5),
-        child: CupertinoAlertDialog(
-            title: title ?? _Title(text: titleText ?? '提示'),
-            content: content ??
-                Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    constraints: const BoxConstraints(maxHeight: 100),
-                    child: contentText ??
-                        TextDefault(text ?? '',
-                            maxLines: 5, color: Colors.black87)),
-            actions: <Widget>[
-              SimpleButton(
-                  text: sureText ?? '确定',
-                  height: 45,
-                  child: sure,
-                  alignment: Alignment.center,
-                  textStyle: TStyle(color: currentColor),
-                  onTap: () {
-                    pop();
-                    if (sureTap != null) sureTap!();
-                  }),
-            ]),
-      );
+      color: Colors.black.withOpacity(0.5),
+      child: CupertinoAlertDialog(
+          title: title ?? _Title(text: titleText ?? '提示'),
+          content: content ??
+              Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  constraints: const BoxConstraints(maxHeight: 100),
+                  child: contentText ??
+                      TextDefault(text ?? '',
+                          maxLines: 5, color: Colors.black87)),
+          actions: <Widget>[
+            SimpleButton(
+                text: sureText ?? '确定',
+                height: 45,
+                child: sure,
+                alignment: Alignment.center,
+                textStyle: TStyle(color: GlobalConfig().currentColor),
+                onTap: () {
+                  pop();
+                  if (sureTap != null) sureTap!();
+                }),
+          ]));
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
@@ -169,7 +168,7 @@ class AlertSureAndCancel extends StatelessWidget {
                 height: 45,
                 child: sure,
                 alignment: Alignment.center,
-                textStyle: TStyle(color: currentColor),
+                textStyle: TStyle(color: GlobalConfig().currentColor),
                 onTap: () {
                   if (autoClose) pop();
                   if (sureTap != null) sureTap!();
@@ -214,6 +213,17 @@ class AlertOnlyMessage extends StatelessWidget {
 class _Title extends TextDefault {
   _Title({Key? key, String? text})
       : super(text ?? '提示', fontSize: 18, color: Colors.black87, key: key);
+}
+
+/// loading
+class BaseLoading extends StatelessWidget {
+  const BaseLoading({Key? key, this.size}) : super(key: key);
+  final double? size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpinKitCircle(size: size ?? 50, color: GlobalConfig().currentColor);
+  }
 }
 
 ExtendedOverlayEntry? alertLoading() => showLoading(

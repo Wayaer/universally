@@ -4,7 +4,7 @@ import 'package:universally/const/const.dart';
 class UStyle {
   /// 统一阴影样式
   /// Unified Shadow Style
-  List<BoxShadow> getBoxShadow({Color? color}) => [
+  static List<BoxShadow> getBoxShadow({Color? color}) => [
         BoxShadow(
             color: color ?? UCS.lineColor.withOpacity(0.4),
             offset: const Offset(0.0, 0.0), //阴影xy轴偏移量

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
+
 import 'page/webview_page.dart';
 
 Future<void> main() async {
   isBeta = true;
 
   /// The first step
-  await startMain(toastIgnoring: false);
+  await GlobalConfig().startMain(toastIgnoring: false);
 
   /// The second step
-  setAppConfig(
+  GlobalConfig().setAppConfig(
       mainColor: Colors.blueAccent, releaseBaseUrl: '', betaBaseUrl: '');
 
   runApp(BaseApp(
@@ -40,7 +41,7 @@ Future<void> main() async {
         final appPath = await Curiosity().native.appPath;
 
         /// The third step
-        initConfig(appPath: appPath!);
+        GlobalConfig().initConfig(appPath: appPath!);
       }));
 }
 

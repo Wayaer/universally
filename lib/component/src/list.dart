@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-Footer get pullUpFooter => ClassicalFooter(
+Footer currentPullUpFooter = ClassicalFooter(
     showInfo: false,
     noMoreText: '我是有底线的~',
     loadText: 'Pull up to load more',
     loadingText: 'Being loaded',
     loadFailedText: 'Load failed',
     textColor: UCS.titleTextColor,
-    infoColor: currentColor,
+    infoColor: GlobalConfig().currentColor,
     loadedText: 'loaded',
     loadReadyText: '123123');
 
-Header get pullDownHeader => ClassicalHeader(
+Header currentPullDownHeader = ClassicalHeader(
     refreshedText: 'Refresh to complete',
     refreshingText: 'refreshing',
     refreshText: 'The drop-down refresh',
     textColor: UCS.titleTextColor,
-    infoColor: currentColor,
+    infoColor: GlobalConfig().currentColor,
     refreshReadyText: 'Release Refresh now',
     showInfo: false);
 
@@ -48,8 +48,10 @@ class BaseList extends ScrollList {
     double? maxCrossAxisExtent,
     bool? shrinkWrap = false,
     Widget? header,
+    Axis? scrollDirection,
   }) : super.builder(
             key: key,
+            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
             padding: padding,
             header: header == null ? null : SliverToBoxAdapter(child: header),
@@ -57,8 +59,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    header: pullDownHeader,
-                    footer: pullUpFooter,
+                    header: currentPullDownHeader,
+                    footer: currentPullUpFooter,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -90,8 +92,10 @@ class BaseList extends ScrollList {
     EdgeInsetsGeometry? padding,
     bool? shrinkWrap = false,
     Widget? header,
+    Axis? scrollDirection,
   }) : super.separated(
             key: key,
+            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
             header: header == null ? null : SliverToBoxAdapter(child: header),
             separatorBuilder: separatorBuilder,
@@ -100,8 +104,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: pullUpFooter,
-                    header: pullDownHeader,
+                    footer: currentPullUpFooter,
+                    header: currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -124,9 +128,11 @@ class BaseList extends ScrollList {
     EdgeInsetsGeometry? padding,
     bool? shrinkWrap = false,
     Widget? header,
+    Axis? scrollDirection,
   }) : super(
             sliver: sliver,
             key: key,
+            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
             header: header == null ? null : SliverToBoxAdapter(child: header),
             padding: padding,
@@ -134,8 +140,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: pullUpFooter,
-                    header: pullDownHeader,
+                    footer: currentPullUpFooter,
+                    header: currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:

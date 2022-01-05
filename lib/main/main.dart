@@ -9,109 +9,176 @@ import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';
 
-/// 放在 main 最开始的位置
-/// Put it at the beginning of main
-Future<void> startMain({
-  int toastDuration = 2,
-  bool toastIgnoring = true,
-  bool statusBarLight = false,
-  RoutePushStyle pushStyle = RoutePushStyle.cupertino,
-}) async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  /// 关闭辅助触控
-  /// Turn off auxiliary touch
-  window.onSemanticsEnabledChanged = () {};
-  RendererBinding.instance?.setSemanticsEnabled(false);
-
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  /// 初始化本地储存
-  /// Initialize local storage
-  await Sp.getInstance();
-
-  /// 其他信息
-  /// Other information
-
-  /// 设置toast
-  /// Set the toast
-  GlobalOptions().setToastOptions(ToastOptions(
-      ignoring: toastIgnoring, duration: Duration(seconds: toastDuration)));
-
-  /// 设置页面转场样式
-  /// Set the page transition style
-  GlobalOptions().setGlobalPushMode(pushStyle);
-}
-
-ExtendedOverlayEntry? _connectivityOverlay;
+typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
 typedef NetworkToastBuilder = void Function(ConnectivityResult result);
+
 typedef NotNetworkBuilder = ExtendedOverlayEntry? Function(
     ConnectivityResult result);
 
-/// 网络状态检测
-/// Network status detection
-Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
-  required ValueTwoCallback<bool, ConnectivityResult> result,
-  ValueTwoCallback<bool, ConnectivityResult>? onChanged,
-  bool willPop = false,
+GlobalKey<NavigatorState> globalKey = GlobalKey();
 
-  /// Added network toggle toast prompt
-  NetworkToastBuilder? showNetworkToast,
+class GlobalConfig {
+  factory GlobalConfig() => _singleton ??= GlobalConfig._();
 
-  /// 当无网络情况下，弹窗，不可做任何操作
-  /// When there is no network, the popup window does not perform any operations
-  NotNetworkBuilder? alertNotNetwork,
-}) async {
-  if (!isMobile) {
-    result(true, ConnectivityResult.wifi);
-    if (onChanged != null) onChanged(true, ConnectivityResult.wifi);
-    return null;
-  }
-  final connectivity = Connectivity();
-  final state = await connectivity.checkConnectivity();
-  result(state == ConnectivityResult.mobile || state == ConnectivityResult.wifi,
-      state);
-  if (onChanged != null ||
-      showNetworkToast != null ||
-      alertNotNetwork != null) {
-    void onChangedFun(ConnectivityResult state,
-        ValueTwoCallback<bool, ConnectivityResult> onChanged) {
-      onChanged(
-          state == ConnectivityResult.mobile ||
-              state == ConnectivityResult.wifi,
-          state);
+  GlobalConfig._();
+
+  static GlobalConfig? _singleton;
+
+  /// alert 确认按钮颜色
+  /// [AssetSelect]  Badge 背景色
+  /// [BaseLoading] loading 颜色
+  late Color currentColor;
+
+  /// 保存图片和视频的缓存地址
+  String? currentCacheDir;
+
+  /// 测试版 url 包含 debug 模式
+  late String currentBetaBaseUrl;
+
+  /// 正式版 url
+  late String currentReleaseBaseUrl;
+
+  /// 当前项目使用的 url
+  late String currentBaseUrl;
+
+  void setAppConfig({
+    required Color mainColor,
+    required String betaBaseUrl,
+    required String releaseBaseUrl,
+  }) {
+    currentColor = mainColor;
+
+    final bool isRelease = Sp.getBool(UConstant.isRelease) ?? false;
+
+    if (isBeta && !isRelease) {
+      currentBetaBaseUrl = betaBaseUrl;
+      currentReleaseBaseUrl = releaseBaseUrl;
+      currentBaseUrl = currentBetaBaseUrl;
+      final String? localApi = Sp.getString(UConstant.localApi);
+      if (localApi != null && localApi.length > 5) currentBaseUrl = localApi;
+      hasLogTs = Sp.getBool(UConstant.hasLogTs) ?? false;
+    } else {
+      isBeta = false;
+      currentBaseUrl = releaseBaseUrl;
     }
+  }
 
-    void alertNetworkState(ConnectivityResult state) {
-      if (state == ConnectivityResult.none) {
-        if (isAndroid && !willPop) scaffoldWillPop = false;
-        if (alertNotNetwork != null) {
-          _connectivityOverlay ??= alertNotNetwork(state);
-        }
-      } else {
-        if (isAndroid && !willPop) scaffoldWillPop = true;
-        _connectivityOverlay?.removeEntry();
-        _connectivityOverlay = null;
+  /// 初始化一些信息
+  void initConfig({AppPathModel? appPath, Color? mainColor}) {
+    if (mainColor != null) currentColor = mainColor;
+    String? path;
+    if (appPath != null) {
+      if (isAndroid) {
+        path = appPath.externalCacheDir! + '/';
+      } else if (isIOS) {
+        path = appPath.temporaryDirectory;
+      } else if (isMacOS) {
+        path = appPath.temporaryDirectory;
       }
     }
-
-    if (onChanged != null && isIOS) onChangedFun(state, onChanged);
-    alertNetworkState(state);
-    return connectivity.onConnectivityChanged
-        .listen((ConnectivityResult state) {
-      if (onChanged != null) onChangedFun(state, onChanged);
-      showNetworkToast?.call(state);
-      alertNetworkState(state);
-    });
+    if (path != null) currentCacheDir = path;
   }
-  return null;
+
+  /// 放在 main 最开始的位置
+  /// Put it at the beginning of main
+  Future<void> startMain({
+    int toastDuration = 2,
+    bool toastIgnoring = true,
+    bool statusBarLight = false,
+    RoutePushStyle pushStyle = RoutePushStyle.cupertino,
+  }) async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    /// 关闭辅助触控
+    /// Turn off auxiliary touch
+    window.onSemanticsEnabledChanged = () {};
+    RendererBinding.instance?.setSemanticsEnabled(false);
+
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+    /// 初始化本地储存
+    /// Initialize local storage
+    await Sp.getInstance();
+
+    /// 其他信息
+    /// Other information
+
+    /// 设置toast
+    /// Set the toast
+    GlobalOptions().setToastOptions(ToastOptions(
+        ignoring: toastIgnoring, duration: Duration(seconds: toastDuration)));
+
+    /// 设置页面转场样式
+    /// Set the page transition style
+    GlobalOptions().setGlobalPushMode(pushStyle);
+  }
+
+  ExtendedOverlayEntry? _connectivityOverlay;
+
+  /// 网络状态检测
+  /// Network status detection
+  Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
+    required ValueTwoCallback<bool, ConnectivityResult> result,
+    ValueTwoCallback<bool, ConnectivityResult>? onChanged,
+    bool willPop = false,
+
+    /// Added network toggle toast prompt
+    NetworkToastBuilder? showNetworkToast,
+
+    /// 当无网络情况下，弹窗，不可做任何操作
+    /// When there is no network, the popup window does not perform any operations
+    NotNetworkBuilder? alertNotNetwork,
+  }) async {
+    if (!isMobile) {
+      result(true, ConnectivityResult.wifi);
+      if (onChanged != null) onChanged(true, ConnectivityResult.wifi);
+      return null;
+    }
+    final connectivity = Connectivity();
+    final state = await connectivity.checkConnectivity();
+    result(
+        state == ConnectivityResult.mobile || state == ConnectivityResult.wifi,
+        state);
+    if (onChanged != null ||
+        showNetworkToast != null ||
+        alertNotNetwork != null) {
+      void onChangedFun(ConnectivityResult state,
+          ValueTwoCallback<bool, ConnectivityResult> onChanged) {
+        onChanged(
+            state == ConnectivityResult.mobile ||
+                state == ConnectivityResult.wifi,
+            state);
+      }
+
+      void alertNetworkState(ConnectivityResult state) {
+        if (state == ConnectivityResult.none) {
+          if (isAndroid && !willPop) scaffoldWillPop = false;
+          if (alertNotNetwork != null) {
+            _connectivityOverlay ??= alertNotNetwork(state);
+          }
+        } else {
+          if (isAndroid && !willPop) scaffoldWillPop = true;
+          _connectivityOverlay?.removeEntry();
+          _connectivityOverlay = null;
+        }
+      }
+
+      if (onChanged != null && isIOS) onChangedFun(state, onChanged);
+      alertNetworkState(state);
+      return connectivity.onConnectivityChanged
+          .listen((ConnectivityResult state) {
+        if (onChanged != null) onChangedFun(state, onChanged);
+        showNetworkToast?.call(state);
+        alertNetworkState(state);
+      });
+    }
+    return null;
+  }
+
+
 }
-
-typedef ConsumerBuilder<T> = Widget Function(Widget child);
-
-GlobalKey<NavigatorState> globalKey = GlobalKey();
 
 class BaseApp extends StatefulWidget {
   const BaseApp({
@@ -170,7 +237,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     super.initState();
     addObserver(this);
     addPostFrameCallback((duration) async {
-      subscription = await connectivityListen(
+      subscription = await GlobalConfig().connectivityListen(
         showNetworkToast: widget.showNetworkToast,
         alertNotNetwork: widget.alertNotNetwork,
         result: widget.initState,
