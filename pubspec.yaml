@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 0.6.2
+version: 0.6.3
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -9,7 +9,6 @@ environment:
 dependencies:
   dio: ^4.0.4
   cupertino_icons: ^1.0.4
-  sqflite: ^2.0.1
   carousel_slider: ^4.0.0
   connectivity_plus: ^2.1.0
   path: ^1.8.0
@@ -19,7 +18,6 @@ dependencies:
   flutter_curiosity: ^3.3.3
   flutter_svg: ^1.0.0
   flutter_waya: ^1.16.7
-  fl_webview: ^0.2.5
   permission_handler: ^7.2.0
   provider: ^6.0.1
   shared_preferences: ^2.0.10

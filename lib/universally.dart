@@ -5,7 +5,7 @@ export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_easyrefresh/easy_refresh.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart' hide Lock;
-export 'package:sqflite/sqflite.dart';
+// export 'package:sqflite/sqflite.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:provider/provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';

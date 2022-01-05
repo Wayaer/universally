@@ -176,7 +176,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
         result: widget.initState,
       );
       if (isDebug && isDesktop) {
-        await 2.seconds.delayed(() {});
+        await Curiosity().desktop.focusDesktop();
         final state = await Curiosity().desktop.setDesktopSizeTo5P8();
         log('桌面端限制宽高 $state');
       }
