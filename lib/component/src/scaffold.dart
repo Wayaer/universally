@@ -17,6 +17,10 @@ class BaseScaffold extends ExtendedScaffold {
 
       /// [children].length > 0 && [isStack]=false invalid;
       Axis direction = Axis.vertical,
+      bool safeLeft = false,
+      bool safeTop = false,
+      bool safeRight = false,
+      bool safeBottom = false,
       bool isScroll = false,
       bool isStack = false,
       bool? resizeToAvoidBottomInset,
@@ -44,6 +48,10 @@ class BaseScaffold extends ExtendedScaffold {
       PreferredSizeWidget? appBarBottom})
       : super(
             key: key,
+            safeTop: safeTop,
+            safeLeft: safeLeft,
+            safeRight: safeRight,
+            safeBottom: safeBottom,
             useSingleChildScrollView: useSingleChildScrollView,
             onWillPop: onWillPop,
             onWillPopOverlayClose: onWillPopOverlayClose ?? false,
