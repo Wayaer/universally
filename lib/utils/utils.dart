@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:universally/universally.dart';
 
 /// nullPass = true   data 为null  返回true
@@ -16,5 +18,14 @@ bool resultSuccessFail(BaseModel baseModel,
       showToast(baseModel.msg);
     }
     return false;
+  }
+}
+
+void logJson(dynamic data) {
+  try {
+    var json = jsonEncode(data is BaseModel ? (data).toMap() : data);
+    log(json);
+  } catch (e) {
+    log(e);
   }
 }
