@@ -23,7 +23,7 @@ bool resultSuccessFail(BaseModel baseModel,
 
 void logJson(dynamic data) {
   try {
-    var json = jsonEncode(data is BaseModel ? (data).toMap() : data);
+    var json = jsonEncode(data is BaseModel ? data.toMap() : data);
     log(json);
   } catch (e) {
     log(e);

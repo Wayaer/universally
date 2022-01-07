@@ -21,3 +21,4 @@ export 'dependencies/dependencies.dart';
 export 'main/main.dart';
 export 'model/model.dart';
 export 'utils/utils.dart';
+export 'utils/dio.dart';
