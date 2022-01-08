@@ -114,7 +114,7 @@ class CustomAppBar extends AppBar {
             centerTitle: true,
             leading: leading ?? BackIcon(isMaybePop: isMaybePop),
             iconTheme: const IconThemeData.fallback(),
-            elevation: elevation ?? 0.4,
+            elevation: elevation ?? 0,
             actions: actions ??
                 <Widget>[
                   if (right != null)

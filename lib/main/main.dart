@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -49,15 +48,15 @@ class GlobalConfig {
   }) {
     currentColor = mainColor;
 
-    final bool isRelease = Sp.getBool(UConstant.isRelease) ?? false;
+    final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
 
     if (isBeta && !isRelease) {
       currentBetaBaseUrl = betaBaseUrl;
       currentReleaseBaseUrl = releaseBaseUrl;
       currentBaseUrl = currentBetaBaseUrl;
-      final String? localApi = Sp.getString(UConstant.localApi);
+      final String? localApi = SP().getString(UConstant.localApi);
       if (localApi != null && localApi.length > 5) currentBaseUrl = localApi;
-      hasLogTs = Sp.getBool(UConstant.hasLogTs) ?? false;
+      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
     } else {
       isBeta = false;
       currentBaseUrl = releaseBaseUrl;
@@ -85,7 +84,6 @@ class GlobalConfig {
   Future<void> startMain({
     int toastDuration = 2,
     bool toastIgnoring = true,
-    bool statusBarLight = false,
     RoutePushStyle pushStyle = RoutePushStyle.cupertino,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -100,10 +98,7 @@ class GlobalConfig {
 
     /// 初始化本地储存
     /// Initialize local storage
-    await Sp.getInstance();
-
-    /// 其他信息
-    /// Other information
+    await SP().getInstance();
 
     /// 设置toast
     /// Set the toast
@@ -176,8 +171,6 @@ class GlobalConfig {
     }
     return null;
   }
-
-
 }
 
 class BaseApp extends StatefulWidget {

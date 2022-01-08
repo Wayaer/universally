@@ -9,6 +9,7 @@ class TextVeryLarge extends BaseText {
   TextVeryLarge(String? text,
       {Key? key,
       Color? color,
+      TextStyle? style,
       int? maxLines,
       double? height,
       double? fontSize,
@@ -20,6 +21,7 @@ class TextVeryLarge extends BaseText {
       : super(text,
             color: color,
             key: key,
+            style: style,
             maxLines: maxLines,
             height: height,
             letterSpacing: letterSpacing,
@@ -37,6 +39,7 @@ class TextLarge extends BaseText {
       Color? color,
       int? maxLines,
       double? height,
+      TextStyle? style,
       double? fontSize,
       double? letterSpacing,
       TextOverflow? overflow,
@@ -45,6 +48,7 @@ class TextLarge extends BaseText {
       String? fontFamily})
       : super(text,
             key: key,
+            style: style,
             color: color,
             maxLines: maxLines,
             height: height,
@@ -66,6 +70,7 @@ class TextSmall extends BaseText {
       double? height,
       double? letterSpacing,
       double? fontSize,
+      TextStyle? style,
       TextOverflow? overflow,
       TextAlign? textAlign,
       FontType? fontType,
@@ -75,6 +80,7 @@ class TextSmall extends BaseText {
             color: color ?? UCS.smallTextColor,
             maxLines: maxLines,
             height: height,
+            style: style,
             letterSpacing: letterSpacing,
             fontType: fontType,
             fontSize: fontSize ?? 12,
@@ -89,6 +95,7 @@ class TextDefault extends BaseText {
   TextDefault(String? text,
       {Key? key,
       Color? color,
+      TextStyle? style,
       Color? backgroundColor,
       int? maxLines,
       double? height,
@@ -107,6 +114,7 @@ class TextDefault extends BaseText {
             height: height,
             fontSize: fontSize ?? 14,
             overflow: overflow,
+            style: style,
             fontFamily: fontFamily,
             backgroundColor: backgroundColor,
             textAlign: textAlign);
@@ -135,15 +143,15 @@ class BaseText extends BText {
                 : (maxLines == 0 ? null : maxLines),
             overflow: overflow ??
                 (maxLines == 0 ? TextOverflow.clip : defaultOverflow),
-            style: style ??
-                TStyle(
+            style: TStyle(
                     letterSpacing: letterSpacing,
                     fontType: fontType,
                     backgroundColor: backgroundColor,
                     fontSize: fontSize,
                     color: color,
                     fontFamily: fontFamily,
-                    height: height));
+                    height: height)
+                .merge(style));
 }
 
 /// BaseTextStyle

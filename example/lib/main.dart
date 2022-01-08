@@ -30,6 +30,8 @@ Future<void> main() async {
             break;
           case ConnectivityResult.none:
             break;
+          case ConnectivityResult.bluetooth:
+            break;
         }
       },
       providers: [ChangeNotifierProvider(create: (_) => AppState())],

@@ -6,60 +6,61 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 
 /// SharedPreferences
-class Sp {
-  Sp._();
+class SP {
+  factory SP() => _singleton ??= SP._();
 
-  static Sp? _singleton;
-  static SharedPreferences? _prefs;
+  SP._();
+
+  static SP? _singleton;
+
   static final Lock _lock = Lock();
 
-  static Future<Sp?> getInstance() async {
-    if (_singleton == null) {
+  static SharedPreferences? _prefs;
+
+  ///Sp is initialized.
+  bool get isInitialized => _prefs != null;
+
+  /// get Sp.
+  SharedPreferences? get getSP => _prefs;
+
+  Future<void> getInstance() async {
+    if (_prefs == null) {
       await _lock.synchronized(() async {
-        if (_singleton == null) {
-          // keep local instance till it is fully initialized.
-          // 保持本地实例直到完全初始化。
-          final Sp singleton = Sp._();
-          await singleton._init;
-          _singleton = singleton;
-        }
+        // keep local instance till it is fully initialized.
+        // 保持本地实例直到完全初始化。
+        _prefs = await SharedPreferences.getInstance();
       });
     }
-    return _singleton;
   }
 
-  Future<void> get _init async =>
-      _prefs = await SharedPreferences.getInstance();
-
-  /// put object.
-  static Future<bool>? putObject(String key, Object value) =>
+  /// set object.
+  Future<bool>? setObject(String key, Object value) =>
       _prefs?.setString(key, json.encode(value));
 
   /// get obj.
-  static T? getObj<T>(String key, T Function(Map<dynamic, dynamic> v) f,
+  T? getObj<T>(String key, T Function(Map<dynamic, dynamic> v) f,
       {T? defValue}) {
     final Map<dynamic, dynamic>? map = getObject(key);
     return map == null ? defValue : f(map);
   }
 
   /// get object.
-  static Map<dynamic, dynamic>? getObject(String key) {
+  Map<dynamic, dynamic>? getObject(String key) {
     final String? _data = _prefs?.getString(key);
     return (_data == null || _data.isEmpty)
         ? null
         : json.decode(_data) as Map<dynamic, dynamic>;
   }
 
-  /// put object list.
-  static Future<bool>? putObjectList(String key, List<Object> list) {
+  /// set object list.
+  Future<bool>? setObjectList(String key, List<Object> list) {
     final List<String> _dataList =
         list.builder((Object value) => json.encode(value));
     return _prefs?.setStringList(key, _dataList);
   }
 
   /// get obj list.
-  static List<T>? getObjList<T>(
-      String key, T Function(Map<dynamic, dynamic> v) f,
+  List<T>? getObjList<T>(String key, T Function(Map<dynamic, dynamic> v) f,
       {List<T>? defValue}) {
     final List<Map<dynamic, dynamic>>? dataList = getObjectList(key);
     final List<T>? list =
@@ -68,77 +69,69 @@ class Sp {
   }
 
   /// get object list.
-  static List<Map<dynamic, dynamic>>? getObjectList(String key) {
+  List<Map<dynamic, dynamic>>? getObjectList(String key) {
     final List<String>? dataLis = _prefs?.getStringList(key);
     return dataLis?.builder(
         (String value) => json.decode(value) as Map<dynamic, dynamic>);
   }
 
   /// get string.
-  static String? getString(String key, {String? defValue = ''}) =>
+  String? getString(String key, {String? defValue = ''}) =>
       _prefs?.getString(key) ?? defValue;
 
-  /// put string.
-  static Future<bool>? putString(String key, String value) =>
+  /// set string.
+  Future<bool>? setString(String key, String value) =>
       _prefs?.setString(key, value);
 
   /// get bool.
-  static bool? getBool(String key, {bool? defValue = false}) =>
+  bool? getBool(String key, {bool? defValue = false}) =>
       _prefs?.getBool(key) ?? defValue;
 
-  /// put bool.
-  static Future<bool>? putBool(String key, bool value) =>
-      _prefs?.setBool(key, value);
+  /// set bool.
+  Future<bool>? setBool(String key, bool value) => _prefs?.setBool(key, value);
 
   /// get int.
-  static int? getInt(String key, {int? defValue = 0}) =>
+  int? getInt(String key, {int? defValue = 0}) =>
       _prefs?.getInt(key) ?? defValue;
 
-  /// put int.
-  static Future<bool>? putInt(String key, int value) =>
-      _prefs?.setInt(key, value);
+  /// set int.
+  Future<bool>? setInt(String key, int value) => _prefs?.setInt(key, value);
 
   /// get double.
-  static double? getDouble(String key, {double? defValue = 0.0}) =>
+  double? getDouble(String key, {double? defValue = 0.0}) =>
       _prefs?.getDouble(key) ?? defValue;
 
-  /// put double.
-  static Future<bool>? putDouble(String key, double value) =>
+  /// set double.
+  Future<bool>? setDouble(String key, double value) =>
       _prefs?.setDouble(key, value);
 
   /// get string list.
-  static List<String>? getStringList(String key, {List<String>? defValue}) =>
+  List<String>? getStringList(String key, {List<String>? defValue}) =>
       _prefs?.getStringList(key) ?? defValue ?? <String>[];
 
-  /// put string list.
-  static Future<bool>? putStringList(String key, List<String> value) =>
+  /// set string list.
+  Future<bool>? setStringList(String key, List<String> value) =>
       _prefs?.setStringList(key, value);
 
   /// get dynamic.
-  static dynamic getDynamic(String key, {Object? defValue}) =>
+  dynamic getDynamic(String key, {Object? defValue}) =>
       _prefs?.get(key) ?? defValue;
 
   /// have key.
-  static bool? haveKey(String key) => _prefs?.getKeys().contains(key);
+  bool? haveKey(String key) => _prefs?.getKeys().contains(key);
 
   /// contains Key.
-  static bool? containsKey(String key) => _prefs?.containsKey(key);
+  bool? containsKey(String key) => _prefs?.containsKey(key);
 
   /// get keys.
-  static Set<String>? get getKeys => _prefs?.getKeys();
+  Set<String>? get getKeys => _prefs?.getKeys();
 
   /// remove.
-  static Future<bool>? remove(String key) => _prefs?.remove(key);
+  Future<bool>? remove(String key) => _prefs?.remove(key);
 
   /// clear.
-  static Future<bool>? get clear => _prefs?.clear();
+  Future<bool>? get clear => _prefs?.clear();
 
   /// Fetches the latest values from the host platform.
-  static Future<void>? get reload => _prefs?.reload();
-
-  ///Sp is initialized.
-  static bool get isInitialized => _prefs != null;
-
-  /// get Sp.
-  static SharedPreferences? get getSp => _prefs;
+  Future<void>? get reload => _prefs?.reload();
 }
