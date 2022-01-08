@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:universally/const/const.dart';
 
 class UStyle {
+  factory UStyle() => _singleton ??= UStyle._();
+
+  UStyle._();
+
+  static UStyle? _singleton;
+
   /// 统一阴影样式
   /// Unified Shadow Style
-  static List<BoxShadow> getBoxShadow({Color? color}) => [
+  List<BoxShadow> getBoxShadow({Color? color}) => [
         BoxShadow(
             color: color ?? UCS.lineColor.withOpacity(0.4),
             offset: const Offset(0.0, 0.0), //阴影xy轴偏移量

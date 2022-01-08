@@ -45,6 +45,7 @@ class BaseScaffold extends ExtendedScaffold {
       Decoration? decoration,
       bool isMaybePop = false,
       bool useSingleChildScrollView = true,
+      List<Widget>? actions,
       PreferredSizeWidget? appBarBottom})
       : super(
             key: key,
@@ -86,6 +87,7 @@ class BaseScaffold extends ExtendedScaffold {
                     appBarRightWidget == null
                 ? null
                 : CustomAppBar(
+                    actions: actions,
                     isMaybePop: isMaybePop,
                     bottom: appBarBottom,
                     text: appBarTitle,
