@@ -41,26 +41,84 @@ class GlobalConfig {
   /// 当前项目使用的 url
   late String currentBaseUrl;
 
-  void setAppConfig({
+  /// 当前项目 全局使用的 刷新Header
+  late Header currentPullDownHeader;
+
+  /// 当前项目 全局使用的 刷新Footer
+  late Footer currentPullUpFooter;
+
+  /// 当前项目 全局使用的 [BaseScaffold] 的背景色
+  late Color currentScaffoldBackground;
+
+  /// 当前项目 全局使用的 [BaseAppBar] 的 elevation
+  late double currentAppBarElevation;
+
+  /// list 占位图
+  late Widget currentPlaceholder;
+
+  /// 设置app 一些默认参数
+  void setDefaultConfig({
+    /// app 主色调
     required Color mainColor,
-    required String betaBaseUrl,
-    required String releaseBaseUrl,
+
+    /// 测试环境
+    required String betaUrl,
+
+    /// 正式环境
+    required String releaseUrl,
+
+    /// 全局 下拉刷新 头部组件
+    Header? pullDownHeader,
+
+    /// 全局 上拉刷新 底部组件
+    Footer? pullUpFooter,
+
+    /// [BaseScaffold] 背景色
+    Color? scaffoldBackground,
+
+    /// [BaseAppBar] elevation
+    double? appBarElevation,
+
+    /// [BaseList] 占位图
+    Widget? placeholder,
   }) {
     currentColor = mainColor;
-
     final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
-
     if (isBeta && !isRelease) {
-      currentBetaBaseUrl = betaBaseUrl;
-      currentReleaseBaseUrl = releaseBaseUrl;
+      currentBetaBaseUrl = betaUrl;
+      currentReleaseBaseUrl = releaseUrl;
       currentBaseUrl = currentBetaBaseUrl;
       final String? localApi = SP().getString(UConstant.localApi);
       if (localApi != null && localApi.length > 5) currentBaseUrl = localApi;
       hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
     } else {
       isBeta = false;
-      currentBaseUrl = releaseBaseUrl;
+      currentBaseUrl = releaseUrl;
     }
+
+    currentPullDownHeader = pullDownHeader ??
+        ClassicalHeader(
+            refreshedText: 'Refresh to complete',
+            refreshingText: 'refreshing',
+            refreshText: 'The drop-down refresh',
+            textColor: UCS.titleTextColor,
+            infoColor: currentColor,
+            refreshReadyText: 'Release Refresh now',
+            showInfo: false);
+    currentPullUpFooter = pullUpFooter ??
+        ClassicalFooter(
+            showInfo: false,
+            noMoreText: '我是有底线的~',
+            loadText: 'Pull up to load more',
+            loadingText: 'Being loaded',
+            loadFailedText: 'Load failed',
+            textColor: UCS.titleTextColor,
+            infoColor: GlobalConfig().currentColor,
+            loadedText: 'loaded',
+            loadReadyText: '123123');
+    currentScaffoldBackground = scaffoldBackground ?? UCS.background;
+    currentAppBarElevation = appBarElevation ?? 0;
+    currentPlaceholder = placeholder ?? const NoDataWidget();
   }
 
   /// 初始化一些信息

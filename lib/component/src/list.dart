@@ -1,30 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-Footer currentPullUpFooter = ClassicalFooter(
-    showInfo: false,
-    noMoreText: '我是有底线的~',
-    loadText: 'Pull up to load more',
-    loadingText: 'Being loaded',
-    loadFailedText: 'Load failed',
-    textColor: UCS.titleTextColor,
-    infoColor: GlobalConfig().currentColor,
-    loadedText: 'loaded',
-    loadReadyText: '123123');
-
-Header currentPullDownHeader = ClassicalHeader(
-    refreshedText: 'Refresh to complete',
-    refreshingText: 'refreshing',
-    refreshText: 'The drop-down refresh',
-    textColor: UCS.titleTextColor,
-    infoColor: GlobalConfig().currentColor,
-    refreshReadyText: 'Release Refresh now',
-    showInfo: false);
-
 class BaseMaterialHeader extends MaterialHeader {
-  BaseMaterialHeader({Color color = UCS.white})
+  BaseMaterialHeader({Color? color})
       : super(
-            valueColor: AlwaysStoppedAnimation<Color>(color),
+            valueColor: AlwaysStoppedAnimation<Color>(
+                color ?? GlobalConfig().currentColor),
             backgroundColor: UCS.transparent);
 }
 
@@ -59,8 +40,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    header: currentPullDownHeader,
-                    footer: currentPullUpFooter,
+                    header: GlobalConfig().currentPullDownHeader,
+                    footer: GlobalConfig().currentPullUpFooter,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -76,7 +57,7 @@ class BaseList extends ScrollList {
             crossAxisCount: crossAxisCount ?? 1,
             childAspectRatio: childAspectRatio ?? 1,
             shrinkWrap: shrinkWrap,
-            placeholder: placeholder ?? const NoDataWidget());
+            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
 
   BaseList.separated({
     Key? key,
@@ -104,8 +85,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: currentPullUpFooter,
-                    header: currentPullDownHeader,
+                    footer: GlobalConfig().currentPullUpFooter,
+                    header: GlobalConfig().currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -115,7 +96,7 @@ class BaseList extends ScrollList {
             itemCount: itemCount,
             physics: physics,
             shrinkWrap: shrinkWrap,
-            placeholder: placeholder ?? const NoDataWidget());
+            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
 
   BaseList.countBuilder({
     Key? key,
@@ -140,8 +121,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: currentPullUpFooter,
-                    header: currentPullDownHeader,
+                    footer: GlobalConfig().currentPullUpFooter,
+                    header: GlobalConfig().currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:

@@ -16,7 +16,7 @@ class DioUtils {
   static ValueCallbackHeader? _header;
   static ValueCallbackLoginFailure? _failure;
 
-  static void initDioUtils({
+  static void initialize({
     int receiveTimeout = 5000,
     int connectTimeout = 5000,
     int sendTimeout = 5000,

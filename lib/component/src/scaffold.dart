@@ -67,13 +67,14 @@ class BaseScaffold extends ExtendedScaffold {
             isScroll: isScroll,
             isStack: isStack,
             decoration: decoration,
-            backgroundColor: backgroundColor ?? UCS.background,
+            backgroundColor:
+                backgroundColor ?? GlobalConfig().currentScaffoldBackground,
             bottomNavigationBar: bottomNavigationBar,
             resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? false,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
-                    footer: currentPullUpFooter,
-                    header: currentPullDownHeader,
+                    footer: GlobalConfig().currentPullUpFooter,
+                    header: GlobalConfig().currentPullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -86,20 +87,21 @@ class BaseScaffold extends ExtendedScaffold {
                     appBarBottom == null &&
                     appBarRightWidget == null
                 ? null
-                : CustomAppBar(
+                : BaseAppBar(
                     actions: actions,
                     isMaybePop: isMaybePop,
                     bottom: appBarBottom,
                     text: appBarTitle,
                     title: title,
-                    elevation: elevation,
+                    elevation:
+                        elevation ?? GlobalConfig().currentAppBarElevation,
                     right: appBarRightWidget,
                     backgroundColor: appBarBackgroundColor,
                     leading: appBarLeftWidget));
 }
 
-class CustomAppBar extends AppBar {
-  CustomAppBar(
+class BaseAppBar extends AppBar {
+  BaseAppBar(
       {Key? key,
       String? text,
       Widget? title,
@@ -116,7 +118,7 @@ class CustomAppBar extends AppBar {
             centerTitle: true,
             leading: leading ?? BackIcon(isMaybePop: isMaybePop),
             iconTheme: const IconThemeData.fallback(),
-            elevation: elevation ?? 0,
+            elevation: elevation ?? GlobalConfig().currentAppBarElevation,
             actions: actions ??
                 <Widget>[
                   if (right != null)

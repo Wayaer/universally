@@ -10,8 +10,8 @@ Future<void> main() async {
   await GlobalConfig().startMain(toastIgnoring: false);
 
   /// The second step
-  GlobalConfig().setAppConfig(
-      mainColor: Colors.blueAccent, releaseBaseUrl: '', betaBaseUrl: '');
+  GlobalConfig().setDefaultConfig(
+      mainColor: Colors.blueAccent, releaseUrl: '', betaUrl: '');
 
   runApp(BaseApp(
       alertNotNetwork: (ConnectivityResult result) {
