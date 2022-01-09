@@ -118,7 +118,7 @@ class GlobalConfig {
             loadReadyText: '123123');
     currentScaffoldBackground = scaffoldBackground ?? UCS.background;
     currentAppBarElevation = appBarElevation ?? 0;
-    currentPlaceholder = placeholder ?? const NoDataWidget();
+    currentPlaceholder = placeholder ?? const PlaceholderChild();
   }
 
   /// 初始化一些信息

@@ -133,15 +133,19 @@ class BaseList extends ScrollList {
 }
 
 /// 暂无数据
-class NoDataWidget extends StatelessWidget {
-  const NoDataWidget({Key? key, this.margin}) : super(key: key);
+class PlaceholderWidget extends StatelessWidget {
+  const PlaceholderWidget(
+      {Key? key,
+      this.padding = const EdgeInsets.all(100),
+      this.child,
+      this.text = 'There is no data'})
+      : super(key: key);
 
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry padding;
+  final Widget? child;
+  final String text;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: margin ?? const EdgeInsets.all(100),
-        child: Center(child: TextDefault('Not Data')));
-  }
+  Widget build(BuildContext context) => Padding(
+      padding: padding, child: Center(child: child ?? TextDefault(text)));
 }
