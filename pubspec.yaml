@@ -10,7 +10,7 @@ dependencies:
   dio: ^4.0.4
   cupertino_icons: ^1.0.4
   carousel_slider: ^4.0.0
-  connectivity_plus: ^2.1.0
+  connectivity_plus: ^2.2.0
   path: ^1.8.0
   flutter:
     sdk: flutter

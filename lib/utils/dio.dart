@@ -1,10 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:universally/universally.dart';
 
 typedef ValueCallbackHeader = Map<String, String> Function(String url);
-typedef ValueCallbackLoginFailure = void Function();
+typedef ValueCallbackError = bool Function();
+
+class InterceptorError {
+  InterceptorError(this.errorCode, this.callback);
+
+  late String errorCode;
+
+  /// 返回 false 不继续后面的解析操作
+  /// 返回 true 继续执行后面的解析操作
+  late ValueCallbackError callback;
+}
 
 class DioUtils {
   static late BaseOptions _baseOptions;
@@ -14,21 +25,21 @@ class DioUtils {
   /// 设置Header
   /// Set the Header
   static ValueCallbackHeader? _header;
-  static ValueCallbackLoginFailure? _failure;
+  static List<InterceptorError> _errorIntercept = [];
 
   static void initialize({
     int receiveTimeout = 5000,
     int connectTimeout = 5000,
     int sendTimeout = 5000,
     ValueCallbackHeader? header,
-    ValueCallbackLoginFailure? failure,
+    List<InterceptorError> errorIntercept = const [],
   }) {
     _baseOptions = BaseOptions();
     _baseOptions.receiveTimeout = receiveTimeout;
     _baseOptions.connectTimeout = connectTimeout;
     _baseOptions.sendTimeout = sendTimeout;
     _header = header;
-    _failure = failure;
+    _errorIntercept = errorIntercept;
     dioTools = ExtendedDio.getInstance(
         options: ExtendedDioOptions(
             options: _baseOptions,
@@ -36,15 +47,17 @@ class DioUtils {
             interceptors: isRelease ? [] : [LoggerInterceptor<dynamic>()]));
   }
 
-  static Future<BaseModel> get(String url,
-      {Map<String, dynamic>? params,
-      bool loading = true,
-      bool pushLogin = true}) async {
+  static Future<BaseModel> get(
+    String url, {
+    Map<String, dynamic>? params,
+    bool loading = true,
+    bool useOriginal = false,
+  }) async {
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res =
         await dioTools.getHttp(url, options: _baseOptions, params: params);
-    return _response(res, pushLogin);
+    return _response(res);
   }
 
   static Future<BaseModel> post(String url,
@@ -52,6 +65,7 @@ class DioUtils {
       dynamic data,
       bool loading = true,
       BaseOptions? options,
+      bool useOriginal = false,
       ProgressCallback? onSendProgress}) async {
     _addLoading(loading);
     if (options != null) {
@@ -67,8 +81,13 @@ class DioUtils {
     return _response(res);
   }
 
-  static Future<BaseModel> put(String url,
-      {Map<String, dynamic>? params, dynamic data, bool loading = true}) async {
+  static Future<BaseModel> put(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    bool loading = true,
+    bool useOriginal = false,
+  }) async {
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dioTools.getHttp(url,
@@ -79,11 +98,14 @@ class DioUtils {
     return _response(res);
   }
 
-  static Future<BaseModel> delete(String url,
-      {Map<String, dynamic>? params,
-      dynamic data,
-      bool loading = true,
-      bool isJson = true}) async {
+  static Future<BaseModel> delete(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    bool loading = true,
+    bool isJson = true,
+    bool useOriginal = false,
+  }) async {
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dioTools.getHttp(url,
@@ -96,10 +118,14 @@ class DioUtils {
 
   /// 文件上传
   /// File upload
-  static Future<BaseModel> upload(String url, dynamic data,
-      {ProgressCallback? onSendProgress,
-      bool loading = true,
-      CancelToken? cancelToken}) async {
+  static Future<BaseModel> upload(
+    String url,
+    dynamic data, {
+    ProgressCallback? onSendProgress,
+    bool loading = true,
+    CancelToken? cancelToken,
+    bool useOriginal = false,
+  }) async {
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dioTools.upload<dynamic>(url,
@@ -150,35 +176,35 @@ class DioUtils {
     _baseOptions.headers = _headers;
   }
 
-  static BaseModel _response(ResponseModel res, [bool failure = true]) {
+  static BaseModel _response(ResponseModel res) {
     _removeLoading();
     _sendRefreshStatus();
-    if (res.statusCode == 401 && failure) {
-      showToast('登陆失效');
-      _failure?.call();
-      return BaseModel(code: '401', msg: '登陆失效');
+    if (_errorIntercept.isNotEmpty) {
+      bool pass = true;
+      for (var element in _errorIntercept) {
+        if (res.statusCode != null &&
+            res.statusCode.toString() == element.errorCode) {
+          pass = element.callback();
+          if (!pass) break;
+        }
+      }
+      if (!pass) return BaseModel(code: '${res.statusCode}', msg: 'error');
     }
     BaseModel baseModel =
-        BaseModel(code: UConstant.failedCode, msg: '服务器数据解析失败');
-
+        BaseModel(code: '${res.statusCode}', msg: '${res.statusMessage}');
     dynamic data = res.data;
     if (data != null && data is String && data.contains('"')) {
       try {
-        data = jsonDecode(res.data.toString());
+        data = jsonDecode(data);
       } catch (e) {
-        if (res.statusMessage != null) baseModel.msg = res.statusMessage!;
-        if (res.error != null) baseModel.msg = res.error.toString();
+        debugPrint('$e');
       }
+      baseModel = BaseModel.fromJson(data, response: res);
     } else if (data is Map) {
-      baseModel = BaseModel.fromJson(data as Map<String, dynamic>?);
+      baseModel =
+          BaseModel.fromJson(data as Map<String, dynamic>?, response: res);
     } else {
-      if (res.statusMessage != null) baseModel.msg = res.statusMessage!;
-      if (res.error != null) baseModel.msg = res.error.toString();
-      baseModel.data = res.data;
-    }
-    if (baseModel.code == '401' && failure) {
-      showToast('登录失效,请重新登录');
-      _failure?.call();
+      baseModel = BaseModel.fromJson(data, response: res);
     }
     return baseModel;
   }
