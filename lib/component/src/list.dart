@@ -51,11 +51,56 @@ class BaseList extends ScrollList {
             itemCount: itemCount,
             physics: physics,
             crossAxisFlex: crossAxisFlex ?? false,
-            maxCrossAxisExtent: maxCrossAxisExtent,
+            maxCrossAxisExtent: maxCrossAxisExtent ?? 100,
             crossAxisSpacing: crossAxisSpacing ?? 0,
             mainAxisSpacing: mainAxisSpacing ?? 0,
             crossAxisCount: crossAxisCount ?? 1,
             childAspectRatio: childAspectRatio ?? 1,
+            shrinkWrap: shrinkWrap,
+            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
+
+  BaseList.waterfall({
+    Key? key,
+    required IndexedWidgetBuilder itemBuilder,
+    required int itemCount,
+    EasyRefreshController? refreshController,
+    Widget? placeholder,
+    ScrollPhysics? physics,
+    VoidCallback? onRefresh,
+    VoidCallback? onLoading,
+    ScrollController? controller,
+    EdgeInsetsGeometry? padding,
+    double? mainAxisSpacing,
+    double? crossAxisSpacing,
+    int? crossAxisCount,
+    double? maxCrossAxisExtent,
+    bool? shrinkWrap = false,
+    Widget? header,
+    Axis? scrollDirection,
+  }) : super.waterfall(
+            key: key,
+            scrollDirection: scrollDirection,
+            cacheExtent: deviceHeight / 2,
+            padding: padding,
+            header: header == null ? null : SliverToBoxAdapter(child: header),
+            controller: controller,
+            refreshConfig: (onRefresh != null || onLoading != null)
+                ? RefreshConfig(
+                    controller: refreshController,
+                    header: GlobalConfig().currentPullDownHeader,
+                    footer: GlobalConfig().currentPullUpFooter,
+                    onLoading:
+                        onLoading == null ? null : () async => onLoading.call(),
+                    onRefresh:
+                        onRefresh == null ? null : () async => onRefresh.call())
+                : null,
+            itemBuilder: itemBuilder,
+            itemCount: itemCount,
+            physics: physics,
+            maxCrossAxisExtent: maxCrossAxisExtent,
+            crossAxisSpacing: crossAxisSpacing ?? 0,
+            mainAxisSpacing: mainAxisSpacing ?? 0,
+            crossAxisCount: crossAxisCount,
             shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
 
@@ -130,22 +175,4 @@ class BaseList extends ScrollList {
                 : null,
             physics: physics,
             shrinkWrap: shrinkWrap);
-}
-
-/// 暂无数据
-class PlaceholderWidget extends StatelessWidget {
-  const PlaceholderWidget(
-      {Key? key,
-      this.padding = const EdgeInsets.all(100),
-      this.child,
-      this.text = 'There is no data'})
-      : super(key: key);
-
-  final EdgeInsetsGeometry padding;
-  final Widget? child;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-      padding: padding, child: Center(child: child ?? TextDefault(text)));
 }
