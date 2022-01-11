@@ -176,6 +176,52 @@ class AlertSureAndCancel extends StatelessWidget {
           ]);
 }
 
+/// 带取消的 弹窗 单列选择
+Future<int?>? showAlertCountSelect(
+        {required List<String> list, int? defaultIndex}) =>
+    showBottomPopup<int?>(
+        options: const BottomSheetOptions(backgroundColor: Colors.transparent),
+        widget: AlertCountSelect(
+            cancelButton: TextDefault('取消',
+                    textAlign: TextAlign.center,
+                    color: GlobalConfig().currentColor)
+                .paddingSymmetric(vertical: 12),
+            actions: list.builderEntry((item) => CupertinoActionSheetAction(
+                  onPressed: () {
+                    maybePop(item.key);
+                  },
+                  isDefaultAction: defaultIndex == item.key,
+                  child: TextDefault(item.value),
+                ))));
+
+/// 带取消的 弹窗 单列选择
+class AlertCountSelect extends StatelessWidget {
+  const AlertCountSelect(
+      {Key? key,
+      this.title,
+      this.message,
+      required this.actions,
+      this.cancelButton,
+      this.actionScrollController,
+      this.messageScrollController})
+      : super(key: key);
+  final Widget? title;
+  final Widget? message;
+  final Widget? cancelButton;
+  final List<Widget> actions;
+  final ScrollController? actionScrollController;
+  final ScrollController? messageScrollController;
+
+  @override
+  Widget build(BuildContext context) => CupertinoActionSheet(
+      cancelButton: cancelButton,
+      title: title,
+      actionScrollController: actionScrollController,
+      messageScrollController: messageScrollController,
+      message: message,
+      actions: actions);
+}
+
 ExtendedOverlayEntry? alertOnlyMessage(String? text, {bool autoOff = true}) =>
     showOverlay(AlertOnlyMessage(text: text), autoOff: autoOff);
 
