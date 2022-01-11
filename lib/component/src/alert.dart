@@ -182,10 +182,13 @@ Future<int?>? showAlertCountSelect(
     showBottomPopup<int?>(
         options: const BottomSheetOptions(backgroundColor: Colors.transparent),
         widget: AlertCountSelect(
-            cancelButton: TextDefault('取消',
-                    textAlign: TextAlign.center,
-                    color: GlobalConfig().currentColor)
-                .paddingSymmetric(vertical: 12),
+            cancelButton: Universal(
+                safeBottom: true,
+                onTap: maybePop,
+                child: TextDefault('取消',
+                        textAlign: TextAlign.center,
+                        color: GlobalConfig().currentColor)
+                    .paddingSymmetric(vertical: 12)),
             actions: list.builderEntry((item) => CupertinoActionSheetAction(
                   onPressed: () {
                     maybePop(item.key);
