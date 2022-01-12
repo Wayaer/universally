@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   dio: ^4.0.4
+  extended_image: ^6.0.1
   cupertino_icons: ^1.0.4
   carousel_slider: ^4.0.0
   connectivity_plus: ^2.2.0
