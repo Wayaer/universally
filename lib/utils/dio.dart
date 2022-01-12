@@ -33,6 +33,7 @@ class DioUtils {
     int sendTimeout = 5000,
     ValueCallbackHeader? header,
     List<InterceptorError> errorIntercept = const [],
+    List<String> forbidPrintUrl = const [],
   }) {
     _baseOptions = BaseOptions();
     _baseOptions.receiveTimeout = receiveTimeout;
@@ -44,7 +45,11 @@ class DioUtils {
         options: ExtendedDioOptions(
             options: _baseOptions,
             logTs: hasLogTs,
-            interceptors: isRelease ? [] : [LoggerInterceptor<dynamic>()]));
+            interceptors: isRelease
+                ? []
+                : [
+                    LoggerInterceptor<dynamic>(forbidPrintUrl: forbidPrintUrl)
+                  ]));
   }
 
   static Future<BaseModel> get(

@@ -142,7 +142,7 @@ class BaseImage extends StatelessWidget {
             case LoadState.loading:
               return placeholderWidget;
             case LoadState.completed:
-              return Image(image: image, fit: fit ?? BoxFit.cover);
+              return Image(image: image, fit: fit);
             case LoadState.failed:
               return error(lShape);
           }
