@@ -122,8 +122,7 @@ class GlobalConfig {
   }
 
   /// 初始化一些信息
-  void initConfig({AppPathModel? appPath, Color? mainColor}) {
-    if (mainColor != null) currentColor = mainColor;
+  void initConfig({AppPathModel? appPath}) {
     String? path;
     if (appPath != null) {
       if (isAndroid) {
