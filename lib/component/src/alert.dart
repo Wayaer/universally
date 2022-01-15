@@ -162,7 +162,7 @@ class AlertSureAndCancel extends StatelessWidget {
                   if (cancelTap != null) cancelTap!();
                 },
                 alignment: Alignment.center,
-                textStyle: TStyle(color: Colors.black87)),
+                textStyle: const TStyle(color: Colors.black87)),
             SimpleButton(
                 text: sureText ?? '确定',
                 height: 45,
@@ -265,15 +265,13 @@ class _Title extends TextDefault {
 }
 
 /// loading
-class BaseLoading extends StatelessWidget {
-  const BaseLoading({Key? key, this.size}) : super(key: key);
-  final double? size;
-
-  @override
-  Widget build(BuildContext context) {
-    return SpinKitCircle(size: size ?? 50, color: GlobalConfig().currentColor);
-  }
+class BaseLoading extends SpinKit {
+  BaseLoading({Key? key, SpinKitStyle? style, double size = 50})
+      : super(style ?? GlobalConfig().config.loadingStyle,
+            key: key, size: size);
 }
 
-ExtendedOverlayEntry? alertLoading() => showLoading(
-    options: ModalWindowsOptions(onTap: () {}), custom: const BaseLoading());
+ExtendedOverlayEntry? alertLoading({SpinKitStyle? style, double size = 50}) =>
+    showLoading(
+        options: ModalWindowsOptions(onTap: () {}),
+        custom: BaseLoading(style: style, size: size));

@@ -68,13 +68,13 @@ class BaseScaffold extends ExtendedScaffold {
             isStack: isStack,
             decoration: decoration,
             backgroundColor:
-                backgroundColor ?? GlobalConfig().currentScaffoldBackground,
+                backgroundColor ?? GlobalConfig().config.scaffoldBackground,
             bottomNavigationBar: bottomNavigationBar,
             resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? false,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
-                    footer: GlobalConfig().currentPullUpFooter,
-                    header: GlobalConfig().currentPullDownHeader,
+                    footer: GlobalConfig().config.pullUpFooter,
+                    header: GlobalConfig().config.pullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -94,7 +94,7 @@ class BaseScaffold extends ExtendedScaffold {
                     text: appBarTitle,
                     title: title,
                     elevation:
-                        elevation ?? GlobalConfig().currentAppBarElevation,
+                        elevation ?? GlobalConfig().config.appBarElevation,
                     right: appBarRightWidget,
                     backgroundColor: appBarBackgroundColor,
                     leading: appBarLeftWidget));
@@ -118,7 +118,7 @@ class BaseAppBar extends AppBar {
             centerTitle: true,
             leading: leading ?? BackIcon(isMaybePop: isMaybePop),
             iconTheme: const IconThemeData.fallback(),
-            elevation: elevation ?? GlobalConfig().currentAppBarElevation,
+            elevation: elevation ?? GlobalConfig().config.appBarElevation,
             actions: actions ??
                 <Widget>[
                   if (right != null)

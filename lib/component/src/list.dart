@@ -40,8 +40,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    header: GlobalConfig().currentPullDownHeader,
-                    footer: GlobalConfig().currentPullUpFooter,
+                    header: GlobalConfig().config.pullDownHeader,
+                    footer: GlobalConfig().config.pullUpFooter,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -57,7 +57,7 @@ class BaseList extends ScrollList {
             crossAxisCount: crossAxisCount ?? 1,
             childAspectRatio: childAspectRatio ?? 1,
             shrinkWrap: shrinkWrap,
-            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
+            placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BaseList.waterfall({
     Key? key,
@@ -87,8 +87,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    header: GlobalConfig().currentPullDownHeader,
-                    footer: GlobalConfig().currentPullUpFooter,
+                    header: GlobalConfig().config.pullDownHeader,
+                    footer: GlobalConfig().config.pullUpFooter,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -102,7 +102,7 @@ class BaseList extends ScrollList {
             mainAxisSpacing: mainAxisSpacing ?? 0,
             crossAxisCount: crossAxisCount,
             shrinkWrap: shrinkWrap,
-            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
+            placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BaseList.separated({
     Key? key,
@@ -130,8 +130,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: GlobalConfig().currentPullUpFooter,
-                    header: GlobalConfig().currentPullDownHeader,
+                    footer: GlobalConfig().config.pullUpFooter,
+                    header: GlobalConfig().config.pullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
@@ -141,7 +141,7 @@ class BaseList extends ScrollList {
             itemCount: itemCount,
             physics: physics,
             shrinkWrap: shrinkWrap,
-            placeholder: placeholder ?? GlobalConfig().currentPlaceholder);
+            placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BaseList.countBuilder({
     Key? key,
@@ -166,8 +166,8 @@ class BaseList extends ScrollList {
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
-                    footer: GlobalConfig().currentPullUpFooter,
-                    header: GlobalConfig().currentPullDownHeader,
+                    footer: GlobalConfig().config.pullUpFooter,
+                    header: GlobalConfig().config.pullDownHeader,
                     onLoading:
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:

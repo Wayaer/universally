@@ -29,121 +29,23 @@ class GlobalConfig {
   /// [BaseLoading] loading 颜色
   late Color currentColor;
 
-  /// 保存图片和视频的缓存地址
+  // /// 保存图片和视频的缓存地址
   String? currentCacheDir;
 
-  /// 测试版 url 包含 debug 模式
-  late String currentBetaBaseUrl;
-
-  /// 正式版 url
-  late String currentReleaseBaseUrl;
-
   /// 当前项目使用的 url
-  late String currentBaseUrl;
+  late String _currentBaseUrl;
 
-  /// 当前项目 全局使用的 刷新Header
-  late Header currentPullDownHeader;
+  String get currentBaseUrl => _currentBaseUrl;
 
-  /// 当前项目 全局使用的 刷新Footer
-  late Footer currentPullUpFooter;
+  /// 项目配置信息
+  late ProjectConfig _config;
 
-  /// 当前项目 全局使用的 [BaseScaffold] 的背景色
-  late Color currentScaffoldBackground;
-
-  /// 当前项目 全局使用的 [BaseAppBar] 的 elevation
-  late double currentAppBarElevation;
-
-  /// list 占位图
-  late Widget currentPlaceholder;
+  ProjectConfig get config => _config;
 
   /// 设置app 一些默认参数
-  void setDefaultConfig({
-    /// app 主色调
-    required Color mainColor,
-
-    /// 测试环境
-    required String betaUrl,
-
-    /// 正式环境
-    required String releaseUrl,
-
-    /// 全局 下拉刷新 头部组件
-    Header? pullDownHeader,
-
-    /// 全局 上拉刷新 底部组件
-    Footer? pullUpFooter,
-
-    /// [BaseScaffold] 背景色
-    Color? scaffoldBackground,
-
-    /// [BaseAppBar] elevation
-    double? appBarElevation,
-
-    /// [BaseList] 占位图
-    Widget? placeholder,
-  }) {
-    currentColor = mainColor;
-    final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
-    if (isBeta && !isRelease) {
-      currentBetaBaseUrl = betaUrl;
-      currentReleaseBaseUrl = releaseUrl;
-      currentBaseUrl = currentBetaBaseUrl;
-      final String? localApi = SP().getString(UConstant.localApi);
-      if (localApi != null && localApi.length > 5) currentBaseUrl = localApi;
-      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
-    } else {
-      isBeta = false;
-      currentBaseUrl = releaseUrl;
-    }
-
-    currentPullDownHeader = pullDownHeader ??
-        ClassicalHeader(
-            refreshedText: 'Refresh to complete',
-            refreshingText: 'refreshing',
-            refreshText: 'The drop-down refresh',
-            textColor: UCS.titleTextColor,
-            infoColor: currentColor,
-            refreshReadyText: 'Release Refresh now',
-            showInfo: false);
-    currentPullUpFooter = pullUpFooter ??
-        ClassicalFooter(
-            showInfo: false,
-            noMoreText: '我是有底线的~',
-            loadText: 'Pull up to load more',
-            loadingText: 'Being loaded',
-            loadFailedText: 'Load failed',
-            textColor: UCS.titleTextColor,
-            infoColor: GlobalConfig().currentColor,
-            loadedText: 'loaded',
-            loadReadyText: '123123');
-    currentScaffoldBackground = scaffoldBackground ?? UCS.background;
-    currentAppBarElevation = appBarElevation ?? 0;
-    currentPlaceholder = placeholder ?? const PlaceholderChild();
-  }
-
-  /// 初始化一些信息
-  void initConfig({AppPathModel? appPath}) {
-    String? path;
-    if (appPath != null) {
-      if (isAndroid) {
-        path = appPath.externalCacheDir! + '/';
-      } else if (isIOS) {
-        path = appPath.temporaryDirectory;
-      } else if (isMacOS) {
-        path = appPath.temporaryDirectory;
-      }
-    }
-    if (path != null) currentCacheDir = path;
-  }
-
-  /// 放在 main 最开始的位置
-  /// Put it at the beginning of main
-  Future<void> startMain({
-    int toastDuration = 2,
-    bool toastIgnoring = true,
-    RoutePushStyle pushStyle = RoutePushStyle.cupertino,
-  }) async {
+  Future<void> setDefaultConfig(ProjectConfig config) async {
     WidgetsFlutterBinding.ensureInitialized();
+    _config = config;
 
     /// 关闭辅助触控
     /// Turn off auxiliary touch
@@ -155,17 +57,71 @@ class GlobalConfig {
 
     /// 初始化本地储存
     /// Initialize local storage
-    await SP().getInstance();
+    if (config.initializeSP) await SP().getInstance();
+
+    currentColor = config.mainColor;
+    final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
+    if (isBeta && !isRelease) {
+      _currentBaseUrl = config.betaUrl;
+      final String? localApi = SP().getString(UConstant.localApi);
+      if (localApi != null && localApi.length > 5) _currentBaseUrl = localApi;
+      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
+    } else {
+      isBeta = false;
+      _currentBaseUrl = config.releaseUrl;
+    }
 
     /// 设置toast
     /// Set the toast
-    GlobalOptions().setToastOptions(ToastOptions(
-        ignoring: toastIgnoring, duration: Duration(seconds: toastDuration)));
+    GlobalOptions().setToastOptions(config.toastOptions);
+
+    /// 设置全局log 是否显示 分割线
+    GlobalOptions().setLogDottedLine(config.logHasDottedLine);
+
+    /// 设置全局 [PopupModalWindows] 组件配置信息
+    if (config.modalWindowsOptions != null) {
+      GlobalOptions().setModalWindowsOptions(config.modalWindowsOptions!);
+    }
+
+    /// 全局 [GeneralDialogOptions] 配置信息
+    if (config.generalDialogOptions != null) {
+      GlobalOptions().setGeneralDialogOptions(config.generalDialogOptions!);
+    }
+
+    /// 全局 [BottomSheetOptions] 配置信息
+    if (config.bottomSheetOptions != null) {
+      GlobalOptions().setBottomSheetOptions(config.bottomSheetOptions!);
+    }
+
+    /// 全局 [PickerWheelOptions] 配置信息
+    if (config.pickerWheelOptions != null) {
+      GlobalOptions().setPickerWheelOptions(config.pickerWheelOptions!);
+    }
+
+    /// 全局 [WheelOptions] 配置信息
+    if (config.wheelOptions != null) {
+      GlobalOptions().setWheelOptions(config.wheelOptions!);
+    }
 
     /// 设置页面转场样式
     /// Set the page transition style
-    GlobalOptions().setGlobalPushMode(pushStyle);
+    GlobalOptions().setGlobalPushMode(config.pushStyle);
+
+    String? path;
+    if (config.appPath != null) {
+      if (isAndroid) {
+        path = '${config.appPath?.externalCacheDir!}/';
+      } else if (isIOS) {
+        path = config.appPath?.temporaryDirectory;
+      } else if (isMacOS) {
+        path = config.appPath?.temporaryDirectory;
+      }
+    }
+    if (path != null) currentCacheDir = path;
   }
+
+  BaseDio setDioConfig([BaseDioOptions? options]) =>
+      BaseDio().initialize(options);
 
   ExtendedOverlayEntry? _connectivityOverlay;
 
@@ -440,20 +396,18 @@ class MainBottomBar extends StatelessWidget {
   final double spacing;
 
   @override
-  Widget build(BuildContext context) {
-    return Universal(
-        direction: Axis.horizontal,
-        decoration: BoxDecoration(
-            color: backgroundColor,
-            border:
-                Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
-        height: getBottomNavigationBarHeight + kToolbarHeight,
-        padding: EdgeInsets.only(bottom: getBottomNavigationBarHeight),
-        children: itemCount.generate((index) => Universal(
-            expanded: true,
-            padding: EdgeInsets.all(spacing),
-            height: double.infinity,
-            onTap: () => onTap(index),
-            child: builder(index))));
-  }
+  Widget build(BuildContext context) => Universal(
+      direction: Axis.horizontal,
+      decoration: BoxDecoration(
+          color: backgroundColor,
+          border:
+              Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
+      height: getBottomNavigationBarHeight + kToolbarHeight,
+      padding: EdgeInsets.only(bottom: getBottomNavigationBarHeight),
+      children: itemCount.generate((index) => Universal(
+          expanded: true,
+          padding: EdgeInsets.all(spacing),
+          height: double.infinity,
+          onTap: () => onTap(index),
+          child: builder(index))));
 }

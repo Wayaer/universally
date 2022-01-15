@@ -99,19 +99,17 @@ class ScanCodeShowPage extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) {
-    return BaseScaffold(
-        appBarTitle: '扫码结果',
-        padding: const EdgeInsets.all(20),
-        child: SimpleButton(
-            onTap: () {
-              text.toClipboard;
-              showToast('复制成功');
-            },
-            text: text,
-            maxLines: 100,
-            textStyle: TStyle(color: UCS.black, fontSize: 15)));
-  }
+  Widget build(BuildContext context) => BaseScaffold(
+      appBarTitle: '扫码结果',
+      padding: const EdgeInsets.all(20),
+      child: SimpleButton(
+          onTap: () {
+            text.toClipboard;
+            showToast('复制成功');
+          },
+          text: text,
+          maxLines: 100,
+          textStyle: const TStyle(color: UCS.black, fontSize: 15)));
 }
 
 class CustomDivider extends Divider {

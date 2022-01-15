@@ -21,6 +21,7 @@ export 'component/component.dart';
 export 'const/const.dart';
 export 'dependencies/dependencies.dart';
 export 'main/main.dart';
+export 'main/config.dart';
 export 'model/model.dart';
 export 'utils/dio.dart';
 export 'utils/utils.dart';

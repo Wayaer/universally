@@ -17,68 +17,98 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-class DioUtils {
-  static late BaseOptions _baseOptions;
-  static late ExtendedDio dioTools;
-  static ExtendedOverlayEntry? _loading;
+class BaseDioOptions extends ExtendedDioOptions {
+  BaseDioOptions(
+      {
 
-  /// 设置Header
-  /// Set the Header
-  static ValueCallbackHeader? _header;
-  static List<InterceptorError> _errorIntercept = [];
+      /// 接收超时时间
+      int receiveTimeout = 5000,
 
-  static void initialize({
-    int receiveTimeout = 5000,
-    int connectTimeout = 5000,
-    int sendTimeout = 5000,
-    ValueCallbackHeader? header,
-    List<InterceptorError> errorIntercept = const [],
-    List<String> forbidPrintUrl = const [],
-  }) {
-    _baseOptions = BaseOptions();
-    _baseOptions.receiveTimeout = receiveTimeout;
-    _baseOptions.connectTimeout = connectTimeout;
-    _baseOptions.sendTimeout = sendTimeout;
-    _header = header;
-    _errorIntercept = errorIntercept;
-    dioTools = ExtendedDio.getInstance(
-        options: ExtendedDioOptions(
-            options: _baseOptions,
-            logTs: hasLogTs,
-            interceptors: isRelease
-                ? []
-                : [
-                    LoggerInterceptor<dynamic>(forbidPrintUrl: forbidPrintUrl)
-                  ]));
+      /// 连接超时时间
+      int connectTimeout = 5000,
+
+      /// 发送超时时间
+      int sendTimeout = 5000,
+      this.header,
+      this.errorIntercept = const [],
+      this.forbidPrintUrl = const []})
+      : super(
+            receiveTimeout: receiveTimeout,
+            connectTimeout: connectTimeout,
+            sendTimeout: sendTimeout);
+
+  /// header设置
+  ValueCallbackHeader? header;
+
+  /// 错误拦截
+  List<InterceptorError> errorIntercept;
+
+  /// 不打印 返回 data 的url
+  List<String> forbidPrintUrl;
+}
+
+class BaseDio {
+  factory BaseDio() => _singleton ??= BaseDio._();
+
+  BaseDio._();
+
+  static BaseDio? _singleton;
+
+  late BaseOptions _baseOptions;
+
+  late ExtendedDio _dio;
+
+  ExtendedOverlayEntry? _loading;
+
+  ValueCallbackHeader? _header;
+
+  List<InterceptorError> _errorIntercept = [];
+
+  BaseDio initialize([BaseDioOptions? options]) {
+    var dioOptions = options ??= BaseDioOptions();
+    _baseOptions = dioOptions;
+    _header = dioOptions.header;
+    _errorIntercept = dioOptions.errorIntercept;
+    dioOptions.logTs = hasLogTs;
+    dioOptions.interceptors = isRelease
+        ? []
+        : [
+            LoggerInterceptor<dynamic>(
+                forbidPrintUrl: dioOptions.forbidPrintUrl)
+          ];
+    _dio = ExtendedDio().initialize(dioOptions);
+    return this;
   }
 
-  static Future<BaseModel> get(
+  Future<BaseModel> get(
     String url, {
     Map<String, dynamic>? params,
     bool loading = true,
     bool useOriginal = false,
   }) async {
+    assert(_singleton != null, '请先调用 initialize');
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res =
-        await dioTools.getHttp(url, options: _baseOptions, params: params);
+        await _dio.getHttp(url, options: _baseOptions, params: params);
     return _response(res);
   }
 
-  static Future<BaseModel> post(String url,
+  Future<BaseModel> post(String url,
       {Map<String, dynamic>? params,
       dynamic data,
       bool loading = true,
       BaseOptions? options,
       bool useOriginal = false,
       ProgressCallback? onSendProgress}) async {
+    assert(_singleton != null, '请先调用 initialize');
     _addLoading(loading);
     if (options != null) {
       _baseOptions = options;
     } else {
       _initBaseOptions(url);
     }
-    final ResponseModel res = await dioTools.getHttp(url,
+    final ResponseModel res = await _dio.getHttp(url,
         options: _baseOptions,
         httpType: HttpType.post,
         params: params,
@@ -86,16 +116,17 @@ class DioUtils {
     return _response(res);
   }
 
-  static Future<BaseModel> put(
+  Future<BaseModel> put(
     String url, {
     Map<String, dynamic>? params,
     dynamic data,
     bool loading = true,
     bool useOriginal = false,
   }) async {
+    assert(_singleton != null, '请先调用 initialize');
     _addLoading(loading);
     _initBaseOptions(url);
-    final ResponseModel res = await dioTools.getHttp(url,
+    final ResponseModel res = await _dio.getHttp(url,
         options: _baseOptions,
         httpType: HttpType.put,
         params: params,
@@ -103,7 +134,7 @@ class DioUtils {
     return _response(res);
   }
 
-  static Future<BaseModel> delete(
+  Future<BaseModel> delete(
     String url, {
     Map<String, dynamic>? params,
     dynamic data,
@@ -111,9 +142,10 @@ class DioUtils {
     bool isJson = true,
     bool useOriginal = false,
   }) async {
+    assert(_singleton != null, '请先调用 initialize');
     _addLoading(loading);
     _initBaseOptions(url);
-    final ResponseModel res = await dioTools.getHttp(url,
+    final ResponseModel res = await _dio.getHttp(url,
         options: _baseOptions,
         httpType: HttpType.delete,
         params: params,
@@ -123,7 +155,7 @@ class DioUtils {
 
   /// 文件上传
   /// File upload
-  static Future<BaseModel> upload(
+  Future<BaseModel> upload(
     String url,
     dynamic data, {
     ProgressCallback? onSendProgress,
@@ -131,9 +163,10 @@ class DioUtils {
     CancelToken? cancelToken,
     bool useOriginal = false,
   }) async {
+    assert(_singleton != null, '请先调用 initialize');
     _addLoading(loading);
     _initBaseOptions(url);
-    final ResponseModel res = await dioTools.upload<dynamic>(url,
+    final ResponseModel res = await _dio.upload<dynamic>(url,
         data: data,
         options: _baseOptions,
         onSendProgress: onSendProgress,
@@ -143,18 +176,20 @@ class DioUtils {
 
   /// 文件下载
   /// File download
-  static Future<ResponseModel> download(String url, String savePath,
-          {ProgressCallback? onReceiveProgress,
-          CancelToken? cancelToken,
-          BaseOptions? options}) =>
-      dioTools.download(url, savePath,
-          onReceiveProgress: onReceiveProgress, options: options);
+  Future<ResponseModel> download(String url, String savePath,
+      {ProgressCallback? onReceiveProgress,
+      CancelToken? cancelToken,
+      BaseOptions? options}) {
+    assert(_singleton != null, '请先调用 initialize');
+    return _dio.download(url, savePath,
+        onReceiveProgress: onReceiveProgress, options: options);
+  }
 
-  static void _addLoading(bool? loading) {
+  void _addLoading(bool? loading) {
     if ((loading ?? false) && _loading == null) _loading = alertLoading();
   }
 
-  static Future<void> _removeLoading() async {
+  Future<void> _removeLoading() async {
     await 500.milliseconds.delayed(() {});
     if (_loading != null) {
       _loading!.removeEntry();
@@ -162,7 +197,7 @@ class DioUtils {
     }
   }
 
-  static void _sendRefreshStatus() {
+  void _sendRefreshStatus() {
     if (pullDown) {
       pullDown = false;
       sendRefreshType(EasyRefreshType.refreshSuccess);
@@ -173,7 +208,7 @@ class DioUtils {
     }
   }
 
-  static void _initBaseOptions(String url) {
+  void _initBaseOptions(String url) {
     final Map<String, String> _headers = <String, String>{
       'Content-Type': 'application/json;charset=UTF-8'
     };
@@ -181,7 +216,7 @@ class DioUtils {
     _baseOptions.headers = _headers;
   }
 
-  static BaseModel _response(ResponseModel res) {
+  BaseModel _response(ResponseModel res) {
     _removeLoading();
     _sendRefreshStatus();
     if (_errorIntercept.isNotEmpty) {

@@ -15,7 +15,7 @@ class BaseImage extends StatelessWidget {
       {Key? key,
       this.fit = BoxFit.cover,
       this.failed,
-      this.background,
+      this.background = UCS.background,
       this.width,
       this.height,
       this.shape = BoxShape.rectangle,
@@ -35,7 +35,7 @@ class BaseImage extends StatelessWidget {
     this.height,
     this.radius = 2,
     this.shape = BoxShape.rectangle,
-    this.background,
+    this.background = UCS.background,
     this.border,
     this.fit = BoxFit.cover,
     this.hasGesture = false,
@@ -58,7 +58,7 @@ class BaseImage extends StatelessWidget {
     this.height,
     this.radius = 2,
     this.shape = BoxShape.rectangle,
-    this.background,
+    this.background = UCS.background,
     this.border,
     this.fit = BoxFit.cover,
     this.hasGesture = false,
@@ -78,7 +78,7 @@ class BaseImage extends StatelessWidget {
     this.height,
     this.radius = 2,
     this.shape = BoxShape.rectangle,
-    this.background,
+    this.background = UCS.background,
     this.border,
     this.fit = BoxFit.cover,
     this.hasGesture = false,
@@ -99,7 +99,7 @@ class BaseImage extends StatelessWidget {
   /// 加载失败时显示
   final Widget? failed;
 
-  final Color? background;
+  final Color background;
 
   final double? width;
 
@@ -122,7 +122,7 @@ class BaseImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final BoxShape lShape = shape;
     return ExtendedImage(
-        color: background ?? UCS.background,
+        color: background,
         image: image,
         width: width,
         height: height,
@@ -149,15 +149,15 @@ class BaseImage extends StatelessWidget {
         });
   }
 
-  Widget? get placeholderWidget => const BaseLoading(size: 10);
+  Widget? get placeholderWidget => BaseLoading(size: 10);
 
   Widget? error(BoxShape lShape) => Container(
       padding: failed == null
           ? const EdgeInsets.symmetric(vertical: 6)
           : EdgeInsets.zero,
       alignment: Alignment.center,
-      color: background ?? UCS.background,
-      child: failed ?? TextSmall('加载失败', fontSize: 10));
+      color: background,
+      child: failed ?? GlobalConfig().config.imageFailed);
 }
 
 class PreviewImage extends StatelessWidget {
@@ -173,20 +173,18 @@ class PreviewImage extends StatelessWidget {
   final int? initialPage;
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-        color: UCS.black.withOpacity(0.9),
-        child: Column(children: <Widget>[
-          Universal(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.only(right: 12),
-              height: getStatusBarHeight + 50,
-              child: const CloseButton(color: UCS.white)),
-          ExtendedImageGesturePageView.builder(
-            controller: ExtendedPageController(initialPage: initialPage ?? 1),
-            itemCount: itemCount,
-            itemBuilder: itemBuilder,
-          ).expandedNull,
-        ]));
-  }
+  Widget build(BuildContext context) => Material(
+      color: UCS.black.withOpacity(0.9),
+      child: Column(children: <Widget>[
+        Universal(
+            alignment: Alignment.centerRight,
+            margin: const EdgeInsets.only(right: 12),
+            height: context.mediaQueryPadding.top + 50,
+            child: const CloseButton(color: UCS.white)),
+        ExtendedImageGesturePageView.builder(
+          controller: ExtendedPageController(initialPage: initialPage ?? 1),
+          itemCount: itemCount,
+          itemBuilder: itemBuilder,
+        ).expandedNull,
+      ]));
 }

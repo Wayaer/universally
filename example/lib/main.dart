@@ -6,12 +6,13 @@ import 'page/webview_page.dart';
 Future<void> main() async {
   isBeta = true;
 
-  /// The first step
-  await GlobalConfig().startMain(toastIgnoring: false);
-
-  /// The second step
-  GlobalConfig().setDefaultConfig(
-      mainColor: Colors.blueAccent, releaseUrl: '', betaUrl: '');
+  await GlobalConfig().setDefaultConfig(ProjectConfig(
+      mainColor: Colors.blueAccent,
+      betaUrl: '',
+      releaseUrl: '',
+      appPath: await Curiosity().native.appPath,
+      initializeSP: true,
+      toastOptions: const ToastOptions(ignoring: false)));
 
   runApp(BaseApp(
       alertNotNetwork: (ConnectivityResult result) {
@@ -39,12 +40,7 @@ Future<void> main() async {
       consumer: (Widget child) {
         return child;
       },
-      initState: (bool network, ConnectivityResult? result) async {
-        final appPath = await Curiosity().native.appPath;
-
-        /// The third step
-        GlobalConfig().initConfig(appPath: appPath!);
-      }));
+      initState: (bool network, ConnectivityResult? result) async {}));
 }
 
 class HomePage extends StatelessWidget {
@@ -77,7 +73,7 @@ class HomePage extends StatelessWidget {
   }
 
   Future<void> _callPhone() async {
-    await openUrl('tel:10086');
+    await UrlLauncher().openUrl('tel:10086');
   }
 }
 

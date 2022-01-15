@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-const int? defaultMaxLines = 1;
-const TextOverflow defaultOverflow = TextOverflow.ellipsis;
-
 /// Very large font
 class TextVeryLarge extends BaseText {
   TextVeryLarge(String? text,
       {Key? key,
-      Color? color,
+      Color? color = UCS.largeTextColor,
       TextStyle? style,
       int? maxLines,
       double? height,
-      double? fontSize,
+      double? fontSize = 22,
       double? letterSpacing,
       TextOverflow? overflow,
       TextAlign? textAlign,
@@ -25,7 +22,7 @@ class TextVeryLarge extends BaseText {
             maxLines: maxLines,
             height: height,
             letterSpacing: letterSpacing,
-            fontSize: fontSize ?? 22,
+            fontSize: fontSize,
             overflow: overflow,
             fontType: fontType,
             fontFamily: fontFamily,
@@ -36,11 +33,11 @@ class TextVeryLarge extends BaseText {
 class TextLarge extends BaseText {
   TextLarge(String? text,
       {Key? key,
-      Color? color,
+      Color? color = UCS.largeTextColor,
       int? maxLines,
       double? height,
       TextStyle? style,
-      double? fontSize,
+      double? fontSize = 18,
       double? letterSpacing,
       TextOverflow? overflow,
       TextAlign? textAlign,
@@ -55,7 +52,7 @@ class TextLarge extends BaseText {
             letterSpacing: letterSpacing,
             fontType: fontType,
             fontFamily: fontFamily,
-            fontSize: fontSize ?? 18,
+            fontSize: fontSize,
             overflow: overflow,
             textAlign: textAlign);
 }
@@ -65,11 +62,11 @@ class TextLarge extends BaseText {
 class TextSmall extends BaseText {
   TextSmall(String? text,
       {Key? key,
-      Color? color,
+      Color? color = UCS.smallTextColor,
       int? maxLines,
       double? height,
       double? letterSpacing,
-      double? fontSize,
+      double fontSize = 12,
       TextStyle? style,
       TextOverflow? overflow,
       TextAlign? textAlign,
@@ -77,13 +74,13 @@ class TextSmall extends BaseText {
       String? fontFamily})
       : super(text,
             key: key,
-            color: color ?? UCS.smallTextColor,
+            color: color,
             maxLines: maxLines,
             height: height,
             style: style,
             letterSpacing: letterSpacing,
             fontType: fontType,
-            fontSize: fontSize ?? 12,
+            fontSize: fontSize,
             overflow: overflow,
             fontFamily: fontFamily,
             textAlign: textAlign);
@@ -112,7 +109,7 @@ class TextDefault extends BaseText {
             maxLines: maxLines,
             fontType: fontType,
             height: height,
-            fontSize: fontSize ?? 14,
+            fontSize: fontSize,
             overflow: overflow,
             style: style,
             fontFamily: fontFamily,
@@ -138,11 +135,9 @@ class BaseText extends BText {
       : super(text ?? '',
             key: key,
             textAlign: textAlign,
-            maxLines: maxLines == null
-                ? defaultMaxLines
-                : (maxLines == 0 ? null : maxLines),
+            maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
             overflow: overflow ??
-                (maxLines == 0 ? TextOverflow.clip : defaultOverflow),
+                (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
             style: TStyle(
                     letterSpacing: letterSpacing,
                     fontType: fontType,
@@ -156,41 +151,36 @@ class BaseText extends BText {
 
 /// BaseTextStyle
 class TStyle extends BTextStyle {
-  TStyle(
-      {Color? color,
-      double? fontSize,
+  const TStyle(
+      {Color? color = UCS.mainBlack,
+      double? fontSize = 14,
       double? letterSpacing,
       double? height,
       String? fontFamily,
       FontType? fontType,
-      TextDecoration? decoration,
+      FontWeight? fontWeight,
+      TextDecoration? decoration = TextDecoration.none,
       Color? backgroundColor})
       : super(
-            color: color ?? UCS.mainBlack,
-            fontSize: fontSize ?? 14,
+            color: color,
+            fontSize: fontSize,
             height: height,
             letterSpacing: letterSpacing,
             wordSpacing: letterSpacing,
             backgroundColor: backgroundColor,
-            decoration: decoration ?? TextDecoration.none,
+            decoration: decoration,
             fontFamily: fontFamily,
-            fontWeight: _getFontWeight(fontType),
+            fontWeight: fontWeight ??
+                ((fontType == null || fontType == FontType.normal)
+                    ? FontWeight.normal
+                    : fontType == FontType.medium
+                        ? FontWeight.w500
+                        : fontType == FontType.semiBold
+                            ? FontWeight.w600
+                            : fontType == FontType.bold
+                                ? FontWeight.bold
+                                : FontWeight.normal),
             textBaseline: TextBaseline.ideographic);
-
-  static FontWeight? _getFontWeight(FontType? fontType) {
-    switch (fontType) {
-      case FontType.normal:
-        return FontWeight.normal;
-      case FontType.medium:
-        return FontWeight.w500;
-      case FontType.semiBold:
-        return FontWeight.w600;
-      case FontType.bold:
-        return FontWeight.bold;
-      default:
-        return FontWeight.normal;
-    }
-  }
 }
 
 enum FontType { normal, medium, semiBold, bold }

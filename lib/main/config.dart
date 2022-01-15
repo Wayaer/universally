@@ -13,7 +13,6 @@ class ProjectConfig {
       this.appBarElevation = 0,
       this.appPath,
       this.placeholder = const PlaceholderChild(),
-      this.dioConfig = const DioConfig(),
       this.toastOptions =
           const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
       this.pickerWheelOptions,
@@ -21,7 +20,11 @@ class ProjectConfig {
       this.bottomSheetOptions,
       this.modalWindowsOptions,
       this.logHasDottedLine = true,
-      this.wheelOptions}) {
+      this.wheelOptions,
+      this.initializeSP = true,
+      this.loadingStyle = SpinKitStyle.circle,
+      this.imageFailed}) {
+    imageFailed ??= TextSmall('加载失败', fontSize: 10);
     pullDownHeader ??= ClassicalHeader(
         refreshedText: 'Refresh to complete',
         refreshingText: 'refreshing',
@@ -30,21 +33,19 @@ class ProjectConfig {
         infoColor: mainColor,
         refreshReadyText: 'Release Refresh now',
         showInfo: false);
-    pullUpFooter = pullUpFooter ??
-        ClassicalFooter(
-            showInfo: false,
-            noMoreText: '我是有底线的~',
-            loadText: 'Pull up to load more',
-            loadingText: 'Being loaded',
-            loadFailedText: 'Load failed',
-            textColor: UCS.titleTextColor,
-            infoColor: mainColor,
-            loadedText: 'loaded',
-            loadReadyText: '123123');
+    pullUpFooter ??= ClassicalFooter(
+        showInfo: false,
+        noMoreText: '我是有底线的~',
+        loadText: 'Pull up to load more',
+        loadingText: 'Being loaded',
+        loadFailedText: 'Load failed',
+        textColor: UCS.titleTextColor,
+        infoColor: mainColor,
+        loadedText: 'loaded',
+        loadReadyText: '123123');
   }
 
   /// alert 确认按钮颜色
-  /// [AssetSelect]  Badge 背景色
   /// [BaseLoading] loading 颜色
   Color mainColor;
 
@@ -75,11 +76,8 @@ class ProjectConfig {
   /// list 占位图
   Widget placeholder;
 
-  /// dio 网络请求信息配置
-  DioConfig dioConfig;
-
   /// 全局 Toast 配置信息
-  ToastOptions? toastOptions;
+  ToastOptions toastOptions;
 
   /// 全局 [PopupModalWindows] 组件配置信息
   ModalWindowsOptions? modalWindowsOptions;
@@ -101,32 +99,14 @@ class ProjectConfig {
 
   /// 全局路由跳转样式
   RoutePushStyle pushStyle;
+
+  /// 初始化 shared_preferences
+  bool initializeSP;
+
+  /// loading 样式
+  SpinKitStyle loadingStyle;
+
+  /// [BaseImage] 加载失败时显示的组件
+  Widget? imageFailed;
 }
 
-class DioConfig {
-  const DioConfig(
-      {this.receiveTimeout = 5000,
-      this.connectTimeout = 5000,
-      this.sendTimeout = 5000,
-      this.header,
-      this.errorIntercept = const [],
-      this.forbidPrintUrl = const []});
-
-  /// 接收超时时间
-  final int receiveTimeout;
-
-  /// 连接超时时间
-  final int connectTimeout;
-
-  /// 发送超时时间
-  final int sendTimeout;
-
-  /// header设置
-  final ValueCallbackHeader? header;
-
-  /// 错误拦截
-  final List<InterceptorError> errorIntercept;
-
-  /// 不打印 返回 data 的url
-  final List<String> forbidPrintUrl;
-}
