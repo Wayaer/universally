@@ -17,7 +17,6 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-/// code 拦截回调
 typedef BaseDioErrorIntercept = List<InterceptorError> Function(
     String url, dynamic tag);
 
@@ -228,33 +227,36 @@ class BaseDio {
   BaseModel _response(ResponseModel res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
-    var _errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
-    if (_errorIntercepts?.isNotEmpty ?? false) {
-      bool pass = true;
-      for (var element in _errorIntercepts!) {
-        if (res.statusCode != null &&
-            res.statusCode.toString() == element.errorCode) {
-          pass = element.callback();
-          if (!pass) break;
-        }
-      }
-      if (!pass) return BaseModel(code: '${res.statusCode}', msg: 'error');
-    }
-    BaseModel baseModel =
-        BaseModel(code: '${res.statusCode}', msg: '${res.statusMessage}');
-    dynamic data = res.data;
+    BaseModel baseModel = BaseModel(
+        code: '${res.statusCode}',
+        msg: '${res.statusMessage}',
+        statusCode: res.statusCode,
+        statusMessage: res.statusMessage,
+        data: res.data,
+        original: res);
+    dynamic data = baseModel.data;
     if (data != null && data is String && data.contains('"')) {
       try {
         data = jsonDecode(data);
       } catch (e) {
         debugPrint('$e');
       }
-      baseModel = BaseModel.fromJson(data, response: res);
+      baseModel = BaseModel.fromJson(data, res);
     } else if (data is Map) {
-      baseModel =
-          BaseModel.fromJson(data as Map<String, dynamic>?, response: res);
-    } else {
-      baseModel = BaseModel.fromJson(data, response: res);
+      baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
+    } else if (data != null) {
+      baseModel = BaseModel.fromJson(data, res);
+    }
+    var _errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
+    if (_errorIntercepts?.isNotEmpty ?? false) {
+      bool pass = true;
+      for (var element in _errorIntercepts!) {
+        if (baseModel.code == element.errorCode) {
+          pass = element.callback();
+          if (!pass) break;
+        }
+      }
+      if (!pass) return baseModel;
     }
     return baseModel;
   }

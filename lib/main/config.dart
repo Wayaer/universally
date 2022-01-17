@@ -12,7 +12,7 @@ class ProjectConfig {
       this.scaffoldBackground = UCS.background,
       this.appBarElevation = 0,
       this.appPath,
-      this.placeholder = const PlaceholderChild(),
+      this.placeholder = const PlaceholderWidget(),
       this.toastOptions =
           const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
       this.pickerWheelOptions,
@@ -22,7 +22,7 @@ class ProjectConfig {
       this.logHasDottedLine = true,
       this.wheelOptions,
       this.initializeSP = true,
-      this.loadingStyle = SpinKitStyle.circle,
+      this.loadingStyle = SpinKitStyle.fadingCircle,
       this.imageFailed}) {
     imageFailed ??= TextSmall('加载失败', fontSize: 10);
     pullDownHeader ??= ClassicalHeader(
@@ -110,3 +110,14 @@ class ProjectConfig {
   Widget? imageFailed;
 }
 
+class PlaceholderWidget extends StatelessWidget {
+  const PlaceholderWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => PlaceholderChild(
+      child: IconBox(
+          direction: Axis.vertical,
+          spacing: 12,
+          widget: SVGAsset(UAS.noDataIcon, width: 90, package: 'universally'),
+          title: TextSmall('什么也没有哎~')));
+}

@@ -268,6 +268,7 @@ class _Title extends TextDefault {
 class BaseLoading extends SpinKit {
   BaseLoading({Key? key, SpinKitStyle? style, double size = 50})
       : super(style ?? GlobalConfig().config.loadingStyle,
+            color: GlobalConfig().currentColor,
             key: key, size: size);
 }
 
