@@ -5,7 +5,7 @@ import 'package:universally/universally.dart';
 class TextVeryLarge extends BaseText {
   TextVeryLarge(String? text,
       {Key? key,
-      Color? color = UCS.largeTextColor,
+      Color? color,
       TextStyle? style,
       int? maxLines,
       double? height,
@@ -16,7 +16,7 @@ class TextVeryLarge extends BaseText {
       FontType? fontType,
       String? fontFamily})
       : super(text,
-            color: color,
+            color: color ?? UCS.largeTextColor,
             key: key,
             style: style,
             maxLines: maxLines,
@@ -33,7 +33,7 @@ class TextVeryLarge extends BaseText {
 class TextLarge extends BaseText {
   TextLarge(String? text,
       {Key? key,
-      Color? color = UCS.largeTextColor,
+      Color? color,
       int? maxLines,
       double? height,
       TextStyle? style,
@@ -46,7 +46,7 @@ class TextLarge extends BaseText {
       : super(text,
             key: key,
             style: style,
-            color: color,
+            color: color ?? UCS.largeTextColor,
             maxLines: maxLines,
             height: height,
             letterSpacing: letterSpacing,
@@ -62,7 +62,7 @@ class TextLarge extends BaseText {
 class TextSmall extends BaseText {
   TextSmall(String? text,
       {Key? key,
-      Color? color = UCS.smallTextColor,
+      Color? color,
       int? maxLines,
       double? height,
       double? letterSpacing,
@@ -74,7 +74,7 @@ class TextSmall extends BaseText {
       String? fontFamily})
       : super(text,
             key: key,
-            color: color,
+            color: color ?? UCS.smallTextColor,
             maxLines: maxLines,
             height: height,
             style: style,
@@ -104,7 +104,7 @@ class TextDefault extends BaseText {
       String? fontFamily})
       : super(text,
             key: key,
-            color: color,
+            color: color ?? UCS.defaultTextColor,
             letterSpacing: letterSpacing,
             maxLines: maxLines,
             fontType: fontType,
@@ -152,7 +152,7 @@ class BaseText extends BText {
 /// BaseTextStyle
 class TStyle extends BTextStyle {
   const TStyle(
-      {Color? color = UCS.mainBlack,
+      {Color? color,
       double fontSize = 14,
       double? letterSpacing,
       double? height,
@@ -162,7 +162,7 @@ class TStyle extends BTextStyle {
       TextDecoration? decoration = TextDecoration.none,
       Color? backgroundColor})
       : super(
-            color: color,
+            color: color ?? UCS.mainBlack,
             fontSize: fontSize,
             height: height,
             letterSpacing: letterSpacing,
