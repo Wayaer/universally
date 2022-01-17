@@ -60,12 +60,11 @@ class SP {
   }
 
   /// get obj list.
-  List<T>? getObjList<T>(String key, T Function(Map<dynamic, dynamic> v) f,
-      {List<T>? defValue}) {
+  List<T> getObjList<T>(String key, T Function(Map<dynamic, dynamic> v) f) {
     final List<Map<dynamic, dynamic>>? dataList = getObjectList(key);
     final List<T>? list =
         dataList?.builder((Map<dynamic, dynamic> value) => f(value));
-    return list ?? defValue ?? <T>[];
+    return list ?? <T>[];
   }
 
   /// get object list.
@@ -76,46 +75,41 @@ class SP {
   }
 
   /// get string.
-  String? getString(String key, {String? defValue = ''}) =>
-      _prefs?.getString(key) ?? defValue;
+  String? getString(String key) => _prefs?.getString(key);
 
   /// set string.
   Future<bool>? setString(String key, String value) =>
       _prefs?.setString(key, value);
 
   /// get bool.
-  bool? getBool(String key, {bool? defValue = false}) =>
-      _prefs?.getBool(key) ?? defValue;
+  bool? getBool(String key) => _prefs?.getBool(key);
 
   /// set bool.
   Future<bool>? setBool(String key, bool value) => _prefs?.setBool(key, value);
 
   /// get int.
-  int? getInt(String key, {int? defValue = 0}) =>
-      _prefs?.getInt(key) ?? defValue;
+  int? getInt(String key) => _prefs?.getInt(key);
 
   /// set int.
   Future<bool>? setInt(String key, int value) => _prefs?.setInt(key, value);
 
   /// get double.
-  double? getDouble(String key, {double? defValue = 0.0}) =>
-      _prefs?.getDouble(key) ?? defValue;
+  double? getDouble(String key) => _prefs?.getDouble(key);
 
   /// set double.
   Future<bool>? setDouble(String key, double value) =>
       _prefs?.setDouble(key, value);
 
   /// get string list.
-  List<String>? getStringList(String key, {List<String>? defValue}) =>
-      _prefs?.getStringList(key) ?? defValue ?? <String>[];
+  List<String> getStringList(String key) =>
+      _prefs?.getStringList(key) ?? <String>[];
 
   /// set string list.
   Future<bool>? setStringList(String key, List<String> value) =>
       _prefs?.setStringList(key, value);
 
   /// get dynamic.
-  dynamic getDynamic(String key, {Object? defValue}) =>
-      _prefs?.get(key) ?? defValue;
+  dynamic getDynamic(String key) => _prefs?.get(key);
 
   /// have key.
   bool? haveKey(String key) => _prefs?.getKeys().contains(key);
