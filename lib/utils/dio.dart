@@ -244,8 +244,6 @@ class BaseDio {
       baseModel = BaseModel.fromJson(data, res);
     } else if (data is Map) {
       baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
-    } else if (data != null) {
-      baseModel = BaseModel.fromJson(data, res);
     }
     var _errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
     if (_errorIntercepts?.isNotEmpty ?? false) {
