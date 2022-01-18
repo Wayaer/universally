@@ -15,25 +15,16 @@ class BaseModel {
   BaseModel.fromJson(Map<String, dynamic>? json, ResponseModel response) {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
-    code = response.statusCode.toString();
-    msg = response.statusMessage ?? '';
+    code = statusCode.toString();
+    msg = statusMessage ?? '服务器异常';
     original = response;
-    data = response.data;
-    expand = response.extra;
     if (json != null) {
       code =
           '${(json['code'] ?? json['status'] ?? json['statusCode'] ?? json['errcode'] ?? response.statusCode)}';
       msg =
           '${((json['msg'] ?? json['errorMessage'] ?? json['statusMessage'] ?? json['errmsg'])) ?? response.statusMessage}';
-      data = json['data'] ?? json['result'] ?? response.data;
-      expand = json['expand'] ?? response.extra;
-    } else {
-      statusCode = 404;
-      statusMessage = '服务器异常';
-      code = '404';
-      msg = '服务器异常';
-      data = '';
-      expand = '';
+      data = json['data'] ?? json['result'];
+      expand = json['expand'];
     }
   }
 
