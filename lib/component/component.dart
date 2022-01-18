@@ -140,3 +140,39 @@ extension ExtensionNotificationListener on Widget {
           },
           child: this);
 }
+
+/// 局部 异步加载数据
+class BaseFutureBuilder<T> extends ExtendedFutureBuilder<T> {
+  BaseFutureBuilder({
+    Key? key,
+    T? initialData,
+    required Future<T> Function()? future,
+    required ExtendedAsyncWidgetBuilder<T>? onDone,
+    Widget Function(BuildContext context, Function() reset)? onNull,
+    Widget Function(BuildContext context, Function() reset)? onNone,
+  }) : super(
+            key: key,
+            future: future,
+            onNull:
+                onNull ?? (_, __) => const Center(child: PlaceholderWidget()),
+            onNone:
+                onNone ?? (_, __) => const Center(child: PlaceholderWidget()),
+            initialData: initialData,
+            onWaiting: (_) => Center(child: BaseLoading()),
+            onError: (_, __, reset) => BaseError(onTap: reset),
+            onDone: onDone);
+}
+
+class BaseError extends StatelessWidget {
+  const BaseError({Key? key, this.onTap}) : super(key: key);
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Universal(alignment: Alignment.center, onTap: onTap, children: [
+      SVGAsset(UAS.noDataIcon, height: 90, package: 'universally'),
+      const SizedBox(height: 10),
+      TextDefault('加载失败，点击刷新', fontSize: 13)
+    ]);
+  }
+}
