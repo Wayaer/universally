@@ -28,7 +28,7 @@ void logJson(dynamic data) {
   }
 }
 
-extension ExtensionNum on num {
+extension NumExtension on num {
   String toChineseNumbers({bool isWeek = false}) {
     switch (toInt()) {
       case 1:
