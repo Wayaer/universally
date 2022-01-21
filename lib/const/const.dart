@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_waya/utils/src/screen_fit.dart';
+import 'package:flutter_waya/flutter_waya.dart';
 
 class UConstant {
   /// 页面返回带 返回参数
@@ -77,14 +77,12 @@ class UStyle {
 
   /// 统一阴影样式
   /// Unified Shadow Style
-  List<BoxShadow> getBoxShadow({Color? color}) => [
-        BoxShadow(
-            color: color ?? UCS.lineColor.withOpacity(0.4),
-            offset: const Offset(0.0, 0.0), //阴影xy轴偏移量
-            blurRadius: 3.0, //阴影模糊程度
-            spreadRadius: 2.0 //阴影扩散程度
-            )
-      ];
+  List<BoxShadow> getBaseBoxShadow({Color? color}) => getBoxShadow(
+      color: color ?? UCS.lineColor.withOpacity(0.4),
+      offset: const Offset(0.0, 0.0), //阴影xy轴偏移量
+      blurRadius: 3.0, //阴影模糊程度
+      spreadRadius: 2.0 //阴影扩散程度
+      );
 }
 
 bool isPad = deviceWidth > 500;
