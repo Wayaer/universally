@@ -1,5 +1,5 @@
-import 'package:universally/universally.dart';
 import 'package:flutter/material.dart';
+import 'package:universally/universally.dart';
 
 class BaseIndicator extends Indicator {
   BaseIndicator(
@@ -24,17 +24,22 @@ class BaseCarouselSlider extends CarouselSlider {
       {Key? key,
       required ExtendedIndexedWidgetBuilder itemBuilder,
       required int itemCount,
-      double? height = 40,
+      double? height,
       int initialPage = 0,
       double viewportFraction = 1,
+
+      /// 是否启动循环滚动
       bool enableInfiniteScroll = true,
-      // 有拖拽时不暂停滚动
+
+      /// 有拖拽时不暂停滚动
       bool pauseAutoPlayInFiniteScroll = true,
-      // 是否启用手势
+
+      /// 是否启用手势
       bool pauseAutoPlayOnTouch = true,
       bool autoPlay = true,
       bool pageSnapping = true,
-      // 播放完成后，暂停播放
+
+      /// 播放完成后，暂停播放
       bool enlargeCenterPage = false,
       Axis scrollDirection = Axis.horizontal,
       Duration autoPlayInterval = const Duration(seconds: 2),
