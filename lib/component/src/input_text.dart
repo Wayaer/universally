@@ -68,7 +68,7 @@ class InputText extends StatefulWidget {
   final bool searchEnabled;
 
   /// 启动 搜索功能
-  final GestureTapCallback? searchTextTap;
+  final ValueCallback<String>? searchTextTap;
 
   /// 是否放在输入框外部
   final bool extraSearchText;
@@ -392,7 +392,7 @@ class _InputTextState extends State<InputText> {
   }
 
   Widget searchTextWidget() => Universal(
-      onTap: widget.searchTextTap,
+      onTap: () => widget.searchTextTap?.call(controller.text),
       alignment: Alignment.center,
       child: TextDefault('搜索'));
 
