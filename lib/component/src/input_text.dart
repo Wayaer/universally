@@ -334,48 +334,48 @@ class _InputTextState extends State<InputText> {
     if (widget.prefix != null) _prefix.add(widget.prefix!);
 
     return CupertinoTextField.borderless(
-      suffixMode: suffixMode,
-      suffix: _suffix.isEmpty
-          ? null
-          : _suffix.length > 1
-              ? Row(mainAxisSize: MainAxisSize.min, children: _suffix)
-              : _suffix[0],
-      prefixMode: OverlayVisibilityMode.always,
-      prefix: _prefix.isEmpty
-          ? null
-          : _prefix.length > 1
-              ? Row(mainAxisSize: MainAxisSize.min, children: _prefix)
-              : _prefix[0],
-      placeholder: widget.hintText,
-      placeholderStyle:
-          const TStyle(color: UCS.smallTextColor, height: 1.1, fontSize: 13)
-              .merge(widget.hintStyle),
-      style: const TStyle(color: UCS.defaultTextColor, height: 1.1)
-          .merge(widget.inputStyle),
-      inputFormatters: inputTextTypeToTextInputFormatter(widget.inputTextType),
-      textInputAction: widget.textInputAction,
-      textCapitalization: widget.textCapitalization,
-      enabled: widget.enabled,
-      autofocus: widget.autoFocus ?? false,
-      focusNode: focusNode,
-      maxLines: _maxLines,
-      minLines: widget.minLines ?? 1,
-      controller: controller,
-      cursorColor: GlobalConfig().currentColor,
-      cursorHeight: isAndroid ? 16 : 12,
-      obscureText: widget.eyeEnabled && eye,
-      maxLength: widget.maxLength,
-      onChanged: widget.onChanged,
-      textAlign: _textAlign,
-      onTap: widget.onTap,
-      onSubmitted: widget.onSubmitted,
-      onEditingComplete: () {
-        context.focusNode();
-        if (widget.onEditingComplete != null) {
-          widget.onEditingComplete!(controller);
-        }
-      },
-    );
+        suffixMode: suffixMode,
+        suffix: _suffix.isEmpty
+            ? null
+            : _suffix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: _suffix)
+                : _suffix[0],
+        prefixMode: OverlayVisibilityMode.always,
+        prefix: _prefix.isEmpty
+            ? null
+            : _prefix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: _prefix)
+                : _prefix[0],
+        placeholder: widget.hintText,
+        placeholderStyle:
+            const TStyle(color: UCS.smallTextColor, height: 1.1, fontSize: 13)
+                .merge(widget.hintStyle),
+        style: const TStyle(color: UCS.defaultTextColor, height: 1.1)
+            .merge(widget.inputStyle),
+        inputFormatters:
+            inputTextTypeToTextInputFormatter(widget.inputTextType),
+        textInputAction: widget.textInputAction,
+        textCapitalization: widget.textCapitalization,
+        enabled: widget.enabled,
+        autofocus: widget.autoFocus ?? false,
+        focusNode: focusNode,
+        maxLines: _maxLines,
+        minLines: widget.minLines ?? 1,
+        controller: controller,
+        cursorColor: GlobalConfig().currentColor,
+        cursorHeight: isAndroid ? 16 : 12,
+        obscureText: widget.eyeEnabled && eye,
+        maxLength: widget.maxLength,
+        onChanged: widget.onChanged,
+        textAlign: _textAlign,
+        onTap: widget.onTap,
+        onSubmitted: widget.onSubmitted,
+        onEditingComplete: () {
+          context.focusNode();
+          if (widget.onEditingComplete != null) {
+            widget.onEditingComplete!(controller);
+          }
+        });
   }
 
   TextAlign get _textAlign {
