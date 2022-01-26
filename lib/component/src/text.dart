@@ -24,7 +24,7 @@ class TextVeryLarge extends BaseText {
             letterSpacing: letterSpacing,
             fontSize: fontSize,
             overflow: overflow,
-            fontType: fontType,
+            fontType: fontType ?? FontType.semiBold,
             fontFamily: fontFamily,
             textAlign: textAlign);
 }
@@ -50,7 +50,7 @@ class TextLarge extends BaseText {
             maxLines: maxLines,
             height: height,
             letterSpacing: letterSpacing,
-            fontType: fontType,
+            fontType: fontType ?? FontType.semiBold,
             fontFamily: fontFamily,
             fontSize: fontSize,
             overflow: overflow,
