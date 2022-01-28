@@ -128,7 +128,7 @@ class GlobalConfig {
   /// 网络状态检测
   /// Network status detection
   Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
-    required ValueTwoCallback<bool, ConnectivityResult> result,
+    ValueTwoCallback<bool, ConnectivityResult>? result,
     ValueTwoCallback<bool, ConnectivityResult>? onChanged,
     bool willPop = false,
 
@@ -140,13 +140,13 @@ class GlobalConfig {
     NotNetworkBuilder? alertNotNetwork,
   }) async {
     if (!isMobile) {
-      result(true, ConnectivityResult.wifi);
+      result?.call(true, ConnectivityResult.wifi);
       if (onChanged != null) onChanged(true, ConnectivityResult.wifi);
       return null;
     }
     final connectivity = Connectivity();
     final state = await connectivity.checkConnectivity();
-    result(
+    result?.call(
         state == ConnectivityResult.mobile || state == ConnectivityResult.wifi,
         state);
     if (onChanged != null ||
@@ -189,10 +189,10 @@ class GlobalConfig {
 class BaseApp extends StatefulWidget {
   const BaseApp({
     Key? key,
-    required this.providers,
+    this.providers = const [],
     required this.home,
-    required this.consumer,
-    required this.initState,
+    this.consumer,
+    this.initState,
     this.dispose,
     this.inactive,
     this.paused,
@@ -204,8 +204,8 @@ class BaseApp extends StatefulWidget {
   }) : super(key: key);
   final List<SingleChildWidget> providers;
   final Widget home;
-  final ConsumerBuilder consumer;
-  final ValueTwoCallback<bool, ConnectivityResult> initState;
+  final ConsumerBuilder? consumer;
+  final ValueTwoCallback<bool, ConnectivityResult>? initState;
   final VoidCallback? dispose;
 
   /// 处于这种状态的应用程序应该假设它们可能在任何时候暂停。前台
@@ -244,10 +244,9 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     addObserver(this);
     addPostFrameCallback((duration) async {
       subscription = await GlobalConfig().connectivityListen(
-        showNetworkToast: widget.showNetworkToast,
-        alertNotNetwork: widget.alertNotNetwork,
-        result: widget.initState,
-      );
+          showNetworkToast: widget.showNetworkToast,
+          alertNotNetwork: widget.alertNotNetwork,
+          result: widget.initState);
       if (isDebug && isDesktop) {
         await Curiosity().desktop.focusDesktop();
         final state = await Curiosity().desktop.setDesktopSizeTo5P8();
@@ -277,21 +276,25 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: widget.providers,
-        child: widget.consumer(ExtendedWidgetsApp(
-            pushStyle: RoutePushStyle.material,
-            navigatorKey: globalKey,
-            title: widget.title ?? '',
-            builder: (_, Widget? child) {
-              final Widget current = MediaQuery(
-                  data: MediaQueryData.fromWindow(window)
-                      .copyWith(textScaleFactor: 1),
-                  child: child!);
-              return AnnotatedRegion<SystemUiOverlayStyle>(
-                  value: const SystemUiOverlayStyleDark(), child: current);
-            },
-            home: widget.home)));
+    final app = ExtendedWidgetsApp(
+        pushStyle: RoutePushStyle.material,
+        navigatorKey: globalKey,
+        title: widget.title ?? '',
+        builder: (_, Widget? child) {
+          final Widget current = MediaQuery(
+              data: MediaQueryData.fromWindow(window)
+                  .copyWith(textScaleFactor: 1),
+              child: child!);
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: const SystemUiOverlayStyleDark(), child: current);
+        },
+        home: widget.home);
+    assert(widget.providers.isNotEmpty && widget.consumer != null, '');
+    if (widget.providers.isNotEmpty && widget.consumer != null) {
+      return MultiProvider(
+          providers: widget.providers, child: widget.consumer!(app));
+    }
+    return app;
   }
 
   @override
