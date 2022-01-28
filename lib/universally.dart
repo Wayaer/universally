@@ -5,6 +5,7 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:extended_image/extended_image.dart';
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_easyrefresh/easy_refresh.dart';
+export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart'
     hide Lock, CarouselController, MultipartFile;
@@ -19,8 +20,8 @@ export 'package:url_launcher/url_launcher.dart';
 export 'component/component.dart';
 export 'const/const.dart';
 export 'dependencies/dependencies.dart';
+export 'dependencies/src/dio.dart';
 export 'main/config.dart';
 export 'main/main.dart';
 export 'model/model.dart';
-export 'dependencies/src/dio.dart';
 export 'utils/utils.dart';
