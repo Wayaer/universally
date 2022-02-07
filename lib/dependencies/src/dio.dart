@@ -91,6 +91,7 @@ class BaseDio {
     bool useOriginal = false,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res =
@@ -107,6 +108,7 @@ class BaseDio {
       bool useOriginal = false,
       ProgressCallback? onSendProgress}) async {
     assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     if (options != null) {
       _baseOptions = options;
@@ -130,6 +132,7 @@ class BaseDio {
     bool useOriginal = false,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dio.getHttp(url,
@@ -150,6 +153,7 @@ class BaseDio {
     bool useOriginal = false,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dio.getHttp(url,
@@ -172,6 +176,7 @@ class BaseDio {
     bool useOriginal = false,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBaseOptions(url);
     final ResponseModel res = await dio.upload<dynamic>(url,
@@ -187,15 +192,29 @@ class BaseDio {
   Future<ResponseModel> download(String url, String savePath,
       {ProgressCallback? onReceiveProgress,
       CancelToken? cancelToken,
-      BaseOptions? options}) {
+      BaseOptions? options}) async {
     assert(_singleton != null, '请先调用 initialize');
-    return dio.download(url, savePath,
+    if (hasNetWork) {
+      return ResponseModel(
+          requestOptions: RequestOptions(path: url), statusMessage: '无网络链接');
+    }
+    return await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress, options: options);
   }
 
   void _addLoading(bool? loading) {
     if ((loading ?? false) && _loading == null) _loading = alertLoading();
   }
+
+  bool get hasNetWork {
+    _removeLoading();
+    1.5.seconds.delayed(_sendRefreshStatus);
+    var network = GlobalConfig().hasNetwork ?? true;
+    return !network;
+  }
+
+  BaseModel get notNetWorkModel =>
+      BaseModel(data: null, code: '500', msg: '无法连接服务器');
 
   Future<void> _removeLoading() async {
     await 500.milliseconds.delayed(() {});
@@ -229,7 +248,7 @@ class BaseDio {
     _sendRefreshStatus();
     BaseModel baseModel = BaseModel(
         code: '${res.statusCode}',
-        msg: '${res.statusMessage}',
+        msg: res.statusMessage ?? notNetWorkModel.msg,
         statusCode: res.statusCode,
         statusMessage: res.statusMessage,
         data: res.data,

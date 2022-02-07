@@ -42,6 +42,8 @@ class GlobalConfig {
 
   ProjectConfig get config => _config;
 
+  bool? hasNetwork;
+
   /// 设置app 一些默认参数
   Future<void> setDefaultConfig(ProjectConfig config) async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -139,25 +141,21 @@ class GlobalConfig {
     /// When there is no network, the popup window does not perform any operations
     NotNetworkBuilder? alertNotNetwork,
   }) async {
+    final connectivity = Connectivity();
+    final state = await connectivity.checkConnectivity();
+    GlobalConfig().hasNetwork = state != ConnectivityResult.none;
     if (!isMobile) {
       result?.call(true, ConnectivityResult.wifi);
       if (onChanged != null) onChanged(true, ConnectivityResult.wifi);
       return null;
     }
-    final connectivity = Connectivity();
-    final state = await connectivity.checkConnectivity();
-    result?.call(
-        state == ConnectivityResult.mobile || state == ConnectivityResult.wifi,
-        state);
+    result?.call(GlobalConfig().hasNetwork!, state);
     if (onChanged != null ||
         showNetworkToast != null ||
         alertNotNetwork != null) {
       void onChangedFun(ConnectivityResult state,
           ValueTwoCallback<bool, ConnectivityResult> onChanged) {
-        onChanged(
-            state == ConnectivityResult.mobile ||
-                state == ConnectivityResult.wifi,
-            state);
+        onChanged(GlobalConfig().hasNetwork!, state);
       }
 
       void alertNetworkState(ConnectivityResult state) {
@@ -177,6 +175,7 @@ class GlobalConfig {
       alertNetworkState(state);
       return connectivity.onConnectivityChanged
           .listen((ConnectivityResult state) {
+        GlobalConfig().hasNetwork = state != ConnectivityResult.none;
         if (onChanged != null) onChangedFun(state, onChanged);
         showNetworkToast?.call(state);
         alertNetworkState(state);
