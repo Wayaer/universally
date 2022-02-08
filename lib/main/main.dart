@@ -399,8 +399,8 @@ class MainBottomBar extends StatelessWidget {
           color: backgroundColor,
           border:
               Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
-      height: getBottomNavigationBarHeight + kToolbarHeight,
-      padding: EdgeInsets.only(bottom: getBottomNavigationBarHeight),
+      height: context.mediaQueryPadding.bottom + kToolbarHeight,
+      padding: EdgeInsets.only(bottom: context.mediaQueryPadding.bottom),
       children: itemCount.generate((index) => Universal(
           expanded: true,
           padding: EdgeInsets.all(spacing),
