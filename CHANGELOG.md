@@ -1,3 +1,5 @@
+## 0.7.5
+
 ## 0.7.3
 
 * Remove `BaseApp()` non-required parameter

@@ -144,11 +144,6 @@ class GlobalConfig {
     final connectivity = Connectivity();
     final state = await connectivity.checkConnectivity();
     GlobalConfig().hasNetwork = state != ConnectivityResult.none;
-    if (!isMobile) {
-      result?.call(true, ConnectivityResult.wifi);
-      if (onChanged != null) onChanged(true, ConnectivityResult.wifi);
-      return null;
-    }
     result?.call(GlobalConfig().hasNetwork!, state);
     if (onChanged != null ||
         showNetworkToast != null ||
