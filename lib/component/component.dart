@@ -100,7 +100,7 @@ class ScanCodeShowPage extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => BaseScaffold(
+  Widget build(BuildContext context) => BasicScaffold(
       appBarTitle: '扫码结果',
       padding: const EdgeInsets.all(20),
       child: SimpleButton(
@@ -142,8 +142,8 @@ extension ExtensionNotificationListener on Widget {
 }
 
 /// 局部 异步加载数据
-class BaseFutureBuilder<T> extends ExtendedFutureBuilder<T> {
-  BaseFutureBuilder({
+class BasicFutureBuilder<T> extends ExtendedFutureBuilder<T> {
+  BasicFutureBuilder({
     Key? key,
     T? initialData,
     required Future<T> Function()? future,
@@ -158,13 +158,13 @@ class BaseFutureBuilder<T> extends ExtendedFutureBuilder<T> {
             onNone:
                 onNone ?? (_, __) => const Center(child: PlaceholderWidget()),
             initialData: initialData,
-            onWaiting: (_) => Center(child: BaseLoading()),
-            onError: (_, __, reset) => BaseError(onTap: reset),
+            onWaiting: (_) => Center(child: BasicLoading()),
+            onError: (_, __, reset) => BasicError(onTap: reset),
             onDone: onDone);
 }
 
-class BaseError extends StatelessWidget {
-  const BaseError({Key? key, this.onTap}) : super(key: key);
+class BasicError extends StatelessWidget {
+  const BasicError({Key? key, this.onTap}) : super(key: key);
   final GestureTapCallback? onTap;
 
   @override

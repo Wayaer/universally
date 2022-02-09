@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BaseScaffold extends ExtendedScaffold {
-  BaseScaffold(
+class BasicScaffold extends ExtendedScaffold {
+  BasicScaffold(
       {Key? key,
       Widget? child,
 
@@ -87,7 +87,7 @@ class BaseScaffold extends ExtendedScaffold {
                     appBarBottom == null &&
                     appBarRightWidget == null
                 ? null
-                : BaseAppBar(
+                : BasicAppBar(
                     actions: actions,
                     isMaybePop: isMaybePop,
                     bottom: appBarBottom,
@@ -100,8 +100,8 @@ class BaseScaffold extends ExtendedScaffold {
                     leading: appBarLeftWidget));
 }
 
-class BaseAppBar extends AppBar {
-  BaseAppBar(
+class BasicAppBar extends AppBar {
+  BasicAppBar(
       {Key? key,
       String? text,
       Widget? title,

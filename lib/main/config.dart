@@ -46,7 +46,7 @@ class ProjectConfig {
   }
 
   /// alert 确认按钮颜色
-  /// [BaseLoading] loading 颜色
+  /// [BasicLoading] loading 颜色
   Color mainColor;
 
   /// 保存图片和视频的缓存地址
@@ -67,10 +67,10 @@ class ProjectConfig {
   /// 当前项目 全局使用的 刷新Footer
   Footer? pullUpFooter;
 
-  /// 当前项目 全局使用的 [BaseScaffold] 的背景色
+  /// 当前项目 全局使用的 [BasicScaffold] 的背景色
   Color scaffoldBackground;
 
-  /// 当前项目 全局使用的 [BaseAppBar] 的 elevation
+  /// 当前项目 全局使用的 [BasicAppBar] 的 elevation
   double appBarElevation;
 
   /// list 占位图
@@ -106,7 +106,7 @@ class ProjectConfig {
   /// loading 样式
   SpinKitStyle loadingStyle;
 
-  /// [BaseImage] 加载失败时显示的组件
+  /// [BasicImage] 加载失败时显示的组件
   Widget? imageFailed;
 }
 

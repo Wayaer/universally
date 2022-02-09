@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BaseIndicator extends Indicator {
-  BaseIndicator(
+class BasicIndicator extends Indicator {
+  BasicIndicator(
       {Key? key,
       required int count,
       required double position,
@@ -19,8 +19,8 @@ class BaseIndicator extends Indicator {
             index: index);
 }
 
-class BaseCarouselSlider extends CarouselSlider {
-  BaseCarouselSlider(
+class BasicCarouselSlider extends CarouselSlider {
+  BasicCarouselSlider(
       {Key? key,
       required ExtendedIndexedWidgetBuilder itemBuilder,
       required int itemCount,
@@ -89,7 +89,7 @@ class MainTabPageBuilder extends StatelessWidget {
   final bool canScroll;
 
   @override
-  Widget build(BuildContext context) => BaseCarouselSlider(
+  Widget build(BuildContext context) => BasicCarouselSlider(
       autoPlay: false,
       pauseAutoPlayOnTouch: false,
       enableInfiniteScroll: false,

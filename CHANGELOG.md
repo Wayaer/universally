@@ -1,4 +1,6 @@
-## 0.7.5
+## 0.8.0
+
+* Change all `Base` to `Basic`
 
 ## 0.7.3
 

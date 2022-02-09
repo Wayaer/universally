@@ -14,7 +14,7 @@ Future<void> main() async {
       initializeSP: true,
       toastOptions: const ToastOptions(ignoring: false)));
 
-  runApp(BaseApp(
+  runApp(BasicApp(
       alertNotNetwork: (ConnectivityResult result) {
         return alertOnlyMessage('Not Network')!;
       },
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
+    return BasicScaffold(
         padding: EdgeInsets.fromLTRB(
             15, getStatusBarHeight + 15, 15, getBottomNavigationBarHeight + 15),
         isScroll: true,

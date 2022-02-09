@@ -2,8 +2,8 @@
 // import 'package:flutter/material.dart';
 // import 'package:universally/universally.dart';
 //
-// class BaseWebView extends StatefulWidget {
-//   const BaseWebView.url(this.htmlUrl,
+// class BasicWebView extends StatefulWidget {
+//   const BasicWebView.url(this.htmlUrl,
 //       {Key? key,
 //       this.isCalculateHeight = false,
 //       this.javascriptChannel,
@@ -29,10 +29,10 @@
 //   final ContentSizeCallback? onContentSizeChanged;
 //
 //   @override
-//   _BaseWebViewState createState() => _BaseWebViewState();
+//   _BasicWebViewState createState() => _BasicWebViewState();
 // }
 //
-// class _BaseWebViewState extends State<BaseWebView> {
+// class _BasicWebViewState extends State<BasicWebView> {
 //   WebViewController? controller;
 //   ValueNotifier<int> currentProgress = ValueNotifier<int>(0);
 //

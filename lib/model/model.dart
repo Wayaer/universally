@@ -1,8 +1,8 @@
 import 'package:flutter_waya/flutter_waya.dart';
 
 /// 基础解析数据model
-class BaseModel {
-  BaseModel({
+class BasicModel {
+  BasicModel({
     this.data,
     this.expand,
     this.original,
@@ -12,7 +12,7 @@ class BaseModel {
     this.statusMessage,
   });
 
-  BaseModel.fromJson(Map<String, dynamic>? json, ResponseModel response) {
+  BasicModel.fromJson(Map<String, dynamic>? json, ResponseModel response) {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
     code = statusCode.toString();

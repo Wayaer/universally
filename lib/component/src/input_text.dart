@@ -268,7 +268,7 @@ class _InputTextState extends State<InputText> {
     Widget? _header;
     if (widget.labelText != null) {
       _header = Row(children: <Widget>[
-        BaseText(widget.labelText, style: widget.labelStyle)
+        BasicText(widget.labelText, style: widget.labelStyle)
       ]);
     }
 

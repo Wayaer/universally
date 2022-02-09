@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BaseMaterialHeader extends MaterialHeader {
-  BaseMaterialHeader({Color? color})
+class BasicMaterialHeader extends MaterialHeader {
+  BasicMaterialHeader({Color? color})
       : super(
             valueColor: AlwaysStoppedAnimation<Color>(
                 color ?? GlobalConfig().currentColor),
             backgroundColor: UCS.transparent);
 }
 
-class BaseList extends ScrollList {
-  BaseList({
+class BasicList extends ScrollList {
+  BasicList({
     Key? key,
     required IndexedWidgetBuilder itemBuilder,
     required int itemCount,
@@ -59,7 +59,7 @@ class BaseList extends ScrollList {
             shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
-  BaseList.waterfall({
+  BasicList.waterfall({
     Key? key,
     required IndexedWidgetBuilder itemBuilder,
     required int itemCount,
@@ -104,7 +104,7 @@ class BaseList extends ScrollList {
             shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
-  BaseList.separated({
+  BasicList.separated({
     Key? key,
     required IndexedWidgetBuilder itemBuilder,
     required IndexedWidgetBuilder separatorBuilder,
@@ -143,7 +143,7 @@ class BaseList extends ScrollList {
             shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
-  BaseList.countBuilder({
+  BasicList.countBuilder({
     Key? key,
     required List<SliverListGrid> sliver,
     EasyRefreshController? refreshController,

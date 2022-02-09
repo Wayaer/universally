@@ -9,9 +9,9 @@ class NetworkImageProvider extends ExtendedResizeImage {
             compressionRatio: compressionRatio ?? 0.6);
 }
 
-/// BaseImage
-class BaseImage extends StatelessWidget {
-  const BaseImage(this.image,
+/// BasicImage
+class BasicImage extends StatelessWidget {
+  const BasicImage(this.image,
       {Key? key,
       this.fit = BoxFit.cover,
       this.failed,
@@ -26,7 +26,7 @@ class BaseImage extends StatelessWidget {
       this.radius = 2})
       : super(key: key);
 
-  BaseImage.network(
+  BasicImage.network(
     String? url, {
     Key? key,
     double compressionRatio = 0.6,
@@ -50,7 +50,7 @@ class BaseImage extends StatelessWidget {
                 imageCacheName: url),
         super(key: key);
 
-  BaseImage.file(
+  BasicImage.file(
     File file, {
     Key? key,
     this.failed,
@@ -70,7 +70,7 @@ class BaseImage extends StatelessWidget {
             compressionRatio: 0.6),
         super(key: key);
 
-  BaseImage.asset(
+  BasicImage.asset(
     String assetName, {
     Key? key,
     this.failed,
@@ -149,7 +149,7 @@ class BaseImage extends StatelessWidget {
         });
   }
 
-  Widget? get placeholderWidget => BaseLoading(size: 10);
+  Widget? get placeholderWidget => BasicLoading(size: 10);
 
   Widget? error(BoxShape lShape) => Container(
       padding: failed == null

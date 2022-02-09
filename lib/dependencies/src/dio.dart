@@ -17,11 +17,11 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-typedef BaseDioErrorIntercept = List<InterceptorError> Function(
+typedef BasicDioErrorIntercept = List<InterceptorError> Function(
     String url, dynamic tag);
 
-class BaseDioOptions extends ExtendedDioOptions {
-  BaseDioOptions(
+class BasicDioOptions extends ExtendedDioOptions {
+  BasicDioOptions(
       {
 
       /// 接收超时时间
@@ -44,18 +44,18 @@ class BaseDioOptions extends ExtendedDioOptions {
   ValueCallbackHeader? header;
 
   /// 错误拦截;
-  BaseDioErrorIntercept? errorIntercept;
+  BasicDioErrorIntercept? errorIntercept;
 
   /// 不打印 返回 data 的url
   List<String> forbidPrintUrl;
 }
 
-class BaseDio {
-  factory BaseDio() => _singleton ??= BaseDio._();
+class BasicDio {
+  factory BasicDio() => _singleton ??= BasicDio._();
 
-  BaseDio._();
+  BasicDio._();
 
-  static BaseDio? _singleton;
+  static BasicDio? _singleton;
 
   late BaseOptions _baseOptions;
 
@@ -65,10 +65,10 @@ class BaseDio {
 
   ValueCallbackHeader? _header;
 
-  BaseDioErrorIntercept? _errorIntercept;
+  BasicDioErrorIntercept? _errorIntercept;
 
-  BaseDio initialize([BaseDioOptions? options]) {
-    var dioOptions = options ??= BaseDioOptions();
+  BasicDio initialize([BasicDioOptions? options]) {
+    var dioOptions = options ??= BasicDioOptions();
     _baseOptions = dioOptions;
     _header = dioOptions.header;
     _errorIntercept = dioOptions.errorIntercept;
@@ -83,7 +83,7 @@ class BaseDio {
     return this;
   }
 
-  Future<BaseModel> get(
+  Future<BasicModel> get(
     String url, {
     dynamic tag,
     Map<String, dynamic>? params,
@@ -93,13 +93,13 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBaseOptions(url);
+    _initBasicOptions(url);
     final ResponseModel res =
         await dio.getHttp(url, options: _baseOptions, params: params);
     return _response(res, tag);
   }
 
-  Future<BaseModel> post(String url,
+  Future<BasicModel> post(String url,
       {Map<String, dynamic>? params,
       dynamic data,
       dynamic tag,
@@ -113,7 +113,7 @@ class BaseDio {
     if (options != null) {
       _baseOptions = options;
     } else {
-      _initBaseOptions(url);
+      _initBasicOptions(url);
     }
     final ResponseModel res = await dio.getHttp(url,
         options: _baseOptions,
@@ -123,7 +123,7 @@ class BaseDio {
     return _response(res, tag);
   }
 
-  Future<BaseModel> put(
+  Future<BasicModel> put(
     String url, {
     Map<String, dynamic>? params,
     dynamic data,
@@ -134,7 +134,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBaseOptions(url);
+    _initBasicOptions(url);
     final ResponseModel res = await dio.getHttp(url,
         options: _baseOptions,
         httpType: HttpType.put,
@@ -143,7 +143,7 @@ class BaseDio {
     return _response(res, tag);
   }
 
-  Future<BaseModel> delete(
+  Future<BasicModel> delete(
     String url, {
     Map<String, dynamic>? params,
     dynamic data,
@@ -155,7 +155,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBaseOptions(url);
+    _initBasicOptions(url);
     final ResponseModel res = await dio.getHttp(url,
         options: _baseOptions,
         httpType: HttpType.delete,
@@ -166,7 +166,7 @@ class BaseDio {
 
   /// 文件上传
   /// File upload
-  Future<BaseModel> upload(
+  Future<BasicModel> upload(
     String url,
     dynamic data, {
     ProgressCallback? onSendProgress,
@@ -178,7 +178,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBaseOptions(url);
+    _initBasicOptions(url);
     final ResponseModel res = await dio.upload<dynamic>(url,
         data: data,
         options: _baseOptions,
@@ -213,8 +213,8 @@ class BaseDio {
     return !network;
   }
 
-  BaseModel get notNetWorkModel =>
-      BaseModel(data: null, code: '500', msg: '无法连接服务器');
+  BasicModel get notNetWorkModel =>
+      BasicModel(data: null, code: '500', msg: '无法连接服务器');
 
   Future<void> _removeLoading() async {
     await 500.milliseconds.delayed(() {});
@@ -235,7 +235,7 @@ class BaseDio {
     }
   }
 
-  void _initBaseOptions(String url) {
+  void _initBasicOptions(String url) {
     final Map<String, String> _headers = <String, String>{
       'Content-Type': 'application/json;charset=UTF-8'
     };
@@ -243,10 +243,10 @@ class BaseDio {
     _baseOptions.headers = _headers;
   }
 
-  BaseModel _response(ResponseModel res, dynamic tag) {
+  BasicModel _response(ResponseModel res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
-    BaseModel baseModel = BaseModel(
+    BasicModel baseModel = BasicModel(
         code: '${res.statusCode}',
         msg: res.statusMessage ?? notNetWorkModel.msg,
         statusCode: res.statusCode,
@@ -260,9 +260,9 @@ class BaseDio {
       } catch (e) {
         debugPrint('$e');
       }
-      baseModel = BaseModel.fromJson(data, res);
+      baseModel = BasicModel.fromJson(data, res);
     } else if (data is Map) {
-      baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
+      baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
     }
     var _errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
     if (_errorIntercepts?.isNotEmpty ?? false) {

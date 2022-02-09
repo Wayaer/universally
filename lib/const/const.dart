@@ -77,7 +77,7 @@ class UStyle {
 
   /// 统一阴影样式
   /// Unified Shadow Style
-  List<BoxShadow> getBaseBoxShadow({Color? color}) => getBoxShadow(
+  List<BoxShadow> getBasicBoxShadow({Color? color}) => getBoxShadow(
       color: color ?? UCS.lineColor.withOpacity(0.4),
       offset: const Offset(0.0, 0.0), //阴影xy轴偏移量
       blurRadius: 3.0, //阴影模糊程度

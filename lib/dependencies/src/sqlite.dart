@@ -11,7 +11,7 @@
 //
 //   /// 初始化 db 创建db
 //   /// Initialize the DB. Create a DB
-//   Future<String?> initDateBase() async {
+//   Future<String?> initDateBasic() async {
 //     if (!_supportPlatform) return null;
 //     final String databasePath = await getDatabasesPath();
 //     if (!Directory(dirname(databasePath)).existsSync()) {

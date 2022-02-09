@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// Very large font
-class TextVeryLarge extends BaseText {
+class TextVeryLarge extends BasicText {
   TextVeryLarge(String? text,
       {Key? key,
       Color? color,
@@ -30,7 +30,7 @@ class TextVeryLarge extends BaseText {
 }
 
 /// Large font
-class TextLarge extends BaseText {
+class TextLarge extends BasicText {
   TextLarge(String? text,
       {Key? key,
       Color? color,
@@ -59,7 +59,7 @@ class TextLarge extends BaseText {
 
 /// 小字体
 /// Small font
-class TextSmall extends BaseText {
+class TextSmall extends BasicText {
   TextSmall(String? text,
       {Key? key,
       Color? color,
@@ -88,7 +88,7 @@ class TextSmall extends BaseText {
 
 /// 默认字体
 /// The default font
-class TextDefault extends BaseText {
+class TextDefault extends BasicText {
   TextDefault(String? text,
       {Key? key,
       Color? color,
@@ -117,9 +117,9 @@ class TextDefault extends BaseText {
             textAlign: textAlign);
 }
 
-/// BaseText
-class BaseText extends BText {
-  BaseText(String? text,
+/// BasicText
+class BasicText extends BText {
+  BasicText(String? text,
       {Key? key,
       Color? color,
       TextStyle? style,
@@ -149,7 +149,7 @@ class BaseText extends BText {
                 .merge(style));
 }
 
-/// BaseTextStyle
+/// BasicTextStyle
 class TStyle extends BTextStyle {
   const TStyle(
       {Color? color,

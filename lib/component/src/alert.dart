@@ -265,14 +265,13 @@ class _Title extends TextDefault {
 }
 
 /// loading
-class BaseLoading extends SpinKit {
-  BaseLoading({Key? key, SpinKitStyle? style, double size = 50})
+class BasicLoading extends SpinKit {
+  BasicLoading({Key? key, SpinKitStyle? style, double size = 50})
       : super(style ?? GlobalConfig().config.loadingStyle,
-            color: GlobalConfig().currentColor,
-            key: key, size: size);
+            color: GlobalConfig().currentColor, key: key, size: size);
 }
 
 ExtendedOverlayEntry? alertLoading({SpinKitStyle? style, double size = 50}) =>
     showLoading(
         options: ModalWindowsOptions(onTap: () {}),
-        custom: BaseLoading(style: style, size: size));
+        custom: BasicLoading(style: style, size: size));

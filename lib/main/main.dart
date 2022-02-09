@@ -26,16 +26,16 @@ class GlobalConfig {
 
   /// alert 确认按钮颜色
   /// [AssetSelect]  Badge 背景色
-  /// [BaseLoading] loading 颜色
+  /// [BasicLoading] loading 颜色
   late Color currentColor;
 
   // /// 保存图片和视频的缓存地址
   String? currentCacheDir;
 
   /// 当前项目使用的 url
-  late String _currentBaseUrl;
+  late String _currentBasicUrl;
 
-  String get currentBaseUrl => _currentBaseUrl;
+  String get currentBasicUrl => _currentBasicUrl;
 
   /// 项目配置信息
   late ProjectConfig _config;
@@ -64,13 +64,13 @@ class GlobalConfig {
     currentColor = config.mainColor;
     final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
     if (isBeta && !isRelease) {
-      _currentBaseUrl = config.betaUrl;
+      _currentBasicUrl = config.betaUrl;
       final String? localApi = SP().getString(UConstant.localApi);
-      if (localApi != null && localApi.length > 5) _currentBaseUrl = localApi;
+      if (localApi != null && localApi.length > 5) _currentBasicUrl = localApi;
       hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
     } else {
       isBeta = false;
-      _currentBaseUrl = config.releaseUrl;
+      _currentBasicUrl = config.releaseUrl;
     }
 
     /// 设置toast
@@ -122,8 +122,8 @@ class GlobalConfig {
     if (path != null) currentCacheDir = path;
   }
 
-  BaseDio setDioConfig([BaseDioOptions? options]) =>
-      BaseDio().initialize(options);
+  BasicDio setDioConfig([BasicDioOptions? options]) =>
+      BasicDio().initialize(options);
 
   ExtendedOverlayEntry? _connectivityOverlay;
 
@@ -180,8 +180,8 @@ class GlobalConfig {
   }
 }
 
-class BaseApp extends StatefulWidget {
-  const BaseApp({
+class BasicApp extends StatefulWidget {
+  const BasicApp({
     Key? key,
     this.providers = const [],
     required this.home,
@@ -226,10 +226,10 @@ class BaseApp extends StatefulWidget {
   final NotNetworkBuilder? alertNotNetwork;
 
   @override
-  _BaseAppState createState() => _BaseAppState();
+  _BasicAppState createState() => _BasicAppState();
 }
 
-class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
+class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
   StreamSubscription<ConnectivityResult>? subscription;
 
   @override
@@ -301,8 +301,8 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
 }
 
 /// 添加android 限制返回按键
-class MainBaseScaffold extends StatelessWidget {
-  const MainBaseScaffold(
+class MainBasicScaffold extends StatelessWidget {
+  const MainBasicScaffold(
       {Key? key,
       this.widgets,
       this.onPageChanged,
@@ -328,7 +328,7 @@ class MainBaseScaffold extends StatelessWidget {
   /// MainTabPageBuilder 是否可以滚动
   final bool canScroll;
 
-  /// BaseScaffold 属性
+  /// BasicScaffold 属性
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -339,7 +339,7 @@ class MainBaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime? time;
-    return BaseScaffold(
+    return BasicScaffold(
         backgroundColor: backgroundColor,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
