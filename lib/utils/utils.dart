@@ -52,7 +52,6 @@ extension NumExtension on num {
       case 10:
         return '十';
     }
-
     return toString();
   }
 }
