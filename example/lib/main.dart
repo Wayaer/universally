@@ -37,10 +37,7 @@ Future<void> main() async {
       },
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
-      consumer: (Widget child) {
-        return child;
-      },
-      initState: (bool network, ConnectivityResult? result) async {}));
+      initState: (context, bool network, ConnectivityResult? result) async {}));
 }
 
 class HomePage extends StatelessWidget {

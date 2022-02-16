@@ -195,11 +195,20 @@ class BasicApp extends StatefulWidget {
     this.title,
     this.showNetworkToast,
     this.alertNotNetwork,
+    this.onConnectivityChanged,
   }) : super(key: key);
   final List<SingleChildWidget> providers;
   final Widget home;
+
+  /// 初始化 consumer
   final ConsumerBuilder? consumer;
-  final ValueTwoCallback<bool, ConnectivityResult>? initState;
+
+  /// 组件初始化
+  final ValueThreeCallback<BuildContext, bool, ConnectivityResult>? initState;
+
+  /// 网络状态变化监听
+  final ValueTwoCallback<bool, ConnectivityResult>? onConnectivityChanged;
+
   final VoidCallback? dispose;
 
   /// 处于这种状态的应用程序应该假设它们可能在任何时候暂停。前台
@@ -240,7 +249,9 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
       subscription = await GlobalConfig().connectivityListen(
           showNetworkToast: widget.showNetworkToast,
           alertNotNetwork: widget.alertNotNetwork,
-          result: widget.initState);
+          onChanged: widget.onConnectivityChanged,
+          result: (state, result) =>
+              widget.initState?.call(context, state, result));
       if (isDebug && isDesktop) {
         await Curiosity().desktop.focusDesktop();
         final state = await Curiosity().desktop.setDesktopSizeTo5P8();
@@ -283,10 +294,10 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
               value: const SystemUiOverlayStyleDark(), child: current);
         },
         home: widget.home);
-    assert(widget.providers.isNotEmpty && widget.consumer != null, '');
-    if (widget.providers.isNotEmpty && widget.consumer != null) {
+    if (widget.providers.isNotEmpty) {
       return MultiProvider(
-          providers: widget.providers, child: widget.consumer!(app));
+          providers: widget.providers,
+          child: widget.consumer?.call(app) ?? app);
     }
     return app;
   }

@@ -1,3 +1,7 @@
+## 0.8.1
+
+* Modify `BasicApp`
+
 ## 0.8.0
 
 * Change all `Base` to `Basic`
