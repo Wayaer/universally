@@ -1,3 +1,7 @@
+## 0.8.2
+
+* Update components to adapt to the new version
+
 ## 0.8.1
 
 * Modify `BasicApp`

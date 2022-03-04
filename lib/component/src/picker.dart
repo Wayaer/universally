@@ -15,7 +15,7 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
             sure: TextDefault('确定', color: GlobalConfig().currentColor),
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
-            titleBottom: const CustomDivider());
+            bottom: const CustomDivider());
 }
 
 /// 省市区选择器
@@ -116,7 +116,7 @@ Future<String?> pickerDateTime(
 /// 多条数据列表选择器
 Future<int?> pickerMultipleChoice<T>(String title,
         {required int itemCount, required IndexedWidgetBuilder itemBuilder}) =>
-    showMultipleChoicePicker<int?>(
+    showSingleColumnPicker<int?>(
         itemCount: itemCount,
         itemBuilder: (BuildContext context, int index) => Padding(
             padding: const EdgeInsets.only(top: 2),
