@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:universally/universally.dart';
+import 'package:universally/universally.dart' hide File;
 
 class NetworkImageProvider extends ExtendedResizeImage {
   NetworkImageProvider(String url, {double? compressionRatio, double scale = 1})
@@ -182,9 +184,10 @@ class PreviewImage extends StatelessWidget {
             height: context.mediaQueryPadding.top + 50,
             child: const CloseButton(color: UCS.white)),
         ExtendedImageGesturePageView.builder(
-          controller: ExtendedPageController(initialPage: initialPage ?? 1),
-          itemCount: itemCount,
-          itemBuilder: itemBuilder,
-        ).expandedNull,
+                controller:
+                    ExtendedPageController(initialPage: initialPage ?? 1),
+                itemCount: itemCount,
+                itemBuilder: itemBuilder)
+            .expandedNull,
       ]));
 }
