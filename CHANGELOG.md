@@ -1,4 +1,4 @@
-## 0.8.2
+## 0.8.3
 
 * Update components to adapt to the new version
 

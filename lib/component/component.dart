@@ -146,8 +146,8 @@ class BasicFutureBuilder<T> extends ExtendedFutureBuilder<T> {
   BasicFutureBuilder({
     Key? key,
     T? initialData,
-    required Future<T> Function()? future,
-    required ExtendedAsyncWidgetBuilder<T>? onDone,
+    required Future<T> Function() future,
+    required ExtendedAsyncWidgetBuilder<T> onDone,
     Widget Function(BuildContext context, Function() reset)? onNull,
     Widget Function(BuildContext context, Function() reset)? onNone,
   }) : super(
