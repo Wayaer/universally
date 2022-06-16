@@ -9,7 +9,6 @@ export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart'
     hide Lock, CarouselController, MultipartFile;
-
 export 'package:permission_handler/permission_handler.dart';
 export 'package:provider/provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
