@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:universally/universally.dart' hide File;
+import 'package:universally/universally.dart';
 
 class NetworkImageProvider extends ExtendedResizeImage {
   NetworkImageProvider(String url, {double? compressionRatio, double scale = 1})
