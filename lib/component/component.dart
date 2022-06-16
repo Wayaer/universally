@@ -176,3 +176,18 @@ class BasicError extends StatelessWidget {
     ]);
   }
 }
+
+class BasicSwitch extends Switch {
+  BasicSwitch({
+    Key? key,
+    required bool value,
+    Color? activeColor,
+    Color? activeTrackColor,
+    ValueChanged<bool>? onChanged,
+  }) : super.adaptive(
+            key: key,
+            value: value,
+            onChanged: onChanged,
+            activeTrackColor: activeTrackColor,
+            activeColor: activeColor ?? GlobalConfig().currentColor);
+}

@@ -10,8 +10,8 @@ class UrlLauncher {
   /// 打开连接
   /// Open the connection
   Future<bool> openUrl(String url) async {
-    if (await canLaunch(url)) {
-      return await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      return await launchUrl(Uri.parse(url));
     } else {
       return false;
     }
@@ -23,7 +23,7 @@ class UrlLauncher {
   /// ios [str] corresponds to the url schemes
   Future<bool> isInstalled(String str) async {
     if (isIOS || isMacOS) {
-      return await canLaunch(str);
+      return await canLaunchUrl(Uri.parse(str));
     } else if (isAndroid) {
       return isInstallApp(str);
     }
@@ -62,7 +62,7 @@ class UrlLauncher {
   /// Android [str] corresponds to the package name
   Future<bool> isInstallApp(String str) async {
     if (isIOS || isMacOS) {
-      return await canLaunch(str);
+      return await canLaunchUrl(Uri.parse(str));
     } else if (isAndroid) {
       return await Curiosity().native.hasInstallAppWithAndroid(str);
     }

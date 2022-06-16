@@ -39,45 +39,21 @@ Future<String?> pickerDateTime(
   DateTimePickerUnit unit;
   switch (dateTimeType) {
     case 1: //时分
-      unit = const DateTimePickerUnit(
-          year: null,
-          month: null,
-          day: null,
-          second: null,
-          hour: '时',
-          minute: ''
-              '分');
+      unit = const DateTimePickerUnit(hour: '时', minute: '分');
       break;
     case 2: //年月日
-      unit = const DateTimePickerUnit(
-          year: '年',
-          month: '月',
-          day: '日',
-          hour: null,
-          minute: null,
-          second: null);
+      unit = const DateTimePickerUnit(year: '年', month: '月', day: '日');
       break;
     case 3: //年月
-      unit = const DateTimePickerUnit(
-          year: '年',
-          month: '月',
-          day: null,
-          hour: null,
-          minute: null,
-          second: null);
+      unit = const DateTimePickerUnit(year: '年', month: '月');
       break;
-    case 4: //时分秒
+    case 4: //年月日时分秒
       unit = const DateTimePickerUnit(
           year: '年', month: '月', day: '日', hour: '时', minute: '分', second: '秒');
       break;
     default:
-      unit = const DateTimePickerUnit(
-          year: '年',
-          month: '月',
-          day: '日',
-          hour: '时',
-          minute: '分',
-          second: null);
+      unit = const DateTimePickerUnit.yhm(
+          year: '年', month: '月', day: '日', hour: '时', minute: '分');
       break;
   }
   String dateTimeToString(DateTime dateTime) {
@@ -153,8 +129,12 @@ Future<T?> pickerCustom<T>(
 
 /// 底部有取消的单选
 /// 返回数组index
-Future<int?> pickerSingleChoice(List<String> list) =>
-    showBottomPopup<int?>(widget: AlertSingleChoice(list));
+Future<int?> pickerSingleChoice(List<String> list,
+        {BottomSheetOptions? options}) =>
+    showBottomPopup<int?>(
+        options: options ??
+            const BottomSheetOptions(backgroundColor: UCS.transparent),
+        widget: AlertSingleChoice(list));
 
 /// 带取消的单选
 class AlertSingleChoice extends StatelessWidget {

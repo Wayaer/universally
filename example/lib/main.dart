@@ -10,7 +10,6 @@ Future<void> main() async {
       mainColor: Colors.blueAccent,
       betaUrl: '',
       releaseUrl: '',
-      appPath: await Curiosity().native.appPath,
       initializeSP: true,
       toastOptions: const ToastOptions(ignoring: false)));
 
@@ -55,6 +54,12 @@ class HomePage extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: <Widget>[
               ElevatedText(onPressed: _callPhone, text: 'Call Phone'),
+              ElevatedText(
+                  onPressed: () {
+                    showDoubleChooseAlert(
+                        title: 'title', left: 'left', right: 'right');
+                  },
+                  text: 'showDoubleChooseAlert'),
               if (isMobile) ...[
                 ElevatedText(
                     onPressed: () => push(const FlWebViewPage()),

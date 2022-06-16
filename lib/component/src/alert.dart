@@ -259,6 +259,66 @@ class AlertOnlyMessage extends StatelessWidget {
                           maxLines: 5, color: Colors.black87))));
 }
 
+Future<bool?> showDoubleChooseAlert({
+  required String title,
+  required String left,
+  required String right,
+  GestureTapCallback? rightTap,
+  GestureTapCallback? leftTap,
+  Widget? center,
+
+  /// 底层modal配置
+  ModalWindowsOptions? modelOptions,
+}) async {
+  final content = Universal(
+      constraints: const BoxConstraints(minHeight: 60),
+      padding: const EdgeInsets.all(20),
+      children: [
+        TextLarge(title, maxLines: 10),
+        const SizedBox(height: 30),
+        if (center != null) center.marginOnly(bottom: 15)
+      ]);
+  final value = await showDoubleChooseWindows(
+      content: content,
+      left: Universal(
+          height: 40,
+          decoration: const BoxDecoration(
+              border: Border(
+            top: BorderSide(color: UCS.lineColor, width: 1),
+            right: BorderSide(color: UCS.lineColor, width: 0.5),
+          )),
+          alignment: Alignment.center,
+          onTap: leftTap ?? pop,
+          child: TextDefault(left)),
+      right: Universal(
+          height: 40,
+          onTap: rightTap,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+              border: Border(
+            top: BorderSide(color: UCS.lineColor, width: 1),
+            left: BorderSide(color: UCS.lineColor, width: 0.5),
+          )),
+          child: TextDefault(right, color: GlobalConfig().currentColor)),
+      modelOptions: modelOptions,
+      decoration: BoxDecoration(
+          color: UCS.white, borderRadius: BorderRadius.circular(6)));
+  return value ?? false;
+}
+
+/// showBottomPopup 移除背景色 关闭滑动手势
+Future<T?> showBasicBottomPopup<T>(
+        {Widget? widget,
+        bool isScrollControlled = false,
+        BottomSheetOptions? options}) =>
+    showBottomPopup<T>(
+        options: options ??
+            BottomSheetOptions(
+                backgroundColor: UCS.transparent,
+                enableDrag: false,
+                isScrollControlled: isScrollControlled),
+        widget: widget);
+
 class _Title extends TextDefault {
   _Title({Key? key, String? text})
       : super(text ?? '提示', fontSize: 18, color: Colors.black87, key: key);
