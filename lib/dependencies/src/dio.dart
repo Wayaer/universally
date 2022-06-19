@@ -179,9 +179,11 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBasicOptions(url);
+    _baseOptions.headers.remove('content-type');
+    final options = _baseOptions.copyWith(contentType: httpContentType[1]);
     final ResponseModel res = await dio.upload<dynamic>(url,
         data: data,
-        options: _baseOptions,
+        options: options,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken);
     return _response(res, tag);
@@ -207,9 +209,11 @@ class BasicDio {
   }
 
   bool get hasNetWork {
-    _removeLoading();
-    1.5.seconds.delayed(_sendRefreshStatus);
     var network = GlobalConfig().hasNetwork ?? true;
+    if (!network) {
+      _removeLoading();
+      1.5.seconds.delayed(_sendRefreshStatus);
+    }
     return !network;
   }
 
@@ -236,14 +240,13 @@ class BasicDio {
   }
 
   void _initBasicOptions(String url) {
-    final Map<String, String> _headers = <String, String>{
-      'Content-Type': 'application/json;charset=UTF-8'
-    };
+    final Map<String, String> _headers = <String, String>{};
     if (_header != null) _headers.addAll(_header!(url));
     _baseOptions.headers = _headers;
   }
 
   BasicModel _response(ResponseModel res, dynamic tag) {
+    log(res.toMap());
     _removeLoading();
     _sendRefreshStatus();
     BasicModel baseModel = BasicModel(
