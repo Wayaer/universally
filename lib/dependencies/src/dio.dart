@@ -32,13 +32,19 @@ class BasicDioOptions extends ExtendedDioOptions {
 
       /// 发送超时时间
       int sendTimeout = 5000,
+      this.downloadResponseType = ResponseType.bytes,
+      this.downloadContentType,
+      this.uploadContentType,
       this.header,
       this.errorIntercept,
       this.forbidPrintUrl = const []})
       : super(
             receiveTimeout: receiveTimeout,
             connectTimeout: connectTimeout,
-            sendTimeout: sendTimeout);
+            sendTimeout: sendTimeout) {
+    downloadContentType ??= httpContentType[1];
+    uploadContentType ??= httpContentType[1];
+  }
 
   /// header设置
   ValueCallbackHeader? header;
@@ -48,6 +54,15 @@ class BasicDioOptions extends ExtendedDioOptions {
 
   /// 不打印 返回 data 的url
   List<String> forbidPrintUrl;
+
+  /// 下载的ContentType;
+  String? downloadContentType;
+
+  /// 下载文件时的请求类型
+  ResponseType downloadResponseType;
+
+  /// 上传的Type
+  String? uploadContentType;
 }
 
 class BasicDio {
@@ -57,7 +72,7 @@ class BasicDio {
 
   static BasicDio? _singleton;
 
-  late BaseOptions _baseOptions;
+  late BasicDioOptions _baseOptions;
 
   late ExtendedDio dio;
 
@@ -79,7 +94,7 @@ class BasicDio {
             LoggerInterceptor<dynamic>(
                 forbidPrintUrl: dioOptions.forbidPrintUrl)
           ];
-    dio = ExtendedDio().initialize(dioOptions);
+    dio = ExtendedDio().initialize(options: dioOptions);
     return this;
   }
 
@@ -88,14 +103,14 @@ class BasicDio {
     dynamic tag,
     Map<String, dynamic>? params,
     bool loading = true,
-    bool useOriginal = false,
+    Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBasicOptions(url);
     final ResponseModel res =
-        await dio.getHttp(url, options: _baseOptions, params: params);
+        await dio.get(url, options: options, params: params);
     return _response(res, tag);
   }
 
@@ -104,22 +119,14 @@ class BasicDio {
       dynamic data,
       dynamic tag,
       bool loading = true,
-      BaseOptions? options,
-      bool useOriginal = false,
+      Options? options,
       ProgressCallback? onSendProgress}) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    if (options != null) {
-      _baseOptions = options;
-    } else {
-      _initBasicOptions(url);
-    }
-    final ResponseModel res = await dio.getHttp(url,
-        options: _baseOptions,
-        httpType: HttpType.post,
-        params: params,
-        data: jsonEncode(data));
+    _initBasicOptions(url);
+    final ResponseModel res = await dio.post(url,
+        options: options, params: params, data: jsonEncode(data));
     return _response(res, tag);
   }
 
@@ -129,17 +136,14 @@ class BasicDio {
     dynamic data,
     dynamic tag,
     bool loading = true,
-    bool useOriginal = false,
+    Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBasicOptions(url);
-    final ResponseModel res = await dio.getHttp(url,
-        options: _baseOptions,
-        httpType: HttpType.put,
-        params: params,
-        data: jsonEncode(data));
+    final ResponseModel res = await dio.put(url,
+        options: options, params: params, data: jsonEncode(data));
     return _response(res, tag);
   }
 
@@ -150,15 +154,14 @@ class BasicDio {
     dynamic tag,
     bool loading = true,
     bool isJson = true,
-    bool useOriginal = false,
+    Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBasicOptions(url);
-    final ResponseModel res = await dio.getHttp(url,
-        options: _baseOptions,
-        httpType: HttpType.delete,
+    final ResponseModel res = await dio.delete(url,
+        options: options,
         params: params,
         data: isJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -171,37 +174,46 @@ class BasicDio {
     dynamic data, {
     ProgressCallback? onSendProgress,
     bool loading = true,
+    Options? options,
     dynamic tag,
     CancelToken? cancelToken,
-    bool useOriginal = false,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     _initBasicOptions(url);
-    _baseOptions.headers.remove('content-type');
-    final options = _baseOptions.copyWith(contentType: httpContentType[1]);
-    final ResponseModel res = await dio.upload<dynamic>(url,
-        data: data,
-        options: options,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken);
+    final ResponseModel res = await dio.post(url,
+        data: data, options: options, onSendProgress: onSendProgress);
     return _response(res, tag);
   }
 
   /// 文件下载
   /// File download
-  Future<ResponseModel> download(String url, String savePath,
-      {ProgressCallback? onReceiveProgress,
-      CancelToken? cancelToken,
-      BaseOptions? options}) async {
+  Future<BasicModel> download(
+    String url,
+    String savePath, {
+    bool loading = true,
+    dynamic tag,
+    Options? options,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    dynamic data,
+    Map<String, dynamic>? params,
+    bool deleteOnError = true,
+    String lengthHeader = Headers.contentLengthHeader,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) {
-      return ResponseModel(
-          requestOptions: RequestOptions(path: url), statusMessage: '无网络链接');
-    }
-    return await dio.download(url, savePath,
-        onReceiveProgress: onReceiveProgress, options: options);
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    _initBasicOptions(url);
+    final ResponseModel res = await dio.download(url, savePath,
+        onReceiveProgress: onReceiveProgress,
+        options: options,
+        data: data,
+        deleteOnError: deleteOnError,
+        lengthHeader: lengthHeader,
+        cancelToken: cancelToken);
+    return _response(res, tag);
   }
 
   void _addLoading(bool? loading) {
@@ -246,7 +258,6 @@ class BasicDio {
   }
 
   BasicModel _response(ResponseModel res, dynamic tag) {
-    log(res.toMap());
     _removeLoading();
     _sendRefreshStatus();
     BasicModel baseModel = BasicModel(
@@ -257,7 +268,15 @@ class BasicDio {
         data: res.data,
         original: res);
     dynamic data = baseModel.data;
-    if (data != null && data is String && data.contains('"')) {
+    if (data is ResponseBody) {
+      return baseModel = BasicModel(
+          code: '${data.statusCode}',
+          msg: data.statusMessage ?? notNetWorkModel.msg,
+          statusCode: data.statusCode,
+          statusMessage: data.statusMessage,
+          data: 'This is response stream',
+          original: res);
+    } else if (data != null && data is String && data.contains('"')) {
       try {
         data = jsonDecode(data);
       } catch (e) {
