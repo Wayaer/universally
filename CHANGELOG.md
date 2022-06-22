@@ -1,3 +1,7 @@
+## 0.9.0
+
+* Optimize BasicDio()
+
 ## 0.8.7
 
 * Update components to adapt to the new version

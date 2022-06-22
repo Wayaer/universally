@@ -72,8 +72,6 @@ class BasicDio {
 
   static BasicDio? _singleton;
 
-  late BasicDioOptions _baseOptions;
-
   late ExtendedDio dio;
 
   ExtendedOverlayEntry? _loading;
@@ -84,7 +82,6 @@ class BasicDio {
 
   BasicDio initialize([BasicDioOptions? options]) {
     var dioOptions = options ??= BasicDioOptions();
-    _baseOptions = dioOptions;
     _header = dioOptions.header;
     _errorIntercept = dioOptions.errorIntercept;
     dioOptions.logTs = hasLogTs;
@@ -108,9 +105,8 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
-    final ResponseModel res =
-        await dio.get(url, options: options, params: params);
+    final ResponseModel res = await dio.get(url,
+        options: _initBasicOptions(options, url), params: params);
     return _response(res, tag);
   }
 
@@ -124,9 +120,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
     final ResponseModel res = await dio.post(url,
-        options: options, params: params, data: jsonEncode(data));
+        options: _initBasicOptions(options, url),
+        params: params,
+        data: jsonEncode(data));
     return _response(res, tag);
   }
 
@@ -141,9 +138,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
     final ResponseModel res = await dio.put(url,
-        options: options, params: params, data: jsonEncode(data));
+        options: _initBasicOptions(options, url),
+        params: params,
+        data: jsonEncode(data));
     return _response(res, tag);
   }
 
@@ -159,9 +157,8 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
     final ResponseModel res = await dio.delete(url,
-        options: options,
+        options: _initBasicOptions(options, url),
         params: params,
         data: isJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -181,9 +178,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
     final ResponseModel res = await dio.post(url,
-        data: data, options: options, onSendProgress: onSendProgress);
+        data: data,
+        options: _initBasicOptions(options, url),
+        onSendProgress: onSendProgress);
     return _response(res, tag);
   }
 
@@ -205,10 +203,9 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    _initBasicOptions(url);
     final ResponseModel res = await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: options,
+        options: _initBasicOptions(options, url),
         data: data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
@@ -224,7 +221,7 @@ class BasicDio {
     var network = GlobalConfig().hasNetwork ?? true;
     if (!network) {
       _removeLoading();
-      1.5.seconds.delayed(_sendRefreshStatus);
+      1.seconds.delayed(_sendRefreshStatus);
     }
     return !network;
   }
@@ -233,7 +230,7 @@ class BasicDio {
       BasicModel(data: null, code: '500', msg: '无法连接服务器');
 
   Future<void> _removeLoading() async {
-    await 500.milliseconds.delayed(() {});
+    await 200.milliseconds.delayed(() {});
     if (_loading != null) {
       _loading!.removeEntry();
       _loading = null;
@@ -251,10 +248,12 @@ class BasicDio {
     }
   }
 
-  void _initBasicOptions(String url) {
-    final Map<String, String> _headers = <String, String>{};
+  Options _initBasicOptions(Options? options, String url) {
+    options ??= Options();
+    final Map<String, dynamic> _headers = <String, dynamic>{};
     if (_header != null) _headers.addAll(_header!(url));
-    _baseOptions.headers = _headers;
+    options.headers = _headers;
+    return options;
   }
 
   BasicModel _response(ResponseModel res, dynamic tag) {
