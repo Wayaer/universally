@@ -333,5 +333,6 @@ class BasicLoading extends SpinKit {
 
 ExtendedOverlayEntry? alertLoading({SpinKitStyle? style, double size = 50}) =>
     showLoading(
+        style: LoadingStyle.custom,
         options: ModalWindowsOptions(onTap: () {}),
         custom: BasicLoading(style: style, size: size));
