@@ -330,9 +330,3 @@ class BasicLoading extends SpinKit {
       : super(style ?? GlobalConfig().config.loadingStyle,
             color: GlobalConfig().currentColor, key: key, size: size);
 }
-
-ExtendedOverlayEntry? alertLoading({SpinKitStyle? style, double size = 50}) =>
-    showLoading(
-        style: LoadingStyle.custom,
-        options: ModalWindowsOptions(onTap: () {}),
-        custom: BasicLoading(style: style, size: size));

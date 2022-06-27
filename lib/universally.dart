@@ -2,7 +2,7 @@ library universally;
 
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:extended_image/extended_image.dart' hide File;
+export 'package:extended_image/extended_image.dart';
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_easyrefresh/easy_refresh.dart';
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

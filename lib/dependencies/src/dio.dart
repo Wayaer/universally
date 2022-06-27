@@ -74,11 +74,11 @@ class BasicDio {
 
   late ExtendedDio dio;
 
-  ExtendedOverlayEntry? _loading;
-
   ValueCallbackHeader? _header;
 
   BasicDioErrorIntercept? _errorIntercept;
+
+  bool hasLoading = false;
 
   BasicDio initialize([BasicDioOptions? options]) {
     var dioOptions = options ??= BasicDioOptions();
@@ -180,7 +180,8 @@ class BasicDio {
     _addLoading(loading);
     final ResponseModel res = await dio.post(url,
         data: data,
-        options: _initBasicOptions(options, url),
+        options:
+            _initBasicOptions(options, url).copyWith(receiveTimeout: 30000),
         onSendProgress: onSendProgress);
     return _response(res, tag);
   }
@@ -214,7 +215,15 @@ class BasicDio {
   }
 
   void _addLoading(bool? loading) {
-    if ((loading ?? false) && _loading == null) _loading = alertLoading();
+    hasLoading = loading ?? false;
+    if (hasLoading) showLoading();
+  }
+
+  Future<void> _removeLoading() async {
+    await 200.milliseconds.delayed(() {});
+    if (hasLoading) {
+      closeLoading();
+    }
   }
 
   bool get hasNetWork {
@@ -228,14 +237,6 @@ class BasicDio {
 
   BasicModel get notNetWorkModel =>
       BasicModel(data: null, code: '500', msg: '无法连接服务器');
-
-  Future<void> _removeLoading() async {
-    await 200.milliseconds.delayed(() {});
-    if (_loading != null) {
-      _loading!.removeEntry();
-      _loading = null;
-    }
-  }
 
   void _sendRefreshStatus() {
     if (pullDown) {
