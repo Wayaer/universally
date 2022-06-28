@@ -1,7 +1,11 @@
+## 0.9.1
+
+* Add `showUserPrivacyAlert()`
+* Remove `alertLoading()`,use `showLoading()`
+
 ## 0.9.0
 
 * Optimize BasicDio()
-* Add `showUserPrivacyAlert()`
 
 ## 0.8.7
 
