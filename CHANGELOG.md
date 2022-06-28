@@ -1,6 +1,7 @@
 ## 0.9.0
 
 * Optimize BasicDio()
+* Add `showUserPrivacyAlert()`
 
 ## 0.8.7
 

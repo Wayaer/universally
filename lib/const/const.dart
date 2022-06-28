@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_waya/flutter_waya.dart';
 
 class UConstant {
+  UConstant._();
+
   /// 页面返回带 返回参数
   /// Page returns with return parameters
   static const String popBack = 'popBack';
@@ -13,7 +15,8 @@ class UConstant {
   /// 返回成功接口
   /// Return successful interface
   static const String successCode = '200';
-  static const String failedCode = '400';
+
+  static const String privacy = 'isPrivacy';
 
   /// localApi
   static const String localApi = 'localApi';
@@ -31,6 +34,8 @@ class UConstant {
 }
 
 class UIS {
+  UIS._();
+
   static const IconData settingApi = Icons.settings_applications;
   static const IconData playCircleFill = Icons.play_circle_outline;
   static const IconData pause = Icons.pause;
@@ -44,17 +49,22 @@ class UIS {
 }
 
 class UAS {
+  UAS._();
+
   static const String eyeClose = 'lib/res/svg/eye_close.svg';
   static const String eyeOpen = 'lib/res/svg/eye_open.svg';
   static const String noDataIcon = 'lib/res/svg/no_data.svg';
 }
 
 class UCS {
+  UCS._();
+
   static const Color transparent = Colors.transparent;
   static const Color white = Colors.white;
 
   static const Color black = Colors.black;
   static const Color black70 = Color(0x70000000);
+  static const Color black50 = Color(0x50000000);
   static const Color mainBlack = Color(0xFF333333);
 
   static const Color background = Color(0xFFF9F9F9);
@@ -69,11 +79,7 @@ class UCS {
 }
 
 class UStyle {
-  factory UStyle() => _singleton ??= UStyle._();
-
   UStyle._();
-
-  static UStyle? _singleton;
 
   /// 统一阴影样式
   /// Unified Shadow Style
