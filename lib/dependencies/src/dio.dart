@@ -271,7 +271,7 @@ class BasicDio {
     if (data is ResponseBody) {
       return baseModel = BasicModel(
           code: '${data.statusCode}',
-          msg: data.statusMessage ?? notNetWorkModel.msg,
+          msg: notNetWorkModel.msg,
           statusCode: data.statusCode,
           statusMessage: data.statusMessage,
           data: 'This is response stream',
