@@ -262,7 +262,7 @@ class BasicDio {
     _sendRefreshStatus();
     BasicModel baseModel = BasicModel(
         code: '${res.statusCode}',
-        msg: res.statusMessage ?? notNetWorkModel.msg,
+        msg: notNetWorkModel.msg,
         statusCode: res.statusCode,
         statusMessage: res.statusMessage,
         data: res.data,
