@@ -271,7 +271,7 @@ class BasicDio {
     if (data is ResponseBody) {
       return baseModel = BasicModel(
           code: '${data.statusCode}',
-          msg: notNetWorkModel.msg,
+          msg: data.statusMessage ?? notNetWorkModel.msg,
           statusCode: data.statusCode,
           statusMessage: data.statusMessage,
           data: 'This is response stream',
@@ -317,13 +317,13 @@ class BasicModel {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
     code = statusCode.toString();
-    msg = statusMessage ?? '服务器异常';
+    msg = '服务器异常';
     original = response;
     if (json != null) {
       code =
           '${(json['code'] ?? json['status'] ?? json['statusCode'] ?? json['errcode'] ?? response.statusCode)}';
       msg =
-          '${((json['msg'] ?? json['errorMessage'] ?? json['statusMessage'] ?? json['errmsg'])) ?? response.statusMessage}';
+          '${((json['msg'] ?? json['errorMessage'] ?? json['statusMessage'] ?? json['errmsg'])) ?? '服务器异常(${response.statusCode})'}';
       data = json['data'] ?? json['result'];
       expand = json['expand'];
     }
