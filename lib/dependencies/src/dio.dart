@@ -32,16 +32,49 @@ class BasicDioOptions extends ExtendedDioOptions {
 
       /// 发送超时时间
       int sendTimeout = 5000,
+      bool logTs = false,
       this.downloadResponseType = ResponseType.bytes,
       this.downloadContentType,
       this.uploadContentType,
       this.header,
       this.errorIntercept,
-      this.forbidPrintUrl = const []})
+      this.forbidPrintUrl = const [],
+      String? method,
+      String baseUrl = '',
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? extra,
+      Map<String, dynamic>? headers,
+      ResponseType responseType = ResponseType.json,
+      String? contentType,
+      ValidateStatus? validateStatus,
+      bool? receiveDataWhenStatusError,
+      bool? followRedirects,
+      int? maxRedirects,
+      RequestEncoder? requestEncoder,
+      ResponseDecoder? responseDecoder,
+      ListFormat? listFormat,
+      bool setRequestContentTypeWhenNoPayload = false})
       : super(
+            logTs: logTs,
             receiveTimeout: receiveTimeout,
             connectTimeout: connectTimeout,
-            sendTimeout: sendTimeout) {
+            sendTimeout: sendTimeout,
+            method: method,
+            extra: extra,
+            baseUrl: baseUrl,
+            setRequestContentTypeWhenNoPayload:
+                setRequestContentTypeWhenNoPayload,
+            queryParameters: queryParameters,
+            headers: headers,
+            responseType: responseType,
+            contentType: contentType,
+            validateStatus: validateStatus,
+            receiveDataWhenStatusError: receiveDataWhenStatusError,
+            followRedirects: followRedirects,
+            maxRedirects: maxRedirects,
+            requestEncoder: requestEncoder,
+            responseDecoder: responseDecoder,
+            listFormat: listFormat) {
     downloadContentType ??= httpContentType[1];
     uploadContentType ??= httpContentType[1];
   }
@@ -84,7 +117,7 @@ class BasicDio {
     var dioOptions = options ??= BasicDioOptions();
     _header = dioOptions.header;
     _errorIntercept = dioOptions.errorIntercept;
-    dioOptions.logTs = hasLogTs;
+    if (dioOptions.logTs == false) dioOptions.logTs = hasLogTs;
     dioOptions.interceptors = isRelease
         ? []
         : [

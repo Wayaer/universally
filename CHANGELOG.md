@@ -1,4 +1,4 @@
-## 0.9.1+2
+## 0.9.1+3
 
 * Add `showUserPrivacyAlert()`
 * Remove `alertLoading()`,use `showLoading()`
