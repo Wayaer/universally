@@ -9,9 +9,17 @@ class UrlLauncher {
 
   /// 打开连接
   /// Open the connection
-  Future<bool> openUrl(String url) async {
+  Future<bool> openUrl(
+    String url, {
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
+  }) async {
     if (await canLaunchUrl(Uri.parse(url))) {
-      return await launchUrl(Uri.parse(url));
+      return await launchUrl(Uri.parse(url),
+          mode: mode,
+          webOnlyWindowName: webOnlyWindowName,
+          webViewConfiguration: webViewConfiguration);
     } else {
       return false;
     }
@@ -44,10 +52,19 @@ class UrlLauncher {
   /// macOS [str] corresponds to the APP ID
   /// android [str] 对应 packageName，安装多个应用商店时会弹窗选择, marketPackageName 指定打开应用市场的包名
   /// Android [str] corresponds to packageName, which is selected when multiple app stores are installed. "marketPackageName" specifies the name of the package to open the app Market
-  Future<bool> openAppStore(String str, {String? marketPackageName}) async {
+  Future<bool> openAppStore(
+    String str, {
+    String? marketPackageName,
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
+  }) async {
     if (isIOS || isMacOS) {
       final String url = 'itms-apps://itunes.apple.com/us/app/$str';
-      return await openUrl(url);
+      return await openUrl(url,
+          mode: mode,
+          webOnlyWindowName: webOnlyWindowName,
+          webViewConfiguration: webViewConfiguration);
     } else if (isAndroid) {
       return await Curiosity()
           .native
