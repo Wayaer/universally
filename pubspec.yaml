@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 1.0.0
+version: 1.0.0+1
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -23,7 +23,6 @@ dependencies:
   shared_preferences: ^2.0.15
   synchronized: ^3.0.0+2
   url_launcher: ^6.1.5
-  win32: ^2.7.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1
