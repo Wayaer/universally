@@ -66,13 +66,13 @@ class AlertMessage extends StatelessWidget {
             SimpleButton(
                 text: sureText ?? '确定',
                 height: 45,
-                child: sure,
                 alignment: Alignment.center,
                 textStyle: TStyle(color: GlobalConfig().currentColor),
                 onTap: () {
                   pop();
                   if (sureTap != null) sureTap!();
-                }),
+                },
+                child: sure),
           ]));
 }
 
@@ -157,23 +157,23 @@ class AlertSureAndCancel extends StatelessWidget {
             SimpleButton(
                 text: cancelText ?? '取消',
                 height: 45,
-                child: cancel,
                 onTap: () {
                   if (autoClose) pop();
                   if (cancelTap != null) cancelTap!();
                 },
                 alignment: Alignment.center,
-                textStyle: const TStyle(color: Colors.black87)),
+                textStyle: const TStyle(color: Colors.black87),
+                child: cancel),
             SimpleButton(
                 text: sureText ?? '确定',
                 height: 45,
-                child: sure,
                 alignment: Alignment.center,
                 textStyle: TStyle(color: GlobalConfig().currentColor),
                 onTap: () {
                   if (autoClose) pop();
                   if (sureTap != null) sureTap!();
-                })
+                },
+                child: sure)
           ]);
 }
 

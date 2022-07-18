@@ -52,7 +52,7 @@ class GlobalConfig {
     /// 关闭辅助触控
     /// Turn off auxiliary touch
     window.onSemanticsEnabledChanged = () {};
-    RendererBinding.instance?.setSemanticsEnabled(false);
+    RendererBinding.instance.setSemanticsEnabled(false);
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -239,7 +239,7 @@ class BasicApp extends StatefulWidget {
   final NotNetworkBuilder? alertNotNetwork;
 
   @override
-  _BasicAppState createState() => _BasicAppState();
+  State<BasicApp> createState() => _BasicAppState();
 }
 
 class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {

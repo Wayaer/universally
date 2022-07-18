@@ -200,7 +200,7 @@ class InputText extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   @override
-  _InputTextState createState() => _InputTextState();
+  State<InputText> createState() => _InputTextState();
 }
 
 class _InputTextState extends State<InputText> {
@@ -251,32 +251,32 @@ class _InputTextState extends State<InputText> {
       child: textInputBox);
 
   Widget get textInputBox {
-    final List<Widget> _extraSuffix = [];
+    final List<Widget> extraSuffix = [];
     if (widget.sendSMSTap != null && widget.extraSendSMS) {
-      _extraSuffix.add(sendSMSWidget());
+      extraSuffix.add(sendSMSWidget());
     }
     if (widget.searchTextTap != null && widget.extraSearchText) {
-      _extraSuffix.add(searchTextWidget());
+      extraSuffix.add(searchTextWidget());
     }
-    if (widget.extraSuffix != null) _extraSuffix.add(widget.extraSuffix!);
+    if (widget.extraSuffix != null) extraSuffix.add(widget.extraSuffix!);
 
-    final List<Widget> _extraPrefix = [];
-    if (widget.searchEnabled) _extraPrefix.add(searchWidget());
-    if (widget.extraPrefix != null) _extraPrefix.add(widget.extraPrefix!);
+    final List<Widget> extraPrefix = [];
+    if (widget.searchEnabled) extraPrefix.add(searchWidget());
+    if (widget.extraPrefix != null) extraPrefix.add(widget.extraPrefix!);
     Widget current = textInputWidget();
 
-    Widget? _header;
+    Widget? header;
     if (widget.labelText != null) {
-      _header = Row(children: <Widget>[
+      header = Row(children: <Widget>[
         BasicText(widget.labelText, style: widget.labelStyle)
       ]);
     }
 
-    final EdgeInsetsGeometry _extraPadding = EdgeInsets.only(
-        left: _extraPrefix.isNotEmpty && widget.leftRetainSpacing ? 12 : 0,
-        right: _extraSuffix.isNotEmpty && widget.rightRetainSpacing ? 12 : 0);
+    final EdgeInsetsGeometry extraPadding = EdgeInsets.only(
+        left: extraPrefix.isNotEmpty && widget.leftRetainSpacing ? 12 : 0,
+        right: extraSuffix.isNotEmpty && widget.rightRetainSpacing ? 12 : 0);
 
-    final EdgeInsetsGeometry _padding = EdgeInsets.only(
+    final EdgeInsetsGeometry padding = EdgeInsets.only(
         top: 6,
         bottom: 6,
         left: widget.prefix != null && widget.leftRetainSpacing ? 10 : 0,
@@ -288,24 +288,24 @@ class _InputTextState extends State<InputText> {
             ? 10
             : 0);
     current = WidgetPendant(
-        header: widget.header ?? _header,
+        header: widget.header ?? header,
         footer: widget.footer,
         fillColor: widget.fillColor,
         borderColor: borderColor,
         borderRadius: widget.borderRadius,
-        padding: _padding,
+        padding: padding,
         borderType: widget.borderType,
-        extraPadding: _extraPadding.add(widget.contentPadding),
-        extraPrefix: _extraPrefix.isEmpty
+        extraPadding: extraPadding.add(widget.contentPadding),
+        extraPrefix: extraPrefix.isEmpty
             ? null
-            : _extraPrefix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: _extraPrefix)
-                : _extraPrefix[0],
-        extraSuffix: _extraSuffix.isEmpty
+            : extraPrefix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: extraPrefix)
+                : extraPrefix[0],
+        extraSuffix: extraSuffix.isEmpty
             ? null
-            : _extraSuffix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: _extraSuffix)
-                : _extraSuffix[0],
+            : extraSuffix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: extraSuffix)
+                : extraSuffix[0],
         child: current);
     if (widget.heroTag != null) {
       current = Hero(tag: widget.heroTag!, child: current);
@@ -314,38 +314,38 @@ class _InputTextState extends State<InputText> {
   }
 
   Widget textInputWidget() {
-    final List<Widget> _suffix = [];
+    final List<Widget> suffix = [];
     OverlayVisibilityMode suffixMode = OverlayVisibilityMode.editing;
-    if (widget.clearEnabled) _suffix.add(clearWidget());
-    if (widget.eyeEnabled) _suffix.add(eyeWidget());
+    if (widget.clearEnabled) suffix.add(clearWidget());
+    if (widget.eyeEnabled) suffix.add(eyeWidget());
 
     if (!widget.extraSendSMS && widget.sendSMSTap != null) {
-      _suffix.add(sendSMSWidget());
+      suffix.add(sendSMSWidget());
       suffixMode = OverlayVisibilityMode.always;
     }
 
     if (!widget.extraSearchText && widget.searchTextTap != null) {
-      _suffix.add(searchTextWidget());
+      suffix.add(searchTextWidget());
       suffixMode = OverlayVisibilityMode.always;
     }
 
-    if (widget.suffix != null) _suffix.add(widget.suffix!);
-    final List<Widget> _prefix = [];
-    if (widget.prefix != null) _prefix.add(widget.prefix!);
+    if (widget.suffix != null) suffix.add(widget.suffix!);
+    final List<Widget> prefix = [];
+    if (widget.prefix != null) prefix.add(widget.prefix!);
 
     return CupertinoTextField.borderless(
         suffixMode: suffixMode,
-        suffix: _suffix.isEmpty
+        suffix: suffix.isEmpty
             ? null
-            : _suffix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: _suffix)
-                : _suffix[0],
+            : suffix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: suffix)
+                : suffix[0],
         prefixMode: OverlayVisibilityMode.always,
-        prefix: _prefix.isEmpty
+        prefix: prefix.isEmpty
             ? null
-            : _prefix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: _prefix)
-                : _prefix[0],
+            : prefix.length > 1
+                ? Row(mainAxisSize: MainAxisSize.min, children: prefix)
+                : prefix[0],
         placeholder: widget.hintText,
         placeholderStyle:
             const TStyle(color: UCS.smallTextColor, height: 1.1, fontSize: 13)

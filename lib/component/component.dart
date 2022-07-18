@@ -18,7 +18,7 @@ class CleanCache extends StatefulWidget {
   final Color? color;
 
   @override
-  _CleanCacheState createState() => _CleanCacheState();
+  State<CleanCache> createState() => _CleanCacheState();
 }
 
 class _CleanCacheState extends State<CleanCache> {
@@ -44,7 +44,7 @@ class _CleanCacheState extends State<CleanCache> {
     getDirSize(path!);
     if (size > 0) {
       final double s = size / 1024 / 1024;
-      text = s.toStringAsFixed(2) + ' MB';
+      text = '${s.toStringAsFixed(2)} MB';
     } else {
       text = '0.00 MB';
     }

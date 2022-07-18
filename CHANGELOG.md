@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Adapter flutter@3.0.0
+
 ## 0.9.1+3
 
 * Add `showUserPrivacyAlert()`

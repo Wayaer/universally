@@ -145,13 +145,13 @@ class AlertSingleChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actions = list.builderEntry((entry) => CupertinoActionSheetAction(
-        child: TextDefault(entry.value, height: 1, color: UCS.black70),
         onPressed: () => closePopup(entry.key),
-        isDefaultAction: true));
+        isDefaultAction: true,
+        child: TextDefault(entry.value, height: 1, color: UCS.black70)));
     actions.add(CupertinoActionSheetAction(
-        child: TextDefault('取消', color: GlobalConfig().currentColor),
         onPressed: maybePop,
-        isDefaultAction: true));
+        isDefaultAction: true,
+        child: TextDefault('取消', color: GlobalConfig().currentColor)));
     return CupertinoActionSheet(actions: actions);
   }
 }

@@ -46,17 +46,17 @@ class SP {
 
   /// get object.
   Map<dynamic, dynamic>? getObject(String key) {
-    final String? _data = _prefs?.getString(key);
-    return (_data == null || _data.isEmpty)
+    final String? data = _prefs?.getString(key);
+    return (data == null || data.isEmpty)
         ? null
-        : json.decode(_data) as Map<dynamic, dynamic>;
+        : json.decode(data) as Map<dynamic, dynamic>;
   }
 
   /// set object list.
   Future<bool>? setObjectList(String key, List<Object> list) {
-    final List<String> _dataList =
+    final List<String> dataList =
         list.builder((Object value) => json.encode(value));
-    return _prefs?.setStringList(key, _dataList);
+    return _prefs?.setStringList(key, dataList);
   }
 
   /// get obj list.

@@ -284,9 +284,9 @@ class BasicDio {
 
   Options _initBasicOptions(Options? options, String url) {
     options ??= Options();
-    final Map<String, dynamic> _headers = <String, dynamic>{};
-    if (_header != null) _headers.addAll(_header!(url));
-    options.headers = _headers;
+    final Map<String, dynamic> headers = <String, dynamic>{};
+    if (_header != null) headers.addAll(_header!(url));
+    options.headers = headers;
     return options;
   }
 
@@ -319,10 +319,10 @@ class BasicDio {
     } else if (data is Map) {
       baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
     }
-    var _errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
-    if (_errorIntercepts?.isNotEmpty ?? false) {
+    var errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
+    if (errorIntercepts?.isNotEmpty ?? false) {
       bool pass = true;
-      for (var element in _errorIntercepts!) {
+      for (var element in errorIntercepts!) {
         if (baseModel.code == element.errorCode) {
           pass = element.callback();
           if (!pass) break;
