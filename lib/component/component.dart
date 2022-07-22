@@ -177,17 +177,34 @@ class BasicError extends StatelessWidget {
   }
 }
 
-class BasicSwitch extends Switch {
+class BasicSwitch extends SwitchState {
   BasicSwitch({
     Key? key,
     required bool value,
     Color? activeColor,
     Color? activeTrackColor,
     ValueChanged<bool>? onChanged,
+    SwitchStateChanged? onWaitChanged,
   }) : super.adaptive(
             key: key,
             value: value,
             onChanged: onChanged,
+            onWaitChanged: onWaitChanged,
             activeTrackColor: activeTrackColor,
+            activeColor: activeColor ?? GlobalConfig().currentColor);
+}
+
+class BasicCheckbox extends CheckboxState {
+  BasicCheckbox({
+    Key? key,
+    required bool value,
+    Color? activeColor,
+    ValueChanged<bool?>? onChanged,
+    CheckboxStateChanged? onWaitChanged,
+  }) : super(
+            key: key,
+            value: value,
+            onChanged: onChanged,
+            onWaitChanged: onWaitChanged,
             activeColor: activeColor ?? GlobalConfig().currentColor);
 }
