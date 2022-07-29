@@ -1,3 +1,9 @@
+## 1.0.2
+
+* Change `globalKey` to `globalNavigatorKey`
+* `BasicDioOptions` adds `extraData` and `extraParams`
+* `header` in `BasicDioOptions` is changed to extraHeader
+
 ## 1.0.1
 
 * Adapter flutter@3.0.0

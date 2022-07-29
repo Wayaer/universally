@@ -4,7 +4,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+/// 扩展所有的 header
 typedef ValueCallbackHeader = Map<String, String> Function(String url);
+
+/// 扩展所有的 params
+typedef ValueCallbackParams = Map<String, dynamic> Function(
+    String url, Map<String, dynamic>? params);
+
+/// 扩展所有的 data
+typedef ValueCallbackData<T> = T Function(String url, T? params);
+
 typedef ValueCallbackError = bool Function();
 
 class InterceptorError {
@@ -36,7 +45,9 @@ class BasicDioOptions extends ExtendedDioOptions {
       this.downloadResponseType = ResponseType.bytes,
       this.downloadContentType,
       this.uploadContentType,
-      this.header,
+      this.extraHeader,
+      this.extraData,
+      this.extraParams,
       this.errorIntercept,
       this.forbidPrintUrl = const [],
       String? method,
@@ -80,7 +91,13 @@ class BasicDioOptions extends ExtendedDioOptions {
   }
 
   /// header设置
-  ValueCallbackHeader? header;
+  ValueCallbackHeader? extraHeader;
+
+  /// 扩展所有的 data 参数
+  ValueCallbackData? extraData;
+
+  /// 扩展所有的 params
+  ValueCallbackParams? extraParams;
 
   /// 错误拦截;
   BasicDioErrorIntercept? errorIntercept;
@@ -107,24 +124,18 @@ class BasicDio {
 
   late ExtendedDio dio;
 
-  ValueCallbackHeader? _header;
-
-  BasicDioErrorIntercept? _errorIntercept;
-
   bool hasLoading = false;
 
+  BasicDioOptions basicDioOptions = BasicDioOptions();
+
   BasicDio initialize([BasicDioOptions? options]) {
-    var dioOptions = options ??= BasicDioOptions();
-    _header = dioOptions.header;
-    _errorIntercept = dioOptions.errorIntercept;
-    if (dioOptions.logTs == false) dioOptions.logTs = hasLogTs;
-    dioOptions.interceptors = isRelease
-        ? []
-        : [
-            LoggerInterceptor<dynamic>(
-                forbidPrintUrl: dioOptions.forbidPrintUrl)
-          ];
-    dio = ExtendedDio().initialize(options: dioOptions);
+    if (options != null) basicDioOptions = options;
+    if (basicDioOptions.logTs == false) basicDioOptions.logTs = hasLogTs;
+    if (!isRelease) {
+      basicDioOptions.interceptors.add(LoggerInterceptor<dynamic>(
+          forbidPrintUrl: basicDioOptions.forbidPrintUrl));
+    }
+    dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
   }
 
@@ -139,7 +150,8 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final ResponseModel res = await dio.get(url,
-        options: _initBasicOptions(options, url), params: params);
+        options: _initBasicOptions(options, url),
+        params: basicDioOptions.extraParams?.call(url, params) ?? params);
     return _response(res, tag);
   }
 
@@ -155,8 +167,8 @@ class BasicDio {
     _addLoading(loading);
     final ResponseModel res = await dio.post(url,
         options: _initBasicOptions(options, url),
-        params: params,
-        data: jsonEncode(data));
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        data: jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data));
     return _response(res, tag);
   }
 
@@ -173,8 +185,8 @@ class BasicDio {
     _addLoading(loading);
     final ResponseModel res = await dio.put(url,
         options: _initBasicOptions(options, url),
-        params: params,
-        data: jsonEncode(data));
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        data: jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data));
     return _response(res, tag);
   }
 
@@ -190,10 +202,11 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
+    var extraData = basicDioOptions.extraData?.call(url, data) ?? data;
     final ResponseModel res = await dio.delete(url,
         options: _initBasicOptions(options, url),
-        params: params,
-        data: isJson ? jsonEncode(data) : data);
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        data: isJson ? jsonEncode(extraData) : extraData);
     return _response(res, tag);
   }
 
@@ -212,7 +225,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final ResponseModel res = await dio.post(url,
-        data: data,
+        data: basicDioOptions.extraData?.call(url, data) ?? data,
         options:
             _initBasicOptions(options, url).copyWith(receiveTimeout: 30000),
         onSendProgress: onSendProgress);
@@ -285,7 +298,9 @@ class BasicDio {
   Options _initBasicOptions(Options? options, String url) {
     options ??= Options();
     final Map<String, dynamic> headers = <String, dynamic>{};
-    if (_header != null) headers.addAll(_header!(url));
+    if (basicDioOptions.extraHeader != null) {
+      headers.addAll(basicDioOptions.extraHeader!(url));
+    }
     options.headers = headers;
     return options;
   }
@@ -319,7 +334,8 @@ class BasicDio {
     } else if (data is Map) {
       baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
     }
-    var errorIntercepts = _errorIntercept?.call(res.realUri.toString(), tag);
+    var errorIntercepts =
+        basicDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
     if (errorIntercepts?.isNotEmpty ?? false) {
       bool pass = true;
       for (var element in errorIntercepts!) {
