@@ -9,7 +9,7 @@ environment:
 dependencies:
   extended_image: ^6.2.1
   carousel_slider: ^4.1.1
-  connectivity_plus: ^2.3.5
+  connectivity_plus: ^2.3.6
   flutter:
     sdk: flutter
   flutter_curiosity: ^4.0.1
