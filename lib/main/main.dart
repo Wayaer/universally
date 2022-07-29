@@ -15,7 +15,7 @@ typedef NetworkToastBuilder = void Function(ConnectivityResult result);
 typedef NotNetworkBuilder = ExtendedOverlayEntry? Function(
     ConnectivityResult result);
 
-GlobalKey<NavigatorState> globalKey = GlobalKey();
+GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey();
 
 class GlobalConfig {
   factory GlobalConfig() => _singleton ??= GlobalConfig._();
@@ -287,7 +287,7 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final app = ExtendedWidgetsApp(
         pushStyle: RoutePushStyle.material,
-        navigatorKey: globalKey,
+        navigatorKey: globalNavigatorKey,
         title: widget.title ?? '',
         builder: (_, Widget? child) {
           final Widget current = MediaQuery(
