@@ -1,4 +1,4 @@
-## 1.0.2
+## 1.0.3
 
 * Change `globalKey` to `globalNavigatorKey`
 * `BasicDioOptions` adds `extraData` and `extraParams`

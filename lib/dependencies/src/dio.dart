@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// 扩展所有的 header
-typedef ValueCallbackHeader = Map<String, String> Function(String url);
+typedef ValueCallbackHeader = Map<String, String>? Function(String url);
 
 /// 扩展所有的 params
-typedef ValueCallbackParams = Map<String, dynamic> Function(
+typedef ValueCallbackParams = Map<String, dynamic>? Function(
     String url, Map<String, dynamic>? params);
 
 /// 扩展所有的 data
-typedef ValueCallbackData<T> = T Function(String url, T? params);
+typedef ValueCallbackData<T> = T Function(String url, T params);
 
 typedef ValueCallbackError = bool Function();
 
@@ -131,10 +131,13 @@ class BasicDio {
   BasicDio initialize([BasicDioOptions? options]) {
     if (options != null) basicDioOptions = options;
     if (basicDioOptions.logTs == false) basicDioOptions.logTs = hasLogTs;
-    if (!isRelease) {
-      basicDioOptions.interceptors.add(LoggerInterceptor<dynamic>(
-          forbidPrintUrl: basicDioOptions.forbidPrintUrl));
-    }
+    basicDioOptions.interceptors = isRelease
+        ? basicDioOptions.interceptors
+        : [
+            ...basicDioOptions.interceptors,
+            LoggerInterceptor<dynamic>(
+                forbidPrintUrl: basicDioOptions.forbidPrintUrl)
+          ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
   }
@@ -158,6 +161,7 @@ class BasicDio {
   Future<BasicModel> post(String url,
       {Map<String, dynamic>? params,
       dynamic data,
+      bool dataToJson = true,
       dynamic tag,
       bool loading = true,
       Options? options,
@@ -168,7 +172,9 @@ class BasicDio {
     final ResponseModel res = await dio.post(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data));
+        data: dataToJson
+            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
+            : data);
     return _response(res, tag);
   }
 
@@ -178,6 +184,7 @@ class BasicDio {
     dynamic data,
     dynamic tag,
     bool loading = true,
+    bool dataToJson = true,
     Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
@@ -186,7 +193,9 @@ class BasicDio {
     final ResponseModel res = await dio.put(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data));
+        data: dataToJson
+            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
+            : data);
     return _response(res, tag);
   }
 
@@ -196,7 +205,7 @@ class BasicDio {
     dynamic data,
     dynamic tag,
     bool loading = true,
-    bool isJson = true,
+    bool dataToJson = true,
     Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
@@ -206,7 +215,7 @@ class BasicDio {
     final ResponseModel res = await dio.delete(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: isJson ? jsonEncode(extraData) : extraData);
+        data: dataToJson ? jsonEncode(extraData) : extraData);
     return _response(res, tag);
   }
 
@@ -243,6 +252,7 @@ class BasicDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
     dynamic data,
+    bool dataToJson = true,
     Map<String, dynamic>? params,
     bool deleteOnError = true,
     String lengthHeader = Headers.contentLengthHeader,
@@ -253,7 +263,9 @@ class BasicDio {
     final ResponseModel res = await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, url),
-        data: data,
+        data: dataToJson
+            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
+            : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
         cancelToken: cancelToken);
@@ -299,7 +311,8 @@ class BasicDio {
     options ??= Options();
     final Map<String, dynamic> headers = <String, dynamic>{};
     if (basicDioOptions.extraHeader != null) {
-      headers.addAll(basicDioOptions.extraHeader!(url));
+      final extraHeader = basicDioOptions.extraHeader!(url);
+      if (extraHeader != null) headers.addAll(extraHeader);
     }
     options.headers = headers;
     return options;
