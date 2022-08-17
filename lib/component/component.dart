@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -9,73 +7,7 @@ export 'src/list.dart';
 export 'src/picker.dart';
 export 'src/scaffold.dart';
 export 'src/text.dart';
-
-/// 清除缓存右边的组件
-/// Clear the component to the right of the cache
-class CleanCache extends StatefulWidget {
-  const CleanCache({Key? key, this.color}) : super(key: key);
-
-  final Color? color;
-
-  @override
-  State<CleanCache> createState() => _CleanCacheState();
-}
-
-class _CleanCacheState extends State<CleanCache> {
-  String text = '0.00 MB';
-  String? path;
-  double size = 0.00;
-
-  @override
-  void initState() {
-    super.initState();
-    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
-  }
-
-  @override
-  void didUpdateWidget(covariant CleanCache oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
-  }
-
-  void getSize() {
-    path = GlobalConfig().currentCacheDir;
-    if (path == null || path!.isEmpty) return;
-    getDirSize(path!);
-    if (size > 0) {
-      final double s = size / 1024 / 1024;
-      text = '${s.toStringAsFixed(2)} MB';
-    } else {
-      text = '0.00 MB';
-    }
-    setState(() {});
-  }
-
-  void getDirSize(String path) {
-    final dir = Directory(path);
-    if (dir.existsSync()) {
-      final files = dir.listSync(recursive: true);
-      files.builder((file) {
-        if (file.existsSync()) {
-          size += file.statSync().size;
-        }
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => Universal(
-      onTap: () {
-        if (path == null || path!.isEmpty) return;
-        final dir = Directory(path!);
-        if (!dir.existsSync()) return;
-        dir.delete(recursive: true);
-        showToast('已清理');
-        size = 0;
-        1.seconds.delayed(getSize);
-      },
-      child: TextSmall(text, color: widget.color));
-}
+export 'src/widgets.dart';
 
 class BottomPadding extends Universal {
   BottomPadding(

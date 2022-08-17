@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:universally/component/src/switch_api.dart';
 import 'package:universally/universally.dart';
 
 import 'page/webview_page.dart';
@@ -8,8 +9,8 @@ Future<void> main() async {
 
   await GlobalConfig().setDefaultConfig(ProjectConfig(
       mainColor: Colors.blueAccent,
-      betaUrl: '',
-      releaseUrl: '',
+      betaUrl: '这是设置测试url',
+      releaseUrl: '这里设置发布版url',
       initializeSP: true,
       toastOptions: const ToastOptions(ignoring: false)));
 
@@ -52,14 +53,7 @@ class HomePage extends StatelessWidget {
             spacing: 10,
             runSpacing: 10,
             alignment: WrapAlignment.center,
-            children: <Widget>[
-              ElevatedText(onPressed: _callPhone, text: 'Call Phone'),
-              ElevatedText(
-                  onPressed: () {
-                    showDoubleChooseAlert(
-                        title: 'title', left: 'left', right: 'right');
-                  },
-                  text: 'showDoubleChooseAlert'),
+            children: [
               if (isMobile) ...[
                 ElevatedText(
                     onPressed: () => push(const FlWebViewPage()),
@@ -69,8 +63,19 @@ class HomePage extends StatelessWidget {
                         push(const FlWebViewPage(isCalculateHeight: true)),
                     text: 'WebView CalculateHeight'),
               ],
+              ElevatedText(onPressed: _callPhone, text: 'Call Phone'),
+              ElevatedText(
+                  onPressed: () {
+                    showDoubleChooseAlert(
+                        title: 'title', left: 'left', right: 'right');
+                  },
+                  text: 'showDoubleChooseAlert'),
               ElevatedButton(
                   onPressed: () {}, child: const CleanCache(color: UCS.white)),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const SwitchApiButton(color: UCS.white)),
+              const PushSwitchState(),
             ]));
   }
 

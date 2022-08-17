@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Add `SwitchApiButton()`、`USpacing()`、`UButton()`、`PushSwitchState()`
+
 ## 1.0.3
 
 * Change `globalKey` to `globalNavigatorKey`

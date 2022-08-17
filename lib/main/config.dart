@@ -58,9 +58,6 @@ class ProjectConfig {
   /// 正式版 url
   String releaseUrl;
 
-  /// 当前项目使用的 url
-  String? currentUrl;
-
   /// 当前项目 全局使用的 刷新Header
   Header? pullDownHeader;
 

@@ -4,6 +4,9 @@ import 'package:flutter_waya/flutter_waya.dart';
 class UConstant {
   UConstant._();
 
+  /// 消息推送
+  static const String isPush = 'isPush';
+
   /// 页面返回带 返回参数
   /// Page returns with return parameters
   static const String popBack = 'popBack';
