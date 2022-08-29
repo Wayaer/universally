@@ -370,12 +370,9 @@ class _InputTextState extends State<InputText> {
         textAlign: _textAlign,
         onTap: widget.onTap,
         onSubmitted: widget.onSubmitted,
-        onEditingComplete: () {
-          context.focusNode();
-          if (widget.onEditingComplete != null) {
-            widget.onEditingComplete!(controller);
-          }
-        });
+        onEditingComplete: widget.onEditingComplete == null
+            ? null
+            : () => widget.onEditingComplete!.call(controller));
   }
 
   TextAlign get _textAlign {
