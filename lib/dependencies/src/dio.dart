@@ -30,42 +30,44 @@ typedef BasicDioErrorIntercept = List<InterceptorError> Function(
     String url, dynamic tag);
 
 class BasicDioOptions extends ExtendedDioOptions {
-  BasicDioOptions(
-      {
+  BasicDioOptions({
+    /// 接收超时时间
+    int receiveTimeout = 5000,
 
-      /// 接收超时时间
-      int receiveTimeout = 5000,
+    /// 连接超时时间
+    int connectTimeout = 5000,
 
-      /// 连接超时时间
-      int connectTimeout = 5000,
-
-      /// 发送超时时间
-      int sendTimeout = 5000,
-      bool logTs = false,
-      this.downloadResponseType = ResponseType.bytes,
-      this.downloadContentType,
-      this.uploadContentType,
-      this.extraHeader,
-      this.extraData,
-      this.extraParams,
-      this.errorIntercept,
-      this.forbidPrintUrl = const [],
-      String? method,
-      String baseUrl = '',
-      Map<String, dynamic>? queryParameters,
-      Map<String, dynamic>? extra,
-      Map<String, dynamic>? headers,
-      ResponseType responseType = ResponseType.json,
-      String? contentType,
-      ValidateStatus? validateStatus,
-      bool? receiveDataWhenStatusError,
-      bool? followRedirects,
-      int? maxRedirects,
-      RequestEncoder? requestEncoder,
-      ResponseDecoder? responseDecoder,
-      ListFormat? listFormat,
-      bool setRequestContentTypeWhenNoPayload = false})
-      : super(
+    /// 发送超时时间
+    int sendTimeout = 5000,
+    bool logTs = false,
+    this.downloadResponseType = ResponseType.bytes,
+    this.downloadContentType,
+    this.uploadContentType,
+    this.extraHeader,
+    this.extraData,
+    this.extraParams,
+    this.errorIntercept,
+    this.forbidPrintUrl = const [],
+    String? method,
+    String baseUrl = '',
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? extra,
+    Map<String, dynamic>? headers,
+    ResponseType responseType = ResponseType.json,
+    String? contentType,
+    ValidateStatus? validateStatus,
+    bool? receiveDataWhenStatusError,
+    bool? followRedirects,
+    int? maxRedirects,
+    RequestEncoder? requestEncoder,
+    ResponseDecoder? responseDecoder,
+    ListFormat? listFormat,
+    bool setRequestContentTypeWhenNoPayload = false,
+    this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
+    this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
+    this.dataKeys = const ['data', 'result'],
+    this.expandKeys = const ['expand'],
+  }) : super(
             logTs: logTs,
             receiveTimeout: receiveTimeout,
             connectTimeout: connectTimeout,
@@ -113,6 +115,18 @@ class BasicDioOptions extends ExtendedDioOptions {
 
   /// 上传的Type
   String? uploadContentType;
+
+  /// BasicModel 后台返回状态码
+  List<String> codeKeys;
+
+  /// BasicModel 后台返回message
+  List<String> msgKeys;
+
+  /// BasicModel 后台返回具体数据
+  List<String> dataKeys;
+
+  /// BasicModel 后台返回扩展数据
+  List<String> expandKeys;
 }
 
 class BasicDio {
@@ -382,12 +396,47 @@ class BasicModel {
     msg = '服务器异常';
     original = response;
     if (json != null) {
-      code =
-          '${(json['code'] ?? json['status'] ?? json['statusCode'] ?? json['errcode'] ?? response.statusCode)}';
-      msg =
-          '${((json['msg'] ?? json['errorMessage'] ?? json['statusMessage'] ?? json['errmsg'])) ?? '服务器异常(${response.statusCode})'}';
-      data = json['data'] ?? json['result'];
-      expand = json['expand'];
+      final dioOptions = BasicDio().basicDioOptions;
+      final codeKeys = dioOptions.codeKeys;
+      if (codeKeys.isNotEmpty) {
+        for (var key in codeKeys) {
+          final value = json[key];
+          if (value != null) {
+            code = value.toString();
+            break;
+          }
+        }
+      }
+      final msgKeys = dioOptions.msgKeys;
+      if (msgKeys.isNotEmpty) {
+        for (var key in msgKeys) {
+          final value = json[key];
+          if (value != null) {
+            msg = value.toString();
+            break;
+          }
+        }
+      }
+      final dataKeys = dioOptions.dataKeys;
+      if (dataKeys.isNotEmpty) {
+        for (var key in dataKeys) {
+          final value = json[key];
+          if (value != null) {
+            data = value;
+            break;
+          }
+        }
+      }
+      final expandKeys = dioOptions.dataKeys;
+      if (expandKeys.isNotEmpty) {
+        for (var key in expandKeys) {
+          final value = json[key];
+          if (value != null) {
+            data = value;
+            break;
+          }
+        }
+      }
     }
   }
 
