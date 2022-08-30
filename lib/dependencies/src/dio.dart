@@ -367,7 +367,9 @@ class BasicDio {
       } catch (e) {
         debugPrint('$e');
       }
-      baseModel = BasicModel.fromJson(data, res);
+      if (data is Map) {
+        baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
+      }
     } else if (data is Map) {
       baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
     }
