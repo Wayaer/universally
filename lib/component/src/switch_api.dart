@@ -99,7 +99,6 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               text: '重置为默认服务器并重启APP',
               onTap: () => saveApi(defaultUrl)),
           UButton(
-              width: UConstant.longWidth,
               text: '切换正式服务器并重启APP',
               onTap: () => saveApi(GlobalConfig().config.releaseUrl)),
           const USpacing(),

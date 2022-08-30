@@ -8,7 +8,7 @@ class InputText extends StatefulWidget {
       Color? fillColor,
       this.hintText,
       this.enabled = true,
-      this.width,
+      this.width = UConstant.longWidth,
       this.onChanged,
       this.margin,
       this.maxLength,
@@ -86,7 +86,7 @@ class InputText extends StatefulWidget {
   final String? value;
 
   /// 宽度
-  final double? width;
+  final double width;
 
   /// 最长输入的字符串
   final int? maxLength;
@@ -247,7 +247,7 @@ class _InputTextState extends State<InputText> {
       margin: widget.margin,
       padding: widget.padding,
       decoration: widget.decoration,
-      width: widget.width ?? UConstant.longWidth,
+      width: widget.width,
       child: textInputBox);
 
   Widget get textInputBox {

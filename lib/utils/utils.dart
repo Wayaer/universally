@@ -4,15 +4,12 @@ import 'package:universally/universally.dart';
 
 /// nullPass = true   data 为null  返回true
 bool resultSuccessFail(BasicModel data, {String? text, bool nullPass = false}) {
-  if (data.code == UConstant.successCode && (nullPass || data.data != null)) {
+  if (BasicDio().basicDioOptions.successCode.contains(data.code) &&
+      (nullPass || data.data != null)) {
     if (text != null) showToast(text);
     return true;
   } else {
-    if (data.code == '401') {
-      showToast('登录失效,请重新登录');
-      return false;
-    }
-    if (data.msg != 'success' && data.msg != 'OK') {
+    if (!BasicDio().basicDioOptions.hideMsg.contains(data.msg)) {
       showToast(data.msg);
     }
     return false;

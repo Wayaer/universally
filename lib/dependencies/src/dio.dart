@@ -67,6 +67,8 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
     this.expandKeys = const ['expand'],
+    this.hideMsg = const ['success', 'OK'],
+    this.successCode = const ['200'],
   }) : super(
             logTs: logTs,
             receiveTimeout: receiveTimeout,
@@ -127,6 +129,14 @@ class BasicDioOptions extends ExtendedDioOptions {
 
   /// BasicModel 后台返回扩展数据
   List<String> expandKeys;
+
+  /// 后台返回成功的状态码
+  /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
+  List<String> successCode;
+
+  /// 后台返回 message 隐藏 toast
+  /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
+  List<String> hideMsg;
 }
 
 class BasicDio {

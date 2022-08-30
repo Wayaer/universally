@@ -15,10 +15,6 @@ class UConstant {
   /// Page back refresh
   static const String refresh = 'refresh';
 
-  /// 返回成功接口
-  /// Return successful interface
-  static const String successCode = '200';
-
   static const String privacy = 'isPrivacy';
 
   /// localApi
