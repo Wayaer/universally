@@ -1,4 +1,4 @@
-## 1.0.5
+## 1.0.6
 
 * Add `SwitchApiButton()`、`USpacing()`、`UButton()`、`PushSwitchState()`
 
