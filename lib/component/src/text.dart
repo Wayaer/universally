@@ -159,7 +159,7 @@ class TStyle extends BTextStyle {
       String? fontFamily,
       FontType? fontType,
       FontWeight? fontWeight,
-      TextDecoration? decoration = TextDecoration.none,
+      TextDecoration decoration = TextDecoration.none,
       Color? backgroundColor})
       : super(
             color: color ?? UCS.mainBlack,

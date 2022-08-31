@@ -1,3 +1,8 @@
+## 1.0.7
+
+* Add `BasicCupertinoSwitch()`
+* Dynamically set `Dio` return result parsing key
+
 ## 1.0.6
 
 * Add `SwitchApiButton()`、`USpacing()`、`UButton()`、`PushSwitchState()`

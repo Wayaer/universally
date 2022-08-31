@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -123,6 +124,25 @@ class BasicSwitch extends SwitchState {
             onChanged: onChanged,
             onWaitChanged: onWaitChanged,
             activeTrackColor: activeTrackColor,
+            activeColor: activeColor ?? GlobalConfig().currentColor);
+}
+
+class BasicCupertinoSwitch extends CupertinoSwitchState {
+  BasicCupertinoSwitch({
+    Key? key,
+    required bool value,
+    Color? activeColor,
+    Color? trackColor,
+    Color? thumbColor,
+    ValueChanged<bool>? onChanged,
+    SwitchStateChanged? onWaitChanged,
+  }) : super(
+            key: key,
+            value: value,
+            onChanged: onChanged,
+            onWaitChanged: onWaitChanged,
+            trackColor: trackColor,
+            thumbColor: thumbColor,
             activeColor: activeColor ?? GlobalConfig().currentColor);
 }
 
