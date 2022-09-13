@@ -4,7 +4,7 @@
 //
 // class BasicWebView extends StatefulWidget {
 //   const BasicWebView.url(this.htmlUrl,
-//       {Key? key,
+//       {super.key,
 //       this.isCalculateHeight = false,
 //       this.javascriptChannel,
 //       this.navigationDelegate,
@@ -12,7 +12,7 @@
 //       this.onPageFinished,
 //       this.onScrollChanged,
 //       this.onContentSizeChanged})
-//       : super(key: key);
+//       ;
 //
 //   /// 加载html url
 //   final String htmlUrl;

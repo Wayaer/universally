@@ -186,7 +186,7 @@ class GlobalConfig {
 
 class BasicApp extends StatefulWidget {
   const BasicApp({
-    Key? key,
+    super.key,
     this.providers = const [],
     required this.home,
     this.consumer,
@@ -200,7 +200,8 @@ class BasicApp extends StatefulWidget {
     this.showNetworkToast,
     this.alertNotNetwork,
     this.onConnectivityChanged,
-  }) : super(key: key);
+  });
+
   final List<SingleChildWidget> providers;
   final Widget home;
 
@@ -318,7 +319,7 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
 /// 添加android 限制返回按键
 class MainBasicScaffold extends StatelessWidget {
   const MainBasicScaffold(
-      {Key? key,
+      {super.key,
       this.widgets,
       this.onPageChanged,
       this.controller,
@@ -328,8 +329,7 @@ class MainBasicScaffold extends StatelessWidget {
       this.floatingActionButtonLocation,
       this.child,
       this.backgroundColor,
-      this.children})
-      : super(key: key);
+      this.children});
 
   /// 不为null 时 显示为主页面的 MainTabPageBuilder
   final List<Widget>? widgets;
@@ -393,13 +393,12 @@ typedef MainBottomBarIconCallback = void Function(int index);
 
 class MainBottomBar extends StatelessWidget {
   const MainBottomBar(
-      {Key? key,
+      {super.key,
       required this.builder,
       this.backgroundColor,
       required this.onTap,
       required this.itemCount,
-      this.spacing = 4})
-      : super(key: key);
+      this.spacing = 4});
 
   final MainBottomBarIconBuilder builder;
   final Color? backgroundColor;

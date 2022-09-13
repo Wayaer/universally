@@ -14,7 +14,7 @@ class NetworkImageProvider extends ExtendedResizeImage {
 /// BasicImage
 class BasicImage extends StatelessWidget {
   const BasicImage(this.image,
-      {Key? key,
+      {super.key,
       this.fit = BoxFit.cover,
       this.failed,
       this.background = UCS.background,
@@ -25,12 +25,11 @@ class BasicImage extends StatelessWidget {
       this.hasGesture = false,
       this.clearMemoryCacheWhenDispose = true,
       this.clearMemoryCacheIfFailed = true,
-      this.radius = 2})
-      : super(key: key);
+      this.radius = 2});
 
   BasicImage.network(
     String? url, {
-    Key? key,
+    super.key,
     double compressionRatio = 0.6,
     this.failed,
     this.width,
@@ -43,18 +42,17 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  })  : image = url == null
+  }) : image = url == null
             ? const AssetImage('')
             : ExtendedResizeImage.resizeIfNeeded(
                 provider: ExtendedNetworkImageProvider(url,
                     scale: hasGesture ? 2 : 1, imageCacheName: url),
                 compressionRatio: compressionRatio,
-                imageCacheName: url),
-        super(key: key);
+                imageCacheName: url);
 
   BasicImage.file(
     File file, {
-    Key? key,
+    super.key,
     this.failed,
     this.width,
     this.height,
@@ -66,15 +64,14 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  })  : image = ExtendedResizeImage.resizeIfNeeded(
+  }) : image = ExtendedResizeImage.resizeIfNeeded(
             provider: ExtendedFileImageProvider(file,
                 scale: hasGesture ? 2 : 1, imageCacheName: file.path),
-            compressionRatio: 0.6),
-        super(key: key);
+            compressionRatio: 0.6);
 
   BasicImage.asset(
     String assetName, {
-    Key? key,
+    super.key,
     this.failed,
     this.width,
     this.height,
@@ -86,13 +83,12 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  })  : image = ExtendedResizeImage.resizeIfNeeded(
+  }) : image = ExtendedResizeImage.resizeIfNeeded(
             provider: hasGesture
                 ? ExtendedExactAssetImageProvider(assetName,
                     scale: hasGesture ? 2 : 1, imageCacheName: assetName)
                 : ExtendedAssetImageProvider(assetName,
-                    imageCacheName: assetName)),
-        super(key: key);
+                    imageCacheName: assetName));
 
   final BoxFit fit;
 
@@ -164,11 +160,10 @@ class BasicImage extends StatelessWidget {
 
 class PreviewImage extends StatelessWidget {
   const PreviewImage(
-      {Key? key,
+      {super.key,
       this.initialPage,
       required this.itemCount,
-      required this.itemBuilder})
-      : super(key: key);
+      required this.itemBuilder});
 
   final int? itemCount;
   final IndexedWidgetBuilder itemBuilder;

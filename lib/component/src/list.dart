@@ -11,32 +11,28 @@ class BasicMaterialHeader extends MaterialHeader {
 
 class BasicList extends ScrollList {
   BasicList({
-    Key? key,
-    required IndexedWidgetBuilder itemBuilder,
-    required int itemCount,
+    super.key,
+    required super.itemBuilder,
+    required super.itemCount,
     EasyRefreshController? refreshController,
     Widget? placeholder,
-    ScrollPhysics? physics,
+    Widget? header,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    bool? crossAxisFlex,
-    ScrollController? controller,
-    EdgeInsetsGeometry? padding,
-    double? mainAxisSpacing,
-    double? crossAxisSpacing,
-    int? crossAxisCount,
-    double? childAspectRatio,
-    double? maxCrossAxisExtent,
-    bool shrinkWrap = false,
-    Widget? header,
-    Axis scrollDirection = Axis.vertical,
+    super.crossAxisFlex = false,
+    super.controller,
+    super.padding,
+    super.mainAxisSpacing = 0,
+    super.crossAxisSpacing = 0,
+    super.crossAxisCount = 1,
+    super.childAspectRatio = 1,
+    super.maxCrossAxisExtent = 100,
+    super.shrinkWrap = false,
+    super.physics,
+    super.scrollDirection = Axis.vertical,
   }) : super.builder(
-            key: key,
-            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
-            padding: padding,
             header: header == null ? null : SliverToBoxAdapter(child: header),
-            controller: controller,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
@@ -47,43 +43,29 @@ class BasicList extends ScrollList {
                     onRefresh:
                         onRefresh == null ? null : () async => onRefresh.call())
                 : null,
-            itemBuilder: itemBuilder,
-            itemCount: itemCount,
-            physics: physics,
-            crossAxisFlex: crossAxisFlex ?? false,
-            maxCrossAxisExtent: maxCrossAxisExtent ?? 100,
-            crossAxisSpacing: crossAxisSpacing ?? 0,
-            mainAxisSpacing: mainAxisSpacing ?? 0,
-            crossAxisCount: crossAxisCount ?? 1,
-            childAspectRatio: childAspectRatio ?? 1,
-            shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BasicList.waterfall({
-    Key? key,
-    required IndexedWidgetBuilder itemBuilder,
-    required int itemCount,
+    super.key,
+    required super.itemBuilder,
+    required super.itemCount,
     EasyRefreshController? refreshController,
     Widget? placeholder,
-    ScrollPhysics? physics,
+    Widget? header,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    ScrollController? controller,
-    EdgeInsetsGeometry? padding,
-    double? mainAxisSpacing,
-    double? crossAxisSpacing,
-    int? crossAxisCount,
-    double? maxCrossAxisExtent,
-    bool shrinkWrap = false,
-    Widget? header,
-    Axis scrollDirection = Axis.vertical,
+    super.controller,
+    super.padding,
+    super.mainAxisSpacing = 0,
+    super.crossAxisSpacing = 0,
+    super.crossAxisCount,
+    super.maxCrossAxisExtent,
+    super.shrinkWrap = false,
+    super.physics,
+    super.scrollDirection = Axis.vertical,
   }) : super.waterfall(
-            key: key,
-            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
-            padding: padding,
             header: header == null ? null : SliverToBoxAdapter(child: header),
-            controller: controller,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
@@ -94,39 +76,26 @@ class BasicList extends ScrollList {
                     onRefresh:
                         onRefresh == null ? null : () async => onRefresh.call())
                 : null,
-            itemBuilder: itemBuilder,
-            itemCount: itemCount,
-            physics: physics,
-            maxCrossAxisExtent: maxCrossAxisExtent,
-            crossAxisSpacing: crossAxisSpacing ?? 0,
-            mainAxisSpacing: mainAxisSpacing ?? 0,
-            crossAxisCount: crossAxisCount,
-            shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BasicList.separated({
-    Key? key,
-    required IndexedWidgetBuilder itemBuilder,
-    required IndexedWidgetBuilder separatorBuilder,
-    required int itemCount,
+    super.key,
+    required super.itemBuilder,
+    required super.separatorBuilder,
+    required super.itemCount,
     EasyRefreshController? refreshController,
     Widget? placeholder,
-    ScrollPhysics? physics,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    ScrollController? controller,
-    EdgeInsetsGeometry? padding,
-    bool shrinkWrap = false,
     Widget? header,
-    Axis scrollDirection = Axis.vertical,
+    super.controller,
+    super.padding,
+    super.shrinkWrap = false,
+    super.physics,
+    super.scrollDirection = Axis.vertical,
   }) : super.separated(
-            key: key,
-            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
             header: header == null ? null : SliverToBoxAdapter(child: header),
-            separatorBuilder: separatorBuilder,
-            padding: padding,
-            controller: controller,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
@@ -137,32 +106,23 @@ class BasicList extends ScrollList {
                     onRefresh:
                         onRefresh == null ? null : () async => onRefresh.call())
                 : null,
-            itemBuilder: itemBuilder,
-            itemCount: itemCount,
-            physics: physics,
-            shrinkWrap: shrinkWrap,
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BasicList.countBuilder({
-    Key? key,
-    required List<SliverListGrid> sliver,
+    super.key,
+    required super.sliver,
     EasyRefreshController? refreshController,
-    ScrollPhysics? physics,
+    Widget? header,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    ScrollController? controller,
-    EdgeInsetsGeometry? padding,
-    bool shrinkWrap = false,
-    Widget? header,
-    Axis scrollDirection = Axis.vertical,
+    super.physics,
+    super.controller,
+    super.padding,
+    super.shrinkWrap = false,
+    super.scrollDirection = Axis.vertical,
   }) : super(
-            sliver: sliver,
-            key: key,
-            scrollDirection: scrollDirection,
             cacheExtent: deviceHeight / 2,
             header: header == null ? null : SliverToBoxAdapter(child: header),
-            padding: padding,
-            controller: controller,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     controller: refreshController,
@@ -172,7 +132,5 @@ class BasicList extends ScrollList {
                         onLoading == null ? null : () async => onLoading.call(),
                     onRefresh:
                         onRefresh == null ? null : () async => onRefresh.call())
-                : null,
-            physics: physics,
-            shrinkWrap: shrinkWrap);
+                : null);
 }

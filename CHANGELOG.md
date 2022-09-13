@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Update Flutter version 3.3.0
+* Update Dart to 2.18.0
+
 ## 1.0.7
 
 * Add `BasicCupertinoSwitch()`

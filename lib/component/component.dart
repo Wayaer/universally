@@ -11,23 +11,20 @@ export 'src/widgets.dart';
 
 class BottomPadding extends Universal {
   BottomPadding(
-      {Key? key,
+      {super.key,
       double left = 20,
       double top = 10,
       double right = 20,
       double bottom = 10,
-      Widget? child,
-      Color? color})
+      super.child,
+      super.color})
       : super(
-            key: key,
-            child: child,
-            color: color,
             padding: EdgeInsets.fromLTRB(
                 left, top, right, getBottomNavigationBarHeight + bottom));
 }
 
 class ScanCodeShowPage extends StatelessWidget {
-  const ScanCodeShowPage({Key? key, required this.text}) : super(key: key);
+  const ScanCodeShowPage({super.key, required this.text});
 
   final String text;
 
@@ -47,19 +44,12 @@ class ScanCodeShowPage extends StatelessWidget {
 
 class CustomDivider extends Divider {
   const CustomDivider(
-      {Color? color,
-      Key? key,
-      double? endIndent,
-      double? indent,
-      double? thickness,
-      double height = 1})
-      : super(
-            key: key,
-            color: color ?? UCS.background,
-            height: height,
-            thickness: thickness,
-            indent: indent,
-            endIndent: endIndent);
+      {super.color = UCS.background,
+      super.key,
+      super.endIndent,
+      super.indent,
+      super.thickness,
+      super.height = 1});
 }
 
 extension ExtensionNotificationListener on Widget {
@@ -76,27 +66,24 @@ extension ExtensionNotificationListener on Widget {
 /// 局部 异步加载数据
 class BasicFutureBuilder<T> extends ExtendedFutureBuilder<T> {
   BasicFutureBuilder({
-    Key? key,
-    T? initialData,
-    required Future<T> Function() future,
-    required ExtendedAsyncWidgetBuilder<T> onDone,
+    super.key,
+    super.initialData,
+    required super.future,
+    required super.onDone,
     Widget Function(BuildContext context, Function() reset)? onNull,
     Widget Function(BuildContext context, Function() reset)? onNone,
   }) : super(
-            key: key,
-            future: future,
             onNull:
                 onNull ?? (_, __) => const Center(child: PlaceholderWidget()),
             onNone:
                 onNone ?? (_, __) => const Center(child: PlaceholderWidget()),
-            initialData: initialData,
             onWaiting: (_) => Center(child: BasicLoading()),
-            onError: (_, __, reset) => BasicError(onTap: reset),
-            onDone: onDone);
+            onError: (_, __, reset) => BasicError(onTap: reset));
 }
 
 class BasicError extends StatelessWidget {
-  const BasicError({Key? key, this.onTap}) : super(key: key);
+  const BasicError({super.key, this.onTap});
+
   final GestureTapCallback? onTap;
 
   @override
@@ -111,51 +98,33 @@ class BasicError extends StatelessWidget {
 
 class BasicSwitch extends SwitchState {
   BasicSwitch({
-    Key? key,
-    required bool value,
+    super.key,
+    required super.value,
     Color? activeColor,
-    Color? activeTrackColor,
-    ValueChanged<bool>? onChanged,
-    SwitchStateChanged? onWaitChanged,
-  }) : super.adaptive(
-            key: key,
-            value: value,
-            onChanged: onChanged,
-            onWaitChanged: onWaitChanged,
-            activeTrackColor: activeTrackColor,
-            activeColor: activeColor ?? GlobalConfig().currentColor);
+    super.activeTrackColor,
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super.adaptive(activeColor: activeColor ?? GlobalConfig().currentColor);
 }
 
 class BasicCupertinoSwitch extends CupertinoSwitchState {
   BasicCupertinoSwitch({
-    Key? key,
-    required bool value,
+    super.key,
+    required super.value,
     Color? activeColor,
-    Color? trackColor,
-    Color? thumbColor,
-    ValueChanged<bool>? onChanged,
-    SwitchStateChanged? onWaitChanged,
-  }) : super(
-            key: key,
-            value: value,
-            onChanged: onChanged,
-            onWaitChanged: onWaitChanged,
-            trackColor: trackColor,
-            thumbColor: thumbColor,
-            activeColor: activeColor ?? GlobalConfig().currentColor);
+    super.trackColor,
+    super.thumbColor,
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
 }
 
 class BasicCheckbox extends CheckboxState {
   BasicCheckbox({
-    Key? key,
-    required bool value,
+    super.key,
+    required super.value,
     Color? activeColor,
-    ValueChanged<bool?>? onChanged,
-    CheckboxStateChanged? onWaitChanged,
-  }) : super(
-            key: key,
-            value: value,
-            onChanged: onChanged,
-            onWaitChanged: onWaitChanged,
-            activeColor: activeColor ?? GlobalConfig().currentColor);
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
 }

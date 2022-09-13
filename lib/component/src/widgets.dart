@@ -5,7 +5,7 @@ import 'package:universally/universally.dart';
 
 /// 消息推送开关
 class PushSwitchState extends StatefulWidget {
-  const PushSwitchState({Key? key}) : super(key: key);
+  const PushSwitchState({super.key});
 
   @override
   State<PushSwitchState> createState() => _PushStateState();
@@ -37,7 +37,7 @@ class _PushStateState extends State<PushSwitchState> {
 /// 清除缓存右边的组件
 /// Clear the component to the right of the cache
 class CleanCache extends StatefulWidget {
-  const CleanCache({Key? key, this.color}) : super(key: key);
+  const CleanCache({super.key, this.color});
 
   final Color? color;
 
@@ -103,29 +103,22 @@ class _CleanCacheState extends State<CleanCache> {
 
 class UButton extends SimpleButton {
   UButton({
-    Key? key,
-    Color? color,
-    required String text,
-    EdgeInsetsGeometry? margin,
-    double width = UConstant.longWidth,
-    double height = 45,
+    super.key,
+    super.color,
+    required super.text,
+    super.textStyle = const TStyle(color: UCS.white),
+    super.margin,
+    super.width = UConstant.longWidth,
+    super.height = 45,
     bool enabled = true,
-    bool visible = true,
-    Widget? child,
+    super.visible = true,
+    super.child,
     GestureTapCallback? onTap,
+    super.isElastic = true,
+    super.alignment = Alignment.center,
   }) : super(
-            key: key,
-            margin: margin,
             heroTag: text,
-            isElastic: true,
-            width: width,
-            height: height,
-            alignment: Alignment.center,
             onTap: enabled ? onTap : null,
-            child: child,
-            text: text,
-            textStyle: const TStyle(color: UCS.white),
-            visible: visible,
             decoration: BoxDecoration(
                 border: Border.all(color: GlobalConfig().currentColor),
                 color: color ?? GlobalConfig().currentColor,
@@ -134,13 +127,12 @@ class UButton extends SimpleButton {
 
 class USpacing extends StatelessWidget {
   const USpacing(
-      {Key? key,
+      {super.key,
       this.spacing = 6,
       this.horizontal = false,
       this.color,
       this.height,
-      this.width})
-      : super(key: key);
+      this.width});
 
   final double? spacing;
   final bool horizontal;

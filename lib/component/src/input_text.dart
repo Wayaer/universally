@@ -4,7 +4,7 @@ import 'package:universally/universally.dart';
 class InputText extends StatefulWidget {
   const InputText(
       {this.controller,
-      Key? key,
+      super.key,
       Color? fillColor,
       this.hintText,
       this.enabled = true,
@@ -52,8 +52,7 @@ class InputText extends StatefulWidget {
       this.onSubmitted,
       this.textCapitalization = TextCapitalization.none,
       this.value})
-      : fillColor = fillColor ?? UCS.transparent,
-        super(key: key);
+      : fillColor = fillColor ?? UCS.transparent;
 
   /// 是否可输入
   final bool? enabled;

@@ -30,7 +30,7 @@ Future<dynamic>? showAlertMessage({
 /// Pop up the button with "OK" and click "OK" to automatically close
 class AlertMessage extends StatelessWidget {
   const AlertMessage({
-    Key? key,
+    super.key,
     this.text,
     this.sureTap,
     this.contentText,
@@ -39,7 +39,7 @@ class AlertMessage extends StatelessWidget {
     this.content,
     this.sureText,
     this.titleText,
-  }) : super(key: key);
+  });
 
   final String? text;
   final String? sureText;
@@ -112,7 +112,7 @@ Future<dynamic>? showAlertSureCancel({
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
 class AlertSureAndCancel extends StatelessWidget {
   const AlertSureAndCancel({
-    Key? key,
+    super.key,
     this.text,
     this.contentText,
     this.sureTap,
@@ -125,7 +125,7 @@ class AlertSureAndCancel extends StatelessWidget {
     this.sureText,
     this.cancelText,
     this.titleText,
-  }) : super(key: key);
+  });
 
   final String? text;
   final String? sureText;
@@ -201,14 +201,14 @@ Future<int?>? showAlertCountSelect(
 /// 带取消的 弹窗 单列选择
 class AlertCountSelect extends StatelessWidget {
   const AlertCountSelect(
-      {Key? key,
+      {super.key,
       this.title,
       this.message,
       required this.actions,
       this.cancelButton,
       this.actionScrollController,
-      this.messageScrollController})
-      : super(key: key);
+      this.messageScrollController});
+
   final Widget? title;
   final Widget? message;
   final Widget? cancelButton;
@@ -233,13 +233,13 @@ ExtendedOverlayEntry? alertOnlyMessage(String? text, {bool autoOff = true}) =>
 /// Only pop-up prompt, no button, can not be closed
 class AlertOnlyMessage extends StatelessWidget {
   const AlertOnlyMessage(
-      {Key? key,
+      {super.key,
       this.text,
       this.titleText,
       this.contentText,
       this.content,
-      this.title})
-      : super(key: key);
+      this.title});
+
   final String? text;
   final String? titleText;
   final Widget? contentText;
@@ -321,15 +321,15 @@ Future<T?> showBasicBottomPopup<T>(
         widget: widget);
 
 class _Title extends TextDefault {
-  _Title({Key? key, String? text})
-      : super(text ?? '提示', fontSize: 18, color: Colors.black87, key: key);
+  _Title({String? text})
+      : super(text ?? '提示', fontSize: 18, color: Colors.black87);
 }
 
 /// loading
 class BasicLoading extends SpinKit {
-  BasicLoading({Key? key, SpinKitStyle? style, double size = 50})
+  BasicLoading({super.key, SpinKitStyle? style, super.size = 50})
       : super(style ?? GlobalConfig().config.loadingStyle,
-            color: GlobalConfig().currentColor, key: key, size: size);
+            color: GlobalConfig().currentColor);
 }
 
 void showUserPrivacyAlert({
@@ -376,11 +376,8 @@ void showUserPrivacyAlert({
 
 class _UserPrivacyAlert extends StatelessWidget {
   const _UserPrivacyAlert(
-      {Key? key,
-      this.onUserAgreementTap,
-      this.onPrivacyPolicyTap,
-      required this.title})
-      : super(key: key);
+      {this.onUserAgreementTap, this.onPrivacyPolicyTap, required this.title});
+
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
   final String title;

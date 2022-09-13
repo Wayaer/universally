@@ -4,14 +4,11 @@ import 'package:universally/universally.dart';
 class CurrentPickerOptions<T> extends PickerOptions<T> {
   CurrentPickerOptions(
       {String? title,
-      PickerTapSureCallback<T>? sureTap,
-      PickerTapCancelCallback<T>? cancelTap,
-      Color? backgroundColor,
+      super.sureTap,
+      super.cancelTap,
+      super.backgroundColor,
       double height = 250})
       : super(
-            backgroundColor: backgroundColor,
-            sureTap: sureTap,
-            cancelTap: cancelTap,
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
             sure: TextDefault('确定', color: GlobalConfig().currentColor),
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
@@ -138,7 +135,7 @@ Future<int?> pickerSingleChoice(List<String> list,
 
 /// 带取消的单选
 class AlertSingleChoice extends StatelessWidget {
-  const AlertSingleChoice(this.list, {Key? key}) : super(key: key);
+  const AlertSingleChoice(this.list, {super.key});
 
   final List<String> list;
 

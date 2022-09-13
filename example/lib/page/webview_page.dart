@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class FlWebViewPage extends StatelessWidget {
-  const FlWebViewPage({Key? key, this.isCalculateHeight = false})
-      : super(key: key);
+  const FlWebViewPage({super.key, this.isCalculateHeight = false});
+
   final bool isCalculateHeight;
 
   @override

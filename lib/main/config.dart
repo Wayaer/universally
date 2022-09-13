@@ -25,24 +25,24 @@ class ProjectConfig {
       this.loadingStyle = SpinKitStyle.fadingCircle,
       this.imageFailed}) {
     imageFailed ??= TextSmall('加载失败', fontSize: 10);
-    pullDownHeader ??= ClassicalHeader(
-        refreshedText: 'Refresh to complete',
-        refreshingText: 'refreshing',
-        refreshText: 'The drop-down refresh',
-        textColor: UCS.titleTextColor,
-        infoColor: mainColor,
-        refreshReadyText: 'Release Refresh now',
-        showInfo: false);
-    pullUpFooter ??= ClassicalFooter(
-        showInfo: false,
-        noMoreText: '我是有底线的~',
-        loadText: 'Pull up to load more',
-        loadingText: 'Being loaded',
-        loadFailedText: 'Load failed',
-        textColor: UCS.titleTextColor,
-        infoColor: mainColor,
-        loadedText: 'loaded',
-        loadReadyText: '123123');
+    pullDownHeader ??= const ClassicHeader(
+        dragText: '请尽情拉我',
+        armedText: '可以松开我了',
+        readyText: '我要开始刷新了',
+        processingText: '我在拼命刷新中',
+        processedText: '我已经刷新完成了',
+        failedText: '我刷新失败了唉',
+        noMoreText: '没有更多了',
+        showMessage: false);
+    pullUpFooter ??= const ClassicFooter(
+        dragText: '请尽情拉我',
+        armedText: '可以松开我了',
+        readyText: '我要准备加载了',
+        processingText: '我在拼命加载中',
+        processedText: '我已经加载完成了',
+        failedText: '我加载失败了唉',
+        noMoreText: '没有更多了哦',
+        showMessage: false);
   }
 
   /// alert 确认按钮颜色
@@ -108,7 +108,7 @@ class ProjectConfig {
 }
 
 class PlaceholderWidget extends StatelessWidget {
-  const PlaceholderWidget({Key? key}) : super(key: key);
+  const PlaceholderWidget({super.key});
 
   @override
   Widget build(BuildContext context) => PlaceholderChild(

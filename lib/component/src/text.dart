@@ -4,123 +4,78 @@ import 'package:universally/universally.dart';
 /// Very large font
 class TextVeryLarge extends BasicText {
   TextVeryLarge(String? text,
-      {Key? key,
-      Color? color,
-      TextStyle? style,
-      int? maxLines,
-      double? height,
-      double fontSize = 18,
-      double? letterSpacing,
-      TextOverflow? overflow,
-      TextAlign? textAlign,
-      FontType? fontType,
-      String? fontFamily})
-      : super(text,
-            color: color ?? UCS.largeTextColor,
-            key: key,
-            style: style,
-            maxLines: maxLines,
-            height: height,
-            letterSpacing: letterSpacing,
-            fontSize: fontSize,
-            overflow: overflow,
-            fontType: fontType ?? FontType.semiBold,
-            fontFamily: fontFamily,
-            textAlign: textAlign);
+      {super.key,
+      super.color = UCS.largeTextColor,
+      super.maxLines,
+      super.height,
+      super.letterSpacing,
+      super.fontSize = 18,
+      super.style,
+      super.overflow,
+      super.textAlign,
+      super.fontType = FontType.semiBold,
+      super.fontFamily})
+      : super(text);
 }
 
 /// Large font
 class TextLarge extends BasicText {
   TextLarge(String? text,
-      {Key? key,
-      Color? color,
-      int? maxLines,
-      double? height,
-      TextStyle? style,
-      double fontSize = 16,
-      double? letterSpacing,
-      TextOverflow? overflow,
-      TextAlign? textAlign,
-      FontType? fontType,
-      String? fontFamily})
-      : super(text,
-            key: key,
-            style: style,
-            color: color ?? UCS.largeTextColor,
-            maxLines: maxLines,
-            height: height,
-            letterSpacing: letterSpacing,
-            fontType: fontType ?? FontType.semiBold,
-            fontFamily: fontFamily,
-            fontSize: fontSize,
-            overflow: overflow,
-            textAlign: textAlign);
+      {super.key,
+      super.color = UCS.largeTextColor,
+      super.maxLines,
+      super.height,
+      super.letterSpacing,
+      super.fontSize = 16,
+      super.style,
+      super.overflow,
+      super.textAlign,
+      super.fontType = FontType.semiBold,
+      super.fontFamily})
+      : super(text);
 }
 
 /// 小字体
 /// Small font
 class TextSmall extends BasicText {
   TextSmall(String? text,
-      {Key? key,
-      Color? color,
-      int? maxLines,
-      double? height,
-      double? letterSpacing,
-      double fontSize = 12,
-      TextStyle? style,
-      TextOverflow? overflow,
-      TextAlign? textAlign,
-      FontType? fontType,
-      String? fontFamily})
-      : super(text,
-            key: key,
-            color: color ?? UCS.smallTextColor,
-            maxLines: maxLines,
-            height: height,
-            style: style,
-            letterSpacing: letterSpacing,
-            fontType: fontType,
-            fontSize: fontSize,
-            overflow: overflow,
-            fontFamily: fontFamily,
-            textAlign: textAlign);
+      {super.key,
+      super.color = UCS.smallTextColor,
+      super.maxLines,
+      super.height,
+      super.letterSpacing,
+      super.fontSize = 12,
+      super.style,
+      super.overflow,
+      super.textAlign,
+      super.fontType,
+      super.fontFamily})
+      : super(text);
 }
 
 /// 默认字体
 /// The default font
 class TextDefault extends BasicText {
   TextDefault(String? text,
-      {Key? key,
-      Color? color,
-      TextStyle? style,
-      Color? backgroundColor,
-      int? maxLines,
-      double? height,
-      double fontSize = 14,
-      double? letterSpacing,
-      TextOverflow? overflow,
-      TextAlign? textAlign,
-      FontType? fontType,
-      String? fontFamily})
-      : super(text,
-            key: key,
-            color: color ?? UCS.defaultTextColor,
-            letterSpacing: letterSpacing,
-            maxLines: maxLines,
-            fontType: fontType,
-            height: height,
-            fontSize: fontSize,
-            overflow: overflow,
-            style: style,
-            fontFamily: fontFamily,
-            backgroundColor: backgroundColor,
-            textAlign: textAlign);
+      {super.key,
+      super.color = UCS.defaultTextColor,
+      super.style,
+      super.backgroundColor,
+      super.maxLines,
+      super.height,
+      super.fontSize = 14,
+      super.letterSpacing,
+      super.overflow,
+      super.textAlign,
+      super.fontType,
+      super.fontFamily})
+      : super(text);
 }
 
 /// BasicText
 class BasicText extends BText {
   BasicText(String? text,
-      {Key? key,
+      {super.key,
       Color? color,
       TextStyle? style,
       Color? backgroundColor,
@@ -129,12 +84,10 @@ class BasicText extends BText {
       double? height,
       double? letterSpacing,
       TextOverflow? overflow,
-      TextAlign? textAlign,
+      super.textAlign,
       FontType? fontType,
       String? fontFamily})
       : super(text ?? '',
-            key: key,
-            textAlign: textAlign,
             maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
             overflow: overflow ??
                 (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
@@ -152,24 +105,17 @@ class BasicText extends BText {
 /// BasicTextStyle
 class TStyle extends BTextStyle {
   const TStyle(
-      {Color? color,
-      double fontSize = 14,
-      double? letterSpacing,
-      double? height,
-      String? fontFamily,
+      {super.color = UCS.mainBlack,
+      super.fontSize = 14,
+      super.letterSpacing,
+      super.height,
+      super.fontFamily,
       FontType? fontType,
       FontWeight? fontWeight,
-      TextDecoration decoration = TextDecoration.none,
-      Color? backgroundColor})
+      super.decoration = TextDecoration.none,
+      super.backgroundColor})
       : super(
-            color: color ?? UCS.mainBlack,
-            fontSize: fontSize,
-            height: height,
-            letterSpacing: letterSpacing,
             wordSpacing: letterSpacing,
-            backgroundColor: backgroundColor,
-            decoration: decoration,
-            fontFamily: fontFamily,
             fontWeight: fontWeight ??
                 ((fontType == null || fontType == FontType.normal)
                     ? FontWeight.normal

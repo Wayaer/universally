@@ -32,14 +32,14 @@ typedef BasicDioErrorIntercept = List<InterceptorError> Function(
 class BasicDioOptions extends ExtendedDioOptions {
   BasicDioOptions({
     /// 接收超时时间
-    int receiveTimeout = 5000,
+    super.receiveTimeout = 5000,
 
     /// 连接超时时间
-    int connectTimeout = 5000,
+    super.connectTimeout = 5000,
 
     /// 发送超时时间
-    int sendTimeout = 5000,
-    bool logTs = false,
+    super.sendTimeout = 5000,
+    super.logTs = false,
     this.downloadResponseType = ResponseType.bytes,
     this.downloadContentType,
     this.uploadContentType,
@@ -48,48 +48,29 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.extraParams,
     this.errorIntercept,
     this.forbidPrintUrl = const [],
-    String? method,
-    String baseUrl = '',
-    Map<String, dynamic>? queryParameters,
-    Map<String, dynamic>? extra,
-    Map<String, dynamic>? headers,
-    ResponseType responseType = ResponseType.json,
-    String? contentType,
-    ValidateStatus? validateStatus,
-    bool? receiveDataWhenStatusError,
-    bool? followRedirects,
-    int? maxRedirects,
-    RequestEncoder? requestEncoder,
-    ResponseDecoder? responseDecoder,
-    ListFormat? listFormat,
-    bool setRequestContentTypeWhenNoPayload = false,
+    super.method,
+    super.baseUrl = '',
+    super.queryParameters,
+    super.extra,
+    super.headers,
+    super.responseType = ResponseType.json,
+    super.contentType,
+    super.validateStatus,
+    super.receiveDataWhenStatusError,
+    super.followRedirects,
+    super.maxRedirects,
+    super.requestEncoder,
+    super.responseDecoder,
+    super.listFormat,
+    super.setRequestContentTypeWhenNoPayload = false,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
     this.expandKeys = const ['expand'],
     this.hideMsg = const ['success', 'OK'],
     this.successCode = const ['200'],
-  }) : super(
-            logTs: logTs,
-            receiveTimeout: receiveTimeout,
-            connectTimeout: connectTimeout,
-            sendTimeout: sendTimeout,
-            method: method,
-            extra: extra,
-            baseUrl: baseUrl,
-            setRequestContentTypeWhenNoPayload:
-                setRequestContentTypeWhenNoPayload,
-            queryParameters: queryParameters,
-            headers: headers,
-            responseType: responseType,
-            contentType: contentType,
-            validateStatus: validateStatus,
-            receiveDataWhenStatusError: receiveDataWhenStatusError,
-            followRedirects: followRedirects,
-            maxRedirects: maxRedirects,
-            requestEncoder: requestEncoder,
-            responseDecoder: responseDecoder,
-            listFormat: listFormat) {
+    this.showLoading = true,
+  }) {
     downloadContentType ??= httpContentType[1];
     uploadContentType ??= httpContentType[1];
   }
@@ -137,6 +118,8 @@ class BasicDioOptions extends ExtendedDioOptions {
   /// 后台返回 message 隐藏 toast
   /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
   List<String> hideMsg;
+
+  bool showLoading;
 }
 
 class BasicDio {
@@ -170,7 +153,7 @@ class BasicDio {
     String url, {
     dynamic tag,
     Map<String, dynamic>? params,
-    bool loading = true,
+    bool? loading,
     Options? options,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
@@ -187,7 +170,7 @@ class BasicDio {
       dynamic data,
       bool dataToJson = true,
       dynamic tag,
-      bool loading = true,
+      bool? loading,
       Options? options,
       ProgressCallback? onSendProgress}) async {
     assert(_singleton != null, '请先调用 initialize');
@@ -207,7 +190,7 @@ class BasicDio {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
-    bool loading = true,
+    bool? loading,
     bool dataToJson = true,
     Options? options,
   }) async {
@@ -228,7 +211,7 @@ class BasicDio {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
-    bool loading = true,
+    bool? loading,
     bool dataToJson = true,
     Options? options,
   }) async {
@@ -249,7 +232,7 @@ class BasicDio {
     String url,
     dynamic data, {
     ProgressCallback? onSendProgress,
-    bool loading = true,
+    bool? loading,
     Options? options,
     dynamic tag,
     CancelToken? cancelToken,
@@ -270,7 +253,7 @@ class BasicDio {
   Future<BasicModel> download(
     String url,
     String savePath, {
-    bool loading = true,
+    bool? loading,
     dynamic tag,
     Options? options,
     ProgressCallback? onReceiveProgress,
@@ -297,7 +280,7 @@ class BasicDio {
   }
 
   void _addLoading(bool? loading) {
-    hasLoading = loading ?? false;
+    hasLoading = loading ?? basicDioOptions.showLoading;
     if (hasLoading) showLoading();
   }
 

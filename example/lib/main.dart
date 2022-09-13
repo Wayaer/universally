@@ -41,7 +41,7 @@ Future<void> main() async {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +85,7 @@ class HomePage extends StatelessWidget {
 }
 
 class ElevatedText extends StatelessWidget {
-  const ElevatedText({Key? key, required this.text, required this.onPressed})
-      : super(key: key);
+  const ElevatedText({super.key, required this.text, required this.onPressed});
 
   final String text;
   final VoidCallback onPressed;

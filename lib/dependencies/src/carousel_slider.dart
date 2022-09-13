@@ -3,27 +3,22 @@ import 'package:universally/universally.dart';
 
 class BasicIndicator extends Indicator {
   BasicIndicator(
-      {Key? key,
-      required int count,
-      required double position,
-      required int index,
+      {super.key,
+      required super.count,
+      required super.position,
+      required super.index,
+      super.layout = IndicatorType.scale,
+      super.size = 8,
+      super.color = UCS.background,
       Color? activeColor})
-      : super(
-            key: key,
-            size: 8,
-            layout: IndicatorType.scale,
-            count: count,
-            position: position,
-            color: UCS.background,
-            activeColor: activeColor ?? GlobalConfig().currentColor,
-            index: index);
+      : super(activeColor: activeColor ?? GlobalConfig().currentColor);
 }
 
 class BasicCarouselSlider extends CarouselSlider {
   BasicCarouselSlider(
-      {Key? key,
-      required ExtendedIndexedWidgetBuilder itemBuilder,
-      required int itemCount,
+      {super.key,
+      required super.itemBuilder,
+      required super.itemCount,
       double? height,
       int initialPage = 0,
       double viewportFraction = 1,
@@ -46,16 +41,12 @@ class BasicCarouselSlider extends CarouselSlider {
       ValueChanged<double?>? onScrolled,
       Curve autoPlayCurve = Curves.linear,
       ScrollPhysics? scrollPhysics,
-      CarouselControllerImpl? controller,
+      super.carouselController,
 
       /// 滚动间隔时间
       Duration autoPlayAnimationDuration = const Duration(milliseconds: 600),
       Function(int? index, CarouselPageChangedReason reason)? onPageChanged})
       : super.builder(
-            key: key,
-            itemBuilder: itemBuilder,
-            itemCount: itemCount,
-            carouselController: controller,
             options: CarouselOptions(
                 height: height,
                 pageSnapping: pageSnapping,
@@ -77,12 +68,12 @@ class BasicCarouselSlider extends CarouselSlider {
 
 class MainTabPageBuilder extends StatelessWidget {
   const MainTabPageBuilder(
-      {Key? key,
+      {super.key,
       required this.widgets,
       required this.onPageChanged,
       this.controller,
-      this.canScroll = true})
-      : super(key: key);
+      this.canScroll = true});
+
   final List<Widget> widgets;
   final ValueCallback<int> onPageChanged;
   final CarouselControllerImpl? controller;
@@ -93,7 +84,7 @@ class MainTabPageBuilder extends StatelessWidget {
       autoPlay: false,
       pauseAutoPlayOnTouch: false,
       enableInfiniteScroll: false,
-      controller: controller,
+      carouselController: controller,
       pageSnapping: true,
       height: double.infinity,
       scrollPhysics: canScroll

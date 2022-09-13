@@ -3,74 +3,53 @@ import 'package:universally/universally.dart';
 
 class BasicScaffold extends ExtendedScaffold {
   BasicScaffold(
-      {Key? key,
+      {super.key,
       Widget? child,
 
       /// [children].length > 0 [child] invalid
-      List<Widget>? children,
+      super.children,
 
       /// [children].length > 0 && [isStack]=false invalid;
-      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+      super.mainAxisAlignment = MainAxisAlignment.start,
 
       /// [children].length > 0 && [isStack]=false invalid;
-      CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+      super.crossAxisAlignment = CrossAxisAlignment.center,
 
       /// [children].length > 0 && [isStack]=false invalid;
-      Axis direction = Axis.vertical,
-      bool safeLeft = false,
-      bool safeTop = false,
-      bool safeRight = false,
-      bool safeBottom = false,
-      bool isScroll = false,
-      bool isStack = false,
-      bool? resizeToAvoidBottomInset,
+      super.direction = Axis.vertical,
+      super.safeLeft = false,
+      super.safeTop = false,
+      super.safeRight = false,
+      super.safeBottom = false,
+      super.isScroll = false,
+      super.isStack = false,
+      super.resizeToAvoidBottomInset = false,
       Widget? title,
       String? appBarTitle,
       Widget? appBarRightWidget,
       Color? appBarBackgroundColor,
       Widget? appBarLeftWidget,
-      EdgeInsetsGeometry? padding,
-      Widget? bottomNavigationBar,
-      Widget? endDrawer,
+      super.padding,
+      super.bottomNavigationBar,
+      super.endDrawer,
       Color? backgroundColor,
-      Widget? floatingActionButton,
-      FloatingActionButtonAnimator? floatingActionButtonAnimator,
-      FloatingActionButtonLocation? floatingActionButtonLocation,
+      super.floatingActionButton,
+      super.floatingActionButtonAnimator,
+      super.floatingActionButtonLocation,
       VoidCallback? onRefresh,
       VoidCallback? onLoading,
-      bool? onWillPopOverlayClose,
-      WillPopCallback? onWillPop,
+      super.onWillPopOverlayClose = false,
+      super.onWillPop,
       double? elevation,
       bool? titleCenter,
-      Decoration? decoration,
+      super.decoration,
       bool isMaybePop = false,
-      bool useSingleChildScrollView = true,
+      super.useSingleChildScrollView = true,
       List<Widget>? actions,
       PreferredSizeWidget? appBarBottom})
       : super(
-            key: key,
-            safeTop: safeTop,
-            safeLeft: safeLeft,
-            safeRight: safeRight,
-            safeBottom: safeBottom,
-            useSingleChildScrollView: useSingleChildScrollView,
-            onWillPop: onWillPop,
-            onWillPopOverlayClose: onWillPopOverlayClose ?? false,
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation,
-            floatingActionButtonAnimator: floatingActionButtonAnimator,
-            mainAxisAlignment: mainAxisAlignment,
-            crossAxisAlignment: crossAxisAlignment,
-            direction: direction,
-            endDrawer: endDrawer,
-            padding: padding,
-            isScroll: isScroll,
-            isStack: isStack,
-            decoration: decoration,
             backgroundColor:
                 backgroundColor ?? GlobalConfig().config.scaffoldBackground,
-            bottomNavigationBar: bottomNavigationBar,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? false,
             refreshConfig: (onRefresh != null || onLoading != null)
                 ? RefreshConfig(
                     footer: GlobalConfig().config.pullUpFooter,
@@ -81,7 +60,6 @@ class BasicScaffold extends ExtendedScaffold {
                         onRefresh == null ? null : () async => onRefresh.call())
                 : null,
             body: child,
-            children: children,
             appBar: title == null &&
                     appBarTitle == null &&
                     appBarBottom == null &&
@@ -102,7 +80,7 @@ class BasicScaffold extends ExtendedScaffold {
 
 class BasicAppBar extends AppBar {
   BasicAppBar(
-      {Key? key,
+      {super.key,
       String? text,
       Widget? title,
       Widget? right,
@@ -111,13 +89,13 @@ class BasicAppBar extends AppBar {
       double? elevation,
       Widget? leading,
       Color? backgroundColor,
-      PreferredSizeWidget? bottom})
+      super.centerTitle = true,
+      super.systemOverlayStyle = const SystemUiOverlayStyleDark(),
+      super.iconTheme = const IconThemeData.fallback(),
+      super.bottom})
       : super(
-            key: key,
             title: title ?? TextLarge(text),
-            centerTitle: true,
             leading: leading ?? BackIcon(isMaybePop: isMaybePop),
-            iconTheme: const IconThemeData.fallback(),
             elevation: elevation ?? GlobalConfig().config.appBarElevation,
             actions: actions ??
                 <Widget>[
@@ -128,21 +106,16 @@ class BasicAppBar extends AppBar {
                         margin: const EdgeInsets.only(right: 16),
                         child: right)
                 ],
-            systemOverlayStyle: const SystemUiOverlayStyleDark(),
-            bottom: bottom,
             backgroundColor: backgroundColor ?? UCS.white);
 }
 
 class BackIcon extends IconButton {
   const BackIcon(
-      {Key? key,
+      {super.key,
       VoidCallback? onPressed,
       bool isMaybePop = false,
-      Color color = UCS.black})
-      : super(
-            color: color,
-            key: key,
-            icon: const Icon(UIS.androidBack),
-            onPressed: onPressed ?? (isMaybePop ? maybePop : pop),
-            padding: EdgeInsets.zero);
+      super.icon = const Icon(UIS.androidBack),
+      super.padding = EdgeInsets.zero,
+      super.color = UCS.black})
+      : super(onPressed: onPressed ?? (isMaybePop ? maybePop : pop));
 }
