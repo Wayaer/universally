@@ -8,6 +8,7 @@ export 'src/picker.dart';
 export 'src/scaffold.dart';
 export 'src/text.dart';
 export 'src/widgets.dart';
+export 'src/gif.dart';
 
 class BottomPadding extends Universal {
   BottomPadding(

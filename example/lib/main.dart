@@ -1,8 +1,8 @@
+import 'package:app/page/gif_page.dart';
+import 'package:app/page/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/component/src/switch_api.dart';
 import 'package:universally/universally.dart';
-
-import 'page/webview_page.dart';
 
 Future<void> main() async {
   isBeta = true;
@@ -75,6 +75,7 @@ class HomePage extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {},
                   child: const SwitchApiButton(color: UCS.white)),
+              ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
               const PushSwitchState(),
             ]));
   }
