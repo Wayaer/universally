@@ -137,7 +137,7 @@ class BasicDio {
 
   BasicDio initialize([BasicDioOptions? options]) {
     if (options != null) basicDioOptions = options;
-    if (basicDioOptions.logTs == false) basicDioOptions.logTs = hasLogTs;
+    basicDioOptions.logTs = hasLogTs;
     basicDioOptions.interceptors = isRelease
         ? basicDioOptions.interceptors
         : [

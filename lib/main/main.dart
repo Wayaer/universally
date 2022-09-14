@@ -67,7 +67,7 @@ class GlobalConfig {
       _currentBasicUrl = config.betaUrl;
       final String? localApi = SP().getString(UConstant.localApi);
       if (localApi != null && localApi.length > 5) _currentBasicUrl = localApi;
-      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? false;
+      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? true;
     } else {
       isBeta = false;
       _currentBasicUrl = config.releaseUrl;
