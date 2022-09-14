@@ -116,6 +116,8 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                   setState(() {});
                 })
           ]),
+          TextDefault('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
+              maxLines: 3, color: GlobalConfig().currentColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('开启接口请求日志打印：'),
             BasicSwitch(
@@ -129,8 +131,6 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                   Curiosity().native.exitApp();
                 })
           ]),
-          TextDefault('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-              maxLines: 3, color: GlobalConfig().currentColor),
           const USpacing(),
           Row(children: [
             TextDefault('正式服IP：', maxLines: 2, height: 1.5),
