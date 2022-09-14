@@ -41,7 +41,7 @@ class Gif extends StatefulWidget {
   final ImageProvider image;
 
   /// This playback controller.
-  final GifController? controller;
+  final GifController controller;
 
   /// Frames per second at which this runs.
   final int? fps;
@@ -90,7 +90,7 @@ class Gif extends StatefulWidget {
   const Gif({
     super.key,
     required this.image,
-    this.controller,
+    required this.controller,
     this.fps,
     this.duration,
     this.autostart = Autostart.no,
@@ -153,7 +153,7 @@ class GifInfo {
   });
 }
 
-class _GifState extends State<Gif> with SingleTickerProviderStateMixin {
+class _GifState extends State<Gif> {
   late GifController controller;
 
   /// List of [ImageInfo] of every frame of this gif.
@@ -201,7 +201,7 @@ class _GifState extends State<Gif> with SingleTickerProviderStateMixin {
   void didUpdateWidget(Gif oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != controller) {
-      disposeController();
+      removeListener();
       initController();
     }
     if ((widget.image != oldWidget.image) ||
@@ -225,18 +225,17 @@ class _GifState extends State<Gif> with SingleTickerProviderStateMixin {
   }
 
   void initController() {
-    controller = widget.controller ?? GifController(vsync: this);
+    controller = widget.controller;
     controller.addListener(_listener);
   }
 
-  void disposeController() {
+  void removeListener() {
     controller.removeListener(_listener);
-    controller.dispose();
   }
 
   @override
   void dispose() {
-    disposeController();
+    removeListener();
     super.dispose();
   }
 
