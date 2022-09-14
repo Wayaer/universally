@@ -70,6 +70,7 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.hideMsg = const ['success', 'OK'],
     this.successCode = const ['200'],
     this.showLoading = true,
+    this.pullHideLoading = true,
   }) {
     downloadContentType ??= httpContentType[1];
     uploadContentType ??= httpContentType[1];
@@ -119,7 +120,11 @@ class BasicDioOptions extends ExtendedDioOptions {
   /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
   List<String> hideMsg;
 
+  /// 全局控制显示loading
   bool showLoading;
+
+  /// [showLoading] 为 true 时 刷新组件 下拉或上拉 隐藏loading，默认为true
+  bool pullHideLoading;
 }
 
 class BasicDio {
@@ -281,14 +286,15 @@ class BasicDio {
 
   void _addLoading(bool? loading) {
     hasLoading = loading ?? basicDioOptions.showLoading;
+    if (basicDioOptions.pullHideLoading) {
+      hasLoading = !pullDown && !pullUp;
+    }
     if (hasLoading) showLoading();
   }
 
   Future<void> _removeLoading() async {
     await 200.milliseconds.delayed(() {});
-    if (hasLoading) {
-      closeLoading();
-    }
+    if (hasLoading) closeLoading();
   }
 
   bool get hasNetWork {
