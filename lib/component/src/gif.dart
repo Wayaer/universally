@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_waya/flutter_waya.dart';
 
 final HttpClient _sharedHttpClient = HttpClient()..autoUncompress = false;
 
@@ -168,18 +169,17 @@ class _GifState extends State<Gif> {
   @override
   Widget build(BuildContext context) {
     final RawImage image = RawImage(
-      image: _frame?.image,
-      width: widget.width,
-      height: widget.height,
-      scale: _frame?.scale ?? 1.0,
-      color: widget.color,
-      colorBlendMode: widget.colorBlendMode,
-      fit: widget.fit,
-      alignment: widget.alignment,
-      repeat: widget.repeat,
-      centerSlice: widget.centerSlice,
-      matchTextDirection: widget.matchTextDirection,
-    );
+        image: _frame?.image,
+        width: widget.width,
+        height: widget.height,
+        scale: _frame?.scale ?? 1.0,
+        color: widget.color,
+        colorBlendMode: widget.colorBlendMode,
+        fit: widget.fit,
+        alignment: widget.alignment,
+        repeat: widget.repeat,
+        centerSlice: widget.centerSlice,
+        matchTextDirection: widget.matchTextDirection);
     return widget.placeholder != null && _frame == null
         ? widget.placeholder!(context)
         : widget.excludeFromSemantics
@@ -271,10 +271,10 @@ class _GifState extends State<Gif> {
   /// and the [Duration] of [AnimationController].
   void _listener() {
     if (_frames.isNotEmpty && mounted) {
-      _frameIndex = _frames.isEmpty
-          ? 0
-          : ((_frames.length - 1) * controller.value).floor();
-      if (mounted) setState(() {});
+      _frameIndex =
+          _frames.isEmpty ? 0 : (_frames.length * controller.value).floor();
+      if (_frameIndex >= _frames.length) _frameIndex = _frames.length - 1;
+      setState(() {});
     }
   }
 
@@ -292,7 +292,6 @@ class _GifState extends State<Gif> {
     if (useCache) {
       Gif.cache.caches.putIfAbsent(_getImageKey(widget.image), () => gif);
     }
-
     _frames = gif.frames;
     controller.duration = widget.fps != null
         ? Duration(milliseconds: (_frames.length / widget.fps! * 1000).round())
