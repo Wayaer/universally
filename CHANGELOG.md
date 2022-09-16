@@ -1,5 +1,6 @@
 ## 1.1.1
 
+* Add `appBarConfig`、`textColor` for `ProjectConfig()`
 * Add `Gif()`
 
 ## 1.1.0+1
