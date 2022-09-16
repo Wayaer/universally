@@ -38,7 +38,7 @@ class GlobalConfig {
   String get currentBasicUrl => _currentBasicUrl;
 
   /// 项目配置信息
-  late ProjectConfig _config;
+  ProjectConfig _config = ProjectConfig(mainColor: UCS.mainBlack);
 
   ProjectConfig get config => _config;
 

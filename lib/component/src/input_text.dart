@@ -346,10 +346,14 @@ class _InputTextState extends State<InputText> {
                 ? Row(mainAxisSize: MainAxisSize.min, children: prefix)
                 : prefix[0],
         placeholder: widget.hintText,
-        placeholderStyle:
-            const TStyle(color: UCS.smallTextColor, height: 1.1, fontSize: 13)
-                .merge(widget.hintStyle),
-        style: const TStyle(color: UCS.defaultTextColor, height: 1.1)
+        placeholderStyle: TStyle(
+                color: GlobalConfig().config.textColor?.smallColor,
+                height: 1.1,
+                fontSize: 13)
+            .merge(widget.hintStyle),
+        style: TStyle(
+                color: GlobalConfig().config.textColor?.defaultColor,
+                height: 1.1)
             .merge(widget.inputStyle),
         inputFormatters:
             inputTextTypeToTextInputFormatter(widget.inputTextType),
@@ -408,14 +412,14 @@ class _InputTextState extends State<InputText> {
       },
       onTap: widget.sendSMSTap);
 
-  Widget searchWidget() =>
-      const Icon(UIS.search, size: 20, color: UCS.smallTextColor);
+  Widget searchWidget() => Icon(UIS.search,
+      size: 20, color: GlobalConfig().config.textColor?.smallColor);
 
   Widget clearWidget() => IconBox(
       size: 18,
       padding: EdgeInsets.only(right: widget.eyeEnabled ? 10 : 0),
       icon: UIS.clear,
-      color: UCS.defaultTextColor,
+      color: GlobalConfig().config.textColor?.defaultColor,
       onTap: () {
         controller.clear();
         if (widget.onChanged != null) widget.onChanged!('');
@@ -427,5 +431,7 @@ class _InputTextState extends State<InputText> {
             eye = !eye;
           }),
       child: SVGAsset(eye ? UAS.eyeClose : UAS.eyeOpen,
-          color: UCS.defaultTextColor, size: 20, package: 'universally'));
+          color: GlobalConfig().config.textColor?.defaultColor,
+          size: 20,
+          package: 'universally'));
 }

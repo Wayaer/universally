@@ -3,9 +3,9 @@ import 'package:universally/universally.dart';
 
 /// Very large font
 class TextVeryLarge extends BasicText {
-  TextVeryLarge(String? text,
+  TextVeryLarge(super.text,
       {super.key,
-      super.color = UCS.largeTextColor,
+      Color? color,
       super.maxLines,
       super.height,
       super.letterSpacing,
@@ -16,14 +16,14 @@ class TextVeryLarge extends BasicText {
       super.fontType = FontType.semiBold,
       super.fontWeight,
       super.fontFamily})
-      : super(text);
+      : super(color: color ?? GlobalConfig().config.textColor?.veryLargeColor);
 }
 
 /// Large font
 class TextLarge extends BasicText {
-  TextLarge(String? text,
+  TextLarge(super.text,
       {super.key,
-      super.color = UCS.largeTextColor,
+      Color? color,
       super.maxLines,
       super.height,
       super.letterSpacing,
@@ -34,16 +34,16 @@ class TextLarge extends BasicText {
       super.fontType = FontType.semiBold,
       super.fontWeight,
       super.fontFamily})
-      : super(text);
+      : super(color: color ?? GlobalConfig().config.textColor?.largeColor);
 }
 
 /// 小字体
 /// Small font
 class TextSmall extends BasicText {
-  TextSmall(String? text,
+  TextSmall(super.text,
       {super.key,
       super.fontWeight,
-      super.color = UCS.smallTextColor,
+      Color? color,
       super.maxLines,
       super.height,
       super.letterSpacing,
@@ -53,15 +53,15 @@ class TextSmall extends BasicText {
       super.textAlign,
       super.fontType,
       super.fontFamily})
-      : super(text);
+      : super(color: color ?? GlobalConfig().config.textColor?.smallColor);
 }
 
 /// 默认字体
 /// The default font
 class TextDefault extends BasicText {
-  TextDefault(String? text,
+  TextDefault(super.text,
       {super.key,
-      super.color = UCS.defaultTextColor,
+      Color? color,
       super.style,
       super.backgroundColor,
       super.maxLines,
@@ -73,7 +73,7 @@ class TextDefault extends BasicText {
       super.fontType,
       super.fontWeight,
       super.fontFamily})
-      : super(text);
+      : super(color: color ?? GlobalConfig().config.textColor?.defaultColor);
 }
 
 /// BasicText
@@ -110,17 +110,20 @@ class BasicText extends BText {
 
 /// BasicTextStyle
 class TStyle extends BTextStyle {
+  /// 添加了基础颜色，不适合主题适配
   const TStyle(
-      {super.color = UCS.mainBlack,
+      {Color? color = UCS.mainBlack,
       super.fontSize = 14,
       super.letterSpacing,
       super.height,
       super.fontFamily,
+      super.textBaseline = TextBaseline.ideographic,
       FontType? fontType,
       FontWeight? fontWeight,
       super.decoration = TextDecoration.none,
       super.backgroundColor})
       : super(
+            color: color,
             wordSpacing: letterSpacing,
             fontWeight: fontWeight ??
                 ((fontType == null || fontType == FontType.normal)
@@ -131,8 +134,61 @@ class TStyle extends BTextStyle {
                             ? FontWeight.w600
                             : fontType == FontType.bold
                                 ? FontWeight.bold
-                                : FontWeight.normal),
-            textBaseline: TextBaseline.ideographic);
+                                : FontWeight.normal));
+
+  /// 使用 [GlobalConfig().config.textColor?.styleColor] 预设颜色，不适合主题适配
+  TStyle.global(
+      {Color? color,
+      super.fontSize = 14,
+      super.letterSpacing,
+      super.height,
+      super.fontFamily,
+      super.textBaseline = TextBaseline.ideographic,
+      FontType? fontType,
+      FontWeight? fontWeight,
+      super.decoration = TextDecoration.none,
+      super.backgroundColor})
+      : super(
+            color: color ?? GlobalConfig().config.textColor?.styleColor,
+            wordSpacing: letterSpacing,
+            fontWeight: fontWeight ??
+                ((fontType == null || fontType == FontType.normal)
+                    ? FontWeight.normal
+                    : fontType == FontType.medium
+                        ? FontWeight.w500
+                        : fontType == FontType.semiBold
+                            ? FontWeight.w600
+                            : fontType == FontType.bold
+                                ? FontWeight.bold
+                                : FontWeight.normal));
+
+  /// 原始数据，不添加任何颜色
+  const TStyle.origin(
+      {super.color,
+      super.fontSize = 14,
+      super.letterSpacing,
+      super.wordSpacing,
+      super.height,
+      super.fontFamily,
+      super.textBaseline = TextBaseline.ideographic,
+      super.fontWeight,
+      super.decoration = TextDecoration.none,
+      super.backgroundColor});
+
+  static FontWeight typeToWeight(FontType? fontType) {
+    switch (fontType) {
+      case FontType.normal:
+        return FontWeight.normal;
+      case FontType.medium:
+        return FontWeight.w500;
+      case FontType.semiBold:
+        return FontWeight.w600;
+      case FontType.bold:
+        return FontWeight.bold;
+      default:
+        return FontWeight.normal;
+    }
+  }
 }
 
 enum FontType { normal, medium, semiBold, bold }

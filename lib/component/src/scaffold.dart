@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class BasicScaffold extends ExtendedScaffold {
@@ -68,16 +69,17 @@ class BasicScaffold extends ExtendedScaffold {
                     appBarRight == null
                 ? null
                 : BasicAppBar(
+                    hasLeading: hasLeading,
                     actions: appBarActions,
                     isMaybePop: isMaybePop,
                     bottom: appBarBottom,
                     text: appBarTitle,
                     title: title,
-                    elevation:
-                        elevation ?? GlobalConfig().config.appBarElevation,
+                    elevation: elevation,
                     right: appBarRight,
+                    leading: appBarLeft,
                     backgroundColor: appBarBackgroundColor,
-                    leading: appBarLeft));
+                  ));
 }
 
 class BasicAppBar extends AppBar {
@@ -92,16 +94,21 @@ class BasicAppBar extends AppBar {
       Widget? leading,
       Color? backgroundColor,
       bool hasLeading = true,
+      IconThemeData? iconTheme,
+      SystemUiOverlayStyle? systemOverlayStyle,
       super.centerTitle = true,
-      super.systemOverlayStyle = const SystemUiOverlayStyleDark(),
-      super.iconTheme = const IconThemeData.fallback(),
       super.bottom})
       : super(
             title: title ?? TextLarge(text),
             leading: hasLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
                 : const SizedBox(),
-            elevation: elevation ?? GlobalConfig().config.appBarElevation,
+            elevation:
+                elevation ?? GlobalConfig().config.appBarConfig?.elevation,
+            systemOverlayStyle: systemOverlayStyle ??
+                GlobalConfig().config.appBarConfig?.systemOverlayStyle,
+            iconTheme:
+                iconTheme ?? GlobalConfig().config.appBarConfig?.iconTheme,
             actions: actions ??
                 <Widget>[
                   if (right != null)
@@ -111,7 +118,8 @@ class BasicAppBar extends AppBar {
                         margin: const EdgeInsets.only(right: 16),
                         child: right)
                 ],
-            backgroundColor: backgroundColor ?? UCS.white);
+            backgroundColor: backgroundColor ??
+                GlobalConfig().config.appBarConfig?.backgroundColor);
 }
 
 class BackIcon extends IconButton {
@@ -121,6 +129,6 @@ class BackIcon extends IconButton {
       bool isMaybePop = false,
       super.icon = const Icon(UIS.androidBack),
       super.padding = EdgeInsets.zero,
-      super.color = UCS.black})
+      super.color})
       : super(onPressed: onPressed ?? (isMaybePop ? maybePop : pop));
 }

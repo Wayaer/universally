@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class ProjectConfig {
-  ProjectConfig(
-      {required this.mainColor,
-      required this.betaUrl,
-      required this.releaseUrl,
-      this.pushStyle = RoutePushStyle.cupertino,
-      this.pullDownHeader,
-      this.pullUpFooter,
-      this.scaffoldBackground = UCS.background,
-      this.appBarElevation = 0,
-      this.appPath,
-      this.placeholder = const PlaceholderWidget(),
-      this.toastOptions =
-          const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
-      this.pickerWheelOptions,
-      this.generalDialogOptions,
-      this.bottomSheetOptions,
-      this.modalWindowsOptions,
-      this.logHasDottedLine = true,
-      this.wheelOptions,
-      this.initializeSP = true,
-      this.loadingStyle = SpinKitStyle.fadingCircle,
-      this.imageFailed}) {
-    imageFailed ??= TextSmall('加载失败', fontSize: 10);
+  ProjectConfig({
+    required this.mainColor,
+    this.betaUrl = '',
+    this.releaseUrl = '',
+    this.pushStyle = RoutePushStyle.cupertino,
+    this.pullDownHeader,
+    this.pullUpFooter,
+    this.scaffoldBackground,
+    this.appBarConfig,
+    this.appPath,
+    this.placeholder = const PlaceholderWidget(),
+    this.toastOptions =
+        const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
+    this.pickerWheelOptions,
+    this.generalDialogOptions,
+    this.bottomSheetOptions,
+    this.modalWindowsOptions,
+    this.logHasDottedLine = true,
+    this.wheelOptions,
+    this.initializeSP = true,
+    this.loadingStyle = SpinKitStyle.fadingCircle,
+    this.imageFailed,
+    this.textColor,
+  }) {
     pullDownHeader ??= const ClassicHeader(
         dragText: '请尽情拉我',
         armedText: '可以松开我了',
@@ -65,10 +67,7 @@ class ProjectConfig {
   Footer? pullUpFooter;
 
   /// 当前项目 全局使用的 [BasicScaffold] 的背景色
-  Color scaffoldBackground;
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的 elevation
-  double appBarElevation;
+  Color? scaffoldBackground;
 
   /// list 占位图
   Widget placeholder;
@@ -105,6 +104,56 @@ class ProjectConfig {
 
   /// [BasicImage] 加载失败时显示的组件
   Widget? imageFailed;
+
+  /// 字体颜色
+  TextColor? textColor;
+
+  /// 当前项目 全局使用的 [BasicAppBar]
+  AppBarConfig? appBarConfig;
+}
+
+class AppBarConfig {
+  AppBarConfig(
+      {this.backgroundColor,
+      this.elevation,
+      this.iconTheme,
+      this.systemOverlayStyle});
+
+  /// 当前项目 全局使用的 [BasicAppBar] 的背景色
+  Color? backgroundColor;
+
+  /// 当前项目 全局使用的 [BasicAppBar] 的 elevation
+  double? elevation;
+
+  /// 当前项目 全局使用的 [BasicAppBar] 的 iconTheme
+  IconThemeData? iconTheme;
+
+  /// 当前项目 全局使用的 [BasicAppBar] 的 systemOverlayStyle
+  SystemUiOverlayStyle? systemOverlayStyle;
+}
+
+class TextColor {
+  TextColor(
+      {this.smallColor,
+      this.defaultColor,
+      this.largeColor,
+      this.veryLargeColor,
+      this.styleColor});
+
+  /// 超大字体颜色
+  Color? veryLargeColor;
+
+  /// 大字体颜色
+  Color? largeColor;
+
+  /// 默认字体颜色
+  Color? defaultColor;
+
+  /// 小字体颜色
+  Color? smallColor;
+
+  /// [TStyle] color
+  Color? styleColor;
 }
 
 class PlaceholderWidget extends StatelessWidget {
