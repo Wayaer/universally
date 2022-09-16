@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Add `Gif()`
+
 ## 1.1.0+1
 
 * Update Flutter version 3.3.0
