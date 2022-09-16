@@ -14,6 +14,7 @@ class TextVeryLarge extends BasicText {
       super.overflow,
       super.textAlign,
       super.fontType = FontType.semiBold,
+      super.fontWeight,
       super.fontFamily})
       : super(text);
 }
@@ -31,6 +32,7 @@ class TextLarge extends BasicText {
       super.overflow,
       super.textAlign,
       super.fontType = FontType.semiBold,
+      super.fontWeight,
       super.fontFamily})
       : super(text);
 }
@@ -40,6 +42,7 @@ class TextLarge extends BasicText {
 class TextSmall extends BasicText {
   TextSmall(String? text,
       {super.key,
+      super.fontWeight,
       super.color = UCS.smallTextColor,
       super.maxLines,
       super.height,
@@ -68,6 +71,7 @@ class TextDefault extends BasicText {
       super.overflow,
       super.textAlign,
       super.fontType,
+      super.fontWeight,
       super.fontFamily})
       : super(text);
 }
@@ -84,6 +88,7 @@ class BasicText extends BText {
       double? height,
       double? letterSpacing,
       TextOverflow? overflow,
+      FontWeight? fontWeight,
       super.textAlign,
       FontType? fontType,
       String? fontFamily})
@@ -92,6 +97,7 @@ class BasicText extends BText {
             overflow: overflow ??
                 (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
             style: TStyle(
+                    fontWeight: fontWeight,
                     letterSpacing: letterSpacing,
                     fontType: fontType,
                     backgroundColor: backgroundColor,

@@ -108,11 +108,14 @@ class ProjectConfig {
 }
 
 class PlaceholderWidget extends StatelessWidget {
-  const PlaceholderWidget({super.key});
+  const PlaceholderWidget({super.key, this.onTap});
+
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) => PlaceholderChild(
       child: IconBox(
+          onTap: onTap,
           direction: Axis.vertical,
           spacing: 12,
           widget: SVGAsset(UAS.noDataIcon, width: 90, package: 'universally'),

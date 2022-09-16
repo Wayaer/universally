@@ -24,11 +24,6 @@ class BasicScaffold extends ExtendedScaffold {
       super.isScroll = false,
       super.isStack = false,
       super.resizeToAvoidBottomInset = false,
-      Widget? title,
-      String? appBarTitle,
-      Widget? appBarRightWidget,
-      Color? appBarBackgroundColor,
-      Widget? appBarLeftWidget,
       super.padding,
       super.bottomNavigationBar,
       super.endDrawer,
@@ -40,12 +35,18 @@ class BasicScaffold extends ExtendedScaffold {
       VoidCallback? onLoading,
       super.onWillPopOverlayClose = false,
       super.onWillPop,
-      double? elevation,
-      bool? titleCenter,
       super.decoration,
-      bool isMaybePop = false,
       super.useSingleChildScrollView = true,
-      List<Widget>? actions,
+      Widget? title,
+      double? elevation,
+      bool titleCenter = true,
+      String? appBarTitle,
+      Widget? appBarRight,
+      Color? appBarBackgroundColor,
+      Widget? appBarLeft,
+      bool isMaybePop = false,
+      bool hasLeading = true,
+      List<Widget>? appBarActions,
       PreferredSizeWidget? appBarBottom})
       : super(
             backgroundColor:
@@ -63,19 +64,20 @@ class BasicScaffold extends ExtendedScaffold {
             appBar: title == null &&
                     appBarTitle == null &&
                     appBarBottom == null &&
-                    appBarRightWidget == null
+                    appBarActions == null &&
+                    appBarRight == null
                 ? null
                 : BasicAppBar(
-                    actions: actions,
+                    actions: appBarActions,
                     isMaybePop: isMaybePop,
                     bottom: appBarBottom,
                     text: appBarTitle,
                     title: title,
                     elevation:
                         elevation ?? GlobalConfig().config.appBarElevation,
-                    right: appBarRightWidget,
+                    right: appBarRight,
                     backgroundColor: appBarBackgroundColor,
-                    leading: appBarLeftWidget));
+                    leading: appBarLeft));
 }
 
 class BasicAppBar extends AppBar {
@@ -89,13 +91,16 @@ class BasicAppBar extends AppBar {
       double? elevation,
       Widget? leading,
       Color? backgroundColor,
+      bool hasLeading = true,
       super.centerTitle = true,
       super.systemOverlayStyle = const SystemUiOverlayStyleDark(),
       super.iconTheme = const IconThemeData.fallback(),
       super.bottom})
       : super(
             title: title ?? TextLarge(text),
-            leading: leading ?? BackIcon(isMaybePop: isMaybePop),
+            leading: hasLeading
+                ? leading ?? BackIcon(isMaybePop: isMaybePop)
+                : const SizedBox(),
             elevation: elevation ?? GlobalConfig().config.appBarElevation,
             actions: actions ??
                 <Widget>[
