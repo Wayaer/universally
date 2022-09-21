@@ -64,15 +64,13 @@ class AlertMessage extends StatelessWidget {
                           maxLines: 5, color: Colors.black87)),
           actions: <Widget>[
             SimpleButton(
-                text: sureText ?? '确定',
                 height: 45,
                 alignment: Alignment.center,
-                textStyle: TStyle(color: GlobalConfig().currentColor),
                 onTap: () {
                   pop();
                   if (sureTap != null) sureTap!();
                 },
-                child: sure),
+                child: sure ?? TextDefault(sureText ?? '确定')),
           ]));
 }
 
@@ -150,30 +148,24 @@ class AlertSureAndCancel extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ??
-                      TextDefault(text ?? '',
-                          maxLines: 5, color: Colors.black87)),
-          actions: <Widget>[
+                  child: contentText ?? TextDefault(text ?? '', maxLines: 5)),
+          actions: [
             SimpleButton(
-                text: cancelText ?? '取消',
                 height: 45,
                 onTap: () {
                   if (autoClose) pop();
                   if (cancelTap != null) cancelTap!();
                 },
                 alignment: Alignment.center,
-                textStyle: const TStyle(color: Colors.black87),
-                child: cancel),
+                child: cancel ?? TextDefault(cancelText ?? '取消')),
             SimpleButton(
-                text: sureText ?? '确定',
                 height: 45,
                 alignment: Alignment.center,
-                textStyle: TStyle(color: GlobalConfig().currentColor),
                 onTap: () {
                   if (autoClose) pop();
                   if (sureTap != null) sureTap!();
                 },
-                child: sure)
+                child: sure ?? TextDefault(sureText ?? '确定'))
           ]);
 }
 
@@ -255,9 +247,7 @@ class AlertOnlyMessage extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ??
-                      TextDefault(text ?? '',
-                          maxLines: 5, color: Colors.black87))));
+                  child: contentText ?? TextDefault(text ?? '', maxLines: 5))));
 }
 
 Future<bool?> showDoubleChooseAlert({
@@ -320,9 +310,8 @@ Future<T?> showBasicBottomPopup<T>(
                 isScrollControlled: isScrollControlled),
         widget: widget);
 
-class _Title extends TextDefault {
-  _Title({String? text})
-      : super(text ?? '提示', fontSize: 18, color: Colors.black87);
+class _Title extends TextLarge {
+  _Title({String? text}) : super(text ?? '提示', fontSize: 18);
 }
 
 /// loading
