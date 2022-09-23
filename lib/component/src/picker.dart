@@ -106,7 +106,7 @@ Future<T?> pickerCustom<T>(
   String title = '',
   PickerTapConfirmCallback<T>? confirmTap,
   PickerTapCancelCallback<T?>? cancelTap,
-  PickerSubjectTapCallback<T>? customSureTap,
+  PickerSubjectTapCallback<T>? customConfirmTap,
   PickerSubjectTapCallback<T?>? customCancelTap,
   Color? backgroundColor,
   BottomSheetOptions? bottomSheetOptions,
@@ -114,7 +114,7 @@ Future<T?> pickerCustom<T>(
 }) =>
     showCustomPicker<T?>(
         bottomSheetOptions: bottomSheetOptions,
-        confirmTap: customSureTap,
+        confirmTap: customConfirmTap,
         cancelTap: customCancelTap,
         options: CurrentPickerOptions<T>(
             cancelTap: cancelTap,

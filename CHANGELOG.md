@@ -1,5 +1,7 @@
 ## 1.2.0
 
+* Modify the incorrect naming
+
 ## 1.1.1
 
 * Add `appBarConfig`、`textColor` for `ProjectConfig()`

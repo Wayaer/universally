@@ -76,7 +76,7 @@ class AlertMessage extends StatelessWidget {
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
-Future<dynamic>? showAlertSureCancel({
+Future<dynamic>? showAlertConfirmCancel({
   String? text,
   String? confirmText,
   String? cancelText,

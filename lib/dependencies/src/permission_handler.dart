@@ -16,7 +16,7 @@ Future<bool> getPermission(Permission permission, String? text,
         if (alert != null) {
           alert.call();
         } else {
-          showAlertSureCancel(
+          showAlertConfirmCancel(
               text: '该服务需要开启$text授权',
               confirmTap: () async {
                 final bool state = await openAppSettings();
@@ -48,7 +48,7 @@ Future<bool> getAllPermissions(List<Permission> permissions, String? text,
       if (alert != null) {
         alert.call();
       } else {
-        showAlertSureCancel(
+        showAlertConfirmCancel(
             text: '该服务需要开启$text授权',
             confirmTap: () async {
               final bool state = await openAppSettings();
