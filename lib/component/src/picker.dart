@@ -4,13 +4,13 @@ import 'package:universally/universally.dart';
 class CurrentPickerOptions<T> extends PickerOptions<T> {
   CurrentPickerOptions(
       {String? title,
-      super.sureTap,
+      super.confirmTap,
       super.cancelTap,
       super.backgroundColor,
       double height = 250})
       : super(
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
-            sure: TextDefault('确定', color: GlobalConfig().currentColor),
+            confirm: TextDefault('确定', color: GlobalConfig().currentColor),
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
             bottom: const CustomDivider());
 }
@@ -32,7 +32,7 @@ Future<String?> pickerDateTime(
     DateTime? defaultDate,
     DateTime? endDate,
     int? dateTimeType,
-    ValueCallback<String>? sureTap}) async {
+    ValueCallback<String>? confirmTap}) async {
   DateTimePickerUnit unit;
   switch (dateTimeType) {
     case 1: //时分
@@ -70,9 +70,9 @@ Future<String?> pickerDateTime(
 
   final date = await showDateTimePicker<DateTime?>(
       options: CurrentPickerOptions(
-          sureTap: (DateTime? dateTime) {
-            if (sureTap != null && dateTime != null) {
-              sureTap(dateTimeToString(dateTime));
+          confirmTap: (DateTime? dateTime) {
+            if (confirmTap != null && dateTime != null) {
+              confirmTap(dateTimeToString(dateTime));
             }
             return true;
           },
@@ -104,7 +104,7 @@ Future<int?> pickerMultipleChoice<T>(String title,
 Future<T?> pickerCustom<T>(
   Widget content, {
   String title = '',
-  PickerTapSureCallback<T>? sureTap,
+  PickerTapConfirmCallback<T>? confirmTap,
   PickerTapCancelCallback<T?>? cancelTap,
   PickerSubjectTapCallback<T>? customSureTap,
   PickerSubjectTapCallback<T?>? customCancelTap,
@@ -114,11 +114,11 @@ Future<T?> pickerCustom<T>(
 }) =>
     showCustomPicker<T?>(
         bottomSheetOptions: bottomSheetOptions,
-        sureTap: customSureTap,
+        confirmTap: customSureTap,
         cancelTap: customCancelTap,
         options: CurrentPickerOptions<T>(
             cancelTap: cancelTap,
-            sureTap: sureTap,
+            confirmTap: confirmTap,
             title: title,
             height: height,
             backgroundColor: backgroundColor),

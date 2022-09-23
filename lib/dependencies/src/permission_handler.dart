@@ -18,7 +18,7 @@ Future<bool> getPermission(Permission permission, String? text,
         } else {
           showAlertSureCancel(
               text: '该服务需要开启$text授权',
-              sureTap: () async {
+              confirmTap: () async {
                 final bool state = await openAppSettings();
                 if (!state) showAlertMessage(text: '无法打开设置，请手动前往设置开启权限');
               },
@@ -50,7 +50,7 @@ Future<bool> getAllPermissions(List<Permission> permissions, String? text,
       } else {
         showAlertSureCancel(
             text: '该服务需要开启$text授权',
-            sureTap: () async {
+            confirmTap: () async {
               final bool state = await openAppSettings();
               if (!state) showAlertMessage(text: '无法打开设置，请手动前往设置开启权限');
             },

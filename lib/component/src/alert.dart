@@ -7,24 +7,24 @@ import 'package:universally/universally.dart';
 /// A message is displayed with a confirm button only
 Future<dynamic>? showAlertMessage({
   String? text,
-  String? sureText,
+  String? confirmText,
   String? titleText,
-  GestureTapCallback? sureTap,
+  GestureTapCallback? confirmTap,
   Widget? contentText,
   Widget? content,
   Widget? title,
-  Widget? sure,
+  Widget? confirm,
 }) =>
     showDialogPopup<dynamic>(
         widget: AlertMessage(
             text: text ?? '',
-            sureText: sureText,
+            confirmText: confirmText,
             contentText: contentText,
             titleText: titleText,
-            sureTap: sureTap,
+            confirmTap: confirmTap,
             content: content,
             title: title,
-            sure: sure));
+            confirm: confirm));
 
 /// 弹出带确定的按钮 点击确定自动关闭
 /// Pop up the button with "OK" and click "OK" to automatically close
@@ -32,23 +32,23 @@ class AlertMessage extends StatelessWidget {
   const AlertMessage({
     super.key,
     this.text,
-    this.sureTap,
+    this.confirmTap,
     this.contentText,
-    this.sure,
+    this.confirm,
     this.title,
     this.content,
-    this.sureText,
+    this.confirmText,
     this.titleText,
   });
 
   final String? text;
-  final String? sureText;
+  final String? confirmText;
   final String? titleText;
   final Widget? contentText;
   final Widget? content;
   final Widget? title;
-  final GestureTapCallback? sureTap;
-  final Widget? sure;
+  final GestureTapCallback? confirmTap;
+  final Widget? confirm;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -68,9 +68,9 @@ class AlertMessage extends StatelessWidget {
                 alignment: Alignment.center,
                 onTap: () {
                   pop();
-                  if (sureTap != null) sureTap!();
+                  if (confirmTap != null) confirmTap!();
                 },
-                child: sure ?? TextDefault(sureText ?? '确定')),
+                child: confirm ?? TextDefault(confirmText ?? '确定')),
           ]));
 }
 
@@ -78,64 +78,64 @@ class AlertMessage extends StatelessWidget {
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
 Future<dynamic>? showAlertSureCancel({
   String? text,
-  String? sureText,
+  String? confirmText,
   String? cancelText,
   String? titleText,
-  GestureTapCallback? sureTap,
+  GestureTapCallback? confirmTap,
   GestureTapCallback? cancelTap,
   bool autoClose = true,
   Widget? title,
   Widget? contentText,
   Widget? content,
   Widget? cancel,
-  Widget? sure,
+  Widget? confirm,
 }) =>
     showDialogPopup<dynamic>(
-        widget: AlertSureAndCancel(
+        widget: AlertConfirmAndCancel(
             text: text,
-            sureText: sureText,
+            confirmText: confirmText,
             cancelText: cancelText,
             titleText: titleText,
             contentText: contentText,
-            sureTap: sureTap,
+            confirmTap: confirmTap,
             cancelTap: cancelTap,
             title: title,
             cancel: cancel,
-            sure: sure,
+            confirm: confirm,
             autoClose: autoClose,
             content: content),
         options: const GeneralDialogOptions(barrierLabel: ''));
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
-class AlertSureAndCancel extends StatelessWidget {
-  const AlertSureAndCancel({
+class AlertConfirmAndCancel extends StatelessWidget {
+  const AlertConfirmAndCancel({
     super.key,
     this.text,
     this.contentText,
-    this.sureTap,
+    this.confirmTap,
     this.cancelTap,
     this.cancel,
-    this.sure,
+    this.confirm,
     this.title,
     this.content,
     this.autoClose = true,
-    this.sureText,
+    this.confirmText,
     this.cancelText,
     this.titleText,
   });
 
   final String? text;
-  final String? sureText;
+  final String? confirmText;
   final String? cancelText;
   final String? titleText;
   final Widget? contentText;
   final Widget? title;
   final Widget? content;
-  final GestureTapCallback? sureTap;
+  final GestureTapCallback? confirmTap;
   final GestureTapCallback? cancelTap;
   final Widget? cancel;
-  final Widget? sure;
+  final Widget? confirm;
 
   /// 是否自动关闭 默认为true
   /// Auto disable The default value is true
@@ -163,9 +163,9 @@ class AlertSureAndCancel extends StatelessWidget {
                 alignment: Alignment.center,
                 onTap: () {
                   if (autoClose) pop();
-                  if (sureTap != null) sureTap!();
+                  if (confirmTap != null) confirmTap!();
                 },
-                child: sure ?? TextDefault(sureText ?? '确定'))
+                child: confirm ?? TextDefault(confirmText ?? '确定'))
           ]);
 }
 

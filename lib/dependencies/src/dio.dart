@@ -39,7 +39,6 @@ class BasicDioOptions extends ExtendedDioOptions {
 
     /// 发送超时时间
     super.sendTimeout = 5000,
-    super.logTs = false,
     this.downloadResponseType = ResponseType.bytes,
     this.downloadContentType,
     this.uploadContentType,
@@ -47,7 +46,7 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.extraData,
     this.extraParams,
     this.errorIntercept,
-    this.forbidPrintUrl = const [],
+    this.filteredUrls = const [],
     super.method,
     super.baseUrl = '',
     super.queryParameters,
@@ -89,7 +88,7 @@ class BasicDioOptions extends ExtendedDioOptions {
   BasicDioErrorIntercept? errorIntercept;
 
   /// 不打印 返回 data 的url
-  List<String> forbidPrintUrl;
+  List<String> filteredUrls;
 
   /// 下载的ContentType;
   String? downloadContentType;
@@ -142,13 +141,13 @@ class BasicDio {
 
   BasicDio initialize([BasicDioOptions? options]) {
     if (options != null) basicDioOptions = options;
-    basicDioOptions.logTs = hasLogTs;
     basicDioOptions.interceptors = isRelease
-        ? basicDioOptions.interceptors
+        ? [...basicDioOptions.interceptors, if (hasLogTs) DebuggerInterceptor()]
         : [
             ...basicDioOptions.interceptors,
+            if (hasLogTs) DebuggerInterceptor(),
             LoggerInterceptor<dynamic>(
-                forbidPrintUrl: basicDioOptions.forbidPrintUrl)
+                filteredUrls: basicDioOptions.filteredUrls)
           ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
