@@ -126,7 +126,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                 onChanged: (bool? value) async {
                   hasLogTs = !hasLogTs;
                   setState(() {});
-                  await SP().setBool(UConstant.hasLogTs, hasLogTs);
+                  await BHP().setBool(UConstant.hasLogTs, hasLogTs);
                   await showToast('修改成功,请重新打开APP');
                   Curiosity().native.exitApp();
                 })
@@ -143,9 +143,9 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Future<void> saveApi(String api) async {
     context.focusNode();
     if (isRelease) {
-      await SP().setBool(UConstant.isRelease, isRelease);
+      await BHP().setBool(UConstant.isRelease, isRelease);
     } else {
-      await SP().setString(UConstant.localApi, api);
+      await BHP().setString(UConstant.localApi, api);
     }
     await showToast('修改成功,请重新打开APP');
     Curiosity().native.exitApp();

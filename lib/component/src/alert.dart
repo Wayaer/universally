@@ -327,7 +327,7 @@ void showUserPrivacyAlert({
   required GestureTapCallback onPrivacyPolicyTap,
   required GestureTapCallback onConsentTap,
 }) {
-  final result = SP().getBool(UConstant.privacy);
+  final result = BHP().getBool(UConstant.privacy);
   if (result ?? false) {
     onConsentTap.call();
   } else {
@@ -349,7 +349,7 @@ void showUserPrivacyAlert({
             color: GlobalConfig().currentColor,
             onTap: () {
               pop();
-              SP().setBool(UConstant.privacy, true);
+              BHP().setBool(UConstant.privacy, true);
               onConsentTap.call();
             }),
         left: SimpleButton(

@@ -22,7 +22,6 @@ class ProjectConfig {
     this.modalWindowsOptions,
     this.logHasDottedLine = true,
     this.wheelOptions,
-    this.initializeSP = true,
     this.loadingStyle = SpinKitStyle.fadingCircle,
     this.imageFailed,
     this.textColor,
@@ -95,9 +94,6 @@ class ProjectConfig {
 
   /// 全局路由跳转样式
   RoutePushStyle pushStyle;
-
-  /// 初始化 shared_preferences
-  bool initializeSP;
 
   /// loading 样式
   SpinKitStyle loadingStyle;

@@ -1,4 +1,5 @@
 import 'package:app/page/gif_page.dart';
+import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/component/src/switch_api.dart';
@@ -11,7 +12,6 @@ Future<void> main() async {
       mainColor: Colors.blueAccent,
       betaUrl: '这是设置测试url',
       releaseUrl: '这里设置发布版url',
-      initializeSP: true,
       toastOptions: const ToastOptions(ignoring: false)));
 
   runApp(BasicApp(
@@ -76,6 +76,9 @@ class HomePage extends StatelessWidget {
                   onPressed: () {},
                   child: const SwitchApiButton(color: UCS.white)),
               ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
+              ElevatedText(
+                  onPressed: () => push(const HivePreferencesPage()),
+                  text: 'BHP(BasicHivePreferences)'),
               const PushSwitchState(),
             ]));
   }

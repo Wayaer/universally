@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
+import 'package:universally/dependencies/src/hive.dart';
 import 'package:universally/universally.dart';
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
@@ -58,16 +59,15 @@ class GlobalConfig {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     /// 初始化本地储存
-    /// Initialize local storage
-    if (config.initializeSP) await SP().getInstance();
+    await BHP().initialize();
 
     currentColor = config.mainColor;
-    final bool isRelease = SP().getBool(UConstant.isRelease) ?? false;
+    final bool isRelease = BHP().getBool(UConstant.isRelease) ?? false;
     if (isBeta && !isRelease) {
       _currentBasicUrl = config.betaUrl;
-      final String? localApi = SP().getString(UConstant.localApi);
+      final String? localApi = BHP().getString(UConstant.localApi);
       if (localApi != null && localApi.length > 5) _currentBasicUrl = localApi;
-      hasLogTs = SP().getBool(UConstant.hasLogTs) ?? true;
+      hasLogTs = BHP().getBool(UConstant.hasLogTs) ?? true;
     } else {
       isBeta = false;
       _currentBasicUrl = config.releaseUrl;
