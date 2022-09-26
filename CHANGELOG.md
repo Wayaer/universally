@@ -1,3 +1,8 @@
+## 1.3.0
+
+* Use Hive as the persistent storage tool
+* Replace SP() with BHP()
+
 ## 1.2.0
 
 * Modify the incorrect naming
