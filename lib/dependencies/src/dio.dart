@@ -141,14 +141,11 @@ class BasicDio {
 
   BasicDio initialize([BasicDioOptions? options]) {
     if (options != null) basicDioOptions = options;
-    basicDioOptions.interceptors = isRelease
-        ? [...basicDioOptions.interceptors, if (hasLogTs) DebuggerInterceptor()]
-        : [
-            ...basicDioOptions.interceptors,
-            if (hasLogTs) DebuggerInterceptor(),
-            LoggerInterceptor<dynamic>(
-                filteredUrls: basicDioOptions.filteredUrls)
-          ];
+    basicDioOptions.interceptors = [
+      if (hasLogTs) DebuggerInterceptor(),
+      if (isDebug)
+        LoggerInterceptor<dynamic>(filteredUrls: options?.filteredUrls ?? [])
+    ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
   }
