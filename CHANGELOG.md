@@ -1,3 +1,7 @@
+## 1.3.0+3
+
+* Add `UrlCache()`
+
 ## 1.3.0+2
 
 * Use Hive as the persistent storage tool

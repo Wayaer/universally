@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
-import 'package:universally/dependencies/src/hive.dart';
 import 'package:universally/universally.dart';
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);

@@ -4,127 +4,183 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 abstract class HiveBox {
   bool isInitialize = false;
-  String? name;
+  String? _name;
+  bool _lazy = false;
+  bool _isOpen = false;
 
-  Future<void> initialize(String name, {String? subDir}) async {
+  Future<void> initialize(String name,
+      {String? subDir, bool lazy = false}) async {
     if (!isInitialize) {
-      this.name = name;
+      _name = name;
+      _lazy = lazy;
       await Hive.initFlutter(subDir);
-      await Hive.openBox(name);
       isInitialize = true;
+      if (lazy) {
+        await openLazyBox();
+      } else {
+        await openBox();
+      }
     }
+  }
+
+  Future<Box> openBox() async {
+    assert(_name != null && isInitialize, '请先初始化');
+    final box = await Hive.openBox(_name!);
+    _isOpen = true;
+    return box;
+  }
+
+  Future<LazyBox> openLazyBox() async {
+    assert(_name != null && isInitialize, '请先初始化');
+    final box = Hive.openLazyBox(_name!);
+    _isOpen = true;
+    return box;
   }
 
   Box<E> box<E>() {
-    assert(name != null && isInitialize, '请先初始化');
-    return Hive.box<E>(name!);
+    assert(_name != null && isInitialize, '请先初始化');
+    assert(!_lazy, '这是个 lazyBox');
+    if (!_isOpen) openBox();
+    return Hive.box<E>(_name!);
   }
 
-  bool get isOpen => box().isOpen;
+  LazyBox<E> lazyBox<E>() {
+    assert(_name != null && isInitialize, '请先初始化');
+    assert(_lazy, '这不是个 lazyBox');
+    if (!_isOpen) openLazyBox();
+    return Hive.lazyBox<E>(_name!);
+  }
+
+  String get name => box().name;
+
+  bool get lazy => box().lazy;
+
+  String? get path => box().path;
+
+  bool get isOpen => box().isOpen && _isOpen;
+
+  bool get isEmpty => box().isEmpty;
+
+  bool get isNotEmpty => box().isNotEmpty;
+
+  Iterable<dynamic> get keys => box().keys;
+
+  /// Saves the [value] with an auto-increment key.
+  Future<int> add<T>(T value) => box().add(value);
+
+  /// Saves all the [values] with auto-increment keys.
+  Future<Iterable<int>> addAll<T>(Iterable<T> values) => box().addAll(values);
+
+  Future<void> put(dynamic key, dynamic value) => box().put(key, value);
+
+  Future<void> putAll(Map entries) => box().putAll(entries);
+
+  Future<void> putAt(int index, dynamic value) => box().putAt(index, value);
+
+  Future<void> compact() => box().compact();
+
+  Future<void> close() {
+    _isOpen = false;
+    return box().close();
+  }
+
+  /// all values
+  List get values => box().values.toList();
+
+  /// startKey -  endKey
+  List valuesBetween({dynamic startKey, dynamic endKey}) =>
+      box().valuesBetween(startKey: startKey, endKey: endKey).toList();
+
+  /// get dynamic
+  dynamic get(dynamic key) => box().get(key);
+
+  /// getAt
+  dynamic getAt(int index) => box().getAt(index);
+
+  /// contains Key
+  bool containsKey(dynamic key) => box().containsKey(key);
+
+  /// remove
+  Future<bool> remove(dynamic key) async {
+    if (containsKey(key)) {
+      box().delete(key);
+      return !containsKey(key);
+    } else {
+      return true;
+    }
+  }
+
+  /// deleteAll
+  Future<void> deleteAll(Iterable<dynamic> keys) => box().deleteAll(keys);
+
+  /// clear
+  Future<int> clear() => box().clear();
 
   /// get objet
-  T? getObject<T>(String key) {
+  T? getObject<T>(dynamic key) {
+    dynamic value;
     if (containsKey(key)) {
-      final value = box().get(key);
-      if (value is T) return value;
+      final v = box().get(key);
+      if (v is T) value = v;
     }
-    return null;
+    return value;
   }
 
   /// set object
-  Future<bool> setObject<T>(String key, T value) async {
+  Future<bool> setObject<T>(dynamic key, T value) async {
+    if (!isOpen) await openBox();
     await box().put(key, value);
     return containsKey(key);
   }
 
-  Future<void> compact() async {
-    await box().compact();
-  }
-
-  Future<void> close() async {
-    await box().close();
-  }
-
-  /// get dynamic
-  dynamic getDynamic(String key) => box().get(key);
-
-  /// contains Key
-  bool containsKey(String key) => box().containsKey(key);
-
-  /// remove
-  Future<bool> remove(String key) async {
-    if (isOpen) {
-      if (containsKey(key)) {
-        box().delete(key);
-        return !containsKey(key);
-      } else {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  Future<void> deleteAll(Iterable<dynamic> keys) async {
-    await box().deleteAll(keys);
-  }
-
-  /// clear
-  Future<bool> get clear async {
-    if (isOpen) {
-      final code = await box().clear();
-      return code == 0;
-    }
-    return false;
-  }
-
   /// get string
-  String? getString(String key) => getObject<String>(key);
+  String? getString(dynamic key) => getObject<String>(key);
 
   /// set string
-  Future<bool> setString(String key, String value) =>
+  Future<bool> setString(dynamic key, String value) =>
       setObject<String>(key, value);
 
   /// get bool
-  bool? getBool(String key) => getObject<bool>(key);
+  bool? getBool(dynamic key) => getObject<bool>(key);
 
   /// set bool
-  Future<bool> setBool(String key, bool value) => setObject<bool>(key, value);
+  Future<bool> setBool(dynamic key, bool value) => setObject<bool>(key, value);
 
   /// get int
-  int? getInt(String key) => getObject<int>(key);
+  int? getInt(dynamic key) => getObject<int>(key);
 
   /// set int
-  Future<bool> setInt(String key, int value) => setObject<int>(key, value);
+  Future<bool> setInt(dynamic key, int value) => setObject<int>(key, value);
 
   /// get double
-  double? getDouble(String key) => getObject<double>(key);
+  double? getDouble(dynamic key) => getObject<double>(key);
 
   /// set double
-  Future<bool> setDouble(String key, double value) =>
+  Future<bool> setDouble(dynamic key, double value) =>
       setObject<double>(key, value);
 
   /// get map
-  Map? getMap(String key) => getObject<Map>(key);
+  Map? getMap(dynamic key) => getObject<Map>(key);
 
   /// set map
-  Future<bool> setMap(String key, Map value) => setObject<Map>(key, value);
+  Future<bool> setMap(dynamic key, Map value) => setObject<Map>(key, value);
 
   /// get map and decode  常用于多层map嵌套
-  Map<String, dynamic>? getDecodeMap(String key) {
+  Map<String, dynamic>? getDecodeMap(dynamic key) {
     final json = getObject<String>(key);
     if (json != null) return jsonDecode(json);
     return null;
   }
 
   /// set map and encode  常用于多层map嵌套
-  Future<bool> setEncodeMap(String key, Map<String, dynamic> value) =>
+  Future<bool> setEncodeMap(dynamic key, Map<String, dynamic> value) =>
       setObject<String>(key, jsonEncode(value));
 
   /// get string list
-  List<String> getStringList(String key) => getObject<List<String>>(key) ?? [];
+  List<String> getStringList(dynamic key) => getObject<List<String>>(key) ?? [];
 
   /// set string list
-  Future<bool> setStringList(String key, List<String> value) =>
+  Future<bool> setStringList(dynamic key, List<String> value) =>
       setObject<List<String>>(key, value);
 }
 
