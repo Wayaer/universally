@@ -59,7 +59,7 @@ class GlobalConfig {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     /// 初始化本地储存
-    await BHP().initialize();
+    await BHP().init();
 
     currentColor = config.mainColor;
     final bool isRelease = BHP().getBool(UConstant.isRelease) ?? false;
