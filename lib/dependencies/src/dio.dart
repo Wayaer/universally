@@ -308,11 +308,11 @@ class BasicDio {
   void _sendRefreshStatus() {
     if (pullDown) {
       pullDown = false;
-      sendRefreshType(EasyRefreshType.refreshSuccess);
+      RefreshControllers().call(EasyRefreshType.refreshSuccess);
     }
     if (pullUp) {
       pullUp = false;
-      sendRefreshType(EasyRefreshType.loadingSuccess);
+      RefreshControllers().call(EasyRefreshType.loadingSuccess);
     }
   }
 

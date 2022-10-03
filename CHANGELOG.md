@@ -1,3 +1,7 @@
+## 1.3.1
+
+* Add `RefreshControllers()`
+
 ## 1.3.0+3
 
 * Add `UrlCache()`
