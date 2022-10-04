@@ -176,6 +176,17 @@ abstract class HiveBox {
   Future<bool> setEncodeMap(dynamic key, Map<String, dynamic> value) =>
       setObject<String>(key, jsonEncode(value));
 
+  /// get list and decode  常用于 list 嵌套 map
+  List? getDecodeList(dynamic key) {
+    final json = getObject<String>(key);
+    if (json != null) return jsonDecode(json);
+    return null;
+  }
+
+  /// set list and encode  常用于 list 嵌套 map
+  Future<bool> setEncodeList(dynamic key, List value) =>
+      setObject<String>(key, jsonEncode(value));
+
   /// get string list
   List<String> getStringList(dynamic key) => getObject<List<String>>(key) ?? [];
 
