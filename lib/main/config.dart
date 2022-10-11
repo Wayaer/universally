@@ -27,6 +27,7 @@ class ProjectConfig {
     this.textColor,
   }) {
     pullDownHeader ??= const ClassicHeader(
+        triggerOffset: 20,
         dragText: '请尽情拉我',
         armedText: '可以松开我了',
         readyText: '我要开始刷新了',
@@ -36,6 +37,7 @@ class ProjectConfig {
         noMoreText: '没有更多了',
         showMessage: false);
     pullUpFooter ??= const ClassicFooter(
+        triggerOffset: 20,
         dragText: '请尽情拉我',
         armedText: '可以松开我了',
         readyText: '我要准备加载了',
