@@ -282,8 +282,8 @@ class BasicDio {
 
   void _addLoading(bool? loading) {
     hasLoading = loading ?? basicDioOptions.showLoading;
-    if (basicDioOptions.pullHideLoading) {
-      hasLoading = !pullDown && !pullUp;
+    if (hasLoading && basicDioOptions.pullHideLoading) {
+      hasLoading = !(pullDown || pullUp);
     }
     if (hasLoading) showLoading();
   }
