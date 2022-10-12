@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class InputText extends StatefulWidget {
@@ -17,7 +18,6 @@ class InputText extends StatefulWidget {
       this.lineColor = UCS.lineColor,
       this.maxLines,
       this.minLines,
-      this.inputTextType = InputTextType.text,
       this.prefix,
       this.extraPrefix,
       this.suffix,
@@ -51,7 +51,10 @@ class InputText extends StatefulWidget {
       this.textInputAction = TextInputAction.done,
       this.onSubmitted,
       this.textCapitalization = TextCapitalization.none,
-      this.value})
+      this.value,
+      this.inputFormatters,
+      this.textInputType = TextInputType.text,
+      this.keyboardAppearance})
       : fillColor = fillColor ?? UCS.transparent;
 
   /// 是否可输入
@@ -143,9 +146,6 @@ class InputText extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
 
-  /// 输入的类型
-  final InputTextType inputTextType;
-
   /// 是否自动获取焦点 默认false
   final bool? autoFocus;
 
@@ -197,6 +197,13 @@ class InputText extends StatefulWidget {
   ///  TextCapitalization.sentences, ///  在输入每个句子的第一个字母时，键盘大写形式，输入后续字母时键盘小写形式
   ///  TextCapitalization.words,///  在输入每个单词的第一个字母时，键盘大写形式，输入其他字母时键盘小写形式
   final TextCapitalization textCapitalization;
+
+  final List<TextInputFormatter>? inputFormatters;
+
+  /// 输入的类型
+  final TextInputType textInputType;
+
+  final Brightness? keyboardAppearance;
 
   @override
   State<InputText> createState() => _InputTextState();
@@ -333,49 +340,79 @@ class _InputTextState extends State<InputText> {
     if (widget.prefix != null) prefix.add(widget.prefix!);
 
     return CupertinoTextField.borderless(
-        suffixMode: suffixMode,
-        suffix: suffix.isEmpty
-            ? null
-            : suffix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: suffix)
-                : suffix[0],
-        prefixMode: OverlayVisibilityMode.always,
-        prefix: prefix.isEmpty
-            ? null
-            : prefix.length > 1
-                ? Row(mainAxisSize: MainAxisSize.min, children: prefix)
-                : prefix[0],
-        placeholder: widget.hintText,
-        placeholderStyle: TStyle(
-                color: GlobalConfig().config.textColor?.smallColor,
-                height: 1.1,
-                fontSize: 13)
-            .merge(widget.hintStyle),
-        style: TStyle(
-                color: GlobalConfig().config.textColor?.defaultColor,
-                height: 1.1)
-            .merge(widget.inputStyle),
-        inputFormatters:
-            inputTextTypeToTextInputFormatter(widget.inputTextType),
-        textInputAction: widget.textInputAction,
-        textCapitalization: widget.textCapitalization,
-        enabled: widget.enabled,
-        autofocus: widget.autoFocus ?? false,
-        focusNode: focusNode,
-        maxLines: _maxLines,
-        minLines: widget.minLines ?? 1,
-        controller: controller,
-        cursorColor: GlobalConfig().currentColor,
-        cursorHeight: isAndroid ? 16 : 12,
-        obscureText: widget.eyeEnabled && eye,
-        maxLength: widget.maxLength,
-        onChanged: widget.onChanged,
-        textAlign: _textAlign,
-        onTap: widget.onTap,
-        onSubmitted: widget.onSubmitted,
-        onEditingComplete: widget.onEditingComplete == null
-            ? null
-            : () => widget.onEditingComplete!.call(controller));
+      suffixMode: suffixMode,
+      suffix: suffix.isEmpty
+          ? null
+          : suffix.length > 1
+              ? Row(mainAxisSize: MainAxisSize.min, children: suffix)
+              : suffix[0],
+      prefixMode: OverlayVisibilityMode.always,
+      prefix: prefix.isEmpty
+          ? null
+          : prefix.length > 1
+              ? Row(mainAxisSize: MainAxisSize.min, children: prefix)
+              : prefix[0],
+      placeholder: widget.hintText,
+      placeholderStyle: TStyle(
+              color: GlobalConfig().config.textColor?.smallColor,
+              height: 1.1,
+              fontSize: 13)
+          .merge(widget.hintStyle),
+      style: TStyle(
+              color: GlobalConfig().config.textColor?.defaultColor, height: 1.1)
+          .merge(widget.inputStyle),
+      inputFormatters: widget.inputFormatters,
+      keyboardType: widget.textInputType,
+      keyboardAppearance: widget.keyboardAppearance,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      enabled: widget.enabled,
+      autofocus: widget.autoFocus ?? false,
+      focusNode: focusNode,
+      maxLines: _maxLines,
+      minLines: widget.minLines ?? 1,
+      controller: controller,
+      cursorColor: GlobalConfig().currentColor,
+      cursorHeight: isAndroid ? 16 : 12,
+      obscureText: widget.eyeEnabled && eye,
+      maxLength: widget.maxLength,
+      onChanged: widget.onChanged,
+      textAlign: _textAlign,
+      onTap: widget.onTap,
+      onSubmitted: widget.onSubmitted,
+      onEditingComplete: widget.onEditingComplete == null
+          ? null
+          : () => widget.onEditingComplete!.call(controller),
+      // cursorWidth: widget.cursorWidth,
+      // cursorRadius: widget.cursorRadius,
+      // clearButtonMode: widget.clearButtonMode,
+      // clipBehavior: widget.clipBehavior,
+      // autocorrect: widget.autocorrect,
+      // autofillHints: widget.autofillHints,
+      // dragStartBehavior: widget.dragStartBehavior,
+      // enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+      // enableInteractiveSelection: widget.enableInteractiveSelection,
+      // enableSuggestions: widget.enableSuggestions,
+      // expands: widget.enableSuggestions,
+      // maxLengthEnforcement: widget.maxLengthEnforcement,
+      // obscuringCharacter: widget.obscuringCharacter,
+      // readOnly: widget.readOnly,
+      // restorationId: widget.restorationId,
+      // scribbleEnabled: widget.scribbleEnabled,
+      // scrollController: widget.scrollController,
+      // scrollPadding: widget.scrollPadding,
+      // scrollPhysics: widget.scrollPhysics,
+      // selectionControls: widget.selectionControls,
+      // selectionHeightStyle: widget.selectionHeightStyle,
+      // selectionWidthStyle: widget.selectionWidthStyle,
+      // showCursor: widget.showCursor,
+      // smartDashesType: widget.smartDashesType,
+      // smartQuotesType: widget.smartQuotesType,
+      // strutStyle: widget.strutStyle,
+      // textAlignVertical: widget.textAlignVertical,
+      // textDirection: widget.textDirection,
+      // toolbarOptions: widget.toolbarOptions,
+    );
   }
 
   TextAlign get _textAlign {

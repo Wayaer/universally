@@ -1,5 +1,6 @@
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
+import 'package:app/page/text_field_page.dart';
 import 'package:app/page/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/component/src/switch_api.dart';
@@ -76,6 +77,9 @@ class HomePage extends StatelessWidget {
                   onPressed: () {},
                   child: const SwitchApiButton(color: UCS.white)),
               ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
+              ElevatedText(
+                  onPressed: () => push(const TextFieldPage()),
+                  text: 'TextField'),
               ElevatedText(
                   onPressed: () => push(const HivePreferencesPage()),
                   text: 'BHP(BasicHivePreferences)'),
