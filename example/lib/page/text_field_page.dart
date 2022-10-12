@@ -26,7 +26,16 @@ class TextFieldPage extends StatelessWidget {
                 send(true);
               }),
           TextLarge('新版'),
-          const BasicTextField().setWidth(double.infinity),
+          BasicTextField(
+            enableClearIcon: true,
+            enableEye: true,
+            enableSearchIcon: true,
+            searchTextTap: (String value) {},
+            sendSMSTap: (send) async {
+              await 1.seconds.delayed();
+              send(true);
+            },
+          ).setWidth(double.infinity),
           const SizedBox(),
         ]);
   }
