@@ -163,7 +163,7 @@ class InputText extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
 
   /// 输入框 圆角
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
 
   /// 整个组件装饰器，包含[header]、[footer]、[extraPrefix]、[extraSuffix]
   final Decoration? decoration;
@@ -235,20 +235,6 @@ class _InputTextState extends State<InputText> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    focusNode?.removeListener(focusNodeListener);
-    focusNode?.dispose();
-    if (widget.disposeController) controller.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant InputText oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) controller.text = widget.value ?? '';
-  }
-
-  @override
   Widget build(BuildContext context) => Universal(
       margin: widget.margin,
       padding: widget.padding,
@@ -278,10 +264,6 @@ class _InputTextState extends State<InputText> {
       ]);
     }
 
-    final EdgeInsetsGeometry extraPadding = EdgeInsets.only(
-        left: extraPrefix.isNotEmpty && widget.leftRetainSpacing ? 12 : 0,
-        right: extraSuffix.isNotEmpty && widget.rightRetainSpacing ? 12 : 0);
-
     final EdgeInsetsGeometry padding = EdgeInsets.only(
         top: 6,
         bottom: 6,
@@ -293,15 +275,14 @@ class _InputTextState extends State<InputText> {
                 widget.rightRetainSpacing
             ? 10
             : 0);
-    current = WidgetPendant(
+    current = WidgetDecorator(
         header: widget.header ?? header,
         footer: widget.footer,
         fillColor: widget.fillColor,
-        borderColor: borderColor,
+        borderSide: BorderSide(color: borderColor),
         borderRadius: widget.borderRadius,
         padding: padding,
         borderType: widget.borderType,
-        extraPadding: extraPadding.add(widget.contentPadding),
         extraPrefix: extraPrefix.isEmpty
             ? null
             : extraPrefix.length > 1

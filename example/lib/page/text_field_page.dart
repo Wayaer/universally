@@ -9,10 +9,10 @@ class TextFieldPage extends StatelessWidget {
     return BasicScaffold(
         padding: const EdgeInsets.all(12),
         appBarTitle: 'TextField',
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const SizedBox(),
+          const SizedBox(height: 20),
           TextLarge('旧版'),
+          const SizedBox(height: 20),
           InputText(
               eyeEnabled: true,
               searchEnabled: true,
@@ -25,10 +25,14 @@ class TextFieldPage extends StatelessWidget {
                 await 1.seconds.delayed();
                 send(true);
               }),
+          const SizedBox(height: 20),
           TextLarge('新版'),
+          const SizedBox(height: 20),
           BasicTextField(
+            borderStyle: InputBorderStyle(borderType: BorderType.outline),
             enableClearIcon: true,
             enableEye: true,
+            fillColor: Colors.red,
             enableSearchIcon: true,
             searchTextTap: (String value) {},
             sendSMSTap: (send) async {
