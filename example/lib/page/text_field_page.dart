@@ -14,6 +14,7 @@ class TextFieldPage extends StatelessWidget {
           TextLarge('旧版'),
           const SizedBox(height: 20),
           InputText(
+              hintText: '请输入',
               eyeEnabled: true,
               searchEnabled: true,
               clearEnabled: true,
@@ -29,11 +30,15 @@ class TextFieldPage extends StatelessWidget {
           TextLarge('新版'),
           const SizedBox(height: 20),
           BasicTextField(
-            borderStyle: InputBorderStyle(borderType: BorderType.outline),
+            hintText: '请输入',
             enableClearIcon: true,
             enableEye: true,
-            fillColor: Colors.red,
+            borderType: BorderType.outline,
+            borderRadius: BorderRadius.circular(4),
+            fillColor: Colors.red.withOpacity(0.2),
             enableSearchIcon: true,
+            searchTextMode: AccessoryMode.inner,
+            sendSMSMode: AccessoryMode.inner,
             searchTextTap: (String value) {},
             sendSMSTap: (send) async {
               await 1.seconds.delayed();

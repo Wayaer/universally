@@ -58,24 +58,25 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                   })
             ]),
           ]),
-          InputText(
+          BasicTextField(
               width: double.infinity,
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
               prefix: Container(
                   alignment: Alignment.centerLeft,
-                  width: 80,
+                  width: 50,
                   child: TextDefault(httpStr)),
               maxLength: 30,
               controller: ip,
               hintText: '请输入IP地址'),
-          InputText(
+          BasicTextField(
               width: double.infinity,
+              enableClearIcon: true,
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
               prefix: Container(
                   alignment: Alignment.centerLeft,
-                  width: 80,
+                  width: 50,
                   child: TextDefault('端口: ')),
               maxLength: 10,
               controller: port,

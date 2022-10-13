@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
+@Deprecated('使用 BasicTextField')
 class InputText extends StatefulWidget {
   const InputText(
       {this.controller,
@@ -213,7 +214,7 @@ class _InputTextState extends State<InputText> {
   late TextEditingController controller;
   FocusNode? focusNode;
   late Color borderColor;
-  bool eye = true;
+  bool obscureText = true;
 
   @override
   void initState() {
@@ -355,7 +356,7 @@ class _InputTextState extends State<InputText> {
       controller: controller,
       cursorColor: GlobalConfig().currentColor,
       cursorHeight: isAndroid ? 16 : 12,
-      obscureText: widget.eyeEnabled && eye,
+      obscureText: widget.eyeEnabled && obscureText,
       maxLength: widget.maxLength,
       onChanged: widget.onChanged,
       textAlign: _textAlign,
@@ -364,35 +365,6 @@ class _InputTextState extends State<InputText> {
       onEditingComplete: widget.onEditingComplete == null
           ? null
           : () => widget.onEditingComplete!.call(controller),
-      // cursorWidth: widget.cursorWidth,
-      // cursorRadius: widget.cursorRadius,
-      // clearButtonMode: widget.clearButtonMode,
-      // clipBehavior: widget.clipBehavior,
-      // autocorrect: widget.autocorrect,
-      // autofillHints: widget.autofillHints,
-      // dragStartBehavior: widget.dragStartBehavior,
-      // enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-      // enableInteractiveSelection: widget.enableInteractiveSelection,
-      // enableSuggestions: widget.enableSuggestions,
-      // expands: widget.enableSuggestions,
-      // maxLengthEnforcement: widget.maxLengthEnforcement,
-      // obscuringCharacter: widget.obscuringCharacter,
-      // readOnly: widget.readOnly,
-      // restorationId: widget.restorationId,
-      // scribbleEnabled: widget.scribbleEnabled,
-      // scrollController: widget.scrollController,
-      // scrollPadding: widget.scrollPadding,
-      // scrollPhysics: widget.scrollPhysics,
-      // selectionControls: widget.selectionControls,
-      // selectionHeightStyle: widget.selectionHeightStyle,
-      // selectionWidthStyle: widget.selectionWidthStyle,
-      // showCursor: widget.showCursor,
-      // smartDashesType: widget.smartDashesType,
-      // smartQuotesType: widget.smartQuotesType,
-      // strutStyle: widget.strutStyle,
-      // textAlignVertical: widget.textAlignVertical,
-      // textDirection: widget.textDirection,
-      // toolbarOptions: widget.toolbarOptions,
     );
   }
 
@@ -446,9 +418,9 @@ class _InputTextState extends State<InputText> {
   Widget eyeWidget() => Universal(
       enabled: widget.eyeEnabled,
       onTap: () => setState(() {
-            eye = !eye;
+            obscureText = !obscureText;
           }),
-      child: SVGAsset(eye ? UAS.eyeClose : UAS.eyeOpen,
+      child: SVGAsset(obscureText ? UAS.eyeClose : UAS.eyeOpen,
           color: GlobalConfig().config.textColor?.defaultColor,
           size: 20,
           package: 'universally'));
