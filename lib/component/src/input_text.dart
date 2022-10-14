@@ -276,7 +276,7 @@ class _InputTextState extends State<InputText> {
                 widget.rightRetainSpacing
             ? 10
             : 0);
-    current = WidgetDecorator(
+    current = DecoratorBox(
         header: widget.header ?? header,
         footer: widget.footer,
         fillColor: widget.fillColor,

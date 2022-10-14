@@ -12,8 +12,8 @@ class BasicTextField extends StatefulWidget {
     this.value,
     this.controller,
     this.searchTextTap,
-    this.searchTextMode = AccessoryMode.outer,
-    this.sendSMSMode = AccessoryMode.outer,
+    this.searchTextMode = DecoratorPositioned.outer,
+    this.sendSMSMode = DecoratorPositioned.outer,
     this.sendSMSTap,
     this.enableEye = false,
     this.enableClearIcon = false,
@@ -39,8 +39,6 @@ class BasicTextField extends StatefulWidget {
     this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
     this.hasFocusChangeBorderColor = true,
     this.contentPadding = const EdgeInsets.all(6.0),
-    this.prefixMode = OverlayVisibilityMode.always,
-    this.suffixMode = OverlayVisibilityMode.editing,
     this.clearButtonMode = OverlayVisibilityMode.never,
     this.textInputAction = TextInputAction.done,
     this.textCapitalization = TextCapitalization.none,
@@ -87,6 +85,7 @@ class BasicTextField extends StatefulWidget {
     this.restorationId,
     this.scribbleEnabled = true,
     this.enableIMEPersonalizedLearning = true,
+    this.textInputType = TextInputLimitFormatter.text,
   });
 
   /// ***** 附加功能 *****
@@ -95,11 +94,11 @@ class BasicTextField extends StatefulWidget {
 
   /// 添加 搜索文字 点击事件
   final ValueCallback<String>? searchTextTap;
-  final AccessoryMode searchTextMode;
+  final DecoratorPositioned searchTextMode;
 
   /// 添加 发送验证码 点击事件
   final SendSMSValueCallback? sendSMSTap;
-  final AccessoryMode sendSMSMode;
+  final DecoratorPositioned sendSMSMode;
 
   /// 开启 显示和隐藏 eye
   final bool enableEye;
@@ -219,6 +218,7 @@ class BasicTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputLimitFormatter textInputType;
 
   final TextDirection? textDirection;
 
@@ -310,8 +310,6 @@ class BasicTextField extends StatefulWidget {
 
   /// {@macro flutter.widgets.editableText.strutStyle}
   final StrutStyle? strutStyle;
-  final OverlayVisibilityMode suffixMode;
-  final OverlayVisibilityMode prefixMode;
 
   @override
   State<BasicTextField> createState() => _BasicTextFieldState();
@@ -319,8 +317,8 @@ class BasicTextField extends StatefulWidget {
 
 class _BasicTextFieldState extends State<BasicTextField> {
   late TextEditingController controller;
-  bool obscureText = true;
-  FocusNode? focusNode;
+  ValueNotifier<bool> obscureText = ValueNotifier(false);
+  late FocusNode focusNode;
   late Color borderColor;
 
   @override
@@ -329,142 +327,162 @@ class _BasicTextFieldState extends State<BasicTextField> {
     borderColor = widget.borderSide.color;
     controller = widget.controller ?? TextEditingController();
     if (widget.value != null) controller.text = widget.value!;
-    focusNode = widget.focusNode;
-    if (widget.hasFocusChangeBorderColor) {
-      focusNode ??= FocusNode();
-      focusNode!.addListener(focusNodeListener);
-    }
-  }
-
-  void focusNodeListener() {
-    borderColor = focusNode!.hasFocus
-        ? GlobalConfig().currentColor
-        : widget.borderSide.color;
-    if (mounted) setState(() {});
+    focusNode = widget.focusNode ?? FocusNode();
   }
 
   @override
   Widget build(BuildContext context) {
     /// 后缀
-    final List<AccessoryEntry> suffixes = [];
+    List<DecoratorEntry> suffixes = [];
 
     if (widget.enableClearIcon) {
-      suffixes.add(
-          AccessoryEntry(mode: AccessoryMode.inner, widget: buildClearIcon));
+      suffixes.add(DecoratorEntry(
+          mode: OverlayVisibilityMode.editing,
+          positioned: DecoratorPositioned.inner,
+          widget: buildClearIcon));
     }
     if (widget.enableEye) {
-      suffixes
-          .add(AccessoryEntry(mode: AccessoryMode.inner, widget: buildEyeIcon));
+      suffixes.add(DecoratorEntry(
+          mode: OverlayVisibilityMode.editing,
+          positioned: DecoratorPositioned.inner,
+          widget: buildEyeIcon));
     }
     if (widget.sendSMSTap != null) {
-      suffixes
-          .add(AccessoryEntry(mode: widget.sendSMSMode, widget: buildSendSMS));
+      suffixes.add(
+          DecoratorEntry(positioned: widget.sendSMSMode, widget: buildSendSMS));
     }
     if (widget.searchTextTap != null) {
-      suffixes.add(
-          AccessoryEntry(mode: widget.searchTextMode, widget: buildSearchText));
+      suffixes.add(DecoratorEntry(
+          positioned: widget.searchTextMode, widget: buildSearchText));
     }
     if (widget.suffix != null) {
-      suffixes.add(
-          AccessoryEntry(mode: AccessoryMode.outer, widget: widget.suffix!));
+      suffixes.add(DecoratorEntry(
+          positioned: DecoratorPositioned.outer, widget: widget.suffix!));
     }
 
     /// 前缀
-    List<AccessoryEntry> prefixes = [
+    List<DecoratorEntry> prefixes = [
       if (widget.prefix != null)
-        AccessoryEntry(mode: AccessoryMode.outer, widget: widget.prefix!)
+        DecoratorEntry(
+            positioned: DecoratorPositioned.outer, widget: widget.prefix!)
     ];
-    if (widget.enableSearchIcon) {
-      prefixes.add(
-          AccessoryEntry(mode: AccessoryMode.inner, widget: buildSearchIcon));
-    }
-    Widget textField = ExtendedTextField(
-        suffixes: suffixes,
-        prefixes: prefixes,
-        decorator: WidgetDecoratorStyle(
-            header: buildHeader,
-            footer: widget.footer,
-            padding: widget.padding),
-        builder: (TextInputType keyboardType,
-                List<TextInputFormatter> inputFormatters,
-                Widget? suffix,
-                Widget? prefix) =>
-            CupertinoTextField(
-              controller: controller,
-              focusNode: focusNode,
-              suffix: suffix,
-              suffixMode: widget.suffixMode,
-              prefixMode: widget.prefixMode,
-              prefix: prefix,
-              style:
-                  TStyle(color: GlobalConfig().config.textColor?.defaultColor)
-                      .merge(widget.style),
-              keyboardType: keyboardType,
-              inputFormatters: inputFormatters,
-              decoration: BoxDecoration(
-                  color: widget.fillColor,
-                  borderRadius: widget.borderRadius,
-                  border: border),
-              keyboardAppearance: widget.keyboardAppearance,
-              textInputAction: widget.textInputAction,
-              textCapitalization: widget.textCapitalization,
-              enabled: widget.enabled,
-              autofocus: widget.autoFocus,
-              obscureText: widget.enableEye && obscureText,
-              obscuringCharacter: widget.obscuringCharacter,
-              maxLines: _maxLines,
-              minLines: widget.minLines,
-              maxLengthEnforcement: widget.maxLengthEnforcement,
-              maxLength: widget.maxLength,
-              onChanged: widget.onChanged,
-              textAlign: _textAlign,
-              onTap: widget.onTap,
-              onSubmitted: widget.onSubmitted,
-              onEditingComplete: widget.onEditingComplete == null
-                  ? null
-                  : () => widget.onEditingComplete!.call(controller),
-              showCursor: widget.showCursor,
-              cursorColor: GlobalConfig().currentColor,
-              cursorHeight: widget.cursorHeight,
-              cursorWidth: widget.cursorWidth,
-              cursorRadius: widget.cursorRadius,
-              clearButtonMode: widget.clearButtonMode,
-              clipBehavior: widget.clipBehavior,
-              autocorrect: widget.autocorrect,
-              autofillHints: widget.autofillHints,
-              dragStartBehavior: widget.dragStartBehavior,
-              enableIMEPersonalizedLearning:
-                  widget.enableIMEPersonalizedLearning,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              enableSuggestions: widget.enableSuggestions,
-              expands: widget.expands,
-              readOnly: widget.readOnly,
-              restorationId: widget.restorationId,
-              scribbleEnabled: widget.scribbleEnabled,
-              scrollController: widget.scrollController,
-              scrollPadding: widget.scrollPadding,
-              scrollPhysics: widget.scrollPhysics,
-              selectionControls: widget.selectionControls,
-              selectionHeightStyle: widget.selectionHeightStyle,
-              selectionWidthStyle: widget.selectionWidthStyle,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              strutStyle: widget.strutStyle,
-              textAlignVertical: widget.textAlignVertical,
-              textDirection: widget.textDirection,
-              toolbarOptions: widget.toolbarOptions,
-              padding: widget.contentPadding,
-              placeholder: widget.hintText,
-              placeholderStyle: widget.hintStyle,
-            ));
 
+    if (widget.enableSearchIcon) {
+      prefixes.add(DecoratorEntry(
+          positioned: DecoratorPositioned.inner, widget: buildSearchIcon));
+    }
+    List<DecoratorEntry> innerSuffixes = [];
+    for (var element in suffixes) {
+      if (element.mode == OverlayVisibilityMode.editing ||
+          element.mode == OverlayVisibilityMode.notEditing) {
+        innerSuffixes.add(element);
+      }
+    }
+    suffixes.removeWhere((element) => innerSuffixes.contains(element));
+    List<DecoratorEntry> innerPrefixes = [];
+    for (var element in suffixes) {
+      if (element.mode == OverlayVisibilityMode.editing ||
+          element.mode == OverlayVisibilityMode.notEditing) {
+        innerPrefixes.add(element);
+      }
+    }
+    prefixes.removeWhere((element) => innerPrefixes.contains(element));
+    log(innerSuffixes.length);
     return Universal(
         heroTag: widget.heroTag,
         margin: widget.margin,
         decoration: widget.decoration,
         width: widget.width,
-        child: textField);
+        child: DecoratorBoxState(
+            suffixes: suffixes,
+            prefixes: prefixes,
+            focusNode: focusNode,
+            fillColor: widget.fillColor,
+            borderRadius: widget.borderRadius,
+            constraints: const BoxConstraints(minHeight: 35),
+            child: buildTextField(
+                innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
   }
+
+  Widget buildTextField({
+    List<DecoratorEntry> innerSuffixes = const [],
+    List<DecoratorEntry> innerPrefixes = const [],
+  }) =>
+      ValueListenableBuilder(
+          valueListenable: obscureText,
+          builder: (_, bool value, __) => CupertinoTextField(
+                controller: controller,
+                focusNode: focusNode,
+                suffixMode: OverlayVisibilityMode.editing,
+                suffix: innerSuffixes.isEmpty
+                    ? null
+                    : Row(
+                        children:
+                            innerSuffixes.builder((entry) => entry.widget)),
+                prefixMode: OverlayVisibilityMode.editing,
+                prefix: innerPrefixes.isEmpty
+                    ? null
+                    : Row(
+                        children:
+                            innerPrefixes.builder((entry) => entry.widget)),
+                decoration: const BoxDecoration(color: Colors.transparent),
+                style:
+                    TStyle(color: GlobalConfig().config.textColor?.defaultColor)
+                        .merge(widget.style),
+                keyboardType: widget.textInputType.toKeyboardType(),
+                inputFormatters: widget.textInputType.toTextInputFormatter(),
+                keyboardAppearance: widget.keyboardAppearance,
+                textInputAction: widget.textInputAction,
+                textCapitalization: widget.textCapitalization,
+                enabled: widget.enabled,
+                autofocus: widget.autoFocus,
+                obscureText: widget.enableEye && value,
+                obscuringCharacter: widget.obscuringCharacter,
+                maxLines: _maxLines,
+                minLines: widget.minLines,
+                maxLengthEnforcement: widget.maxLengthEnforcement,
+                maxLength: widget.maxLength,
+                onChanged: widget.onChanged,
+                textAlign: _textAlign,
+                onTap: widget.onTap,
+                onSubmitted: widget.onSubmitted,
+                onEditingComplete: widget.onEditingComplete == null
+                    ? null
+                    : () => widget.onEditingComplete!.call(controller),
+                showCursor: widget.showCursor,
+                cursorColor: GlobalConfig().currentColor,
+                cursorHeight: widget.cursorHeight ?? (isAndroid ? 20 : 16),
+                cursorWidth: widget.cursorWidth,
+                cursorRadius: widget.cursorRadius,
+                clearButtonMode: widget.clearButtonMode,
+                clipBehavior: widget.clipBehavior,
+                autocorrect: widget.autocorrect,
+                autofillHints: widget.autofillHints,
+                dragStartBehavior: widget.dragStartBehavior,
+                enableIMEPersonalizedLearning:
+                    widget.enableIMEPersonalizedLearning,
+                enableInteractiveSelection: widget.enableInteractiveSelection,
+                enableSuggestions: widget.enableSuggestions,
+                expands: widget.expands,
+                readOnly: widget.readOnly,
+                restorationId: widget.restorationId,
+                scribbleEnabled: widget.scribbleEnabled,
+                scrollController: widget.scrollController,
+                scrollPadding: widget.scrollPadding,
+                scrollPhysics: widget.scrollPhysics,
+                selectionControls: widget.selectionControls,
+                selectionHeightStyle: widget.selectionHeightStyle,
+                selectionWidthStyle: widget.selectionWidthStyle,
+                smartDashesType: widget.smartDashesType,
+                smartQuotesType: widget.smartQuotesType,
+                strutStyle: widget.strutStyle,
+                textAlignVertical: widget.textAlignVertical,
+                textDirection: widget.textDirection,
+                toolbarOptions: widget.toolbarOptions,
+                padding: widget.contentPadding,
+                placeholder: widget.hintText,
+                placeholderStyle: widget.hintStyle,
+              ));
 
   BoxBorder? get border {
     switch (widget.borderType) {
@@ -506,7 +524,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   }
 
   Widget get buildSearchText {
-    bool left = widget.searchTextMode != AccessoryMode.inner;
+    bool left = widget.searchTextMode != DecoratorPositioned.inner;
     return Universal(
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         onTap: () => widget.searchTextTap?.call(controller.text),
@@ -515,7 +533,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   }
 
   Widget get buildSendSMS {
-    bool left = widget.sendSMSMode != AccessoryMode.inner;
+    bool left = widget.sendSMSMode != DecoratorPositioned.inner;
     return SendSMS(
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         duration: const Duration(seconds: 60),
@@ -552,10 +570,10 @@ class _BasicTextFieldState extends State<BasicTextField> {
       margin: const EdgeInsets.only(right: 10),
       enabled: widget.enableEye,
       onTap: () {
-        obscureText = !obscureText;
+        obscureText.value = !obscureText.value;
         if (mounted) setState(() {});
       },
-      child: SVGAsset(obscureText ? UAS.eyeClose : UAS.eyeOpen,
+      child: SVGAsset(obscureText.value ? UAS.eyeClose : UAS.eyeOpen,
           color: GlobalConfig().config.textColor?.defaultColor,
           size: 20,
           package: 'universally'));
