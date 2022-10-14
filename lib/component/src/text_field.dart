@@ -19,7 +19,7 @@ class BasicTextField extends StatefulWidget {
     this.enableClearIcon = false,
     this.enableSearchIcon = false,
     this.hintText,
-    this.width = UConstant.longWidth,
+    this.width = double.infinity,
     this.margin,
     this.padding,
     this.hintStyle,
@@ -30,15 +30,16 @@ class BasicTextField extends StatefulWidget {
     this.labelText,
     this.labelStyle,
     this.disposeController = true,
+    this.hasFocusChangeBorder = true,
     this.fillColor,
-    this.suffix,
-    this.prefix,
-    this.decoration,
+    this.suffix = const [],
+    this.prefix = const [],
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.borderType = BorderType.none,
+    this.borderType = BorderType.outline,
     this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
-    this.hasFocusChangeBorderColor = true,
-    this.contentPadding = const EdgeInsets.all(6.0),
+    this.focusBorderSide,
+    this.contentPadding =
+        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     this.clearButtonMode = OverlayVisibilityMode.never,
     this.textInputAction = TextInputAction.done,
     this.textCapitalization = TextCapitalization.none,
@@ -80,7 +81,7 @@ class BasicTextField extends StatefulWidget {
     this.onTap,
     this.scrollController,
     this.scrollPhysics,
-    this.autofillHints = const <String>[],
+    this.autofillHints = const [],
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
     this.scribbleEnabled = true,
@@ -110,10 +111,10 @@ class BasicTextField extends StatefulWidget {
   final bool enableSearchIcon;
 
   /// 后缀
-  final Widget? suffix;
+  final List<DecoratorEntry> suffix;
 
   /// 前缀
-  final Widget? prefix;
+  final List<DecoratorEntry> prefix;
 
   /// 添加hero
   final String? heroTag;
@@ -122,13 +123,12 @@ class BasicTextField extends StatefulWidget {
   final Widget? header;
   final Widget? footer;
 
-  /// 整个组件装饰器，包含[header]、[footer]、[extraPrefix]、[extraSuffix]
-  final Decoration? decoration;
-
   /// 边框样式
   final BorderRadius? borderRadius;
   final BorderType borderType;
+  final bool hasFocusChangeBorder;
   final BorderSide borderSide;
+  final BorderSide? focusBorderSide;
 
   /// 整个组件的padding 包含[header]、[footer]
   final EdgeInsetsGeometry? padding;
@@ -144,9 +144,6 @@ class BasicTextField extends StatefulWidget {
 
   /// dispose 时调用 controller 的 dispose
   final bool disposeController;
-
-  /// 焦点变化改变Border 颜色
-  final bool hasFocusChangeBorderColor;
 
   /// ***** [TextField] *****
   final EdgeInsetsGeometry contentPadding;
@@ -319,12 +316,10 @@ class _BasicTextFieldState extends State<BasicTextField> {
   late TextEditingController controller;
   ValueNotifier<bool> obscureText = ValueNotifier(false);
   late FocusNode focusNode;
-  late Color borderColor;
 
   @override
   void initState() {
     super.initState();
-    borderColor = widget.borderSide.color;
     controller = widget.controller ?? TextEditingController();
     if (widget.value != null) controller.text = widget.value!;
     focusNode = widget.focusNode ?? FocusNode();
@@ -355,16 +350,13 @@ class _BasicTextFieldState extends State<BasicTextField> {
       suffixes.add(DecoratorEntry(
           positioned: widget.searchTextMode, widget: buildSearchText));
     }
-    if (widget.suffix != null) {
-      suffixes.add(DecoratorEntry(
-          positioned: DecoratorPositioned.outer, widget: widget.suffix!));
+    if (widget.suffix.isNotEmpty) {
+      suffixes.addAll(widget.suffix);
     }
 
     /// 前缀
     List<DecoratorEntry> prefixes = [
-      if (widget.prefix != null)
-        DecoratorEntry(
-            positioned: DecoratorPositioned.outer, widget: widget.prefix!)
+      if (widget.prefix.isNotEmpty) ...widget.prefix
     ];
 
     if (widget.enableSearchIcon) {
@@ -387,18 +379,23 @@ class _BasicTextFieldState extends State<BasicTextField> {
       }
     }
     prefixes.removeWhere((element) => innerPrefixes.contains(element));
-    log(innerSuffixes.length);
     return Universal(
         heroTag: widget.heroTag,
-        margin: widget.margin,
-        decoration: widget.decoration,
         width: widget.width,
         child: DecoratorBoxState(
+            margin: widget.margin,
+            padding: widget.padding,
             suffixes: suffixes,
             prefixes: prefixes,
+            borderType: widget.borderType,
             focusNode: focusNode,
             fillColor: widget.fillColor,
             borderRadius: widget.borderRadius,
+            focusBorderSide: widget.hasFocusChangeBorder
+                ? widget.focusBorderSide ??
+                    BorderSide(color: GlobalConfig().currentColor)
+                : null,
+            borderSide: widget.borderSide,
             constraints: const BoxConstraints(minHeight: 35),
             child: buildTextField(
                 innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
@@ -426,6 +423,11 @@ class _BasicTextFieldState extends State<BasicTextField> {
                         children:
                             innerPrefixes.builder((entry) => entry.widget)),
                 decoration: const BoxDecoration(color: Colors.transparent),
+                placeholder: widget.hintText,
+                placeholderStyle: TStyle(
+                        color: GlobalConfig().config.textColor?.smallColor,
+                        fontSize: 13)
+                    .merge(widget.hintStyle),
                 style:
                     TStyle(color: GlobalConfig().config.textColor?.defaultColor)
                         .merge(widget.style),
@@ -451,7 +453,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
                     : () => widget.onEditingComplete!.call(controller),
                 showCursor: widget.showCursor,
                 cursorColor: GlobalConfig().currentColor,
-                cursorHeight: widget.cursorHeight ?? (isAndroid ? 20 : 16),
+                cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
                 clearButtonMode: widget.clearButtonMode,
@@ -480,23 +482,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
                 textDirection: widget.textDirection,
                 toolbarOptions: widget.toolbarOptions,
                 padding: widget.contentPadding,
-                placeholder: widget.hintText,
-                placeholderStyle: widget.hintStyle,
               ));
-
-  BoxBorder? get border {
-    switch (widget.borderType) {
-      case BorderType.outline:
-        return Border.fromBorderSide(
-            widget.borderSide.copyWith(color: borderColor));
-      case BorderType.underline:
-        assert(widget.borderRadius == null,
-            'The current borderType, borderRadius must be null');
-        return Border(bottom: widget.borderSide.copyWith(color: borderColor));
-      case BorderType.none:
-        return null;
-    }
-  }
 
   TextAlign get _textAlign {
     TextAlign align = widget.textAlign;

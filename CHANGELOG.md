@@ -1,3 +1,7 @@
+## 1.3.2
+
+* Add `BasicTextField()`
+
 ## 1.3.1+1
 
 * Add `RefreshControllers()`

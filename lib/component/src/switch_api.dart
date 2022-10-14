@@ -63,9 +63,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
               prefix: Container(
-                  alignment: Alignment.centerLeft,
-                  width: 50,
-                  child: TextDefault(httpStr)),
+                      alignment: Alignment.centerLeft,
+                      width: 50,
+                      child: TextDefault(httpStr))
+                  .toDecoratorEntry()
+                  .convertToList(),
               maxLength: 30,
               controller: ip,
               hintText: '请输入IP地址'),
@@ -75,9 +77,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
               prefix: Container(
-                  alignment: Alignment.centerLeft,
-                  width: 50,
-                  child: TextDefault('端口: ')),
+                      alignment: Alignment.centerLeft,
+                      width: 50,
+                      child: TextDefault('端口: '))
+                  .toDecoratorEntry()
+                  .convertToList(),
               maxLength: 10,
               controller: port,
               hintText: '请输入端口'),

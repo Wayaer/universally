@@ -33,7 +33,7 @@ class TextFieldPage extends StatelessWidget {
               hintText: '请输入',
               enableClearIcon: true,
               enableEye: true,
-              borderType: BorderType.outline,
+              borderType: BorderType.underline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
               enableSearchIcon: true,
