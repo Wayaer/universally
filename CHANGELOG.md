@@ -1,6 +1,8 @@
-## 1.3.2
+## 1.3.2+1
 
 * Add `BasicTextField()`
+* Modify `searchTextMode` to `searchTextPositioned`
+* Modify `sendSMSMode` to `sendSMSPositioned`
 
 ## 1.3.1+1
 

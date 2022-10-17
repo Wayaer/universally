@@ -29,7 +29,7 @@ class GlobalConfig {
   /// [BasicLoading] loading 颜色
   late Color currentColor;
 
-  // /// 保存图片和视频的缓存地址
+  /// 保存图片和视频的缓存地址
   String? currentCacheDir;
 
   /// 当前项目使用的 url

@@ -12,8 +12,8 @@ class BasicTextField extends StatefulWidget {
     this.value,
     this.controller,
     this.searchTextTap,
-    this.searchTextMode = DecoratorPositioned.outer,
-    this.sendSMSMode = DecoratorPositioned.outer,
+    this.searchTextPositioned = DecoratorPositioned.outer,
+    this.sendSMSPositioned = DecoratorPositioned.outer,
     this.sendSMSTap,
     this.enableEye = false,
     this.enableClearIcon = false,
@@ -95,11 +95,11 @@ class BasicTextField extends StatefulWidget {
 
   /// 添加 搜索文字 点击事件
   final ValueCallback<String>? searchTextTap;
-  final DecoratorPositioned searchTextMode;
+  final DecoratorPositioned searchTextPositioned;
 
   /// 添加 发送验证码 点击事件
   final SendSMSValueCallback? sendSMSTap;
-  final DecoratorPositioned sendSMSMode;
+  final DecoratorPositioned sendSMSPositioned;
 
   /// 开启 显示和隐藏 eye
   final bool enableEye;
@@ -314,7 +314,7 @@ class BasicTextField extends StatefulWidget {
 
 class _BasicTextFieldState extends State<BasicTextField> {
   late TextEditingController controller;
-  ValueNotifier<bool> obscureText = ValueNotifier(false);
+  ValueNotifier<bool> obscureText = ValueNotifier(true);
   late FocusNode focusNode;
 
   @override
@@ -343,12 +343,12 @@ class _BasicTextFieldState extends State<BasicTextField> {
           widget: buildEyeIcon));
     }
     if (widget.sendSMSTap != null) {
-      suffixes.add(
-          DecoratorEntry(positioned: widget.sendSMSMode, widget: buildSendSMS));
+      suffixes.add(DecoratorEntry(
+          positioned: widget.sendSMSPositioned, widget: buildSendSMS));
     }
     if (widget.searchTextTap != null) {
       suffixes.add(DecoratorEntry(
-          positioned: widget.searchTextMode, widget: buildSearchText));
+          positioned: widget.searchTextPositioned, widget: buildSearchText));
     }
     if (widget.suffix.isNotEmpty) {
       suffixes.addAll(widget.suffix);
@@ -510,7 +510,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   }
 
   Widget get buildSearchText {
-    bool left = widget.searchTextMode != DecoratorPositioned.inner;
+    bool left = widget.searchTextPositioned != DecoratorPositioned.inner;
     return Universal(
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         onTap: () => widget.searchTextTap?.call(controller.text),
@@ -519,7 +519,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   }
 
   Widget get buildSendSMS {
-    bool left = widget.sendSMSMode != DecoratorPositioned.inner;
+    bool left = widget.sendSMSPositioned != DecoratorPositioned.inner;
     return SendSMS(
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         duration: const Duration(seconds: 60),

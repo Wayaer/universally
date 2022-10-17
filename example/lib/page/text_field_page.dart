@@ -11,22 +11,6 @@ class TextFieldPage extends StatelessWidget {
         appBarTitle: 'TextField',
         children: [
           const SizedBox(height: 20),
-          TextLarge('旧版'),
-          const SizedBox(height: 20),
-          InputText(
-              hintText: '请输入',
-              eyeEnabled: true,
-              searchEnabled: true,
-              clearEnabled: true,
-              extraSearchText: false,
-              extraSendSMS: false,
-              borderType: BorderType.outline,
-              searchTextTap: (String value) {},
-              sendSMSTap: (send) async {
-                await 1.seconds.delayed();
-                send(true);
-              }),
-          const SizedBox(height: 20),
           TextLarge('新版'),
           const SizedBox(height: 20),
           BasicTextField(
