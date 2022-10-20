@@ -158,12 +158,12 @@ class GlobalConfig {
 
       void alertNetworkState(ConnectivityResult state) {
         if (state == ConnectivityResult.none) {
-          if (isAndroid && !willPop) scaffoldWillPop = false;
+          if (isAndroid && !willPop) GlobalOptions().setScaffoldWillPop(false);
           if (alertNotNetwork != null) {
             _connectivityOverlay ??= alertNotNetwork(state);
           }
         } else {
-          if (isAndroid && !willPop) scaffoldWillPop = true;
+          if (isAndroid && !willPop) GlobalOptions().setScaffoldWillPop(true);
           _connectivityOverlay?.removeEntry();
           _connectivityOverlay = null;
         }
