@@ -58,8 +58,8 @@ class BasicTextField extends StatefulWidget {
     this.smartDashesType,
     this.smartQuotesType,
     this.enableSuggestions = true,
-    this.maxLines,
-    this.minLines,
+    this.maxLines = 1,
+    this.minLines = 1,
     this.expands = false,
     this.maxLength,
     this.maxLengthEnforcement,
@@ -177,8 +177,8 @@ class BasicTextField extends StatefulWidget {
   final Color? fillColor;
 
   /// 默认为 1
-  final int? maxLines;
-  final int? minLines;
+  final int maxLines;
+  final int minLines;
 
   /// 是否自动获取焦点 默认false
   final bool autoFocus;
@@ -491,8 +491,8 @@ class _BasicTextFieldState extends State<BasicTextField> {
   }
 
   int get _maxLines {
-    final int max = widget.maxLines ?? 1;
-    final int min = widget.minLines ?? 1;
+    final int max = widget.maxLines;
+    final int min = widget.minLines;
     if (min > max) return min;
     return max;
   }
