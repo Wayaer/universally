@@ -13,7 +13,7 @@ abstract class HiveBox {
     if (!isInitialize) {
       _name = name;
       _lazy = lazy;
-      await Hive.initFlutter(subDir);
+      await Hive.initFlutter(subDir ?? 'hive');
       isInitialize = true;
       if (lazy) {
         await openLazyBox();
