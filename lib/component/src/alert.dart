@@ -326,13 +326,14 @@ void showUserPrivacyAlert({
   required GestureTapCallback onUserAgreementTap,
   required GestureTapCallback onPrivacyPolicyTap,
   required GestureTapCallback onConsentTap,
+  ModalWindowsOptions? modelOptions,
 }) {
   final result = BHP().getBool(UConstant.privacy);
   if (result ?? false) {
     onConsentTap.call();
   } else {
     showDoubleChooseWindows(
-        modelOptions:
+        modelOptions: modelOptions ??
             GlobalOptions().modalWindowsOptions.copyWith(color: UCS.black50),
         decoration: BoxDecoration(
             color: UCS.white, borderRadius: BorderRadius.circular(4)),
