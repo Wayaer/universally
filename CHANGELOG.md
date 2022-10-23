@@ -1,3 +1,9 @@
+## 1.3.3
+
+* Change the original ExtendedFutureBuilder() to CustomFutureBuilder()
+* Added new ExtendedFutureBuilder() extension for FutureBuilder()
+* Added new ExtendedStreamBuilder() extension for StreamBuilder()
+
 ## 1.3.2+2
 
 * Add `BasicTextField()`

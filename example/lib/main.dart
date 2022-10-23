@@ -31,8 +31,13 @@ Future<void> main() async {
             showToast('use Cellular networks');
             break;
           case ConnectivityResult.none:
+            showToast('none networks');
             break;
           case ConnectivityResult.bluetooth:
+            showToast('use bluetooth');
+            break;
+          case ConnectivityResult.vpn:
+            showToast('use vpn');
             break;
         }
       },

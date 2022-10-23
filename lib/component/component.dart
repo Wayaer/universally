@@ -65,21 +65,32 @@ extension ExtensionNotificationListener on Widget {
 }
 
 /// 局部 异步加载数据
-class BasicFutureBuilder<T> extends ExtendedFutureBuilder<T> {
+class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
   BasicFutureBuilder({
     super.key,
     super.initialData,
     required super.future,
     required super.onDone,
-    Widget Function(BuildContext context, Function() reset)? onNull,
-    Widget Function(BuildContext context, Function() reset)? onNone,
+    CustomFutureBuilderNone? onNone,
   }) : super(
-            onNull:
-                onNull ?? (_, __) => const Center(child: PlaceholderWidget()),
             onNone:
                 onNone ?? (_, __) => const Center(child: PlaceholderWidget()),
             onWaiting: (_) => Center(child: BasicLoading()),
             onError: (_, __, reset) => BasicError(onTap: reset));
+}
+
+/// 局部 异步加载数据
+class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
+  BasicStreamBuilder({
+    super.key,
+    super.initialData,
+    required super.stream,
+    required super.onDone,
+    CustomBuilderContext? onNone,
+  }) : super(
+            onNone: onNone ?? (_) => const Center(child: PlaceholderWidget()),
+            onWaiting: (_) => Center(child: BasicLoading()),
+            onError: (_, __) => const BasicError());
 }
 
 class BasicError extends StatelessWidget {
