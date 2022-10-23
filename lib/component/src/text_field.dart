@@ -432,7 +432,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
                     TStyle(color: GlobalConfig().config.textColor?.defaultColor)
                         .merge(widget.style),
                 keyboardType: widget.textInputType.toKeyboardType(),
-                inputFormatters: widget.textInputType.toTextInputFormatter(),
+                inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
                 textInputAction: widget.textInputAction,
                 textCapitalization: widget.textCapitalization,
@@ -483,6 +483,14 @@ class _BasicTextFieldState extends State<BasicTextField> {
                 toolbarOptions: widget.toolbarOptions,
                 padding: widget.contentPadding,
               ));
+
+  List<TextInputFormatter> get inputFormatters {
+    final list = widget.textInputType.toTextInputFormatter();
+    if (widget.inputFormatters != null) {
+      list.addAll(widget.inputFormatters!);
+    }
+    return list;
+  }
 
   TextAlign get _textAlign {
     TextAlign align = widget.textAlign;
