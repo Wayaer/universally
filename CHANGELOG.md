@@ -1,3 +1,9 @@
+## 1.5.0
+
+* Remove appPath from `ProjectConfig()`,
+* Add cachePath to `ProjectConfig()`,If you do not set cachePath, the default cache path is
+  automatically used
+
 ## 1.3.3
 
 * Change the original ExtendedFutureBuilder() to CustomFutureBuilder()
