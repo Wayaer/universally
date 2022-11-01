@@ -12,7 +12,7 @@ class ProjectConfig {
     this.pullUpFooter,
     this.scaffoldBackground,
     this.appBarConfig,
-    this.appPath,
+    this.cachePath,
     this.placeholder = const PlaceholderWidget(),
     this.toastOptions =
         const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
@@ -53,7 +53,8 @@ class ProjectConfig {
   Color mainColor;
 
   /// 保存图片和视频的缓存地址
-  AppPathModel? appPath;
+  /// 如不设置 默认通过 [Curiosity().native.appPath] 获取
+  String? cachePath;
 
   /// 测试版 url 包含 debug 模式
   String betaUrl;

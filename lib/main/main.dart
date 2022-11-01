@@ -112,17 +112,22 @@ class GlobalConfig {
     /// Set the page transition style
     GlobalOptions().setGlobalPushMode(config.pushStyle);
 
-    String? path;
-    if (config.appPath != null) {
-      if (isAndroid) {
-        path = '${config.appPath?.externalCacheDir!}/';
-      } else if (isIOS) {
-        path = config.appPath?.temporaryDirectory;
-      } else if (isMacOS) {
-        path = config.appPath?.temporaryDirectory;
+    /// 图片或者文件缓存地址
+    final cachePath = _config.cachePath;
+    if (cachePath == null) {
+      final appPath = await Curiosity().native.appPath;
+      if (appPath != null) {
+        if (isAndroid) {
+          currentCacheDir = '${appPath.externalCacheDir!}/';
+        } else if (isIOS) {
+          currentCacheDir = appPath.temporaryDirectory;
+        } else if (isMacOS) {
+          currentCacheDir = appPath.temporaryDirectory;
+        }
       }
+    } else {
+      currentCacheDir = cachePath;
     }
-    if (path != null) currentCacheDir = path;
   }
 
   BasicDio setDioConfig([BasicDioOptions? options]) =>
