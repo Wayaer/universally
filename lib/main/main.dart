@@ -8,6 +8,8 @@ import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';
 
+typedef LoadingCoreBuilder = Widget Function(SpinKit loading);
+
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
 typedef NetworkToastBuilder = void Function(ConnectivityResult result);
@@ -105,10 +107,12 @@ class GlobalConfig {
     }
 
     /// 全局 [LoadingOptions] 配置信息
-    GlobalOptions().setLoadingOptions(const LoadingOptions(
-        custom: BasicLoading(),
-        style: LoadingStyle.custom,
-        options: ModalWindowsOptions(ignoring: true)));
+    final loading = config.loadingBuilder?.call(BasicLoading());
+    GlobalOptions().setLoadingOptions(LoadingOptions(
+        custom: loading,
+        style: loading == null ? LoadingStyle.circular : LoadingStyle.custom,
+        options: const ModalWindowsOptions(absorbing: true)
+            .merge(config.loadingModalWindowsOptions)));
 
     /// 设置页面转场样式
     /// Set the page transition style

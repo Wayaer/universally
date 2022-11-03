@@ -1,8 +1,7 @@
-## 1.5.0
+## 1.5.0+1
 
 * Remove appPath from `ProjectConfig()`,
-* Add cachePath to `ProjectConfig()`,If you do not set cachePath, the default cache path is
-  automatically used
+* Add cachePath to `ProjectConfig()`,If you do not set cachePath, the default cache path is automatically used
 
 ## 1.3.3
 

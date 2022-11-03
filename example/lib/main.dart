@@ -11,7 +11,13 @@ Future<void> main() async {
 
   await GlobalConfig().setDefaultConfig(ProjectConfig(
       mainColor: Colors.blueAccent,
-      loadingStyle: SpinKitStyle.dualRing,
+      loadingBuilder: (SpinKit loading) => Container(
+          width: loading.size * 2,
+          height: loading.size * 2,
+          decoration: BoxDecoration(
+              color: UCS.black, borderRadius: BorderRadius.circular(10)),
+          child: BasicLoading(
+              color: Colors.white, style: SpinKitStyle.fadingCircle)),
       betaUrl: '这是设置测试url',
       releaseUrl: '这里设置发布版url',
       toastOptions: const ToastOptions(ignoring: false)));

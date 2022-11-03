@@ -22,7 +22,8 @@ class ProjectConfig {
     this.modalWindowsOptions,
     this.logHasDottedLine = true,
     this.wheelOptions,
-    this.loadingStyle = SpinKitStyle.fadingCircle,
+    this.loadingModalWindowsOptions,
+    this.loadingBuilder,
     this.imageFailed,
     this.textColor,
   }) {
@@ -99,7 +100,8 @@ class ProjectConfig {
   RoutePushStyle pushStyle;
 
   /// loading 样式
-  SpinKitStyle loadingStyle;
+  ModalWindowsOptions? loadingModalWindowsOptions;
+  LoadingCoreBuilder? loadingBuilder;
 
   /// [BasicImage] 加载失败时显示的组件
   Widget? imageFailed;
