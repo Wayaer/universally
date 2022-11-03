@@ -103,10 +103,12 @@ class GlobalConfig {
     if (config.wheelOptions != null) {
       GlobalOptions().setWheelOptions(config.wheelOptions!);
     }
-    GlobalOptions().setLoadingOptions(LoadingOptions(
+
+    /// 全局 [LoadingOptions] 配置信息
+    GlobalOptions().setLoadingOptions(const LoadingOptions(
         custom: BasicLoading(),
         style: LoadingStyle.custom,
-        options: const ModalWindowsOptions(ignoring: true)));
+        options: ModalWindowsOptions(ignoring: true)));
 
     /// 设置页面转场样式
     /// Set the page transition style

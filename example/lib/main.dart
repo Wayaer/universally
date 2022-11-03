@@ -11,6 +11,7 @@ Future<void> main() async {
 
   await GlobalConfig().setDefaultConfig(ProjectConfig(
       mainColor: Colors.blueAccent,
+      loadingStyle: SpinKitStyle.dualRing,
       betaUrl: '这是设置测试url',
       releaseUrl: '这里设置发布版url',
       toastOptions: const ToastOptions(ignoring: false)));
@@ -89,6 +90,7 @@ class HomePage extends StatelessWidget {
                   onPressed: () => push(const HivePreferencesPage()),
                   text: 'BHP(BasicHivePreferences)'),
               const PushSwitchState(),
+              const ElevatedText(onPressed: showLoading, text: 'showLoading'),
             ]));
   }
 

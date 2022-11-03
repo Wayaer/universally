@@ -315,10 +315,22 @@ class _Title extends TextLarge {
 }
 
 /// loading
-class BasicLoading extends SpinKit {
-  BasicLoading({super.key, SpinKitStyle? style, super.size = 50})
-      : super(style ?? GlobalConfig().config.loadingStyle,
-            color: GlobalConfig().currentColor);
+
+class BasicLoading extends StatelessWidget {
+  const BasicLoading({Key? key, this.style, this.size = 50}) : super(key: key);
+  final SpinKitStyle? style;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: size * 3,
+        height: size * 3,
+        decoration: BoxDecoration(
+            color: UCS.black70, borderRadius: BorderRadius.circular(10)),
+        child: SpinKit(style ?? GlobalConfig().config.loadingStyle,
+            size: size, color: Colors.white));
+  }
 }
 
 void showUserPrivacyAlert({
