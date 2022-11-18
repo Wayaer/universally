@@ -8,7 +8,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';
 
-typedef LoadingCoreBuilder = Widget Function(SpinKit loading);
+typedef LoadingCoreBuilder = Widget? Function(SpinKit loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
@@ -79,16 +79,16 @@ class GlobalConfig {
     GlobalOptions().setToastOptions(config.toastOptions);
 
     /// 设置全局log 是否显示 分割线
-    GlobalOptions().setLogDottedLine(config.logHasDottedLine);
+    GlobalOptions().setLogCrossLine(config.logCrossLine);
 
-    /// 设置全局 [PopupModalWindows] 组件配置信息
+    /// 设置全局 [ModalWindows] 组件配置信息
     if (config.modalWindowsOptions != null) {
       GlobalOptions().setModalWindowsOptions(config.modalWindowsOptions!);
     }
 
-    /// 全局 [GeneralDialogOptions] 配置信息
+    /// 全局 [DialogOptions] 配置信息
     if (config.generalDialogOptions != null) {
-      GlobalOptions().setGeneralDialogOptions(config.generalDialogOptions!);
+      GlobalOptions().setDialogOptions(config.generalDialogOptions!);
     }
 
     /// 全局 [BottomSheetOptions] 配置信息
@@ -110,7 +110,7 @@ class GlobalConfig {
     final loading = config.loadingBuilder?.call(BasicLoading());
     GlobalOptions().setLoadingOptions(LoadingOptions(
         custom: loading,
-        style: loading == null ? LoadingStyle.circular : LoadingStyle.custom,
+        style: LoadingStyle.circular,
         options: const ModalWindowsOptions(absorbing: true)
             .merge(config.loadingModalWindowsOptions)));
 

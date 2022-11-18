@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-export 'src/alert.dart';
+export 'src/popup.dart';
 export 'src/gif.dart';
 export 'src/list.dart';
 export 'src/picker.dart';

@@ -19,12 +19,14 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
 Future<String?> pickerArea(
         {String? defaultProvince,
         String? defaultCity,
-        String? defaultDistrict}) =>
-    showAreaPicker<String?>(
-        defaultProvince: defaultProvince,
-        defaultCity: defaultCity,
-        defaultDistrict: defaultDistrict,
-        options: CurrentPickerOptions(title: '选择地区'));
+        String? defaultDistrict,
+        BottomSheetOptions? options}) =>
+    AreaPicker(
+            defaultProvince: defaultProvince,
+            defaultCity: defaultCity,
+            defaultDistrict: defaultDistrict,
+            options: CurrentPickerOptions(title: '选择地区'))
+        .show(options: options);
 
 /// 日期选择器
 Future<String?> pickerDateTime(
@@ -32,7 +34,8 @@ Future<String?> pickerDateTime(
     DateTime? defaultDate,
     DateTime? endDate,
     int? dateTimeType,
-    ValueCallback<String>? confirmTap}) async {
+    ValueCallback<String>? confirmTap,
+    BottomSheetOptions? options}) async {
   DateTimePickerUnit unit;
   switch (dateTimeType) {
     case 1: //时分
@@ -68,38 +71,42 @@ Future<String?> pickerDateTime(
     }
   }
 
-  final date = await showDateTimePicker<DateTime?>(
-      options: CurrentPickerOptions(
-          confirmTap: (DateTime? dateTime) {
-            if (confirmTap != null && dateTime != null) {
-              confirmTap(dateTimeToString(dateTime));
-            }
-            return true;
-          },
-          title: '选择时间'),
-      wheelOptions: const PickerWheelOptions(isCupertino: false),
-      unit: unit,
-      dual: true,
-      startDate: startDate,
-      defaultDate: defaultDate,
-      endDate: endDate);
+  final date = await DateTimePicker(
+          options: CurrentPickerOptions(
+              confirmTap: (DateTime? dateTime) {
+                if (confirmTap != null && dateTime != null) {
+                  confirmTap(dateTimeToString(dateTime));
+                }
+                return true;
+              },
+              title: '选择时间'),
+          wheelOptions: const PickerWheelOptions(isCupertino: false),
+          unit: unit,
+          dual: true,
+          startDate: startDate,
+          defaultDate: defaultDate,
+          endDate: endDate)
+      .show(options: options);
   return date == null ? null : dateTimeToString(date);
 }
 
 /// 多条数据列表选择器
 Future<int?> pickerMultipleChoice<T>(String title,
-        {required int itemCount, required IndexedWidgetBuilder itemBuilder}) =>
-    showSingleColumnPicker<int?>(
-        itemCount: itemCount,
-        itemBuilder: (BuildContext context, int index) => Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: itemBuilder(context, index)),
-        wheelOptions: const PickerWheelOptions(
-            useMagnifier: true,
-            magnification: 1.2,
-            diameterRatio: 1.2,
-            isCupertino: true),
-        options: CurrentPickerOptions<int>(title: title));
+        {required int itemCount,
+        required IndexedWidgetBuilder itemBuilder,
+        BottomSheetOptions? options}) =>
+    SingleColumnPicker(
+            itemCount: itemCount,
+            itemBuilder: (BuildContext context, int index) => Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: itemBuilder(context, index)),
+            wheelOptions: const PickerWheelOptions(
+                useMagnifier: true,
+                magnification: 1.2,
+                diameterRatio: 1.2,
+                isCupertino: true),
+            options: CurrentPickerOptions<int>(title: title))
+        .show(options: options);
 
 Future<T?> pickerCustom<T>(
   Widget content, {
@@ -112,26 +119,25 @@ Future<T?> pickerCustom<T>(
   BottomSheetOptions? bottomSheetOptions,
   double height = 250,
 }) =>
-    showCustomPicker<T?>(
-        bottomSheetOptions: bottomSheetOptions,
-        confirmTap: customConfirmTap,
-        cancelTap: customCancelTap,
-        options: CurrentPickerOptions<T>(
-            cancelTap: cancelTap,
-            confirmTap: confirmTap,
-            title: title,
-            height: height,
-            backgroundColor: backgroundColor),
-        content: content);
+    CustomPicker(
+            confirmTap: customConfirmTap,
+            cancelTap: customCancelTap,
+            options: CurrentPickerOptions<T>(
+                cancelTap: cancelTap,
+                confirmTap: confirmTap,
+                title: title,
+                height: height,
+                backgroundColor: backgroundColor),
+            content: content)
+        .show<T>();
 
 /// 底部有取消的单选
 /// 返回数组index
 Future<int?> pickerSingleChoice(List<String> list,
         {BottomSheetOptions? options}) =>
-    showBottomPopup<int?>(
-        options: options ??
-            const BottomSheetOptions(backgroundColor: UCS.transparent),
-        widget: AlertSingleChoice(list));
+    AlertSingleChoice(list).popupBottomSheet<int?>(
+        options: const BottomSheetOptions(backgroundColor: UCS.transparent)
+            .merge(options));
 
 /// 带取消的单选
 class AlertSingleChoice extends StatelessWidget {

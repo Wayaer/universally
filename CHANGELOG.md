@@ -1,3 +1,7 @@
+## 1.6.0
+
+* Update some plug-ins
+
 ## 1.5.0+1
 
 * Remove appPath from `ProjectConfig()`,

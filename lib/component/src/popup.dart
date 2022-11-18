@@ -14,9 +14,9 @@ Future<dynamic>? showAlertMessage({
   Widget? content,
   Widget? title,
   Widget? confirm,
+  DialogOptions? dialogOptions,
 }) =>
-    showDialogPopup<dynamic>(
-        widget: AlertMessage(
+    AlertMessage(
             text: text ?? '',
             confirmText: confirmText,
             contentText: contentText,
@@ -24,7 +24,8 @@ Future<dynamic>? showAlertMessage({
             confirmTap: confirmTap,
             content: content,
             title: title,
-            confirm: confirm));
+            confirm: confirm)
+        .popupCupertinoDialog(options: dialogOptions);
 
 /// 弹出带确定的按钮 点击确定自动关闭
 /// Pop up the button with "OK" and click "OK" to automatically close
@@ -89,9 +90,9 @@ Future<dynamic>? showAlertConfirmCancel({
   Widget? content,
   Widget? cancel,
   Widget? confirm,
+  DialogOptions? dialogOptions,
 }) =>
-    showDialogPopup<dynamic>(
-        widget: AlertConfirmAndCancel(
+    AlertConfirmAndCancel(
             text: text,
             confirmText: confirmText,
             cancelText: cancelText,
@@ -103,8 +104,10 @@ Future<dynamic>? showAlertConfirmCancel({
             cancel: cancel,
             confirm: confirm,
             autoClose: autoClose,
-            content: content),
-        options: const GeneralDialogOptions(barrierLabel: ''));
+            content: content)
+        .popupDialog(
+            options:
+                const DialogOptions(barrierLabel: '').merge(dialogOptions));
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
@@ -171,24 +174,26 @@ class AlertConfirmAndCancel extends StatelessWidget {
 
 /// 带取消的 弹窗 单列选择
 Future<int?>? showAlertCountSelect(
-        {required List<String> list, int? defaultIndex}) =>
-    showBottomPopup<int?>(
-        options: const BottomSheetOptions(backgroundColor: Colors.transparent),
-        widget: AlertCountSelect(
-            cancelButton: Universal(
-                safeBottom: true,
-                onTap: maybePop,
-                child: TextDefault('取消',
-                        textAlign: TextAlign.center,
-                        color: GlobalConfig().currentColor)
-                    .paddingSymmetric(vertical: 12)),
-            actions: list.builderEntry((item) => CupertinoActionSheetAction(
-                  onPressed: () {
-                    maybePop(item.key);
-                  },
-                  isDefaultAction: defaultIndex == item.key,
-                  child: TextDefault(item.value),
-                ))));
+        {required List<String> list,
+        int? defaultIndex,
+        BottomSheetOptions? bottomSheetOptions}) =>
+    AlertCountSelect(
+        cancelButton: Universal(
+            safeBottom: true,
+            onTap: maybePop,
+            child: TextDefault('取消',
+                    textAlign: TextAlign.center,
+                    color: GlobalConfig().currentColor)
+                .paddingSymmetric(vertical: 12)),
+        actions: list.builderEntry((item) => CupertinoActionSheetAction(
+              onPressed: () {
+                maybePop(item.key);
+              },
+              isDefaultAction: defaultIndex == item.key,
+              child: TextDefault(item.value),
+            ))).popupBottomSheet<int?>(
+        options: const BottomSheetOptions(backgroundColor: Colors.transparent)
+            .merge(bottomSheetOptions));
 
 /// 带取消的 弹窗 单列选择
 class AlertCountSelect extends StatelessWidget {
@@ -219,7 +224,7 @@ class AlertCountSelect extends StatelessWidget {
 }
 
 ExtendedOverlayEntry? alertOnlyMessage(String? text, {bool autoOff = true}) =>
-    showOverlay(AlertOnlyMessage(text: text), autoOff: autoOff);
+    AlertOnlyMessage(text: text).showOverlay(autoOff: autoOff);
 
 /// 只弹出提示 没有按钮  不能关闭
 /// Only pop-up prompt, no button, can not be closed
@@ -239,7 +244,7 @@ class AlertOnlyMessage extends StatelessWidget {
   final Widget? title;
 
   @override
-  Widget build(BuildContext context) => PopupModalWindows(
+  Widget build(BuildContext context) => ModalWindows(
       options: ModalWindowsOptions(onTap: () {}),
       child: CupertinoAlertDialog(
           title: title ?? _Title(text: titleText ?? '提示'),
@@ -259,7 +264,8 @@ Future<bool?> showDoubleChooseAlert({
   Widget? center,
 
   /// 底层modal配置
-  ModalWindowsOptions? modelOptions,
+  ModalWindowsOptions? options,
+  DialogOptions? dialogOptions,
 }) async {
   final content = Universal(
       constraints: const BoxConstraints(minHeight: 60),
@@ -269,46 +275,46 @@ Future<bool?> showDoubleChooseAlert({
         const SizedBox(height: 30),
         if (center != null) center.marginOnly(bottom: 15)
       ]);
-  final value = await showDoubleChooseWindows(
-      content: content,
-      left: Universal(
-          height: 40,
-          decoration: const BoxDecoration(
-              border: Border(
-            top: BorderSide(color: UCS.lineColor, width: 1),
-            right: BorderSide(color: UCS.lineColor, width: 0.5),
-          )),
-          alignment: Alignment.center,
-          onTap: leftTap ?? pop,
-          child: TextDefault(left)),
-      right: Universal(
-          height: 40,
-          onTap: rightTap,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-              border: Border(
-            top: BorderSide(color: UCS.lineColor, width: 1),
-            left: BorderSide(color: UCS.lineColor, width: 0.5),
-          )),
-          child: TextDefault(right, color: GlobalConfig().currentColor)),
-      modelOptions: modelOptions,
-      decoration: BoxDecoration(
-          color: UCS.white, borderRadius: BorderRadius.circular(6)));
+  final value = await DoubleChooseWindows(
+          content: content,
+          left: Universal(
+              height: 40,
+              decoration: const BoxDecoration(
+                  border: Border(
+                top: BorderSide(color: UCS.lineColor, width: 1),
+                right: BorderSide(color: UCS.lineColor, width: 0.5),
+              )),
+              alignment: Alignment.center,
+              onTap: leftTap ?? pop,
+              child: TextDefault(left, fontType: FontType.semiBold)),
+          right: Universal(
+              height: 40,
+              onTap: rightTap,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  border: Border(
+                top: BorderSide(color: UCS.lineColor, width: 1),
+                left: BorderSide(color: UCS.lineColor, width: 0.5),
+              )),
+              child: TextDefault(right,
+                  color: GlobalConfig().currentColor,
+                  fontType: FontType.semiBold)),
+          options: options,
+          decoration: BoxDecoration(
+              color: UCS.white, borderRadius: BorderRadius.circular(6)))
+      .show(options: dialogOptions);
   return value ?? false;
 }
 
 /// showBottomPopup 移除背景色 关闭滑动手势
-Future<T?> showBasicBottomPopup<T>(
-        {Widget? widget,
-        bool isScrollControlled = false,
-        BottomSheetOptions? options}) =>
-    showBottomPopup<T>(
-        options: options ??
-            BottomSheetOptions(
+Future<T?> showBasicBottomSheet<T>(Widget widget,
+        {bool isScrollControlled = false, BottomSheetOptions? options}) =>
+    widget.popupBottomSheet<T>(
+        options: BottomSheetOptions(
                 backgroundColor: UCS.transparent,
                 enableDrag: false,
-                isScrollControlled: isScrollControlled),
-        widget: widget);
+                isScrollControlled: isScrollControlled)
+            .merge(options));
 
 class _Title extends TextLarge {
   _Title({String? text}) : super(text ?? '提示', fontSize: 18);
@@ -332,41 +338,44 @@ void showUserPrivacyAlert({
   required GestureTapCallback onUserAgreementTap,
   required GestureTapCallback onPrivacyPolicyTap,
   required GestureTapCallback onConsentTap,
-  ModalWindowsOptions? modelOptions,
+  ModalWindowsOptions? options,
 }) {
   final result = BHP().getBool(UConstant.privacy);
   if (result ?? false) {
     onConsentTap.call();
   } else {
-    showDoubleChooseWindows(
-        modelOptions: modelOptions ??
-            GlobalOptions().modalWindowsOptions.copyWith(color: UCS.black50),
-        decoration: BoxDecoration(
-            color: UCS.white, borderRadius: BorderRadius.circular(4)),
-        content: _UserPrivacyAlert(
-            onUserAgreementTap: onUserAgreementTap,
-            onPrivacyPolicyTap: onPrivacyPolicyTap,
-            title: title),
-        right: SimpleButton(
-            height: 40,
-            margin: const EdgeInsets.only(left: 0.5),
-            alignment: Alignment.center,
-            textStyle: const TStyle(color: UCS.white),
-            text: '同意',
-            color: GlobalConfig().currentColor,
-            onTap: () {
-              pop();
-              BHP().setBool(UConstant.privacy, true);
-              onConsentTap.call();
-            }),
-        left: SimpleButton(
-            text: '取消',
-            height: 40,
-            margin: const EdgeInsets.only(right: 0.5),
-            alignment: Alignment.center,
-            textStyle: const TStyle(color: UCS.black70),
-            color: UCS.background,
-            onTap: Curiosity().native.exitApp));
+    DoubleChooseWindows(
+            options: GlobalOptions()
+                .modalWindowsOptions
+                .copyWith(color: UCS.black50)
+                .merge(options),
+            decoration: BoxDecoration(
+                color: UCS.white, borderRadius: BorderRadius.circular(4)),
+            content: _UserPrivacyAlert(
+                onUserAgreementTap: onUserAgreementTap,
+                onPrivacyPolicyTap: onPrivacyPolicyTap,
+                title: title),
+            right: SimpleButton(
+                height: 40,
+                margin: const EdgeInsets.only(left: 0.5),
+                alignment: Alignment.center,
+                textStyle: const TStyle(color: UCS.white),
+                text: '同意',
+                color: GlobalConfig().currentColor,
+                onTap: () {
+                  pop();
+                  BHP().setBool(UConstant.privacy, true);
+                  onConsentTap.call();
+                }),
+            left: SimpleButton(
+                text: '取消',
+                height: 40,
+                margin: const EdgeInsets.only(right: 0.5),
+                alignment: Alignment.center,
+                textStyle: const TStyle(color: UCS.black70),
+                color: UCS.background,
+                onTap: Curiosity().native.exitApp))
+        .show();
   }
 }
 

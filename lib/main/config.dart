@@ -20,7 +20,7 @@ class ProjectConfig {
     this.generalDialogOptions,
     this.bottomSheetOptions,
     this.modalWindowsOptions,
-    this.logHasDottedLine = true,
+    this.logCrossLine = true,
     this.wheelOptions,
     this.loadingModalWindowsOptions,
     this.loadingBuilder,
@@ -78,14 +78,14 @@ class ProjectConfig {
   /// 全局 Toast 配置信息
   ToastOptions toastOptions;
 
-  /// 全局 [PopupModalWindows] 组件配置信息
+  /// 全局 [ModalWindows] 组件配置信息
   ModalWindowsOptions? modalWindowsOptions;
 
   /// 全局 [BottomSheetOptions] 配置信息
   BottomSheetOptions? bottomSheetOptions;
 
-  /// 全局 [GeneralDialogOptions] 配置信息
-  GeneralDialogOptions? generalDialogOptions;
+  /// 全局 [DialogOptions] 配置信息
+  DialogOptions? generalDialogOptions;
 
   /// 全局 [PickerWheelOptions] 配置信息
   PickerWheelOptions? pickerWheelOptions;
@@ -94,7 +94,7 @@ class ProjectConfig {
   WheelOptions? wheelOptions;
 
   /// 全局log是否添加分割线
-  bool logHasDottedLine;
+  bool logCrossLine;
 
   /// 全局路由跳转样式
   RoutePushStyle pushStyle;

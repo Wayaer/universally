@@ -11,6 +11,12 @@ Future<void> main() async {
 
   await GlobalConfig().setDefaultConfig(ProjectConfig(
       mainColor: Colors.blueAccent,
+      textColor: TextColor(
+          largeColor: const Color(0xFF292929),
+          veryLargeColor: const Color(0xFF292929),
+          defaultColor: const Color(0xFF292929),
+          styleColor: const Color(0xFF292929),
+          smallColor: const Color(0x804D4D4D)),
       loadingBuilder: (SpinKit loading) => Container(
           width: loading.size * 2,
           height: loading.size * 2,
@@ -83,6 +89,15 @@ class HomePage extends StatelessWidget {
                         title: 'title', left: 'left', right: 'right');
                   },
                   text: 'showDoubleChooseAlert'),
+              ElevatedText(
+                  onPressed: () {
+                    showUserPrivacyAlert(
+                        title: 'Universally',
+                        onUserAgreementTap: () {},
+                        onPrivacyPolicyTap: () {},
+                        onConsentTap: () {});
+                  },
+                  text: 'showUserPrivacyAlert'),
               ElevatedButton(
                   onPressed: () {}, child: const CleanCache(color: UCS.white)),
               ElevatedButton(

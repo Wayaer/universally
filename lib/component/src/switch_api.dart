@@ -146,7 +146,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   }
 
   Future<void> saveApi(String api) async {
-    context.focusNode();
+    context.requestFocus();
     if (isRelease) {
       await BHP().setBool(UConstant.isRelease, isRelease);
     } else {
