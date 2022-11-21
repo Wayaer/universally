@@ -107,10 +107,10 @@ class GlobalConfig {
     }
 
     /// 全局 [LoadingOptions] 配置信息
-    final loading = config.loadingBuilder?.call(BasicLoading());
+    final loading =
+        config.loadingBuilder?.call(BasicLoading()) ?? BasicLoading();
     GlobalOptions().setLoadingOptions(LoadingOptions(
         custom: loading,
-        style: LoadingStyle.circular,
         options: const ModalWindowsOptions(absorbing: true)
             .merge(config.loadingModalWindowsOptions)));
 
