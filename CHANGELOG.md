@@ -1,3 +1,7 @@
+## 1.6.1
+
+* `BasicDioOptions` Adds more methods
+
 ## 1.6.0+1
 
 * Update some plug-ins

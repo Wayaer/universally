@@ -11,8 +11,14 @@ typedef ValueCallbackHeader = Map<String, String>? Function(String url);
 typedef ValueCallbackParams = Map<String, dynamic>? Function(
     String url, Map<String, dynamic>? params);
 
+/// 扩展所有的 uri
+typedef ValueCallbackUri = Uri Function(Uri uri);
+
 /// 扩展所有的 data
 typedef ValueCallbackData<T> = T Function(String url, T params);
+
+/// 扩展所有的 uri data
+typedef ValueCallbackUriData<T> = T Function(Uri uri, T params);
 
 typedef ValueCallbackError = bool Function();
 
@@ -44,7 +50,9 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.uploadContentType,
     this.extraHeader,
     this.extraData,
+    this.extraUriData,
     this.extraParams,
+    this.extraUri,
     this.errorIntercept,
     this.filteredUrls = const [],
     super.method,
@@ -81,8 +89,14 @@ class BasicDioOptions extends ExtendedDioOptions {
   /// 扩展所有的 data 参数
   ValueCallbackData? extraData;
 
+  /// 扩展所有的 uri Data
+  ValueCallbackUriData? extraUriData;
+
   /// 扩展所有的 params
   ValueCallbackParams? extraParams;
+
+  /// 扩展所有的 uri
+  ValueCallbackUri? extraUri;
 
   /// 错误拦截;
   BasicDioErrorIntercept? errorIntercept;
@@ -156,33 +170,84 @@ class BasicDio {
     Map<String, dynamic>? params,
     bool? loading,
     Options? options,
+    CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final ResponseModel res = await dio.get(url,
         options: _initBasicOptions(options, url),
+        cancelToken: cancelToken,
         params: basicDioOptions.extraParams?.call(url, params) ?? params);
     return _response(res, tag);
   }
 
-  Future<BasicModel> post(String url,
-      {Map<String, dynamic>? params,
-      dynamic data,
-      bool dataToJson = true,
-      dynamic tag,
-      bool? loading,
-      Options? options,
-      ProgressCallback? onSendProgress}) async {
+  Future<BasicModel> getUri(
+    Uri uri, {
+    dynamic tag,
+    bool? loading,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.getUri(uri,
+        cancelToken: cancelToken,
+        options: _initBasicOptions(options, uri.path));
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> post(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    bool dataToJson = true,
+    dynamic tag,
+    bool? loading,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
+
     final ResponseModel res = await dio.post(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: dataToJson
-            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
-            : data);
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> postUri(
+    Uri uri, {
+    dynamic data,
+    bool dataToJson = true,
+    dynamic tag,
+    bool? loading,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.postUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
@@ -194,16 +259,46 @@ class BasicDio {
     bool? loading,
     bool dataToJson = true,
     Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
     final ResponseModel res = await dio.put(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: dataToJson
-            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
-            : data);
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> putUri(
+    Uri uri, {
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.putUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
@@ -215,15 +310,184 @@ class BasicDio {
     bool? loading,
     bool dataToJson = true,
     Options? options,
+    CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    var extraData = basicDioOptions.extraData?.call(url, data) ?? data;
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
     final ResponseModel res = await dio.delete(url,
         options: _initBasicOptions(options, url),
         params: basicDioOptions.extraParams?.call(url, params) ?? params,
-        data: dataToJson ? jsonEncode(extraData) : extraData);
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> deleteUri(
+    Uri uri, {
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.deleteUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> patch(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
+    final ResponseModel res = await dio.patch(url,
+        options: _initBasicOptions(options, url),
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> patchUri(
+    Uri uri, {
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.patchUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> head(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
+    final ResponseModel res = await dio.head(url,
+        options: _initBasicOptions(options, url),
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> headUri(
+    Uri uri, {
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.headUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> request(
+    String url, {
+    Map<String, dynamic>? params,
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
+
+    final ResponseModel res = await dio.request(url,
+        options: _initBasicOptions(options, url),
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data);
+    return _response(res, tag);
+  }
+
+  Future<BasicModel> requestUri(
+    Uri uri, {
+    dynamic data,
+    dynamic tag,
+    bool? loading,
+    bool dataToJson = true,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.requestUri(uri,
+        options: _initBasicOptions(options, uri.path),
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
@@ -233,6 +497,7 @@ class BasicDio {
     String url,
     dynamic data, {
     ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
     bool? loading,
     Options? options,
     dynamic tag,
@@ -245,6 +510,34 @@ class BasicDio {
         data: basicDioOptions.extraData?.call(url, data) ?? data,
         options:
             _initBasicOptions(options, url).copyWith(receiveTimeout: 30000),
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress);
+    return _response(res, tag);
+  }
+
+  /// 文件上传
+  /// File upload
+  Future<BasicModel> uploadUri(
+    Uri uri,
+    dynamic data, {
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    bool? loading,
+    Options? options,
+    dynamic tag,
+    CancelToken? cancelToken,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.postUri(uri,
+        data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
+        options: _initBasicOptions(options, uri.path)
+            .copyWith(receiveTimeout: 30000),
+        onReceiveProgress: onReceiveProgress,
+        cancelToken: cancelToken,
         onSendProgress: onSendProgress);
     return _response(res, tag);
   }
@@ -268,12 +561,42 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
+    data = basicDioOptions.extraData?.call(url, data) ?? data;
     final ResponseModel res = await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, url),
-        data: dataToJson
-            ? jsonEncode(basicDioOptions.extraData?.call(url, data) ?? data)
-            : data,
+        data: dataToJson ? jsonEncode(data) : data,
+        deleteOnError: deleteOnError,
+        lengthHeader: lengthHeader,
+        cancelToken: cancelToken);
+    return _response(res, tag);
+  }
+
+  /// 文件下载
+  /// File download
+  Future<BasicModel> downloadUri(
+    Uri uri,
+    String savePath, {
+    bool? loading,
+    dynamic tag,
+    Options? options,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    dynamic data,
+    bool dataToJson = true,
+    Map<String, dynamic>? params,
+    bool deleteOnError = true,
+    String lengthHeader = Headers.contentLengthHeader,
+  }) async {
+    assert(_singleton != null, '请先调用 initialize');
+    if (hasNetWork) return notNetWorkModel;
+    _addLoading(loading);
+    data = jsonEncode(basicDioOptions.extraUriData?.call(uri, data) ?? data);
+    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    final ResponseModel res = await dio.downloadUri(uri, savePath,
+        onReceiveProgress: onReceiveProgress,
+        options: _initBasicOptions(options, uri.path),
+        data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
         cancelToken: cancelToken);
