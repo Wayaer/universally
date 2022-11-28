@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class NetworkImageProvider extends ExtendedResizeImage {
-  NetworkImageProvider(String url, {double? compressionRatio, double scale = 1})
+class BasicNetworkImageProvider extends ExtendedResizeImage {
+  BasicNetworkImageProvider(String url,
+      {double? compressionRatio = 0.6, double scale = 1})
       : super(
             ExtendedNetworkImageProvider(url,
                 scale: scale, imageCacheName: url, cache: true, retries: 1),
-            compressionRatio: compressionRatio ?? 0.6);
+            compressionRatio: compressionRatio);
 }
 
 /// BasicImage
@@ -51,6 +52,7 @@ class BasicImage extends StatelessWidget {
   BasicImage.file(
     File file, {
     super.key,
+    double compressionRatio = 0.6,
     this.failed,
     this.width,
     this.height,
@@ -65,11 +67,12 @@ class BasicImage extends StatelessWidget {
   }) : image = ExtendedResizeImage.resizeIfNeeded(
             provider: ExtendedFileImageProvider(file,
                 scale: hasGesture ? 2 : 1, imageCacheName: file.path),
-            compressionRatio: 0.6);
+            compressionRatio: compressionRatio);
 
   BasicImage.asset(
     String assetName, {
     super.key,
+    double compressionRatio = 0.6,
     this.failed,
     this.width,
     this.height,
@@ -82,6 +85,7 @@ class BasicImage extends StatelessWidget {
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
   }) : image = ExtendedResizeImage.resizeIfNeeded(
+            compressionRatio: compressionRatio,
             provider: hasGesture
                 ? ExtendedExactAssetImageProvider(assetName,
                     scale: hasGesture ? 2 : 1, imageCacheName: assetName)
