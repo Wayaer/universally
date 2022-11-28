@@ -28,7 +28,7 @@ class BasicImage extends StatelessWidget {
       this.radius = 2});
 
   BasicImage.network(
-    String? url, {
+    String url, {
     super.key,
     double compressionRatio = 0.6,
     this.failed,
@@ -42,13 +42,11 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  }) : image = url == null
-            ? const AssetImage('')
-            : ExtendedResizeImage.resizeIfNeeded(
-                provider: ExtendedNetworkImageProvider(url,
-                    scale: hasGesture ? 2 : 1, imageCacheName: url),
-                compressionRatio: compressionRatio,
-                imageCacheName: url);
+  }) : image = ExtendedResizeImage.resizeIfNeeded(
+            provider: ExtendedNetworkImageProvider(url,
+                scale: hasGesture ? 2 : 1, imageCacheName: url),
+            compressionRatio: compressionRatio,
+            imageCacheName: url);
 
   BasicImage.file(
     File file, {
