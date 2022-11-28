@@ -13,20 +13,23 @@ class BasicNetworkImageProvider extends ExtendedResizeImage {
 }
 
 /// BasicImage
-class BasicImage extends StatelessWidget {
-  const BasicImage(this.image,
-      {super.key,
-      this.fit = BoxFit.cover,
-      this.failed,
-      this.background = UCS.background,
-      this.width,
-      this.height,
-      this.shape = BoxShape.rectangle,
-      this.border,
-      this.hasGesture = false,
-      this.clearMemoryCacheWhenDispose = true,
-      this.clearMemoryCacheIfFailed = true,
-      this.radius = 2});
+class BasicImage extends StatefulWidget {
+  const BasicImage(
+    this.image, {
+    super.key,
+    this.fit = BoxFit.cover,
+    this.failed,
+    this.background = UCS.background,
+    this.width,
+    this.height,
+    this.shape = BoxShape.rectangle,
+    this.border,
+    this.hasGesture = false,
+    this.clearMemoryCacheWhenDispose = true,
+    this.clearMemoryCacheIfFailed = true,
+    this.imageCacheName,
+    this.radius = 2,
+  });
 
   BasicImage.network(
     String url, {
@@ -43,10 +46,17 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  }) : image = ExtendedResizeImage.resizeIfNeeded(
+    int? cacheWidth,
+    int? cacheHeight,
+    int? maxBytes,
+  })  : imageCacheName = url,
+        image = ExtendedResizeImage.resizeIfNeeded(
+            cacheHeight: cacheHeight,
+            cacheWidth: cacheWidth,
             provider: ExtendedNetworkImageProvider(url,
                 scale: hasGesture ? 2 : 1, imageCacheName: url),
             compressionRatio: compressionRatio,
+            maxBytes: maxBytes,
             imageCacheName: url);
 
   BasicImage.file(
@@ -64,7 +74,15 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  }) : image = ExtendedResizeImage.resizeIfNeeded(
+    int? cacheWidth,
+    int? cacheHeight,
+    int? maxBytes,
+  })  : imageCacheName = file.path,
+        image = ExtendedResizeImage.resizeIfNeeded(
+            imageCacheName: file.path,
+            cacheHeight: cacheHeight,
+            cacheWidth: cacheWidth,
+            maxBytes: maxBytes,
             provider: ExtendedFileImageProvider(file,
                 scale: hasGesture ? 2 : 1, imageCacheName: file.path),
             compressionRatio: compressionRatio);
@@ -84,13 +102,23 @@ class BasicImage extends StatelessWidget {
     this.hasGesture = false,
     this.clearMemoryCacheWhenDispose = true,
     this.clearMemoryCacheIfFailed = true,
-  }) : image = ExtendedResizeImage.resizeIfNeeded(
+    int? cacheWidth,
+    int? cacheHeight,
+    int? maxBytes,
+  })  : imageCacheName = assetName,
+        image = ExtendedResizeImage.resizeIfNeeded(
+            maxBytes: maxBytes,
             compressionRatio: compressionRatio,
+            cacheHeight: cacheHeight,
+            cacheWidth: cacheWidth,
+            imageCacheName: assetName,
             provider: hasGesture
                 ? ExtendedExactAssetImageProvider(assetName,
                     scale: hasGesture ? 2 : 1, imageCacheName: assetName)
                 : ExtendedAssetImageProvider(assetName,
                     imageCacheName: assetName));
+
+  final String? imageCacheName;
 
   final BoxFit fit;
 
@@ -119,30 +147,38 @@ class BasicImage extends StatelessWidget {
   final double radius;
 
   @override
+  State<BasicImage> createState() => _BasicImageState();
+}
+
+class _BasicImageState extends State<BasicImage> {
+  @override
   Widget build(BuildContext context) {
-    final BoxShape lShape = shape;
+    final BoxShape lShape = widget.shape;
     return ExtendedImage(
-        color: background,
-        image: image,
-        width: width,
-        height: height,
-        fit: fit,
+        color: widget.background,
+        image: widget.image,
+        width: widget.width,
+        height: widget.height,
+        fit: widget.fit,
         enableMemoryCache: true,
-        mode: hasGesture ? ExtendedImageMode.gesture : ExtendedImageMode.none,
-        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
-        clearMemoryCacheIfFailed: clearMemoryCacheIfFailed,
+        mode: widget.hasGesture
+            ? ExtendedImageMode.gesture
+            : ExtendedImageMode.none,
+        clearMemoryCacheWhenDispose: widget.clearMemoryCacheWhenDispose,
+        clearMemoryCacheIfFailed: widget.clearMemoryCacheIfFailed,
         enableLoadState: false,
         shape: lShape,
-        border: border,
-        borderRadius:
-            lShape == BoxShape.rectangle ? BorderRadius.circular(radius) : null,
+        border: widget.border,
+        borderRadius: lShape == BoxShape.rectangle
+            ? BorderRadius.circular(widget.radius)
+            : null,
         loadStateChanged: (ExtendedImageState state) {
           if (state.extendedImageLoadState == LoadState.failed) log('图片加载失败');
           switch (state.extendedImageLoadState) {
             case LoadState.loading:
               return placeholderWidget;
             case LoadState.completed:
-              return Image(image: image, fit: fit);
+              return Image(image: widget.image, fit: widget.fit);
             case LoadState.failed:
               return error(lShape);
           }
@@ -152,12 +188,20 @@ class BasicImage extends StatelessWidget {
   Widget? get placeholderWidget => BasicLoading(size: 10);
 
   Widget? error(BoxShape lShape) => Container(
-      padding: failed == null
+      padding: widget.failed == null
           ? const EdgeInsets.symmetric(vertical: 6)
           : EdgeInsets.zero,
       alignment: Alignment.center,
-      color: background,
-      child: failed ?? GlobalConfig().config.imageFailed);
+      color: widget.background,
+      child: widget.failed ?? GlobalConfig().config.imageFailed);
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.imageCacheName != null) {
+      clearMemoryImageCache(widget.imageCacheName);
+    }
+  }
 }
 
 class PreviewImage extends StatelessWidget {
