@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicExtendedResizeImage extends ExtendedResizeImage {
-  BasicExtendedResizeImage.memory(
+class BasicResizeImage extends ExtendedResizeImage {
+  BasicResizeImage.memory(
     Uint8List bytes, {
     double scale = 1.0,
     bool cacheRawData = false,
@@ -26,7 +26,7 @@ class BasicExtendedResizeImage extends ExtendedResizeImage {
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName)));
 
-  BasicExtendedResizeImage.asset(
+  BasicResizeImage.asset(
     String assetName, {
     AssetBundle? bundle,
     String? package,
@@ -49,7 +49,7 @@ class BasicExtendedResizeImage extends ExtendedResizeImage {
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName)));
 
-  BasicExtendedResizeImage.file(
+  BasicResizeImage.file(
     File file, {
     double scale = 1.0,
     bool cacheRawData = false,
@@ -70,7 +70,7 @@ class BasicExtendedResizeImage extends ExtendedResizeImage {
                 scale: scale,
                 imageCacheName: imageCacheName)));
 
-  BasicExtendedResizeImage.network(
+  BasicResizeImage.network(
     String url, {
     double scale = 1.0,
     Map<String, String>? headers,
@@ -409,7 +409,7 @@ class BasicImage extends ExtendedImage {
     String? package,
   }) {
     if (value is File) {
-      return BasicExtendedResizeImage.file(value,
+      return BasicResizeImage.file(value,
           cacheWidth: cacheWidth,
           cacheHeight: cacheHeight,
           maxBytes: maxBytes,
@@ -418,7 +418,7 @@ class BasicImage extends ExtendedImage {
           imageCacheName: imageCacheName,
           scale: scale);
     } else if (value is Uint8List) {
-      return BasicExtendedResizeImage.memory(value,
+      return BasicResizeImage.memory(value,
           cacheWidth: cacheWidth,
           cacheHeight: cacheHeight,
           maxBytes: maxBytes,
@@ -428,7 +428,7 @@ class BasicImage extends ExtendedImage {
           scale: scale);
     } else if (value is String) {
       return value.startsWith('http')
-          ? BasicExtendedResizeImage.network(value,
+          ? BasicResizeImage.network(value,
               cacheWidth: cacheWidth,
               cacheHeight: cacheHeight,
               maxBytes: maxBytes,
@@ -445,7 +445,7 @@ class BasicImage extends ExtendedImage {
               cacheKey: cacheKey,
               printError: printError,
               cacheMaxAge: cacheMaxAge)
-          : BasicExtendedResizeImage.asset(value,
+          : BasicResizeImage.asset(value,
               cacheWidth: cacheWidth,
               cacheHeight: cacheHeight,
               maxBytes: maxBytes,
@@ -455,7 +455,7 @@ class BasicImage extends ExtendedImage {
               bundle: bundle,
               package: package);
     }
-    return BasicExtendedResizeImage.asset('');
+    return BasicResizeImage.asset('');
   }
 
   BasicImage.custom(

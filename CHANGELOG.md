@@ -1,3 +1,7 @@
+## 1.6.2
+
+* The `BasicImage` was redeveloped and the `BasicResizeImage` was added
+
 ## 1.6.1
 
 * `BasicDioOptions` Adds more methods
