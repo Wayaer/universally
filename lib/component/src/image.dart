@@ -154,7 +154,7 @@ class BasicImage extends ExtendedImage {
   }) : super(image: image);
 
   BasicImage.file(
-    File file, {
+    File? file, {
     super.key,
     super.scale = 1.0,
     super.semanticLabel,
@@ -200,7 +200,7 @@ class BasicImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.file(file,
+  }) : super.file(file ?? File('file is null'),
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
@@ -256,7 +256,7 @@ class BasicImage extends ExtendedImage {
                 buildLoadStateChanged(failed: failed, loading: loading));
 
   BasicImage.asset(
-    String name, {
+    String? name, {
     super.key,
     super.bundle,
     super.semanticLabel,
@@ -304,12 +304,12 @@ class BasicImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.asset(name,
+  }) : super.asset(name ?? 'asset name is null',
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
   BasicImage.network(
-    String url, {
+    String? url, {
     super.key,
     super.semanticLabel,
     super.excludeFromSemantics = false,
@@ -365,7 +365,7 @@ class BasicImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.network(url,
+  }) : super.network(url ?? 'url is null',
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 

@@ -1,4 +1,4 @@
-## 1.6.2+1
+## 1.6.2+2
 
 * The `BasicImage` was redeveloped and the `BasicResizeImage` was added
 
