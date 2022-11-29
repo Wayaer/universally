@@ -374,14 +374,42 @@ class BasicImage extends ExtendedImage {
       (ExtendedImageState state) {
         switch (state.extendedImageLoadState) {
           case LoadState.loading:
-            return loading ?? const ImageLoading();
+            return loading ?? const ImageLoading(size: 16);
           case LoadState.completed:
             return null;
           case LoadState.failed:
-            log('图片加载失败', crossLine: false);
+            _logFailed(state);
             return failed ?? const ImageFailed(alignment: Alignment.center);
         }
       };
+
+  static void _logFailed(ExtendedImageState state) {
+    String? value;
+    final imageProvider = state.imageProvider;
+    if (imageProvider is ExtendedResizeImage) {
+      final provider = imageProvider.imageProvider;
+      if (provider is ExtendedMemoryImageProvider) {
+        value = provider.bytes.length.toString();
+      } else if (provider is ExtendedNetworkImageProvider) {
+        value = provider.url;
+      } else if (provider is ExtendedFileImageProvider) {
+        value = provider.file.path;
+      } else if (provider is ExtendedAssetImageProvider) {
+        value = provider.assetName;
+      }
+    } else {
+      if (imageProvider is MemoryImage) {
+        value = imageProvider.bytes.length.toString();
+      } else if (imageProvider is NetworkImage) {
+        value = imageProvider.url;
+      } else if (imageProvider is FileImage) {
+        value = imageProvider.file.path;
+      } else if (imageProvider is AssetImage) {
+        value = imageProvider.assetName;
+      }
+    }
+    log('图片加载失败 $value', crossLine: false);
+  }
 
   static ImageProvider buildImageProvider(
     dynamic value, {
@@ -479,7 +507,7 @@ class BasicImage extends ExtendedImage {
     super.shape = BoxShape.rectangle,
     super.borderRadius = const BorderRadius.all(Radius.circular(2)),
     super.clipBehavior = Clip.antiAlias,
-    super.enableLoadState = false,
+    super.enableLoadState = true,
     super.beforePaintImage,
     super.afterPaintImage,
     super.mode = ExtendedImageMode.none,
