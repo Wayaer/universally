@@ -1,207 +1,548 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicNetworkImageProvider extends ExtendedResizeImage {
-  BasicNetworkImageProvider(String url,
-      {double? compressionRatio = 0.6, double scale = 1})
-      : super(
-            ExtendedNetworkImageProvider(url,
-                scale: scale, imageCacheName: url, cache: true, retries: 1),
-            compressionRatio: compressionRatio);
-}
-
-/// BasicImage
-class BasicImage extends StatefulWidget {
-  const BasicImage(
-    this.image, {
-    super.key,
-    this.fit = BoxFit.cover,
-    this.failed,
-    this.background = UCS.background,
-    this.width,
-    this.height,
-    this.shape = BoxShape.rectangle,
-    this.border,
-    this.hasGesture = false,
-    this.clearMemoryCacheWhenDispose = true,
-    this.clearMemoryCacheIfFailed = true,
-    this.imageCacheName,
-    this.radius = 2,
-  });
-
-  BasicImage.network(
-    String url, {
-    super.key,
-    double compressionRatio = 0.6,
-    this.failed,
-    this.width,
-    this.height,
-    this.radius = 2,
-    this.shape = BoxShape.rectangle,
-    this.background = UCS.background,
-    this.border,
-    this.fit = BoxFit.cover,
-    this.hasGesture = false,
-    this.clearMemoryCacheWhenDispose = true,
-    this.clearMemoryCacheIfFailed = true,
+class BasicExtendedResizeImage extends ExtendedResizeImage {
+  BasicExtendedResizeImage.memory(
+    Uint8List bytes, {
+    double scale = 1.0,
+    bool cacheRawData = false,
+    String? imageCacheName,
     int? cacheWidth,
     int? cacheHeight,
+    double? compressionRatio,
     int? maxBytes,
-  })  : imageCacheName = url,
-        image = ExtendedResizeImage.resizeIfNeeded(
-            cacheHeight: cacheHeight,
+  }) : super(ExtendedResizeImage.resizeIfNeeded(
             cacheWidth: cacheWidth,
-            provider: ExtendedNetworkImageProvider(url,
-                scale: hasGesture ? 2 : 1, imageCacheName: url),
-            compressionRatio: compressionRatio,
+            cacheHeight: cacheHeight,
             maxBytes: maxBytes,
-            imageCacheName: url);
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedMemoryImageProvider(bytes,
+                scale: scale,
+                cacheRawData: cacheRawData,
+                imageCacheName: imageCacheName)));
+
+  BasicExtendedResizeImage.asset(
+    String assetName, {
+    AssetBundle? bundle,
+    String? package,
+    bool cacheRawData = false,
+    String? imageCacheName,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? compressionRatio,
+    int? maxBytes,
+  }) : super(ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedAssetImageProvider(assetName,
+                bundle: bundle,
+                package: package,
+                cacheRawData: cacheRawData,
+                imageCacheName: imageCacheName)));
+
+  BasicExtendedResizeImage.file(
+    File file, {
+    double scale = 1.0,
+    bool cacheRawData = false,
+    String? imageCacheName,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? compressionRatio,
+    int? maxBytes,
+  }) : super(ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedFileImageProvider(file,
+                cacheRawData: cacheRawData,
+                scale: scale,
+                imageCacheName: imageCacheName)));
+
+  BasicExtendedResizeImage.network(
+    String url, {
+    double scale = 1.0,
+    Map<String, String>? headers,
+    bool cache = true,
+    int retries = 3,
+    Duration? timeLimit,
+    Duration timeRetry = const Duration(milliseconds: 100),
+    CancellationToken? cancelToken,
+    String? cacheKey,
+    bool printError = true,
+    Duration? cacheMaxAge,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? compressionRatio,
+    int? maxBytes,
+    bool cacheRawData = false,
+    String? imageCacheName,
+  }) : super(ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedNetworkImageProvider(url,
+                scale: scale,
+                headers: headers,
+                cache: cache,
+                cancelToken: cancelToken,
+                retries: retries,
+                timeRetry: timeRetry,
+                timeLimit: timeLimit,
+                cacheKey: cacheKey,
+                printError: printError,
+                cacheRawData: cacheRawData,
+                imageCacheName: imageCacheName,
+                cacheMaxAge: cacheMaxAge)));
+}
+
+class BasicImage extends ExtendedImage {
+  BasicImage(
+    ImageProvider image, {
+    super.key,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.filterQuality = FilterQuality.low,
+    super.loadStateChanged,
+    super.border,
+    super.shape,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = false,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.extendedImageGestureKey,
+    super.isAntiAlias = false,
+    super.handleLoadingProgress = false,
+    super.layoutInsets = EdgeInsets.zero,
+  }) : super(image: image);
 
   BasicImage.file(
     File file, {
     super.key,
-    double compressionRatio = 0.6,
-    this.failed,
-    this.width,
-    this.height,
-    this.radius = 2,
-    this.shape = BoxShape.rectangle,
-    this.background = UCS.background,
-    this.border,
-    this.fit = BoxFit.cover,
-    this.hasGesture = false,
-    this.clearMemoryCacheWhenDispose = true,
-    this.clearMemoryCacheIfFailed = true,
-    int? cacheWidth,
-    int? cacheHeight,
-    int? maxBytes,
-  })  : imageCacheName = file.path,
-        image = ExtendedResizeImage.resizeIfNeeded(
-            imageCacheName: file.path,
-            cacheHeight: cacheHeight,
-            cacheWidth: cacheWidth,
-            maxBytes: maxBytes,
-            provider: ExtendedFileImageProvider(file,
-                scale: hasGesture ? 2 : 1, imageCacheName: file.path),
-            compressionRatio: compressionRatio);
+    super.scale = 1.0,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.filterQuality = FilterQuality.low,
+    super.shape,
+    super.border,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = false,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.extendedImageGestureKey,
+    super.cacheWidth,
+    super.cacheHeight,
+    super.isAntiAlias = false,
+    super.compressionRatio,
+    super.maxBytes,
+    super.cacheRawData = false,
+    super.imageCacheName,
+    super.layoutInsets = EdgeInsets.zero,
+    Widget? failed,
+    Widget? loading,
+  }) : super.file(file,
+            loadStateChanged:
+                buildLoadStateChanged(failed: failed, loading: loading));
+
+  BasicImage.memory(
+    Uint8List bytes, {
+    super.key,
+    super.scale = 1.0,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.filterQuality = FilterQuality.low,
+    super.shape,
+    super.border,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = false,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.extendedImageGestureKey,
+    super.cacheWidth,
+    super.cacheHeight,
+    super.isAntiAlias = false,
+    super.compressionRatio,
+    super.maxBytes,
+    super.cacheRawData = false,
+    super.imageCacheName,
+    super.layoutInsets = EdgeInsets.zero,
+    Widget? failed,
+    Widget? loading,
+  }) : super.memory(bytes,
+            loadStateChanged:
+                buildLoadStateChanged(failed: failed, loading: loading));
 
   BasicImage.asset(
-    String assetName, {
+    String name, {
     super.key,
-    double compressionRatio = 0.6,
-    this.failed,
-    this.width,
-    this.height,
-    this.radius = 2,
-    this.shape = BoxShape.rectangle,
-    this.background = UCS.background,
-    this.border,
-    this.fit = BoxFit.cover,
-    this.hasGesture = false,
-    this.clearMemoryCacheWhenDispose = true,
-    this.clearMemoryCacheIfFailed = true,
+    super.bundle,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.scale,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.package,
+    super.filterQuality = FilterQuality.low,
+    super.shape,
+    super.border,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = false,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.extendedImageGestureKey,
+    super.cacheWidth,
+    super.cacheHeight,
+    super.isAntiAlias = false,
+    super.compressionRatio,
+    super.maxBytes,
+    super.cacheRawData = false,
+    super.imageCacheName,
+    super.layoutInsets = EdgeInsets.zero,
+    Widget? failed,
+    Widget? loading,
+  }) : super.asset(name,
+            loadStateChanged:
+                buildLoadStateChanged(failed: failed, loading: loading));
+
+  BasicImage.network(
+    String url, {
+    super.key,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.filterQuality = FilterQuality.low,
+    super.shape,
+    super.border,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = true,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.cancelToken,
+    super.retries = 3,
+    super.timeLimit,
+    super.headers,
+    super.cache = true,
+    super.scale = 1.0,
+    super.timeRetry = const Duration(milliseconds: 100),
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.handleLoadingProgress = false,
+    super.extendedImageGestureKey,
+    super.cacheWidth,
+    super.cacheHeight,
+    super.isAntiAlias = false,
+    super.cacheKey,
+    super.printError = true,
+    super.compressionRatio,
+    super.maxBytes,
+    super.cacheRawData = false,
+    super.imageCacheName,
+    super.cacheMaxAge,
+    super.layoutInsets = EdgeInsets.zero,
+    Widget? failed,
+    Widget? loading,
+  }) : super.network(url,
+            loadStateChanged:
+                buildLoadStateChanged(failed: failed, loading: loading));
+
+  static LoadStateChanged buildLoadStateChanged(
+          {Widget? failed, Widget? loading}) =>
+      (ExtendedImageState state) {
+        switch (state.extendedImageLoadState) {
+          case LoadState.loading:
+            return loading ?? const ImageLoading();
+          case LoadState.completed:
+            return null;
+          case LoadState.failed:
+            log('图片加载失败', crossLine: false);
+            return failed ?? const ImageFailed(alignment: Alignment.center);
+        }
+      };
+
+  static ImageProvider buildImageProvider(
+    dynamic value, {
     int? cacheWidth,
     int? cacheHeight,
+    double? compressionRatio,
     int? maxBytes,
-  })  : imageCacheName = assetName,
-        image = ExtendedResizeImage.resizeIfNeeded(
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheHeight: cacheHeight,
-            cacheWidth: cacheWidth,
-            imageCacheName: assetName,
-            provider: hasGesture
-                ? ExtendedExactAssetImageProvider(assetName,
-                    scale: hasGesture ? 2 : 1, imageCacheName: assetName)
-                : ExtendedAssetImageProvider(assetName,
-                    imageCacheName: assetName));
+    bool cacheRawData = false,
+    String? imageCacheName,
+    double scale = 1.0,
 
-  final String? imageCacheName;
+    /// [ExtendedNetworkImageProvider]
+    Map<String, String>? headers,
+    bool cache = true,
+    int retries = 3,
+    Duration? timeLimit,
+    Duration timeRetry = const Duration(milliseconds: 100),
+    CancellationToken? cancelToken,
+    String? cacheKey,
+    bool printError = true,
+    Duration? cacheMaxAge,
 
-  final BoxFit fit;
-
-  final ImageProvider image;
-
-  /// 加载失败时显示
-  final Widget? failed;
-
-  final Color background;
-
-  final double? width;
-
-  final double? height;
-
-  final BoxShape shape;
-
-  final BoxBorder? border;
-
-  final bool hasGesture;
-
-  final bool clearMemoryCacheWhenDispose;
-
-  final bool clearMemoryCacheIfFailed;
-
-  /// [shape]==[BoxShape.rectangle] 时有效
-  final double radius;
-
-  @override
-  State<BasicImage> createState() => _BasicImageState();
-}
-
-class _BasicImageState extends State<BasicImage> {
-  @override
-  Widget build(BuildContext context) {
-    final BoxShape lShape = widget.shape;
-    return ExtendedImage(
-        color: widget.background,
-        image: widget.image,
-        width: widget.width,
-        height: widget.height,
-        fit: widget.fit,
-        enableMemoryCache: true,
-        mode: widget.hasGesture
-            ? ExtendedImageMode.gesture
-            : ExtendedImageMode.none,
-        clearMemoryCacheWhenDispose: widget.clearMemoryCacheWhenDispose,
-        clearMemoryCacheIfFailed: widget.clearMemoryCacheIfFailed,
-        enableLoadState: false,
-        shape: lShape,
-        border: widget.border,
-        borderRadius: lShape == BoxShape.rectangle
-            ? BorderRadius.circular(widget.radius)
-            : null,
-        loadStateChanged: (ExtendedImageState state) {
-          if (state.extendedImageLoadState == LoadState.failed) log('图片加载失败');
-          switch (state.extendedImageLoadState) {
-            case LoadState.loading:
-              return placeholderWidget;
-            case LoadState.completed:
-              return Image(image: widget.image, fit: widget.fit);
-            case LoadState.failed:
-              return error(lShape);
-          }
-        });
-  }
-
-  Widget? get placeholderWidget => BasicLoading(size: 10);
-
-  Widget? error(BoxShape lShape) => Container(
-      padding: widget.failed == null
-          ? const EdgeInsets.symmetric(vertical: 6)
-          : EdgeInsets.zero,
-      alignment: Alignment.center,
-      color: widget.background,
-      child: widget.failed ?? GlobalConfig().config.imageFailed);
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (widget.imageCacheName != null) {
-      clearMemoryImageCache(widget.imageCacheName);
+    /// [ExtendedAssetImageProvider]
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    if (value is File) {
+      return BasicExtendedResizeImage.file(value,
+          cacheWidth: cacheWidth,
+          cacheHeight: cacheHeight,
+          maxBytes: maxBytes,
+          compressionRatio: compressionRatio,
+          cacheRawData: cacheRawData,
+          imageCacheName: imageCacheName,
+          scale: scale);
+    } else if (value is Uint8List) {
+      return BasicExtendedResizeImage.memory(value,
+          cacheWidth: cacheWidth,
+          cacheHeight: cacheHeight,
+          maxBytes: maxBytes,
+          compressionRatio: compressionRatio,
+          cacheRawData: cacheRawData,
+          imageCacheName: imageCacheName,
+          scale: scale);
+    } else if (value is String) {
+      return value.startsWith('http')
+          ? BasicExtendedResizeImage.network(value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              scale: scale,
+              headers: headers,
+              cache: cache,
+              cancelToken: cancelToken,
+              retries: retries,
+              timeRetry: timeRetry,
+              timeLimit: timeLimit,
+              cacheKey: cacheKey,
+              printError: printError,
+              cacheMaxAge: cacheMaxAge)
+          : BasicExtendedResizeImage.asset(value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              bundle: bundle,
+              package: package);
     }
+    return BasicExtendedResizeImage.asset('');
   }
+
+  BasicImage.custom(
+    dynamic image, {
+    super.key,
+    super.semanticLabel,
+    super.excludeFromSemantics = false,
+    super.width,
+    super.height,
+    super.color,
+    super.opacity,
+    super.colorBlendMode,
+    super.fit,
+    super.alignment = Alignment.center,
+    super.repeat = ImageRepeat.noRepeat,
+    super.centerSlice,
+    super.matchTextDirection = false,
+    super.gaplessPlayback = false,
+    super.filterQuality = FilterQuality.low,
+    super.border,
+    super.shape,
+    super.borderRadius = const BorderRadius.all(Radius.circular(2)),
+    super.clipBehavior = Clip.antiAlias,
+    super.enableLoadState = false,
+    super.beforePaintImage,
+    super.afterPaintImage,
+    super.mode = ExtendedImageMode.none,
+    super.enableMemoryCache = true,
+    super.clearMemoryCacheIfFailed = true,
+    super.onDoubleTap,
+    super.initGestureConfigHandler,
+    super.enableSlideOutPage = false,
+    super.constraints,
+    super.extendedImageEditorKey,
+    super.initEditorConfigHandler,
+    super.heroBuilderForSlidingPage,
+    super.clearMemoryCacheWhenDispose = true,
+    super.extendedImageGestureKey,
+    super.isAntiAlias = false,
+    super.handleLoadingProgress = false,
+    super.layoutInsets = EdgeInsets.zero,
+    Widget? failed,
+    Widget? loading,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? compressionRatio,
+    int? maxBytes,
+    bool cacheRawData = false,
+    String? imageCacheName,
+    double scale = 1.0,
+
+    /// [ExtendedNetworkImageProvider]
+    Map<String, String>? headers,
+    bool cache = true,
+    int retries = 3,
+    Duration? timeLimit,
+    Duration timeRetry = const Duration(milliseconds: 100),
+    CancellationToken? cancelToken,
+    String? cacheKey,
+    bool printError = true,
+    Duration? cacheMaxAge,
+
+    /// [ExtendedAssetImageProvider]
+    AssetBundle? bundle,
+    String? package,
+  }) : super(
+            image: buildImageProvider(image,
+                cacheWidth: cacheWidth,
+                cacheHeight: cacheHeight,
+                maxBytes: maxBytes,
+                compressionRatio: compressionRatio,
+                cacheRawData: cacheRawData,
+                imageCacheName: imageCacheName,
+                scale: scale,
+                headers: headers,
+                cache: cache,
+                cancelToken: cancelToken,
+                retries: retries,
+                timeRetry: timeRetry,
+                timeLimit: timeLimit,
+                cacheKey: cacheKey,
+                printError: printError,
+                cacheMaxAge: cacheMaxAge,
+                bundle: bundle,
+                package: package),
+            loadStateChanged:
+                buildLoadStateChanged(failed: failed, loading: loading));
 }
 
 class PreviewImage extends StatelessWidget {
@@ -231,4 +572,31 @@ class PreviewImage extends StatelessWidget {
                 itemBuilder: itemBuilder)
             .expandedNull,
       ]));
+}
+
+class ImageFailed extends StatelessWidget {
+  const ImageFailed({Key? key, this.failed, this.background, this.alignment})
+      : super(key: key);
+  final Widget? failed;
+  final Color? background;
+  final AlignmentGeometry? alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: failed == null ? const EdgeInsets.all(4) : EdgeInsets.zero,
+        alignment: alignment,
+        color: background,
+        child: failed ?? GlobalConfig().config.imageFailed);
+  }
+}
+
+class ImageLoading extends BasicLoading {
+  const ImageLoading(
+      {super.key,
+      super.size = 10,
+      super.color,
+      super.itemBuilder,
+      super.duration = const Duration(milliseconds: 1200),
+      super.controller});
 }

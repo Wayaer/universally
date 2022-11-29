@@ -13,7 +13,7 @@ class ProjectConfig {
     this.scaffoldBackground,
     this.appBarConfig,
     this.cachePath,
-    this.placeholder = const PlaceholderWidget(),
+    this.placeholder = const BasicPlaceholder(),
     this.toastOptions =
         const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
     this.pickerWheelOptions,
@@ -157,8 +157,8 @@ class TextColor {
   Color? styleColor;
 }
 
-class PlaceholderWidget extends StatelessWidget {
-  const PlaceholderWidget({super.key, this.onTap});
+class BasicPlaceholder extends StatelessWidget {
+  const BasicPlaceholder({super.key, this.onTap});
 
   final GestureTapCallback? onTap;
 

@@ -17,12 +17,12 @@ Future<void> main() async {
           defaultColor: const Color(0xFF292929),
           styleColor: const Color(0xFF292929),
           smallColor: const Color(0x804D4D4D)),
-      loadingBuilder: (SpinKit loading) => Container(
+      loadingBuilder: (BasicLoading loading) => Container(
           width: loading.size * 2,
           height: loading.size * 2,
           decoration: BoxDecoration(
               color: UCS.black, borderRadius: BorderRadius.circular(10)),
-          child: BasicLoading(
+          child: const BasicLoading(
               color: Colors.white, style: SpinKitStyle.fadingCircle)),
       betaUrl: '这是设置测试url',
       releaseUrl: '这里设置发布版url',

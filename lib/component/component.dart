@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-export 'src/popup.dart';
 export 'src/gif.dart';
 export 'src/list.dart';
 export 'src/picker.dart';
+export 'src/popup.dart';
 export 'src/scaffold.dart';
 export 'src/text.dart';
 export 'src/text_field.dart';
@@ -74,8 +74,8 @@ class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
     CustomFutureBuilderNone? onNone,
   }) : super(
             onNone:
-                onNone ?? (_, __) => const Center(child: PlaceholderWidget()),
-            onWaiting: (_) => Center(child: BasicLoading()),
+                onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
+            onWaiting: (_) => const Center(child: BasicLoading()),
             onError: (_, __, reset) => BasicError(onTap: reset));
 }
 
@@ -88,8 +88,8 @@ class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
     required super.onDone,
     CustomBuilderContext? onNone,
   }) : super(
-            onNone: onNone ?? (_) => const Center(child: PlaceholderWidget()),
-            onWaiting: (_) => Center(child: BasicLoading()),
+            onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
+            onWaiting: (_) => const Center(child: BasicLoading()),
             onError: (_, __) => const BasicError());
 }
 

@@ -321,16 +321,31 @@ class _Title extends TextLarge {
 }
 
 /// loading
-class BasicLoading extends SpinKit {
-  BasicLoading(
-      {super.key,
-      SpinKitStyle style = SpinKitStyle.fadingCircle,
-      Color? color,
-      super.controller,
-      super.itemBuilder,
-      super.duration,
-      super.size = 50})
-      : super(style, color: color ?? GlobalConfig().currentColor);
+class BasicLoading extends StatelessWidget {
+  const BasicLoading(
+      {Key? key,
+      this.size = 50,
+      this.style = SpinKitStyle.fadingCircle,
+      this.color,
+      this.itemBuilder,
+      this.duration = const Duration(milliseconds: 1200),
+      this.controller})
+      : super(key: key);
+
+  final SpinKitStyle style;
+  final Color? color;
+  final double size;
+  final IndexedWidgetBuilder? itemBuilder;
+  final Duration duration;
+  final AnimationController? controller;
+
+  @override
+  Widget build(BuildContext context) => SpinKit(style,
+      size: size,
+      itemBuilder: itemBuilder,
+      controller: controller,
+      duration: duration,
+      color: color ?? GlobalConfig().currentColor);
 }
 
 void showUserPrivacyAlert({

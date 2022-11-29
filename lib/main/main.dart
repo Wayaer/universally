@@ -8,7 +8,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:universally/dependencies/src/carousel_slider.dart';
 import 'package:universally/universally.dart';
 
-typedef LoadingCoreBuilder = Widget? Function(SpinKit loading);
+typedef LoadingCoreBuilder = Widget? Function(BasicLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
@@ -107,7 +107,7 @@ class GlobalConfig {
     }
 
     /// 全局 [LoadingOptions] 配置信息
-    final loading = config.loadingBuilder?.call(BasicLoading());
+    final loading = config.loadingBuilder?.call(const BasicLoading());
     GlobalOptions().setLoadingOptions(LoadingOptions(
         custom: loading,
         style: LoadingStyle.circular,
