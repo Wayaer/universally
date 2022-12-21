@@ -508,8 +508,8 @@ class BasicDio {
     _addLoading(loading);
     final ResponseModel res = await dio.post(url,
         data: basicDioOptions.extraData?.call(url, data) ?? data,
-        options:
-            _initBasicOptions(options, url).copyWith(receiveTimeout: 30000),
+        options: _initBasicOptions(options, url)
+            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress);
@@ -535,7 +535,7 @@ class BasicDio {
     final ResponseModel res = await dio.postUri(uri,
         data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
         options: _initBasicOptions(options, uri.path)
-            .copyWith(receiveTimeout: 30000),
+            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress);
@@ -564,7 +564,8 @@ class BasicDio {
     data = basicDioOptions.extraData?.call(url, data) ?? data;
     final ResponseModel res = await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBasicOptions(options, url),
+        options: _initBasicOptions(options, url)
+            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
@@ -595,7 +596,8 @@ class BasicDio {
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final ResponseModel res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBasicOptions(options, uri.path)
+            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
