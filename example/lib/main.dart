@@ -28,35 +28,38 @@ Future<void> main() async {
       releaseUrl: '这里设置发布版url',
       toastOptions: const ToastOptions(ignoring: false)));
 
+  BasicConnectivity().addListener((status, result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+        showToast('use wifi');
+        break;
+      case ConnectivityResult.ethernet:
+        showToast('use ethernet');
+        break;
+      case ConnectivityResult.mobile:
+        showToast('use Cellular networks');
+        break;
+      case ConnectivityResult.none:
+        showToast('none networks');
+        break;
+      case ConnectivityResult.bluetooth:
+        showToast('use bluetooth');
+        break;
+      case ConnectivityResult.vpn:
+        showToast('use vpn');
+        break;
+    }
+    return true;
+  });
+
   runApp(BasicApp(
-      alertNotNetwork: (ConnectivityResult result) {
-        return alertOnlyMessage('Not Network')!;
-      },
-      showNetworkToast: (ConnectivityResult result) {
-        switch (result) {
-          case ConnectivityResult.wifi:
-            showToast('use wifi');
-            break;
-          case ConnectivityResult.ethernet:
-            showToast('use ethernet');
-            break;
-          case ConnectivityResult.mobile:
-            showToast('use Cellular networks');
-            break;
-          case ConnectivityResult.none:
-            showToast('none networks');
-            break;
-          case ConnectivityResult.bluetooth:
-            showToast('use bluetooth');
-            break;
-          case ConnectivityResult.vpn:
-            showToast('use vpn');
-            break;
-        }
-      },
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
-      initState: (context, bool network, ConnectivityResult? result) async {}));
+      initState: (context) async {
+        BasicConnectivity().subscription(
+            alertUnavailableNetwork: (status, result) =>
+                alertOnlyMessage('Network Unavailable'));
+      }));
 }
 
 class HomePage extends StatelessWidget {

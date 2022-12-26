@@ -619,7 +619,7 @@ class BasicDio {
   }
 
   bool get hasNetWork {
-    var network = GlobalConfig().hasNetwork ?? true;
+    var network = BasicConnectivity().networkAvailability;
     if (!network) {
       _removeLoading();
       1.seconds.delayed(_sendRefreshStatus);

@@ -1,3 +1,4 @@
+export 'src/connectivity.dart';
 export 'src/dio.dart';
 export 'src/hive.dart';
 export 'src/permission_handler.dart';

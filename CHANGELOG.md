@@ -1,3 +1,7 @@
+## 1.7.0
+
+* Remove `showNetworkToast`, `alertNotNetwork`, `onConnectivityChanged` from `BasicApp()`,Please use `BasicConnectivity()`
+
 ## 1.6.2+2
 
 * The `BasicImage` was redeveloped and the `BasicResizeImage` was added

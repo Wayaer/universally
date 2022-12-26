@@ -12,11 +12,6 @@ typedef LoadingCoreBuilder = Widget? Function(BasicLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
-typedef NetworkToastBuilder = void Function(ConnectivityResult result);
-
-typedef NotNetworkBuilder = ExtendedOverlayEntry? Function(
-    ConnectivityResult result);
-
 GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey();
 
 class GlobalConfig {
@@ -43,8 +38,6 @@ class GlobalConfig {
   ProjectConfig _config = ProjectConfig(mainColor: UCS.mainBlack);
 
   ProjectConfig get config => _config;
-
-  bool? hasNetwork;
 
   /// 设置app 一些默认参数
   Future<void> setDefaultConfig(ProjectConfig config) async {
@@ -138,60 +131,6 @@ class GlobalConfig {
 
   BasicDio setDioConfig([BasicDioOptions? options]) =>
       BasicDio().initialize(options);
-
-  ExtendedOverlayEntry? _connectivityOverlay;
-
-  /// 网络状态检测
-  /// Network status detection
-  Future<StreamSubscription<ConnectivityResult>?> connectivityListen({
-    ValueTwoCallback<bool, ConnectivityResult>? result,
-    ValueTwoCallback<bool, ConnectivityResult>? onChanged,
-    bool willPop = false,
-
-    /// Added network toggle toast prompt
-    NetworkToastBuilder? showNetworkToast,
-
-    /// 当无网络情况下，弹窗，不可做任何操作
-    /// When there is no network, the popup window does not perform any operations
-    NotNetworkBuilder? alertNotNetwork,
-  }) async {
-    final connectivity = Connectivity();
-    final state = await connectivity.checkConnectivity();
-    GlobalConfig().hasNetwork = state != ConnectivityResult.none;
-    result?.call(GlobalConfig().hasNetwork!, state);
-    if (onChanged != null ||
-        showNetworkToast != null ||
-        alertNotNetwork != null) {
-      void onChangedFun(ConnectivityResult state,
-          ValueTwoCallback<bool, ConnectivityResult> onChanged) {
-        onChanged(GlobalConfig().hasNetwork!, state);
-      }
-
-      void alertNetworkState(ConnectivityResult state) {
-        if (state == ConnectivityResult.none) {
-          if (isAndroid && !willPop) GlobalOptions().setScaffoldWillPop(false);
-          if (alertNotNetwork != null) {
-            _connectivityOverlay ??= alertNotNetwork(state);
-          }
-        } else {
-          if (isAndroid && !willPop) GlobalOptions().setScaffoldWillPop(true);
-          _connectivityOverlay?.removeEntry();
-          _connectivityOverlay = null;
-        }
-      }
-
-      if (onChanged != null && isIOS) onChangedFun(state, onChanged);
-      alertNetworkState(state);
-      return connectivity.onConnectivityChanged
-          .listen((ConnectivityResult state) {
-        GlobalConfig().hasNetwork = state != ConnectivityResult.none;
-        if (onChanged != null) onChangedFun(state, onChanged);
-        showNetworkToast?.call(state);
-        alertNetworkState(state);
-      });
-    }
-    return null;
-  }
 }
 
 class BasicApp extends StatefulWidget {
@@ -207,9 +146,6 @@ class BasicApp extends StatefulWidget {
     this.detached,
     this.resumed,
     this.title,
-    this.showNetworkToast,
-    this.alertNotNetwork,
-    this.onConnectivityChanged,
   });
 
   final List<SingleChildWidget> providers;
@@ -219,10 +155,7 @@ class BasicApp extends StatefulWidget {
   final ConsumerBuilder? consumer;
 
   /// 组件初始化
-  final ValueThreeCallback<BuildContext, bool, ConnectivityResult>? initState;
-
-  /// 网络状态变化监听
-  final ValueTwoCallback<bool, ConnectivityResult>? onConnectivityChanged;
+  final ValueCallback<BuildContext>? initState;
 
   final VoidCallback? dispose;
 
@@ -242,31 +175,17 @@ class BasicApp extends StatefulWidget {
 
   final String? title;
 
-  /// Added network toggle toast prompt
-  final NetworkToastBuilder? showNetworkToast;
-
-  /// 当无网络情况下，弹窗，不可做任何操作
-  /// When there is no network, the popup window does not perform any operations
-  final NotNetworkBuilder? alertNotNetwork;
-
   @override
   State<BasicApp> createState() => _BasicAppState();
 }
 
 class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
-  StreamSubscription<ConnectivityResult>? subscription;
-
   @override
   void initState() {
     super.initState();
     addObserver(this);
-    addPostFrameCallback((duration) async {
-      subscription = await GlobalConfig().connectivityListen(
-          showNetworkToast: widget.showNetworkToast,
-          alertNotNetwork: widget.alertNotNetwork,
-          onChanged: widget.onConnectivityChanged,
-          result: (state, result) =>
-              widget.initState?.call(context, state, result));
+    addPostFrameCallback((_) async {
+      widget.initState?.call(context);
       if (isDebug && isDesktop) {
         await Curiosity().desktop.focusDesktop();
         final state = await Curiosity().desktop.setDesktopSizeTo5P8();
@@ -319,7 +238,7 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    subscription?.cancel();
+    BasicConnectivity().dispose();
     removeObserver(this);
     super.dispose();
     widget.dispose?.call();
