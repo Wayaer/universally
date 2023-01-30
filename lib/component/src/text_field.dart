@@ -7,87 +7,88 @@ import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class BasicTextField extends StatefulWidget {
-  const BasicTextField({
-    super.key,
-    this.value,
-    this.controller,
-    this.searchTextTap,
-    this.searchTextPositioned = DecoratorPositioned.outer,
-    this.sendSMSPositioned = DecoratorPositioned.outer,
-    this.sendSMSTap,
-    this.enableEye = false,
-    this.enableClearIcon = false,
-    this.enableSearchIcon = false,
-    this.hintText,
-    this.width = double.infinity,
-    this.margin,
-    this.padding,
-    this.hintStyle,
-    this.focusNode,
-    this.header,
-    this.heroTag,
-    this.footer,
-    this.labelText,
-    this.labelStyle,
-    this.disposeController = true,
-    this.hasFocusChangeBorder = true,
-    this.fillColor,
-    this.suffix = const [],
-    this.prefix = const [],
-    this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.borderType = BorderType.outline,
-    this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
-    this.focusBorderSide,
-    this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-    this.clearButtonMode = OverlayVisibilityMode.never,
-    this.textInputAction = TextInputAction.done,
-    this.textCapitalization = TextCapitalization.none,
-    this.style,
-    this.strutStyle,
-    this.textAlign = TextAlign.left,
-    this.textAlignVertical,
-    this.textDirection,
-    this.readOnly = false,
-    this.toolbarOptions = const ToolbarOptions(
-        copy: true, cut: true, paste: true, selectAll: true),
-    this.showCursor,
-    this.autoFocus = false,
-    this.obscuringCharacter = '•',
-    this.autocorrect = true,
-    this.smartDashesType,
-    this.smartQuotesType,
-    this.enableSuggestions = true,
-    this.maxLines = 1,
-    this.minLines = 1,
-    this.expands = false,
-    this.maxLength,
-    this.maxLengthEnforcement,
-    this.onChanged,
-    this.onEditingComplete,
-    this.onSubmitted,
-    this.inputFormatters,
-    this.enabled = true,
-    this.cursorWidth = 2.0,
-    this.cursorHeight,
-    this.cursorRadius = const Radius.circular(2.0),
-    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
-    this.keyboardAppearance,
-    this.scrollPadding = const EdgeInsets.all(20.0),
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.enableInteractiveSelection,
-    this.selectionControls,
-    this.onTap,
-    this.scrollController,
-    this.scrollPhysics,
-    this.autofillHints = const [],
-    this.clipBehavior = Clip.hardEdge,
-    this.restorationId,
-    this.scribbleEnabled = true,
-    this.enableIMEPersonalizedLearning = true,
-    this.textInputType = TextInputLimitFormatter.text,
-  });
+  const BasicTextField(
+      {super.key,
+      this.value,
+      this.controller,
+      this.searchTextTap,
+      this.searchTextPositioned = DecoratorPositioned.outer,
+      this.sendSMSPositioned = DecoratorPositioned.outer,
+      this.sendSMSTap,
+      this.enableEye = false,
+      this.enableClearIcon = false,
+      this.enableSearchIcon = false,
+      this.hintText,
+      this.width = double.infinity,
+      this.margin,
+      this.padding,
+      this.hintStyle,
+      this.focusNode,
+      this.header,
+      this.heroTag,
+      this.footer,
+      this.labelText,
+      this.labelStyle,
+      this.disposeController = true,
+      this.hasFocusChangeBorder = true,
+      this.fillColor,
+      this.suffix = const [],
+      this.prefix = const [],
+      this.borderRadius = const BorderRadius.all(Radius.circular(4)),
+      this.borderType = BorderType.outline,
+      this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
+      this.focusBorderSide,
+      this.contentPadding =
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      this.clearButtonMode = OverlayVisibilityMode.never,
+      this.textInputAction = TextInputAction.done,
+      this.textCapitalization = TextCapitalization.none,
+      this.style,
+      this.strutStyle,
+      this.textAlign = TextAlign.left,
+      this.textAlignVertical,
+      this.textDirection,
+      this.readOnly = false,
+      this.showCursor,
+      this.autoFocus = false,
+      this.obscuringCharacter = '•',
+      this.autocorrect = true,
+      this.smartDashesType,
+      this.smartQuotesType,
+      this.enableSuggestions = true,
+      this.maxLines = 1,
+      this.minLines = 1,
+      this.expands = false,
+      this.maxLength,
+      this.maxLengthEnforcement,
+      this.onChanged,
+      this.onEditingComplete,
+      this.onSubmitted,
+      this.inputFormatters,
+      this.enabled = true,
+      this.cursorWidth = 2.0,
+      this.cursorHeight,
+      this.cursorRadius = const Radius.circular(2.0),
+      this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+      this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+      this.keyboardAppearance,
+      this.scrollPadding = const EdgeInsets.all(20.0),
+      this.dragStartBehavior = DragStartBehavior.start,
+      this.enableInteractiveSelection,
+      this.selectionControls,
+      this.onTap,
+      this.scrollController,
+      this.scrollPhysics,
+      this.autofillHints = const [],
+      this.clipBehavior = Clip.hardEdge,
+      this.restorationId,
+      this.scribbleEnabled = true,
+      this.enableIMEPersonalizedLearning = true,
+      this.textInputType = TextInputLimitFormatter.text,
+      this.contextMenuBuilder,
+      this.magnifierConfiguration,
+      this.onTapOutside,
+      this.spellCheckConfiguration});
 
   /// ***** 附加功能 *****
   /// 初始化默认的文本
@@ -149,7 +150,6 @@ class BasicTextField extends StatefulWidget {
   final EdgeInsetsGeometry contentPadding;
 
   final TextEditingController? controller;
-  final ToolbarOptions? toolbarOptions;
 
   /// 是否可输入
   final bool? enabled;
@@ -307,6 +307,10 @@ class BasicTextField extends StatefulWidget {
 
   /// {@macro flutter.widgets.editableText.strutStyle}
   final StrutStyle? strutStyle;
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final TextMagnifierConfiguration? magnifierConfiguration;
+  final TapRegionCallback? onTapOutside;
+  final SpellCheckConfiguration? spellCheckConfiguration;
 
   @override
   State<BasicTextField> createState() => _BasicTextFieldState();
@@ -401,6 +405,8 @@ class _BasicTextFieldState extends State<BasicTextField> {
                 innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
   }
 
+  GlobalKey textFieldKey = GlobalKey();
+
   Widget buildTextField({
     List<DecoratorEntry> innerSuffixes = const [],
     List<DecoratorEntry> innerPrefixes = const [],
@@ -408,6 +414,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
       ValueListenableBuilder(
           valueListenable: obscureText,
           builder: (_, bool value, __) => CupertinoTextField(
+                key: textFieldKey,
                 controller: controller,
                 focusNode: focusNode,
                 suffixMode: OverlayVisibilityMode.editing,
@@ -480,9 +487,19 @@ class _BasicTextFieldState extends State<BasicTextField> {
                 strutStyle: widget.strutStyle,
                 textAlignVertical: widget.textAlignVertical,
                 textDirection: widget.textDirection,
-                toolbarOptions: widget.toolbarOptions,
                 padding: widget.contentPadding,
+                contextMenuBuilder:
+                    widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+                magnifierConfiguration: widget.magnifierConfiguration,
+                onTapOutside: widget.onTapOutside,
+                spellCheckConfiguration: widget.spellCheckConfiguration,
               ));
+
+  Widget _defaultContextMenuBuilder(
+          BuildContext context, EditableTextState editableTextState) =>
+      CupertinoAdaptiveTextSelectionToolbar.buttonItems(
+          buttonItems: editableTextState.contextMenuButtonItems,
+          anchors: editableTextState.contextMenuAnchors);
 
   List<TextInputFormatter> get inputFormatters {
     final list = widget.textInputType.toTextInputFormatter();

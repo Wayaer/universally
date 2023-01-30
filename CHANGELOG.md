@@ -1,3 +1,7 @@
+## 2.0.0
+
+* Compatible with Flutter 3.7.0
+
 ## 1.7.0
 
 * Remove `showNetworkToast`, `alertNotNetwork`, `onConnectivityChanged` from `BasicApp()`,Please use `BasicConnectivity()`
