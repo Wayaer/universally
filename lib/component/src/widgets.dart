@@ -3,103 +3,120 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-/// 消息推送开关
-class PushSwitchState extends StatefulWidget {
-  const PushSwitchState({super.key});
-
-  @override
-  State<PushSwitchState> createState() => _PushStateState();
+class BottomPadding extends Universal {
+  BottomPadding(
+      {super.key,
+        double left = 20,
+        double top = 10,
+        double right = 20,
+        double bottom = 10,
+        super.child,
+        super.color})
+      : super(
+      padding: EdgeInsets.fromLTRB(
+          left, top, right, getBottomNavigationBarHeight + bottom));
 }
 
-class _PushStateState extends State<PushSwitchState> {
-  bool push = false;
 
-  @override
-  void initState() {
-    super.initState();
-    addPostFrameCallback((_) {
-      push = BHP().getBool(UConstant.isPush) ?? true;
-      setState(() {});
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) => BasicSwitch(
-      value: push,
-      onChanged: (value) {
-        if (value == push) return;
-        push = value;
-        BHP().setBool(UConstant.isPush, push);
-        setState(() {});
-      });
+class CustomDivider extends Divider {
+  const CustomDivider(
+      {super.color = UCS.background,
+        super.key,
+        super.endIndent,
+        super.indent,
+        super.thickness,
+        super.height = 1});
 }
 
-/// 清除缓存右边的组件
-/// Clear the component to the right of the cache
-class CleanCache extends StatefulWidget {
-  const CleanCache({super.key, this.color});
-
-  final Color? color;
-
-  @override
-  State<CleanCache> createState() => _CleanCacheState();
+extension ExtensionNotificationListener on Widget {
+  Widget interceptNotificationListener<T extends Notification>(
+      {NotificationListenerCallback<T>? onNotification}) =>
+      NotificationListener<T>(
+          onNotification: (T notification) {
+            if (onNotification != null) onNotification(notification);
+            return true;
+          },
+          child: this);
 }
 
-class _CleanCacheState extends State<CleanCache> {
-  String text = '0.00 MB';
-  String? path;
-  double size = 0.00;
-
-  @override
-  void initState() {
-    super.initState();
-    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
-  }
-
-  @override
-  void didUpdateWidget(covariant CleanCache oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
-  }
-
-  void getSize() {
-    path = GlobalConfig().currentCacheDir;
-    if (path == null || path!.isEmpty) return;
-    getDirSize(path!);
-    if (size > 0) {
-      final double s = size / 1024 / 1024;
-      text = '${s.toStringAsFixed(2)} MB';
-    } else {
-      text = '0.00 MB';
-    }
-    setState(() {});
-  }
-
-  void getDirSize(String path) {
-    final dir = Directory(path);
-    if (dir.existsSync()) {
-      final files = dir.listSync(recursive: true);
-      files.builder((file) {
-        if (file.existsSync()) {
-          size += file.statSync().size;
-        }
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => Universal(
-      onTap: () {
-        if (path == null || path!.isEmpty) return;
-        final dir = Directory(path!);
-        if (!dir.existsSync()) return;
-        dir.delete(recursive: true);
-        showToast('已清理');
-        size = 0;
-        1.seconds.delayed(getSize);
-      },
-      child: TextSmall(text, color: widget.color));
+/// 局部 异步加载数据
+class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
+  BasicFutureBuilder({
+    super.key,
+    super.initialData,
+    required super.future,
+    required super.onDone,
+    CustomFutureBuilderNone? onNone,
+  }) : super(
+      onNone:
+      onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
+      onWaiting: (_) => const Center(child: BasicLoading()),
+      onError: (_, __, reset) => BasicError(onTap: reset));
 }
+
+/// 局部 异步加载数据
+class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
+  BasicStreamBuilder({
+    super.key,
+    super.initialData,
+    required super.stream,
+    required super.onDone,
+    CustomBuilderContext? onNone,
+  }) : super(
+      onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
+      onWaiting: (_) => const Center(child: BasicLoading()),
+      onError: (_, __) => const BasicError());
+}
+
+class BasicError extends StatelessWidget {
+  const BasicError({super.key, this.onTap});
+
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Universal(alignment: Alignment.center, onTap: onTap, children: [
+      SVGAsset(UAS.noDataIcon, height: 90, package: 'universally'),
+      const SizedBox(height: 10),
+      TextDefault('加载失败，点击刷新', fontSize: 13)
+    ]);
+  }
+}
+
+class BasicSwitch extends SwitchState {
+  BasicSwitch({
+    super.key,
+    required super.value,
+    Color? activeColor,
+    super.activeTrackColor,
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super.adaptive(activeColor: activeColor ?? GlobalConfig().currentColor);
+}
+
+class BasicCupertinoSwitch extends CupertinoSwitchState {
+  BasicCupertinoSwitch({
+    super.key,
+    required super.value,
+    Color? activeColor,
+    super.trackColor,
+    super.thumbColor,
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+}
+
+class BasicCheckbox extends CheckboxState {
+  BasicCheckbox({
+    super.key,
+    required super.value,
+    Color? activeColor,
+    super.onChanged,
+    super.onWaitChanged,
+  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+}
+
 
 class UButton extends SimpleButton {
   UButton({

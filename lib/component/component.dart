@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -9,20 +11,8 @@ export 'src/scaffold.dart';
 export 'src/text.dart';
 export 'src/text_field.dart';
 export 'src/widgets.dart';
-
-class BottomPadding extends Universal {
-  BottomPadding(
-      {super.key,
-      double left = 20,
-      double top = 10,
-      double right = 20,
-      double bottom = 10,
-      super.child,
-      super.color})
-      : super(
-            padding: EdgeInsets.fromLTRB(
-                left, top, right, getBottomNavigationBarHeight + bottom));
-}
+export 'user_privacy.dart';
+export 'switch_api.dart';
 
 class ScanCodeShowPage extends StatelessWidget {
   const ScanCodeShowPage({super.key, required this.text});
@@ -43,100 +33,100 @@ class ScanCodeShowPage extends StatelessWidget {
           textStyle: const TStyle(color: UCS.black, fontSize: 15)));
 }
 
-class CustomDivider extends Divider {
-  const CustomDivider(
-      {super.color = UCS.background,
-      super.key,
-      super.endIndent,
-      super.indent,
-      super.thickness,
-      super.height = 1});
-}
-
-extension ExtensionNotificationListener on Widget {
-  Widget interceptNotificationListener<T extends Notification>(
-          {NotificationListenerCallback<T>? onNotification}) =>
-      NotificationListener<T>(
-          onNotification: (T notification) {
-            if (onNotification != null) onNotification(notification);
-            return true;
-          },
-          child: this);
-}
-
-/// 局部 异步加载数据
-class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
-  BasicFutureBuilder({
-    super.key,
-    super.initialData,
-    required super.future,
-    required super.onDone,
-    CustomFutureBuilderNone? onNone,
-  }) : super(
-            onNone:
-                onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
-            onWaiting: (_) => const Center(child: BasicLoading()),
-            onError: (_, __, reset) => BasicError(onTap: reset));
-}
-
-/// 局部 异步加载数据
-class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
-  BasicStreamBuilder({
-    super.key,
-    super.initialData,
-    required super.stream,
-    required super.onDone,
-    CustomBuilderContext? onNone,
-  }) : super(
-            onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
-            onWaiting: (_) => const Center(child: BasicLoading()),
-            onError: (_, __) => const BasicError());
-}
-
-class BasicError extends StatelessWidget {
-  const BasicError({super.key, this.onTap});
-
-  final GestureTapCallback? onTap;
+/// 消息推送开关
+class PushSwitchState extends StatefulWidget {
+  const PushSwitchState({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Universal(alignment: Alignment.center, onTap: onTap, children: [
-      SVGAsset(UAS.noDataIcon, height: 90, package: 'universally'),
-      const SizedBox(height: 10),
-      TextDefault('加载失败，点击刷新', fontSize: 13)
-    ]);
+  State<PushSwitchState> createState() => _PushStateState();
+}
+
+class _PushStateState extends State<PushSwitchState> {
+  bool push = false;
+
+  @override
+  void initState() {
+    super.initState();
+    addPostFrameCallback((_) {
+      push = BHP().getBool(UConstant.isPush) ?? true;
+      setState(() {});
+    });
   }
+
+  @override
+  Widget build(BuildContext context) => BasicSwitch(
+      value: push,
+      onChanged: (value) {
+        if (value == push) return;
+        push = value;
+        BHP().setBool(UConstant.isPush, push);
+        setState(() {});
+      });
 }
 
-class BasicSwitch extends SwitchState {
-  BasicSwitch({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    super.activeTrackColor,
-    super.onChanged,
-    super.onWaitChanged,
-  }) : super.adaptive(activeColor: activeColor ?? GlobalConfig().currentColor);
+/// 清除缓存右边的组件
+/// Clear the component to the right of the cache
+class CleanCache extends StatefulWidget {
+  const CleanCache({super.key, this.color});
+
+  final Color? color;
+
+  @override
+  State<CleanCache> createState() => _CleanCacheState();
 }
 
-class BasicCupertinoSwitch extends CupertinoSwitchState {
-  BasicCupertinoSwitch({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    super.trackColor,
-    super.thumbColor,
-    super.onChanged,
-    super.onWaitChanged,
-  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
-}
+class _CleanCacheState extends State<CleanCache> {
+  String text = '0.00 MB';
+  String? path;
+  double size = 0.00;
 
-class BasicCheckbox extends CheckboxState {
-  BasicCheckbox({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    super.onChanged,
-    super.onWaitChanged,
-  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+  @override
+  void initState() {
+    super.initState();
+    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
+  }
+
+  @override
+  void didUpdateWidget(covariant CleanCache oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
+  }
+
+  void getSize() {
+    path = GlobalConfig().currentCacheDir;
+    if (path == null || path!.isEmpty) return;
+    getDirSize(path!);
+    if (size > 0) {
+      final double s = size / 1024 / 1024;
+      text = '${s.toStringAsFixed(2)} MB';
+    } else {
+      text = '0.00 MB';
+    }
+    setState(() {});
+  }
+
+  void getDirSize(String path) {
+    final dir = Directory(path);
+    if (dir.existsSync()) {
+      final files = dir.listSync(recursive: true);
+      files.builder((file) {
+        if (file.existsSync()) {
+          size += file.statSync().size;
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Universal(
+      onTap: () {
+        if (path == null || path!.isEmpty) return;
+        final dir = Directory(path!);
+        if (!dir.existsSync()) return;
+        dir.delete(recursive: true);
+        showToast('已清理');
+        size = 0;
+        1.seconds.delayed(getSize);
+      },
+      child: TextSmall(text, color: widget.color));
 }

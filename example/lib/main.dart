@@ -3,7 +3,6 @@ import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:app/page/webview_page.dart';
 import 'package:flutter/material.dart';
-import 'package:universally/component/src/switch_api.dart';
 import 'package:universally/universally.dart';
 
 Future<void> main() async {
@@ -86,6 +85,19 @@ class HomePage extends StatelessWidget {
                     text: 'WebView CalculateHeight'),
               ],
               ElevatedText(onPressed: _callPhone, text: 'Call Phone'),
+              ElevatedButton(
+                  onPressed: () {}, child: const CleanCache(color: UCS.white)),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const SwitchApiButton(color: UCS.white)),
+              ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
+              ElevatedText(
+                  onPressed: () => push(const TextFieldPage()),
+                  text: 'TextField'),
+              ElevatedText(
+                  onPressed: () => push(const HivePreferencesPage()),
+                  text: 'BHP(BasicHivePreferences)'),
+              const PushSwitchState(),
               ElevatedText(
                   onPressed: () {
                     showDoubleChooseAlert(
@@ -101,20 +113,8 @@ class HomePage extends StatelessWidget {
                         onConsentTap: () {});
                   },
                   text: 'showUserPrivacyAlert'),
-              ElevatedButton(
-                  onPressed: () {}, child: const CleanCache(color: UCS.white)),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const SwitchApiButton(color: UCS.white)),
-              ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
-              ElevatedText(
-                  onPressed: () => push(const TextFieldPage()),
-                  text: 'TextField'),
-              ElevatedText(
-                  onPressed: () => push(const HivePreferencesPage()),
-                  text: 'BHP(BasicHivePreferences)'),
-              const PushSwitchState(),
               const ElevatedText(onPressed: showLoading, text: 'showLoading'),
+              const CheckboxWithUserPrivacy(value: false),
             ]));
   }
 
