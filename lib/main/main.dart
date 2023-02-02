@@ -256,9 +256,19 @@ class MainBasicScaffold extends StatelessWidget {
       this.bottomNavigationBar,
       this.floatingActionButton,
       this.floatingActionButtonLocation,
+      this.mainAxisAlignment = MainAxisAlignment.start,
+      this.crossAxisAlignment = CrossAxisAlignment.center,
       this.child,
       this.backgroundColor,
-      this.children});
+      this.children,
+      this.isScroll = false,
+      this.resizeToAvoidBottomInset = false,
+      this.appBarTitle,
+      this.appBarLeft,
+      this.appBarRight,
+      this.appBarActions,
+      this.padding,
+      this.elevation});
 
   /// 不为null 时 显示为主页面的 MainTabPageBuilder
   final List<Widget>? widgets;
@@ -279,14 +289,35 @@ class MainBasicScaffold extends StatelessWidget {
   final Widget? child;
   final Color? backgroundColor;
   final List<Widget>? children;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
+  final bool isScroll;
+  final bool resizeToAvoidBottomInset;
+
+  final String? appBarTitle;
+  final Widget? appBarLeft;
+  final Widget? appBarRight;
+  final List<Widget>? appBarActions;
+  final EdgeInsetsGeometry? padding;
+  final double? elevation;
 
   @override
   Widget build(BuildContext context) {
     DateTime? time;
     return BasicScaffold(
+        padding: padding,
         backgroundColor: backgroundColor,
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
+        isScroll: isScroll,
+        appBarTitle: appBarTitle,
+        appBarLeft: appBarLeft,
+        appBarRight: appBarRight,
+        appBarActions: appBarActions,
+        elevation: elevation,
+        crossAxisAlignment: crossAxisAlignment,
+        mainAxisAlignment: mainAxisAlignment,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         onWillPop: () async {
           final now = DateTime.now();
           if (time != null && now.difference(time!).inMilliseconds < 2500) {
