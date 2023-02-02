@@ -1,37 +1,33 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class BottomPadding extends Universal {
   BottomPadding(
       {super.key,
-        double left = 20,
-        double top = 10,
-        double right = 20,
-        double bottom = 10,
-        super.child,
-        super.color})
+      double left = 20,
+      double top = 10,
+      double right = 20,
+      double bottom = 10,
+      super.child,
+      super.color})
       : super(
-      padding: EdgeInsets.fromLTRB(
-          left, top, right, getBottomNavigationBarHeight + bottom));
+            padding: EdgeInsets.fromLTRB(
+                left, top, right, getBottomNavigationBarHeight + bottom));
 }
-
-
 
 class CustomDivider extends Divider {
   const CustomDivider(
       {super.color = UCS.background,
-        super.key,
-        super.endIndent,
-        super.indent,
-        super.thickness,
-        super.height = 1});
+      super.key,
+      super.endIndent,
+      super.indent,
+      super.thickness,
+      super.height = 1});
 }
 
 extension ExtensionNotificationListener on Widget {
   Widget interceptNotificationListener<T extends Notification>(
-      {NotificationListenerCallback<T>? onNotification}) =>
+          {NotificationListenerCallback<T>? onNotification}) =>
       NotificationListener<T>(
           onNotification: (T notification) {
             if (onNotification != null) onNotification(notification);
@@ -49,10 +45,10 @@ class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
     required super.onDone,
     CustomFutureBuilderNone? onNone,
   }) : super(
-      onNone:
-      onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
-      onWaiting: (_) => const Center(child: BasicLoading()),
-      onError: (_, __, reset) => BasicError(onTap: reset));
+            onNone:
+                onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
+            onWaiting: (_) => const Center(child: BasicLoading()),
+            onError: (_, __, reset) => BasicError(onTap: reset));
 }
 
 /// 局部 异步加载数据
@@ -64,9 +60,9 @@ class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
     required super.onDone,
     CustomBuilderContext? onNone,
   }) : super(
-      onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
-      onWaiting: (_) => const Center(child: BasicLoading()),
-      onError: (_, __) => const BasicError());
+            onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
+            onWaiting: (_) => const Center(child: BasicLoading()),
+            onError: (_, __) => const BasicError());
 }
 
 class BasicError extends StatelessWidget {
@@ -116,7 +112,6 @@ class BasicCheckbox extends CheckboxState {
     super.onWaitChanged,
   }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
 }
-
 
 class UButton extends SimpleButton {
   UButton({

@@ -11,6 +11,7 @@ export 'src/scaffold.dart';
 export 'src/text.dart';
 export 'src/text_field.dart';
 export 'src/widgets.dart';
+export 'src/image.dart';
 export 'user_privacy.dart';
 export 'switch_api.dart';
 
