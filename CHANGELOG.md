@@ -1,3 +1,7 @@
+## 2.2.0
+
+* Update `extended_image`
+
 ## 2.1.0
 
 * `AppBarConfig` adds `titleColor`
