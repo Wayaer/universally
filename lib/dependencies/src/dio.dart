@@ -73,7 +73,7 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
-    this.expandKeys = const ['expand'],
+    this.extensionKeys = const ['extension'],
     this.hideMsg = const ['success', 'OK'],
     this.successCode = const ['200'],
     this.showLoading = true,
@@ -123,7 +123,7 @@ class BasicDioOptions extends ExtendedDioOptions {
   List<String> dataKeys;
 
   /// BasicModel 后台返回扩展数据
-  List<String> expandKeys;
+  List<String> extensionKeys;
 
   /// 后台返回成功的状态码
   /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
@@ -703,7 +703,7 @@ class BasicDio {
 class BasicModel {
   BasicModel({
     this.data,
-    this.expand,
+    this.extension,
     this.original,
     required this.code,
     this.statusCode,
@@ -719,47 +719,21 @@ class BasicModel {
     original = response;
     if (json != null) {
       final dioOptions = BasicDio().basicDioOptions;
-      final codeKeys = dioOptions.codeKeys;
-      if (codeKeys.isNotEmpty) {
-        for (var key in codeKeys) {
-          final value = json[key];
-          if (value != null) {
-            code = value.toString();
-            break;
-          }
-        }
-      }
-      final msgKeys = dioOptions.msgKeys;
-      if (msgKeys.isNotEmpty) {
-        for (var key in msgKeys) {
-          final value = json[key];
-          if (value != null) {
-            msg = value.toString();
-            break;
-          }
-        }
-      }
-      final dataKeys = dioOptions.dataKeys;
-      if (dataKeys.isNotEmpty) {
-        for (var key in dataKeys) {
-          final value = json[key];
-          if (value != null) {
-            data = value;
-            break;
-          }
-        }
-      }
-      final expandKeys = dioOptions.dataKeys;
-      if (expandKeys.isNotEmpty) {
-        for (var key in expandKeys) {
-          final value = json[key];
-          if (value != null) {
-            data = value;
-            break;
-          }
-        }
+      code = _getValue(dioOptions.codeKeys, json).toString();
+      msg = _getValue(dioOptions.msgKeys, json).toString();
+      data = _getValue(dioOptions.dataKeys, json);
+      extension = _getValue(dioOptions.extensionKeys, json);
+    }
+  }
+
+  dynamic _getValue(List<String> keys, Map<String, dynamic> json) {
+    if (keys.isNotEmpty) {
+      for (var key in keys) {
+        final value = json[key];
+        if (value != null) return value;
       }
     }
+    return null;
   }
 
   /// 网络请求返回的 statusCode
@@ -781,7 +755,7 @@ class BasicModel {
   dynamic data;
 
   /// 后台返回的扩展数据
-  dynamic expand;
+  dynamic extension;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'data': data,
@@ -789,6 +763,6 @@ class BasicModel {
         'statusMessage': statusMessage,
         'msg': msg,
         'code': code,
-        'expand': expand
+        'extension': extension
       };
 }

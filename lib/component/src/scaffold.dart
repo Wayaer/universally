@@ -180,7 +180,9 @@ class BasicAppBar extends AppBar {
     super.toolbarOpacity = 1.0,
     super.toolbarTextStyle,
   }) : super(
-            title: title ?? TextLarge(text),
+            title: title ??
+                TextLarge(text,
+                    color: GlobalConfig().config.appBarConfig?.titleColor),
             leading: hasLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
                 : const SizedBox(),

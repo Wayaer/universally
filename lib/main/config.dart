@@ -116,12 +116,16 @@ class ProjectConfig {
 class AppBarConfig {
   AppBarConfig(
       {this.backgroundColor,
+      this.titleColor,
       this.elevation,
       this.iconTheme,
       this.systemOverlayStyle});
 
   /// 当前项目 全局使用的 [BasicAppBar] 的背景色
   Color? backgroundColor;
+
+  /// 当前项目 全局使用的 [BasicAppBar] 的文字颜色
+  Color? titleColor;
 
   /// 当前项目 全局使用的 [BasicAppBar] 的 elevation
   double? elevation;

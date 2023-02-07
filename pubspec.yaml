@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 2.0.1+1
+version: 2.1.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:

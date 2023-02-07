@@ -1,3 +1,8 @@
+## 2.1.0
+
+* `AppBarConfig` adds `titleColor`
+* Change `expand` to `extension` in `BasicDioOptions` and `BasicModel`
+
 ## 2.0.1+1
 
 * Compatible with Flutter 3.7.0

@@ -70,7 +70,9 @@ class AlertMessage extends StatelessWidget {
                   pop();
                   if (confirmTap != null) confirmTap!();
                 },
-                child: confirm ?? TextDefault(confirmText ?? '确定')),
+                child: confirm ??
+                    TextDefault(confirmText ?? '确定',
+                        fontSize: 16, color: GlobalConfig().currentColor)),
           ]));
 }
 
