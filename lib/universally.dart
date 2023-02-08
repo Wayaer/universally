@@ -21,4 +21,3 @@ export 'dependencies/dependencies.dart';
 export 'dependencies/src/dio.dart';
 export 'main/config.dart';
 export 'main/main.dart';
-export 'utils/utils.dart';

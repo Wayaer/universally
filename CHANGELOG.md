@@ -1,3 +1,7 @@
+## 2.2.0+1
+
+* Handle the failure of `BasicModel` parsing
+
 ## 2.2.0
 
 * Update `extended_image`

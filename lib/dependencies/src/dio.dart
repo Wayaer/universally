@@ -719,8 +719,10 @@ class BasicModel {
     original = response;
     if (json != null) {
       final dioOptions = BasicDio().basicDioOptions;
-      code = _getValue(dioOptions.codeKeys, json).toString();
-      msg = _getValue(dioOptions.msgKeys, json).toString();
+      final codeValue = _getValue(dioOptions.codeKeys, json);
+      if (codeValue != null) code = codeValue!.toString();
+      final msgValue = _getValue(dioOptions.msgKeys, json);
+      if (msgValue != null) msg = msgValue!.toString();
       data = _getValue(dioOptions.dataKeys, json);
       extension = _getValue(dioOptions.extensionKeys, json);
     }
@@ -763,6 +765,30 @@ class BasicModel {
         'statusMessage': statusMessage,
         'msg': msg,
         'code': code,
-        'extension': extension
+        'extension': extension,
+        'original': original?.toJson()
       };
+}
+
+/// nullPass = true   data 为null  返回true
+bool resultSuccessFail(BasicModel data, {String? text, bool nullPass = false}) {
+  if (BasicDio().basicDioOptions.successCode.contains(data.code) &&
+      (nullPass || data.data != null)) {
+    if (text != null) showToast(text);
+    return true;
+  } else {
+    if (!BasicDio().basicDioOptions.hideMsg.contains(data.msg)) {
+      showToast(data.msg);
+    }
+    return false;
+  }
+}
+
+void logJson(dynamic data) {
+  try {
+    var json = jsonEncode(data is BasicModel ? data.toMap() : data);
+    log(json);
+  } catch (e) {
+    log(e);
+  }
 }
