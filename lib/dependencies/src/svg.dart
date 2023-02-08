@@ -5,7 +5,6 @@ class SVGAsset extends SvgPicture {
   SVGAsset(
     String assetName, {
     super.key,
-    super.color,
     double? size,
     double? height,
     double? width,
@@ -16,33 +15,45 @@ class SVGAsset extends SvgPicture {
     super.alignment = Alignment.center,
     super.allowDrawingOutsideViewBox = false,
     super.placeholderBuilder,
-    super.colorBlendMode = BlendMode.srcIn,
     super.semanticsLabel,
     super.excludeFromSemantics = false,
     super.clipBehavior = Clip.hardEdge,
     super.cacheColorFilter = false,
     super.theme,
-  }) : super.asset(assetName, width: width ?? size, height: height ?? size);
+    ColorFilter? colorFilter,
+    BlendMode colorBlendMode = BlendMode.srcIn,
+    Color? color,
+  }) : super.asset(assetName,
+            colorFilter: colorFilter ?? _getColorFilter(color, colorBlendMode),
+            width: width ?? size,
+            height: height ?? size);
 }
 
 class SVGNetwork extends SvgPicture {
-  SVGNetwork(
-    String url, {
-    super.key,
-    super.color,
-    double? size,
-    double? height,
-    double? width,
-    super.matchTextDirection = false,
-    super.fit = BoxFit.contain,
-    super.alignment = Alignment.center,
-    super.allowDrawingOutsideViewBox = false,
-    super.placeholderBuilder,
-    super.colorBlendMode = BlendMode.srcIn,
-    super.semanticsLabel,
-    super.excludeFromSemantics = false,
-    super.clipBehavior = Clip.hardEdge,
-    super.cacheColorFilter = false,
-    super.theme,
-  }) : super.network(url, width: width ?? size, height: height ?? size);
+  SVGNetwork(String url,
+      {super.key,
+      double? size,
+      double? height,
+      double? width,
+      super.matchTextDirection = false,
+      super.fit = BoxFit.contain,
+      super.alignment = Alignment.center,
+      super.allowDrawingOutsideViewBox = false,
+      super.placeholderBuilder,
+      super.semanticsLabel,
+      super.excludeFromSemantics = false,
+      super.clipBehavior = Clip.hardEdge,
+      super.cacheColorFilter = false,
+      super.theme,
+      ColorFilter? colorFilter,
+      BlendMode colorBlendMode = BlendMode.srcIn,
+      Color? color,
+      super.headers})
+      : super.network(url,
+            colorFilter: colorFilter ?? _getColorFilter(color, colorBlendMode),
+            width: width ?? size,
+            height: height ?? size);
 }
+
+ColorFilter? _getColorFilter(Color? color, BlendMode colorBlendMode) =>
+    color == null ? null : ColorFilter.mode(color, colorBlendMode);
