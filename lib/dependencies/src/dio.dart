@@ -4,6 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+/// FormData ContentType
+const String kContentTypeWithFormData = 'multipart/form-data';
+
+/// TextXml ContentType
+const String kContentTypeWithTextXml = 'text/xml';
+
 /// 扩展所有的 header
 typedef ValueCallbackHeader = Map<String, String>? Function(String url);
 
@@ -38,13 +44,13 @@ typedef BasicDioErrorIntercept = List<InterceptorError> Function(
 class BasicDioOptions extends ExtendedDioOptions {
   BasicDioOptions({
     /// 接收超时时间
-    super.receiveTimeout = 5000,
+    super.receiveTimeout = const Duration(seconds: 5),
 
     /// 连接超时时间
-    super.connectTimeout = 5000,
+    super.connectTimeout = const Duration(seconds: 5),
 
     /// 发送超时时间
-    super.sendTimeout = 5000,
+    super.sendTimeout = const Duration(seconds: 5),
     this.downloadResponseType = ResponseType.bytes,
     this.downloadContentType,
     this.uploadContentType,
@@ -69,7 +75,6 @@ class BasicDioOptions extends ExtendedDioOptions {
     super.requestEncoder,
     super.responseDecoder,
     super.listFormat,
-    super.setRequestContentTypeWhenNoPayload = false,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
@@ -79,8 +84,8 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.showLoading = true,
     this.pullHideLoading = true,
   }) {
-    downloadContentType ??= httpContentType[1];
-    uploadContentType ??= httpContentType[1];
+    downloadContentType ??= kContentTypeWithFormData;
+    uploadContentType ??= kContentTypeWithFormData;
   }
 
   /// header设置
@@ -493,23 +498,22 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> upload(
-    String url,
-    dynamic data, {
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-    bool? loading,
-    Options? options,
-    dynamic tag,
-    CancelToken? cancelToken,
-  }) async {
+  Future<BasicModel> upload(String url, dynamic data,
+      {ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress,
+      bool? loading,
+      Options? options,
+      dynamic tag,
+      CancelToken? cancelToken,
+      Duration receiveTimeout = const Duration(seconds: 40),
+      Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final ResponseModel res = await dio.post(url,
         data: basicDioOptions.extraData?.call(url, data) ?? data,
         options: _initBasicOptions(options, url)
-            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
+            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress);
@@ -518,16 +522,15 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> uploadUri(
-    Uri uri,
-    dynamic data, {
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-    bool? loading,
-    Options? options,
-    dynamic tag,
-    CancelToken? cancelToken,
-  }) async {
+  Future<BasicModel> uploadUri(Uri uri, dynamic data,
+      {ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress,
+      bool? loading,
+      Options? options,
+      dynamic tag,
+      CancelToken? cancelToken,
+      Duration receiveTimeout = const Duration(seconds: 40),
+      Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
@@ -535,7 +538,7 @@ class BasicDio {
     final ResponseModel res = await dio.postUri(uri,
         data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
         options: _initBasicOptions(options, uri.path)
-            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
+            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress);
@@ -544,20 +547,19 @@ class BasicDio {
 
   /// 文件下载
   /// File download
-  Future<BasicModel> download(
-    String url,
-    String savePath, {
-    bool? loading,
-    dynamic tag,
-    Options? options,
-    ProgressCallback? onReceiveProgress,
-    CancelToken? cancelToken,
-    dynamic data,
-    bool dataToJson = true,
-    Map<String, dynamic>? params,
-    bool deleteOnError = true,
-    String lengthHeader = Headers.contentLengthHeader,
-  }) async {
+  Future<BasicModel> download(String url, String savePath,
+      {bool? loading,
+      dynamic tag,
+      Options? options,
+      ProgressCallback? onReceiveProgress,
+      CancelToken? cancelToken,
+      dynamic data,
+      bool dataToJson = true,
+      Map<String, dynamic>? params,
+      bool deleteOnError = true,
+      String lengthHeader = Headers.contentLengthHeader,
+      Duration receiveTimeout = const Duration(seconds: 40),
+      Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
@@ -565,7 +567,7 @@ class BasicDio {
     final ResponseModel res = await dio.download(url, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, url)
-            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
+            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
@@ -575,20 +577,19 @@ class BasicDio {
 
   /// 文件下载
   /// File download
-  Future<BasicModel> downloadUri(
-    Uri uri,
-    String savePath, {
-    bool? loading,
-    dynamic tag,
-    Options? options,
-    ProgressCallback? onReceiveProgress,
-    CancelToken? cancelToken,
-    dynamic data,
-    bool dataToJson = true,
-    Map<String, dynamic>? params,
-    bool deleteOnError = true,
-    String lengthHeader = Headers.contentLengthHeader,
-  }) async {
+  Future<BasicModel> downloadUri(Uri uri, String savePath,
+      {bool? loading,
+      dynamic tag,
+      Options? options,
+      ProgressCallback? onReceiveProgress,
+      CancelToken? cancelToken,
+      dynamic data,
+      bool dataToJson = true,
+      Map<String, dynamic>? params,
+      bool deleteOnError = true,
+      String lengthHeader = Headers.contentLengthHeader,
+      Duration receiveTimeout = const Duration(seconds: 40),
+      Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
@@ -597,7 +598,7 @@ class BasicDio {
     final ResponseModel res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, uri.path)
-            .copyWith(receiveTimeout: 40000, sendTimeout: 40000),
+            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
@@ -766,7 +767,7 @@ class BasicModel {
         'msg': msg,
         'code': code,
         'extension': extension,
-        'original': original?.toJson()
+        'original': original?.toMap()
       };
 }
 

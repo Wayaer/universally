@@ -5,7 +5,7 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:extended_image/extended_image.dart' hide MultipartFile;
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-export 'package:flutter_waya/flutter_waya.dart' hide Lock;
+export 'package:flutter_waya/flutter_waya.dart';
 export 'package:hive_flutter/hive_flutter.dart';
 export 'package:hive/hive.dart';
 export 'package:json_annotation/json_annotation.dart';

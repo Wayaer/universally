@@ -1,3 +1,8 @@
+## 3.0.0
+
+* Updated dio to 5.0.0
+* Fixed an issue with duplicate setting of contentType
+
 ## 2.2.0+1
 
 * Handle the failure of `BasicModel` parsing

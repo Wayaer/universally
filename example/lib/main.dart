@@ -47,6 +47,9 @@ Future<void> main() async {
       case ConnectivityResult.vpn:
         showToast('use vpn');
         break;
+      case ConnectivityResult.other:
+        showToast('use other');
+        break;
     }
     return true;
   });
