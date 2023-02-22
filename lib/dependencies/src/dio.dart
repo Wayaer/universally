@@ -15,13 +15,13 @@ typedef ValueCallbackHeader = Map<String, String>? Function(String url);
 
 /// 扩展所有的 params
 typedef ValueCallbackParams = Map<String, dynamic>? Function(
-    String url, Map<String, dynamic>? params);
+    String path, Map<String, dynamic>? params);
 
 /// 扩展所有的 uri
 typedef ValueCallbackUri = Uri Function(Uri uri);
 
 /// 扩展所有的 data
-typedef ValueCallbackData<T> = T Function(String url, T params);
+typedef ValueCallbackData<T> = T Function(String path, T params);
 
 /// 扩展所有的 uri data
 typedef ValueCallbackUriData<T> = T Function(Uri uri, T params);
@@ -39,7 +39,7 @@ class InterceptorError {
 }
 
 typedef BasicDioErrorIntercept = List<InterceptorError> Function(
-    String url, dynamic tag);
+    String path, dynamic tag);
 
 class BasicDioOptions extends ExtendedDioOptions {
   BasicDioOptions({
@@ -170,7 +170,7 @@ class BasicDio {
   }
 
   Future<BasicModel> get(
-    String url, {
+    String path, {
     dynamic tag,
     Map<String, dynamic>? params,
     bool? loading,
@@ -180,10 +180,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final ResponseModel res = await dio.get(url,
-        options: _initBasicOptions(options, url),
+    final ResponseModel res = await dio.get(path,
+        options: _initBasicOptions(options, path),
         cancelToken: cancelToken,
-        params: basicDioOptions.extraParams?.call(url, params) ?? params);
+        params: basicDioOptions.extraParams?.call(path, params) ?? params);
     return _response(res, tag);
   }
 
@@ -205,7 +205,7 @@ class BasicDio {
   }
 
   Future<BasicModel> post(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     bool dataToJson = true,
@@ -219,11 +219,11 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final ResponseModel res = await dio.post(url,
-        options: _initBasicOptions(options, url),
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+    final ResponseModel res = await dio.post(path,
+        options: _initBasicOptions(options, path),
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -257,7 +257,7 @@ class BasicDio {
   }
 
   Future<BasicModel> put(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
@@ -271,10 +271,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
-    final ResponseModel res = await dio.put(url,
-        options: _initBasicOptions(options, url),
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    final ResponseModel res = await dio.put(path,
+        options: _initBasicOptions(options, path),
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -308,7 +308,7 @@ class BasicDio {
   }
 
   Future<BasicModel> delete(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
@@ -320,10 +320,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
-    final ResponseModel res = await dio.delete(url,
-        options: _initBasicOptions(options, url),
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    final ResponseModel res = await dio.delete(path,
+        options: _initBasicOptions(options, path),
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -351,7 +351,7 @@ class BasicDio {
   }
 
   Future<BasicModel> patch(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
@@ -365,10 +365,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
-    final ResponseModel res = await dio.patch(url,
-        options: _initBasicOptions(options, url),
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    final ResponseModel res = await dio.patch(path,
+        options: _initBasicOptions(options, path),
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -402,7 +402,7 @@ class BasicDio {
   }
 
   Future<BasicModel> head(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
@@ -414,10 +414,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
-    final ResponseModel res = await dio.head(url,
-        options: _initBasicOptions(options, url),
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    final ResponseModel res = await dio.head(path,
+        options: _initBasicOptions(options, path),
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -445,7 +445,7 @@ class BasicDio {
   }
 
   Future<BasicModel> request(
-    String url, {
+    String path, {
     Map<String, dynamic>? params,
     dynamic data,
     dynamic tag,
@@ -459,13 +459,13 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final ResponseModel res = await dio.request(url,
-        options: _initBasicOptions(options, url),
+    final ResponseModel res = await dio.request(path,
+        options: _initBasicOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        params: basicDioOptions.extraParams?.call(url, params) ?? params,
+        params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -498,7 +498,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> upload(String url, dynamic data,
+  Future<BasicModel> upload(String path, dynamic data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -510,9 +510,9 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final ResponseModel res = await dio.post(url,
-        data: basicDioOptions.extraData?.call(url, data) ?? data,
-        options: _initBasicOptions(options, url)
+    final ResponseModel res = await dio.post(path,
+        data: basicDioOptions.extraData?.call(path, data) ?? data,
+        options: _initBasicOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -547,7 +547,7 @@ class BasicDio {
 
   /// 文件下载
   /// File download
-  Future<BasicModel> download(String url, String savePath,
+  Future<BasicModel> download(String path, String savePath,
       {bool? loading,
       dynamic tag,
       Options? options,
@@ -563,10 +563,10 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(url, data) ?? data;
-    final ResponseModel res = await dio.download(url, savePath,
+    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    final ResponseModel res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBasicOptions(options, url)
+        options: _initBasicOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
