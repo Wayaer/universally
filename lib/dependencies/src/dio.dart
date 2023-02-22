@@ -60,7 +60,7 @@ class BasicDioOptions extends ExtendedDioOptions {
     this.extraParams,
     this.extraUri,
     this.errorIntercept,
-    this.filteredUrls = const [],
+    this.filteredApi = const [],
     super.method,
     super.baseUrl = '',
     super.queryParameters,
@@ -106,8 +106,8 @@ class BasicDioOptions extends ExtendedDioOptions {
   /// 错误拦截;
   BasicDioErrorIntercept? errorIntercept;
 
-  /// 不打印 返回 data 的url
-  List<String> filteredUrls;
+  /// 不打印 返回 data 的 api
+  List<String> filteredApi;
 
   /// 下载的ContentType;
   String? downloadContentType;
@@ -163,7 +163,7 @@ class BasicDio {
     basicDioOptions.interceptors = [
       if (isDebugger) DebuggerInterceptor(),
       if (isDebug)
-        LoggerInterceptor<dynamic>(filteredUrls: options?.filteredUrls ?? [])
+        LoggerInterceptor<dynamic>(filteredUrls: options?.filteredApi ?? [])
     ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
