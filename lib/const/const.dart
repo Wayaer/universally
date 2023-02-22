@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_waya/flutter_waya.dart';
 
-class UConstant {
-  UConstant._();
+class UConst {
+  UConst._();
 
   /// 消息推送
   static const String isPush = 'isPush';
@@ -20,8 +20,8 @@ class UConstant {
   /// localApi
   static const String localApi = 'localApi';
 
-  /// hasLogTs
-  static const String hasLogTs = 'hasLogTs';
+  /// isDebugger
+  static const String isDebugger = 'isDebugger';
 
   /// defaultApi
   static const String defaultApi = 'defaultApi';
@@ -95,7 +95,7 @@ bool pullUp = false;
 bool isBeta = false;
 
 /// beta 版本 是否显示log
-bool hasLogTs = false;
+bool isDebugger = false;
 
 ///dev user
 String devUserName = '';

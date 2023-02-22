@@ -9,7 +9,7 @@ void showUserPrivacyAlert({
   required GestureTapCallback onConsentTap,
   ModalWindowsOptions? options,
 }) {
-  final result = BHP().getBool(UConstant.privacy);
+  final result = BHP().getBool(UConst.privacy);
   if (result ?? false) {
     onConsentTap.call();
   } else {
@@ -33,7 +33,7 @@ void showUserPrivacyAlert({
                 color: GlobalConfig().currentColor,
                 onTap: () {
                   pop();
-                  BHP().setBool(UConstant.privacy, true);
+                  BHP().setBool(UConst.privacy, true);
                   onConsentTap.call();
                 }),
             left: SimpleButton(

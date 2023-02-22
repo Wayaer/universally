@@ -5,8 +5,8 @@ import 'package:universally/universally.dart';
 class ProjectConfig {
   ProjectConfig({
     required this.mainColor,
-    this.betaUrl = '',
-    this.releaseUrl = '',
+    this.betaApi = '',
+    this.releaseApi = '',
     this.pushStyle = RoutePushStyle.cupertino,
     this.pullDownHeader,
     this.pullUpFooter,
@@ -58,10 +58,10 @@ class ProjectConfig {
   String? cachePath;
 
   /// 测试版 url 包含 debug 模式
-  String betaUrl;
+  String betaApi;
 
   /// 正式版 url
-  String releaseUrl;
+  String releaseApi;
 
   /// 当前项目 全局使用的 刷新Header
   Header? pullDownHeader;

@@ -29,9 +29,9 @@ class GlobalConfig {
   String? currentCacheDir;
 
   /// 当前项目使用的 url
-  late String _currentBasicUrl;
+  late String _currentApi;
 
-  String get currentBasicUrl => _currentBasicUrl;
+  String get currentApi => _currentApi;
 
   /// 项目配置信息
   ProjectConfig _config = ProjectConfig(mainColor: UCS.mainBlack);
@@ -55,15 +55,15 @@ class GlobalConfig {
     await BHP().init();
 
     currentColor = config.mainColor;
-    final bool isRelease = BHP().getBool(UConstant.isRelease) ?? false;
+    final bool isRelease = BHP().getBool(UConst.isRelease) ?? false;
     if (isBeta && !isRelease) {
-      _currentBasicUrl = config.betaUrl;
-      final String? localApi = BHP().getString(UConstant.localApi);
-      if (localApi != null && localApi.length > 5) _currentBasicUrl = localApi;
-      hasLogTs = BHP().getBool(UConstant.hasLogTs) ?? true;
+      _currentApi = config.betaApi;
+      final String? localApi = BHP().getString(UConst.localApi);
+      if (localApi != null && localApi.length > 5) _currentApi = localApi;
+      isDebugger = BHP().getBool(UConst.isDebugger) ?? true;
     } else {
       isBeta = false;
-      _currentBasicUrl = config.releaseUrl;
+      _currentApi = config.releaseApi;
     }
 
     /// 设置toast

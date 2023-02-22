@@ -161,7 +161,7 @@ class BasicDio {
   BasicDio initialize([BasicDioOptions? options]) {
     if (options != null) basicDioOptions = options;
     basicDioOptions.interceptors = [
-      if (hasLogTs) DebuggerInterceptor(),
+      if (isDebugger) DebuggerInterceptor(),
       if (isDebug)
         LoggerInterceptor<dynamic>(filteredUrls: options?.filteredUrls ?? [])
     ];

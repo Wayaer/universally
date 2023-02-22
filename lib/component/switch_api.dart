@@ -32,8 +32,8 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Widget build(BuildContext context) {
     httpStr = 'http${isHttps ? 's' : ''}://';
     final defaultUrl = isBeta
-        ? GlobalConfig().config.betaUrl
-        : GlobalConfig().config.releaseUrl;
+        ? GlobalConfig().config.betaApi
+        : GlobalConfig().config.releaseApi;
     return BasicScaffold(
         isScroll: true,
         safeBottom: true,
@@ -44,9 +44,9 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TextDefault('默认服务器地址为：'),
-            showUrl(defaultUrl),
+            showApi(defaultUrl),
             TextDefault('当前服务器地址为：'),
-            showUrl(GlobalConfig().currentBasicUrl),
+            showApi(GlobalConfig().currentApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextDefault('使用https：'),
               BasicSwitch(
@@ -109,7 +109,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           UButton(
               width: double.infinity,
               text: '切换正式服务器并重启APP',
-              onTap: () => saveApi(GlobalConfig().config.releaseUrl)),
+              onTap: () => saveApi(GlobalConfig().config.releaseApi)),
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('始终使用正式服务器').expandedNull,
@@ -126,12 +126,12 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('开启接口请求日志打印：'),
             BasicSwitch(
-                value: hasLogTs,
+                value: isDebugger,
                 activeColor: GlobalConfig().currentColor,
                 onChanged: (bool? value) async {
-                  hasLogTs = !hasLogTs;
+                  isDebugger = !isDebugger;
                   setState(() {});
-                  await BHP().setBool(UConstant.hasLogTs, hasLogTs);
+                  await BHP().setBool(UConst.isDebugger, isDebugger);
                   await showToast('修改成功,请重新打开APP');
                   Curiosity().native.exitApp();
                 })
@@ -140,7 +140,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           Row(children: [
             TextDefault('正式服IP：', maxLines: 2, height: 1.5),
           ]),
-          showUrl(GlobalConfig().config.releaseUrl),
+          showApi(GlobalConfig().config.releaseApi),
           const USpacing(),
         ]);
   }
@@ -148,15 +148,15 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Future<void> saveApi(String api) async {
     context.requestFocus();
     if (isRelease) {
-      await BHP().setBool(UConstant.isRelease, isRelease);
+      await BHP().setBool(UConst.isRelease, isRelease);
     } else {
-      await BHP().setString(UConstant.localApi, api);
+      await BHP().setString(UConst.localApi, api);
     }
     await showToast('修改成功,请重新打开APP');
     Curiosity().native.exitApp();
   }
 
-  Widget showUrl(String url) => Container(
+  Widget showApi(String url) => Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(12),

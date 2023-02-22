@@ -1,3 +1,10 @@
+## 3.1.0
+
+* Change the `UrlCache` to `ApiCache`
+* Change the `hasLogTs` to `isDebugger`
+* Change the `Url` to `Api`
+* Change the `UConstant` to `UConst`
+
 ## 3.0.0
 
 * Updated dio to 5.0.0
@@ -59,7 +66,7 @@
 
 ## 1.3.0+3
 
-* Add `UrlCache()`
+* Add `ApiCache()`
 
 ## 1.3.0+2
 

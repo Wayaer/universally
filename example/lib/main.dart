@@ -23,8 +23,8 @@ Future<void> main() async {
               color: UCS.black, borderRadius: BorderRadius.circular(10)),
           child: const BasicLoading(
               color: Colors.white, style: SpinKitStyle.fadingCircle)),
-      betaUrl: '这是设置测试url',
-      releaseUrl: '这里设置发布版url',
+      betaApi: '这是设置测试Api',
+      releaseApi: '这里设置发布版Api',
       toastOptions: const ToastOptions(ignoring: false)));
 
   BasicConnectivity().addListener((status, result) async {

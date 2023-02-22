@@ -205,18 +205,18 @@ class BHP extends HiveBox {
 
   Future<bool> init() async {
     await super.initialize('preferences');
-    await UrlCache().init();
+    await ApiCache().init();
     return isInitialize;
   }
 }
 
 /// 接口数据缓存
-class UrlCache extends HiveBox {
-  factory UrlCache() => _singleton ??= UrlCache._();
+class ApiCache extends HiveBox {
+  factory ApiCache() => _singleton ??= ApiCache._();
 
-  UrlCache._();
+  ApiCache._();
 
-  static UrlCache? _singleton;
+  static ApiCache? _singleton;
 
   Future<bool> init() async {
     await super.initialize('url_data');

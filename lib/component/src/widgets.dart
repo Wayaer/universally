@@ -120,7 +120,7 @@ class UButton extends SimpleButton {
     required super.text,
     super.textStyle = const TStyle(color: UCS.white),
     super.margin,
-    super.width = UConstant.longWidth,
+    super.width = UConst.longWidth,
     super.height = 45,
     bool enabled = true,
     super.visible = true,
