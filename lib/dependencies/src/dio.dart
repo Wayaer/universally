@@ -172,6 +172,7 @@ class BasicDio {
     String path, {
     dynamic tag,
     Map<String, dynamic>? params,
+    Object? data,
     bool? loading,
     Options? options,
     CancelToken? cancelToken,
@@ -180,6 +181,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final ResponseModel res = await dio.get(path,
+        data: data,
         options: _initBasicOptions(options, path),
         cancelToken: cancelToken,
         params: basicDioOptions.extraParams?.call(path, params) ?? params);
@@ -189,6 +191,7 @@ class BasicDio {
   Future<BasicModel> getUri(
     Uri uri, {
     dynamic tag,
+    Object? data,
     bool? loading,
     Options? options,
     CancelToken? cancelToken,
@@ -198,6 +201,7 @@ class BasicDio {
     _addLoading(loading);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final ResponseModel res = await dio.getUri(uri,
+        data: data,
         cancelToken: cancelToken,
         options: _initBasicOptions(options, uri.path));
     return _response(res, tag);
@@ -206,7 +210,7 @@ class BasicDio {
   Future<BasicModel> post(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     bool dataToJson = true,
     dynamic tag,
     bool? loading,
@@ -232,7 +236,7 @@ class BasicDio {
 
   Future<BasicModel> postUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     bool dataToJson = true,
     dynamic tag,
     bool? loading,
@@ -258,7 +262,7 @@ class BasicDio {
   Future<BasicModel> put(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -283,7 +287,7 @@ class BasicDio {
 
   Future<BasicModel> putUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -309,7 +313,7 @@ class BasicDio {
   Future<BasicModel> delete(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -330,7 +334,7 @@ class BasicDio {
 
   Future<BasicModel> deleteUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -352,7 +356,7 @@ class BasicDio {
   Future<BasicModel> patch(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -377,7 +381,7 @@ class BasicDio {
 
   Future<BasicModel> patchUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -403,7 +407,7 @@ class BasicDio {
   Future<BasicModel> head(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -424,7 +428,7 @@ class BasicDio {
 
   Future<BasicModel> headUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -446,7 +450,7 @@ class BasicDio {
   Future<BasicModel> request(
     String path, {
     Map<String, dynamic>? params,
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -472,7 +476,7 @@ class BasicDio {
 
   Future<BasicModel> requestUri(
     Uri uri, {
-    dynamic data,
+    Object? data,
     dynamic tag,
     bool? loading,
     bool dataToJson = true,
@@ -497,7 +501,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> upload(String path, dynamic data,
+  Future<BasicModel> upload(String path, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -521,7 +525,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> uploadUri(Uri uri, dynamic data,
+  Future<BasicModel> uploadUri(Uri uri, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -552,7 +556,7 @@ class BasicDio {
       Options? options,
       ProgressCallback? onReceiveProgress,
       CancelToken? cancelToken,
-      dynamic data,
+      Object? data,
       bool dataToJson = true,
       Map<String, dynamic>? params,
       bool deleteOnError = true,
@@ -582,7 +586,7 @@ class BasicDio {
       Options? options,
       ProgressCallback? onReceiveProgress,
       CancelToken? cancelToken,
-      dynamic data,
+      Object? data,
       bool dataToJson = true,
       Map<String, dynamic>? params,
       bool deleteOnError = true,
@@ -662,7 +666,7 @@ class BasicDio {
         statusMessage: res.statusMessage,
         data: res.data,
         original: res);
-    dynamic data = baseModel.data;
+    Object? data = baseModel.data;
     if (data is ResponseBody) {
       return baseModel = BasicModel(
           code: '${data.statusCode}',
@@ -754,7 +758,7 @@ class BasicModel {
   late String msg;
 
   /// 后台返回数据
-  dynamic data;
+  Object? data;
 
   /// 后台返回的扩展数据
   dynamic extension;
