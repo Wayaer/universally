@@ -1,6 +1,7 @@
-## 3.2.0
+## 3.2.0+1
 
 * Updating dependency
+* Fixed BasicList issues
 
 ## 3.1.0
 

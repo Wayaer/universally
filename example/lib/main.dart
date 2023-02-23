@@ -1,3 +1,4 @@
+import 'package:app/page/basic_list_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
@@ -97,6 +98,9 @@ class HomePage extends StatelessWidget {
               ElevatedText(
                   onPressed: () => push(const TextFieldPage()),
                   text: 'TextField'),
+              ElevatedText(
+                  onPressed: () => push(const BasicListPage()),
+                  text: 'BasicList'),
               ElevatedText(
                   onPressed: () => push(const HivePreferencesPage()),
                   text: 'BHP(BasicHivePreferences)'),
