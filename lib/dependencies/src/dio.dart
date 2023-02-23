@@ -162,8 +162,7 @@ class BasicDio {
     if (options != null) basicDioOptions = options;
     basicDioOptions.interceptors = [
       if (isDebugger) DebuggerInterceptor(),
-      if (isDebug)
-        LoggerInterceptor<dynamic>(filteredApi: options?.filteredApi ?? [])
+      if (isDebug) LoggerInterceptor(filteredApi: options?.filteredApi ?? [])
     ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;
