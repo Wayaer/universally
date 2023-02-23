@@ -4,8 +4,8 @@ import 'package:universally/universally.dart';
 class CurrentPickerOptions<T> extends PickerOptions<T> {
   CurrentPickerOptions(
       {String? title,
-      super.confirmTap,
-      super.cancelTap,
+      super.verifyConfirm,
+      super.verifyCancel,
       super.backgroundColor,
       double height = 250})
       : super(
@@ -73,7 +73,7 @@ Future<String?> pickerDateTime(
 
   final date = await DateTimePicker(
           options: CurrentPickerOptions(
-              confirmTap: (DateTime? dateTime) {
+              verifyConfirm: (DateTime? dateTime) {
                 if (confirmTap != null && dateTime != null) {
                   confirmTap(dateTimeToString(dateTime));
                 }
@@ -107,29 +107,6 @@ Future<int?> pickerMultipleChoice<T>(String title,
                 isCupertino: true),
             options: CurrentPickerOptions<int>(title: title))
         .show(options: options);
-
-Future<T?> pickerCustom<T>(
-  Widget content, {
-  String title = '',
-  PickerTapConfirmCallback<T>? confirmTap,
-  PickerTapCancelCallback<T?>? cancelTap,
-  PickerSubjectTapCallback<T>? customConfirmTap,
-  PickerSubjectTapCallback<T?>? customCancelTap,
-  Color? backgroundColor,
-  BottomSheetOptions? bottomSheetOptions,
-  double height = 250,
-}) =>
-    CustomPicker(
-            confirmTap: customConfirmTap,
-            cancelTap: customCancelTap,
-            options: CurrentPickerOptions<T>(
-                cancelTap: cancelTap,
-                confirmTap: confirmTap,
-                title: title,
-                height: height,
-                backgroundColor: backgroundColor),
-            content: content)
-        .show<T>();
 
 /// 底部有取消的单选
 /// 返回数组index

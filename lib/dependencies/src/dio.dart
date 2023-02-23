@@ -163,7 +163,7 @@ class BasicDio {
     basicDioOptions.interceptors = [
       if (isDebugger) DebuggerInterceptor(),
       if (isDebug)
-        LoggerInterceptor<dynamic>(filteredUrls: options?.filteredApi ?? [])
+        LoggerInterceptor<dynamic>(filteredApi: options?.filteredApi ?? [])
     ];
     dio = ExtendedDio().initialize(options: basicDioOptions);
     return this;

@@ -1,3 +1,7 @@
+## 3.2.0
+
+* Updating dependency
+
 ## 3.1.0
 
 * Change the `UrlCache` to `ApiCache`
