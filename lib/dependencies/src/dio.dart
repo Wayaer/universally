@@ -758,7 +758,7 @@ class BasicModel {
   late String msg;
 
   /// 后台返回数据
-  Object? data;
+  dynamic data;
 
   /// 后台返回的扩展数据
   dynamic extension;
