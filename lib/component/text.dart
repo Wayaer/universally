@@ -192,3 +192,23 @@ class TStyle extends BTextStyle {
 }
 
 enum FontType { normal, medium, semiBold, bold }
+
+class TextShowPage extends StatelessWidget {
+  const TextShowPage({super.key, required this.text, this.appBarTitle});
+
+  final String text;
+  final String? appBarTitle;
+
+  @override
+  Widget build(BuildContext context) => BasicScaffold(
+      appBarTitle: appBarTitle,
+      padding: const EdgeInsets.all(20),
+      child: SimpleButton(
+          onTap: () {
+            text.toClipboard;
+            showToast('复制成功');
+          },
+          text: text,
+          maxLines: 100,
+          textStyle: const TStyle(color: UCS.black, fontSize: 15)));
+}

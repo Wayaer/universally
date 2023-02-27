@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicIndicator extends Indicator {
+class BasicIndicator extends FlIndicator {
   BasicIndicator(
       {super.key,
       required super.count,
       required super.position,
       required super.index,
-      super.layout = IndicatorType.scale,
+      super.layout = FlIndicatorType.scale,
       super.size = 8,
       super.color = UCS.background,
       Color? activeColor})

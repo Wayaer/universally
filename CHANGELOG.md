@@ -1,3 +1,7 @@
+## 3.3.0
+
+* Updating dependency
+
 ## 3.2.0+2
 
 * Updating dependency

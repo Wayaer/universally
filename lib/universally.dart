@@ -15,9 +15,32 @@ export 'package:provider/provider.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:url_launcher/url_launcher.dart';
 
+/// component
 export 'component/component.dart';
-export 'const/const.dart';
-export 'dependencies/dependencies.dart';
-export 'dependencies/src/dio.dart';
+export 'component/gif.dart';
+export 'component/list.dart';
+export 'component/picker.dart';
+export 'component/popup.dart';
+export 'component/scaffold.dart';
+export 'component/text.dart';
+export 'component/text_field.dart';
+export 'component/user_privacy.dart';
+export 'component/switch_api.dart';
+export 'component/cache.dart';
+
+/// dependencies
+export 'dependencies/connectivity.dart';
+export 'dependencies/dio.dart';
+export 'dependencies/hive.dart';
+export 'dependencies/permission_handler.dart';
+export 'dependencies/svg.dart';
+export 'dependencies/url_launcher.dart';
+export 'dependencies/carousel_slider.dart';
+export 'dependencies/extended_image.dart';
+
+/// main
 export 'main/config.dart';
 export 'main/main.dart';
+
+/// const
+export 'const/const.dart';
