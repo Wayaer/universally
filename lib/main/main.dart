@@ -43,6 +43,12 @@ class GlobalConfig {
     WidgetsFlutterBinding.ensureInitialized();
     _config = config;
 
+    const env = String.fromEnvironment(UConst.channel);
+    if (env.isNotEmptyOrNull) {
+      currentChannel = env;
+      isBeta = currentChannel == UConst.beta;
+    }
+
     /// 关闭辅助触控
     /// Turn off auxiliary touch
     window.onSemanticsEnabledChanged = () {};

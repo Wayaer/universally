@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_waya/flutter_waya.dart';
+import 'package:universally/universally.dart';
 
 class UConst {
   UConst._();
@@ -28,6 +29,15 @@ class UConst {
 
   /// isRelease
   static const String isRelease = 'isRelease';
+
+  /// channel
+  static const String channel = 'channel';
+
+  /// release
+  static const String release = 'release';
+
+  /// beta
+  static const String beta = 'beta';
 
   static const double longWidth = 333;
 }
@@ -96,6 +106,9 @@ bool isBeta = false;
 
 /// beta 版本 是否显示log
 bool isDebugger = false;
+
+/// 渠道版本
+String currentChannel = defaultTargetPlatform.value;
 
 ///dev user
 String devUserName = '';

@@ -1,3 +1,7 @@
+## 3.3.2
+
+* Add channel support
+
 ## 3.3.1
 
 * Updating dependency
