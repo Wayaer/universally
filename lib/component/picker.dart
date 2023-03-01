@@ -16,15 +16,15 @@ class CurrentPickerOptions<T> extends PickerOptions<T> {
 }
 
 /// 省市区选择器
-Future<String?> pickerArea(
+Future<List<String>?> pickerArea(
         {String? defaultProvince,
         String? defaultCity,
         String? defaultDistrict,
         BottomSheetOptions? options}) =>
     AreaPicker(
-            defaultProvince: defaultProvince,
-            defaultCity: defaultCity,
-            defaultDistrict: defaultDistrict,
+            province: defaultProvince,
+            city: defaultCity,
+            district: defaultDistrict,
             options: CurrentPickerOptions(title: '选择地区'))
         .show(options: options);
 
