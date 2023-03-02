@@ -45,7 +45,7 @@ class UConst {
 class UIS {
   UIS._();
 
-  static const IconData settingApi = Icons.settings_applications;
+  static const IconData settingApi = Icons.settings;
   static const IconData playCircleFill = Icons.play_circle_outline;
   static const IconData pause = Icons.pause;
   static const IconData play = Icons.play_arrow_rounded;
@@ -55,14 +55,6 @@ class UIS {
   static const IconData search = Icons.search;
   static const IconData back = Icons.arrow_back_ios_outlined;
   static const IconData androidBack = Icons.arrow_back;
-}
-
-class UAS {
-  UAS._();
-
-  static const String eyeClose = 'lib/res/svg/eye_close.svg';
-  static const String eyeOpen = 'lib/res/svg/eye_open.svg';
-  static const String noDataIcon = 'lib/res/svg/no_data.svg';
 }
 
 class UCS {

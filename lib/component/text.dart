@@ -112,19 +112,42 @@ class BasicText extends BText {
 class TStyle extends BTextStyle {
   /// 添加了基础颜色，不适合主题适配
   const TStyle(
-      {Color? color = UCS.mainBlack,
+      {double? wordSpacing,
+      FontType? fontType,
+      FontWeight? fontWeight,
+      Color? color = UCS.mainBlack,
       super.fontSize = 14,
       super.letterSpacing,
       super.height,
       super.fontFamily,
       super.textBaseline = TextBaseline.ideographic,
-      FontType? fontType,
-      FontWeight? fontWeight,
+      super.backgroundColor,
+      super.inherit = true,
+      super.fontFamilyFallback,
+      super.package,
+      super.locale,
+      super.fontStyle,
+      super.foreground,
+      super.background,
+
+      /// [text]的划线
+      /// [TextDecoration.none] 没有 默认
+      /// [TextDecoration.underline] 下划线
+      /// [TextDecoration.overline] 上划线
+      /// [TextDecoration.lineThrough] 中间的线（删除线）
       super.decoration = TextDecoration.none,
-      super.backgroundColor})
+      super.decorationColor,
+      super.decorationStyle,
+      super.decorationThickness,
+      super.debugLabel,
+      super.shadows,
+      super.fontFeatures,
+      super.fontVariations,
+      super.leadingDistribution,
+      super.overflow})
       : super(
             color: color,
-            wordSpacing: letterSpacing,
+            wordSpacing: wordSpacing ?? letterSpacing,
             fontWeight: fontWeight ??
                 ((fontType == null || fontType == FontType.normal)
                     ? FontWeight.normal
@@ -172,8 +195,24 @@ class TStyle extends BTextStyle {
       super.fontFamily,
       super.textBaseline = TextBaseline.ideographic,
       super.fontWeight,
+      super.backgroundColor,
+      super.inherit = true,
+      super.fontFamilyFallback,
+      super.package,
+      super.locale,
+      super.fontStyle,
+      super.foreground,
+      super.background,
       super.decoration = TextDecoration.none,
-      super.backgroundColor});
+      super.decorationColor,
+      super.decorationStyle,
+      super.decorationThickness,
+      super.debugLabel,
+      super.shadows,
+      super.fontFeatures,
+      super.fontVariations,
+      super.leadingDistribution,
+      super.overflow});
 
   static FontWeight typeToWeight(FontType? fontType) {
     switch (fontType) {

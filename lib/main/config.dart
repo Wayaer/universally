@@ -159,17 +159,3 @@ class TextColor {
   Color? styleColor;
 }
 
-class BasicPlaceholder extends StatelessWidget {
-  const BasicPlaceholder({super.key, this.onTap});
-
-  final GestureTapCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) => PlaceholderChild(
-      child: IconBox(
-          onTap: onTap,
-          direction: Axis.vertical,
-          spacing: 12,
-          widget: SVGAsset(UAS.noDataIcon, width: 90, package: 'universally'),
-          title: TextSmall('什么也没有哎~')));
-}

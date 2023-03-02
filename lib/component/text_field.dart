@@ -584,10 +584,8 @@ class _BasicTextFieldState extends State<BasicTextField> {
         obscureText.value = !obscureText.value;
         if (mounted) setState(() {});
       },
-      child: SVGAsset(obscureText.value ? UAS.eyeClose : UAS.eyeOpen,
-          color: GlobalConfig().config.textColor?.defaultColor,
-          size: 20,
-          package: 'universally'));
+      child: Icon(obscureText.value ? WayIcons.eyeClose : WayIcons.eyeOpen,
+          color: GlobalConfig().config.textColor?.defaultColor, size: 20));
 
   @override
   void didUpdateWidget(covariant BasicTextField oldWidget) {

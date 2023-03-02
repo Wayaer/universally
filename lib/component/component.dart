@@ -71,13 +71,41 @@ class BasicError extends StatelessWidget {
   final GestureTapCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    return Universal(alignment: Alignment.center, onTap: onTap, children: [
-      SVGAsset(UAS.noDataIcon, height: 90, package: 'universally'),
-      const SizedBox(height: 10),
-      TextDefault('加载失败，点击刷新', fontSize: 13)
-    ]);
-  }
+  Widget build(BuildContext context) => Universal(
+      onTap: onTap,
+      child: IconBox(
+          onTap: onTap,
+          mainAxisAlignment: MainAxisAlignment.center,
+          direction: Axis.vertical,
+          spacing: 10,
+          widget: Icon(WayIcons.empty,
+              size: 80, color: GlobalConfig().config.textColor?.defaultColor),
+          title: TextDefault('加载失败，点击刷新', fontType: FontType.medium)));
+}
+
+class BasicPlaceholder extends StatelessWidget {
+  const BasicPlaceholder(
+      {super.key, this.onTap, this.padding = const EdgeInsets.only(top: 100)});
+
+  final GestureTapCallback? onTap;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) => PlaceholderChild(
+      padding: padding,
+      child: IconBox(
+          onTap: onTap,
+          mainAxisAlignment: MainAxisAlignment.center,
+          direction: Axis.vertical,
+          spacing: 10,
+          widget: Icon(WayIcons.empty,
+              size: 80,
+              color: GlobalConfig()
+                  .config
+                  .textColor
+                  ?.smallColor
+                  ?.withOpacity(0.3)),
+          title: TextSmall('什么也没有哎~', fontType: FontType.medium)));
 }
 
 class BasicSwitch extends SwitchState {

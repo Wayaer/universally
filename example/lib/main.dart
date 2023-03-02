@@ -1,4 +1,5 @@
 import 'package:app/page/basic_list_page.dart';
+import 'package:app/page/component_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
@@ -79,6 +80,9 @@ class HomePage extends StatelessWidget {
             runSpacing: 10,
             alignment: WrapAlignment.center,
             children: [
+              ElevatedText(
+                  onPressed: () => push(const ComponentPage()),
+                  text: 'Component'),
               if (isMobile) ...[
                 ElevatedText(
                     onPressed: () => push(const FlWebViewPage()),
@@ -104,7 +108,6 @@ class HomePage extends StatelessWidget {
               ElevatedText(
                   onPressed: () => push(const HivePreferencesPage()),
                   text: 'BHP(BasicHivePreferences)'),
-              const PushSwitchState(),
               ElevatedText(
                   onPressed: () {
                     showDoubleChooseAlert(
@@ -121,7 +124,6 @@ class HomePage extends StatelessWidget {
                   },
                   text: 'showUserPrivacyAlert'),
               const ElevatedText(onPressed: showLoading, text: 'showLoading'),
-              const CheckboxWithUserPrivacy(value: false),
             ]));
   }
 

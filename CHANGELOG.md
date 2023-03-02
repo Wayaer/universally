@@ -1,3 +1,7 @@
+## 3.3.2+1
+
+* Remove some svg
+
 ## 3.3.2
 
 * Add channel support
