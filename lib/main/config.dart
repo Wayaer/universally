@@ -158,4 +158,3 @@ class TextColor {
   /// [TStyle] color
   Color? styleColor;
 }
-
