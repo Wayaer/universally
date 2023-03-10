@@ -48,7 +48,7 @@ version=$(grep 'version:' pubspec.yaml)
 version=${version#version: }
 
 echo ""
-echo "😄 [ $outputName android: $version = $outputType = $buildType = $channel ] 😄"
+echo "😄 [ $outputName android: $version - $outputType - $buildType - $channel ] 😄"
 
 # shellcheck disable=SC2086
 flutter build $outputType --$buildType $splitABI $targetPlatform $dartDefine $androidProjectArg -t lib/main.dart

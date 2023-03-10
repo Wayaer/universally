@@ -38,7 +38,7 @@ version=$(grep "version:" pubspec.yaml)
 version=${version#version: }
 
 echo ""
-echo "😄 [ $outputName ios: $version = $buildType = $exportMethodName = $channel ] 😄"
+echo "😄 [ $outputName ios: $version - $buildType - $exportMethodName - $channel ] 😄"
 
 # shellcheck disable=SC2086
 flutter build ipa --$buildType --analyze-size $exportMethod $dartDefine -t lib/main.dart
@@ -50,7 +50,7 @@ mkdir -p "$outputDir"
 echo ""
 echo "😄 打包 $channel 的 $exportMethodName $buildType 已完成 😄"
 
-mv ./build/ios/ipa/"$outputName".ipa ./$outputDir/"$outputName$exportMethodName-v$version"".$(date "+%Y%m%d%H%M")".ipa
+mv ./build/ios/ipa/"$outputName".ipa ./$outputDir/"$outputName-$exportMethodName-v$version"".$(date "+%Y%m%d%H%M")".ipa
 
 echo ""
 echo "========== 💪 iOS打包完成 💪 =========="
