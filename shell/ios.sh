@@ -41,7 +41,7 @@ echo ""
 echo "😄 [ $outputName ios: $version = $buildType = $exportMethodName = $channel ] 😄"
 
 # shellcheck disable=SC2086
-flutter build ipa --$buildType --analyze-size "$exportMethod" "$dartDefine" -t lib/main.dart
+flutter build ipa --$buildType --analyze-size $exportMethod $dartDefine -t lib/main.dart
 
 outputDir="app/ios/$buildType/"
 
