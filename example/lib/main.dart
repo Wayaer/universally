@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
               ElevatedText(
                   onPressed: () {
                     showUserPrivacyAlert(
-                        title: 'Universally',
+                        name: 'Universally',
                         onUserAgreementTap: () {},
                         onPrivacyPolicyTap: () {},
                         onConsentTap: () {});

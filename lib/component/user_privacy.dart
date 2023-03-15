@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 void showUserPrivacyAlert({
-  required String title,
+  required String name,
   required GestureTapCallback onUserAgreementTap,
   required GestureTapCallback onPrivacyPolicyTap,
   required GestureTapCallback onConsentTap,
@@ -23,7 +23,7 @@ void showUserPrivacyAlert({
             content: _UserPrivacyAlert(
                 onUserAgreementTap: onUserAgreementTap,
                 onPrivacyPolicyTap: onPrivacyPolicyTap,
-                title: title),
+                name: name),
             right: SimpleButton(
                 height: 40,
                 margin: const EdgeInsets.only(left: 0.5),
@@ -50,11 +50,11 @@ void showUserPrivacyAlert({
 
 class _UserPrivacyAlert extends StatelessWidget {
   const _UserPrivacyAlert(
-      {this.onUserAgreementTap, this.onPrivacyPolicyTap, required this.title});
+      {this.onUserAgreementTap, this.onPrivacyPolicyTap, required this.name});
 
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
-  final String title;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _UserPrivacyAlert extends StatelessWidget {
         children: [
           Text.rich(TextSpan(children: [
             TextSpan(
-                text: '欢迎您使用$title软件及服务，您应当阅读并遵守',
+                text: '欢迎您使用$name软件及服务，您应当阅读并遵守',
                 style: const TStyle(fontSize: 16, color: UCS.mainBlack)),
             TextSpan(
                 text: '《用户协议》',
@@ -91,20 +91,24 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
       this.onChanged,
       this.onUserAgreementTap,
       this.onPrivacyPolicyTap,
-      this.shape})
+      this.shape,
+      this.color,
+      this.mainColor})
       : super(key: key);
   final bool value;
   final ValueChanged<bool?>? onChanged;
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
   final OutlinedBorder? shape;
+  final Color? color;
+  final Color? mainColor;
 
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       CheckboxState(
           value: value,
-          activeColor: GlobalConfig().currentColor,
+          activeColor: mainColor ?? GlobalConfig().currentColor,
           shape: shape,
           onChanged: onChanged),
       RText(maxLines: 2, textAlign: TextAlign.start, texts: const [
@@ -113,10 +117,10 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
         '和',
         '《隐私政策》'
       ], styles: [
-        const TStyle(),
-        TStyle(color: GlobalConfig().currentColor),
-        const TStyle(),
-        TStyle(color: GlobalConfig().currentColor),
+        TStyle(color: color),
+        TStyle(color: mainColor ?? GlobalConfig().currentColor),
+        TStyle(color: color),
+        TStyle(color: mainColor ?? GlobalConfig().currentColor),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,
