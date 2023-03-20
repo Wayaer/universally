@@ -1,124 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:universally/universally.dart';
 
-class CurrentPickerOptions<T> extends PickerOptions<T> {
-  CurrentPickerOptions(
+class BasicPickerOptions<T> extends PickerOptions<T> {
+  BasicPickerOptions(
       {String? title,
       super.verifyConfirm,
       super.verifyCancel,
       super.backgroundColor,
+      super.contentPadding,
+      super.decoration,
+      super.padding,
+      super.top,
+      super.bottom = const CustomDivider(),
       double height = 250})
       : super(
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
             confirm: TextDefault('确定', color: GlobalConfig().currentColor),
-            cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)),
-            bottom: const CustomDivider());
+            cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)));
 }
-
-/// 省市区选择器
-Future<List<String>?> pickerArea(
-        {String? defaultProvince,
-        String? defaultCity,
-        String? defaultDistrict,
-        BottomSheetOptions? options}) =>
-    AreaPicker(
-            province: defaultProvince,
-            city: defaultCity,
-            district: defaultDistrict,
-            options: CurrentPickerOptions(title: '选择地区'))
-        .show(options: options);
-
-/// 日期选择器
-Future<String?> pickerDateTime(
-    {DateTime? startDate,
-    DateTime? defaultDate,
-    DateTime? endDate,
-    int? dateTimeType,
-    ValueCallback<String>? confirmTap,
-    BottomSheetOptions? options}) async {
-  DateTimePickerUnit unit;
-  switch (dateTimeType) {
-    case 1: //时分
-      unit = const DateTimePickerUnit(hour: '时', minute: '分');
-      break;
-    case 2: //年月日
-      unit = const DateTimePickerUnit(year: '年', month: '月', day: '日');
-      break;
-    case 3: //年月
-      unit = const DateTimePickerUnit(year: '年', month: '月');
-      break;
-    case 4: //年月日时分秒
-      unit = const DateTimePickerUnit(
-          year: '年', month: '月', day: '日', hour: '时', minute: '分', second: '秒');
-      break;
-    default:
-      unit = const DateTimePickerUnit.yhm(
-          year: '年', month: '月', day: '日', hour: '时', minute: '分');
-      break;
-  }
-  String dateTimeToString(DateTime dateTime) {
-    switch (dateTimeType) {
-      case 1:
-        return dateTime.format(DateTimeDist.hourMinute);
-      case 2:
-        return dateTime.format(DateTimeDist.yearDay);
-      case 3:
-        return dateTime.format(DateTimeDist.yearMonth);
-      case 4:
-        return dateTime.format(DateTimeDist.yearSecond);
-      default:
-        return dateTime.format(DateTimeDist.yearMinute);
-    }
-  }
-
-  final date = await DateTimePicker(
-          options: CurrentPickerOptions(
-              verifyConfirm: (DateTime? dateTime) {
-                if (confirmTap != null && dateTime != null) {
-                  confirmTap(dateTimeToString(dateTime));
-                }
-                return true;
-              },
-              title: '选择时间'),
-          wheelOptions: const PickerWheelOptions(isCupertino: false),
-          unit: unit,
-          dual: true,
-          startDate: startDate,
-          defaultDate: defaultDate,
-          endDate: endDate)
-      .show(options: options);
-  return date == null ? null : dateTimeToString(date);
-}
-
-/// 多条数据列表选择器
-Future<int?> pickerMultipleChoice<T>(String title,
-        {required int itemCount,
-        required IndexedWidgetBuilder itemBuilder,
-        BottomSheetOptions? options}) =>
-    SingleColumnPicker(
-            itemCount: itemCount,
-            itemBuilder: (BuildContext context, int index) => Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: itemBuilder(context, index)),
-            wheelOptions: const PickerWheelOptions(
-                useMagnifier: true,
-                magnification: 1.2,
-                diameterRatio: 1.2,
-                isCupertino: true),
-            options: CurrentPickerOptions<int>(title: title))
-        .show(options: options);
 
 /// 底部有取消的单选
 /// 返回数组index
-Future<int?> pickerSingleChoice(List<String> list,
+Future<int?> pickerActionSheet(List<String> list,
         {BottomSheetOptions? options}) =>
-    AlertSingleChoice(list).popupBottomSheet<int?>(
+    _CupertinoActionSheet(list).popupBottomSheet<int?>(
         options: const BottomSheetOptions(backgroundColor: UCS.transparent)
             .merge(options));
 
 /// 带取消的单选
-class AlertSingleChoice extends StatelessWidget {
-  const AlertSingleChoice(this.list, {super.key});
+class _CupertinoActionSheet extends StatelessWidget {
+  const _CupertinoActionSheet(this.list);
 
   final List<String> list;
 

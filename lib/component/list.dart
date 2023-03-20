@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -13,36 +14,146 @@ class BasicList extends ScrollList {
   BasicList({
     super.key,
     required super.itemBuilder,
-    required super.itemCount,
+    super.itemCount,
     EasyRefreshController? refreshController,
     Widget? placeholder,
     Widget? header,
+    Widget? footer,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    super.crossAxisFlex = false,
-    super.controller,
-    super.padding,
-    super.mainAxisSpacing = 0,
-    super.crossAxisSpacing = 0,
-    super.crossAxisCount = 1,
-    super.childAspectRatio = 1,
-    super.maxCrossAxisExtent = 100,
+    super.reverse = false,
     super.shrinkWrap = false,
-    super.physics,
+    super.noScrollBehavior = false,
+    super.primary,
     super.scrollDirection = Axis.vertical,
+    super.clipBehavior = Clip.hardEdge,
+    super.dragStartBehavior = DragStartBehavior.start,
+    super.restorationId,
+    super.physics,
+    super.padding,
+    super.controller,
+    super.findChildIndexCallback,
+    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
+    super.addAutomaticKeepALives = true,
+    super.addRepaintBoundaries = true,
+    super.addSemanticIndexes = true,
+    super.gridStyle = GridStyle.none,
+    super.separatorBuilder,
+
+    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.itemExtent,
+
+    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.prototypeItem,
+
+    /// 横轴子元素的数量 自适应最大像素
+    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
+    super.crossAxisCount = 1,
+
+    /// 横轴元素最大像素 自适应列数
+    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
+    super.maxCrossAxisExtent,
+
+    /// 主轴方向子元素的间距
+    super.mainAxisSpacing = 0,
+
+    /// 横轴方向子元素的间距
+    super.crossAxisSpacing = 0,
+
+    /// 子元素在横轴长度和主轴长度的比例
+    super.childAspectRatio = 1,
+
+    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
+    super.mainAxisExtent,
+    RefreshConfig? refreshConfig,
   }) : super.builder(
             cacheExtent: deviceHeight / 2,
-            header: header == null ? null : SliverToBoxAdapter(child: header),
-            refreshConfig: (onRefresh != null || onLoading != null)
-                ? RefreshConfig(
-                    controller: refreshController,
-                    header: GlobalConfig().config.pullDownHeader,
-                    footer: GlobalConfig().config.pullUpFooter,
-                    onLoading:
-                        onLoading == null ? null : () async => onLoading.call(),
-                    onRefresh:
-                        onRefresh == null ? null : () async => onRefresh.call())
-                : null,
+            header: header?.toSliverBox,
+            footer: footer?.toSliverBox,
+            refreshConfig: refreshConfig ??
+                ((onRefresh != null || onLoading != null)
+                    ? RefreshConfig(
+                        controller: refreshController,
+                        header: GlobalConfig().config.pullDownHeader,
+                        footer: GlobalConfig().config.pullUpFooter,
+                        onLoading: onLoading == null
+                            ? null
+                            : () async => onLoading.call(),
+                        onRefresh: onRefresh == null
+                            ? null
+                            : () async => onRefresh.call())
+                    : null),
+            placeholder: placeholder ?? GlobalConfig().config.placeholder);
+
+  BasicList.count({
+    super.key,
+    required super.children,
+    EasyRefreshController? refreshController,
+    Widget? placeholder,
+    Widget? header,
+    Widget? footer,
+    VoidCallback? onRefresh,
+    VoidCallback? onLoading,
+    super.reverse = false,
+    super.shrinkWrap = false,
+    super.noScrollBehavior = false,
+    super.primary,
+    super.scrollDirection = Axis.vertical,
+    super.clipBehavior = Clip.hardEdge,
+    super.dragStartBehavior = DragStartBehavior.start,
+    super.restorationId,
+    super.physics,
+    super.padding,
+    super.controller,
+    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
+    super.addAutomaticKeepALives = true,
+    super.addRepaintBoundaries = true,
+    super.addSemanticIndexes = true,
+    super.gridStyle = GridStyle.none,
+
+    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.itemExtent,
+
+    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.prototypeItem,
+
+    /// 横轴子元素的数量 自适应最大像素
+    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
+    super.crossAxisCount = 1,
+
+    /// 横轴元素最大像素 自适应列数
+    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
+    super.maxCrossAxisExtent,
+
+    /// 主轴方向子元素的间距
+    super.mainAxisSpacing = 0,
+
+    /// 横轴方向子元素的间距
+    super.crossAxisSpacing = 0,
+
+    /// 子元素在横轴长度和主轴长度的比例
+    super.childAspectRatio = 1,
+
+    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
+    super.mainAxisExtent,
+    RefreshConfig? refreshConfig,
+  }) : super.count(
+            cacheExtent: deviceHeight / 2,
+            header: header?.toSliverBox,
+            footer: footer?.toSliverBox,
+            refreshConfig: refreshConfig ??
+                ((onRefresh != null || onLoading != null)
+                    ? RefreshConfig(
+                        controller: refreshController,
+                        header: GlobalConfig().config.pullDownHeader,
+                        footer: GlobalConfig().config.pullUpFooter,
+                        onLoading: onLoading == null
+                            ? null
+                            : () async => onLoading.call(),
+                        onRefresh: onRefresh == null
+                            ? null
+                            : () async => onRefresh.call())
+                    : null),
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
   BasicList.waterfall({
@@ -52,67 +163,79 @@ class BasicList extends ScrollList {
     EasyRefreshController? refreshController,
     Widget? placeholder,
     Widget? header,
+    Widget? footer,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
-    super.controller,
+    super.reverse = false,
+    super.shrinkWrap = false,
+    super.noScrollBehavior = false,
+    super.primary,
+    super.scrollDirection = Axis.vertical,
+    super.clipBehavior = Clip.hardEdge,
+    super.dragStartBehavior = DragStartBehavior.start,
+    super.restorationId,
+    super.physics,
     super.padding,
-    super.mainAxisSpacing = 0,
-    super.crossAxisSpacing = 0,
-    super.crossAxisCount,
+    super.controller,
+    super.findChildIndexCallback,
+    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
+    super.addAutomaticKeepALives = true,
+    super.addRepaintBoundaries = true,
+    super.addSemanticIndexes = true,
+    super.gridStyle = GridStyle.masonry,
+    super.separatorBuilder,
+
+    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.itemExtent,
+
+    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
+    super.prototypeItem,
+
+    /// 横轴子元素的数量 自适应最大像素
+    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
+    super.crossAxisCount = 1,
+
+    /// 横轴元素最大像素 自适应列数
+    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
     super.maxCrossAxisExtent,
-    super.shrinkWrap = false,
-    super.physics,
-    super.scrollDirection = Axis.vertical,
-  }) : super.waterfall(
+
+    /// 主轴方向子元素的间距
+    super.mainAxisSpacing = 0,
+
+    /// 横轴方向子元素的间距
+    super.crossAxisSpacing = 0,
+
+    /// 子元素在横轴长度和主轴长度的比例
+    super.childAspectRatio = 1,
+
+    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
+    super.mainAxisExtent,
+    RefreshConfig? refreshConfig,
+  }) : super.builder(
             cacheExtent: deviceHeight / 2,
-            header: header == null ? null : SliverToBoxAdapter(child: header),
-            refreshConfig: (onRefresh != null || onLoading != null)
-                ? RefreshConfig(
-                    controller: refreshController,
-                    header: GlobalConfig().config.pullDownHeader,
-                    footer: GlobalConfig().config.pullUpFooter,
-                    onLoading:
-                        onLoading == null ? null : () async => onLoading.call(),
-                    onRefresh:
-                        onRefresh == null ? null : () async => onRefresh.call())
-                : null,
+            header: header?.toSliverBox,
+            footer: footer?.toSliverBox,
+            refreshConfig: refreshConfig ??
+                ((onRefresh != null || onLoading != null)
+                    ? RefreshConfig(
+                        controller: refreshController,
+                        header: GlobalConfig().config.pullDownHeader,
+                        footer: GlobalConfig().config.pullUpFooter,
+                        onLoading: onLoading == null
+                            ? null
+                            : () async => onLoading.call(),
+                        onRefresh: onRefresh == null
+                            ? null
+                            : () async => onRefresh.call())
+                    : null),
             placeholder: placeholder ?? GlobalConfig().config.placeholder);
 
-  BasicList.separated({
-    super.key,
-    required super.itemBuilder,
-    required super.separatorBuilder,
-    required super.itemCount,
-    EasyRefreshController? refreshController,
-    Widget? placeholder,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
-    Widget? header,
-    super.controller,
-    super.padding,
-    super.shrinkWrap = false,
-    super.physics,
-    super.scrollDirection = Axis.vertical,
-  }) : super.separated(
-            cacheExtent: deviceHeight / 2,
-            header: header == null ? null : SliverToBoxAdapter(child: header),
-            refreshConfig: (onRefresh != null || onLoading != null)
-                ? RefreshConfig(
-                    controller: refreshController,
-                    footer: GlobalConfig().config.pullUpFooter,
-                    header: GlobalConfig().config.pullDownHeader,
-                    onLoading:
-                        onLoading == null ? null : () async => onLoading.call(),
-                    onRefresh:
-                        onRefresh == null ? null : () async => onRefresh.call())
-                : null,
-            placeholder: placeholder ?? GlobalConfig().config.placeholder);
-
-  BasicList.countBuilder({
+  BasicList.custom({
     super.key,
     required super.sliver,
     EasyRefreshController? refreshController,
     Widget? header,
+    Widget? footer,
     VoidCallback? onRefresh,
     VoidCallback? onLoading,
     super.physics,
@@ -120,17 +243,28 @@ class BasicList extends ScrollList {
     super.padding,
     super.shrinkWrap = false,
     super.scrollDirection = Axis.vertical,
+    super.reverse,
+    super.primary,
+    super.clipBehavior,
+    super.dragStartBehavior,
+    super.noScrollBehavior,
+    super.restorationId,
+    RefreshConfig? refreshConfig,
   }) : super(
             cacheExtent: deviceHeight / 2,
-            header: header == null ? null : SliverToBoxAdapter(child: header),
-            refreshConfig: (onRefresh != null || onLoading != null)
-                ? RefreshConfig(
-                    controller: refreshController,
-                    footer: GlobalConfig().config.pullUpFooter,
-                    header: GlobalConfig().config.pullDownHeader,
-                    onLoading:
-                        onLoading == null ? null : () async => onLoading.call(),
-                    onRefresh:
-                        onRefresh == null ? null : () async => onRefresh.call())
-                : null);
+            header: header?.toSliverBox,
+            footer: footer?.toSliverBox,
+            refreshConfig: refreshConfig ??
+                ((onRefresh != null || onLoading != null)
+                    ? RefreshConfig(
+                        controller: refreshController,
+                        footer: GlobalConfig().config.pullUpFooter,
+                        header: GlobalConfig().config.pullDownHeader,
+                        onLoading: onLoading == null
+                            ? null
+                            : () async => onLoading.call(),
+                        onRefresh: onRefresh == null
+                            ? null
+                            : () async => onRefresh.call())
+                    : null));
 }

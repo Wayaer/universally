@@ -21,7 +21,7 @@ class CustomDivider extends Divider {
       super.key,
       super.endIndent,
       super.indent,
-      super.thickness,
+      super.thickness = 0.5,
       super.height = 1});
 }
 

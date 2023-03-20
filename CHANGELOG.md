@@ -1,3 +1,7 @@
+## 3.5.0
+
+* Updating dependency
+
 ## 3.3.2+2
 
 * Remove some svg
