@@ -23,13 +23,13 @@ class BasicPickerOptions<T> extends PickerOptions<T> {
 /// 返回数组index
 Future<int?> pickerActionSheet(List<String> list,
         {BottomSheetOptions? options}) =>
-    _CupertinoActionSheet(list).popupBottomSheet<int?>(
+    BasicCupertinoActionSheet(list).popupBottomSheet<int?>(
         options: const BottomSheetOptions(backgroundColor: UCS.transparent)
             .merge(options));
 
 /// 带取消的单选
-class _CupertinoActionSheet extends StatelessWidget {
-  const _CupertinoActionSheet(this.list);
+class BasicCupertinoActionSheet extends StatelessWidget {
+  const BasicCupertinoActionSheet(this.list, {super.key});
 
   final List<String> list;
 

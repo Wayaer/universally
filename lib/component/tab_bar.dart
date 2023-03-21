@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BaseTabBar extends TabBar {
-  BaseTabBar({
+class BasicTabBar extends TabBar {
+  BasicTabBar({
     super.key,
     super.controller,
     super.isScrollable = false,
@@ -53,7 +53,7 @@ class BaseTabBar extends TabBar {
                     fontSize: fontSize,
                     fontType: fontType));
 
-  BaseTabBar.indicator({
+  BasicTabBar.indicator({
     super.key,
     super.controller,
     super.isScrollable = false,

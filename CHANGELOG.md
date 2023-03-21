@@ -1,3 +1,7 @@
+## 3.5.0+1
+
+* Added the `BasicTabBar()`
+
 ## 3.5.0
 
 * Updating dependency
