@@ -92,7 +92,7 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
       this.onUserAgreementTap,
       this.onPrivacyPolicyTap,
       this.shape,
-      this.color,
+      this.color = UCS.mainBlack,
       this.mainColor})
       : super(key: key);
   final bool value;
