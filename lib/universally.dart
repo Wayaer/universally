@@ -24,6 +24,7 @@ export 'component/popup.dart';
 export 'component/scaffold.dart';
 export 'component/text.dart';
 export 'component/text_field.dart';
+export 'component/tab_bar.dart';
 export 'component/user_privacy.dart';
 export 'component/switch_api.dart';
 export 'component/cache.dart';
