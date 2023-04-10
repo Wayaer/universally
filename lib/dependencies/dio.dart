@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// FormData ContentType
@@ -679,7 +678,7 @@ class BasicDio {
       try {
         data = jsonDecode(data);
       } catch (e) {
-        debugPrint('$e');
+        log('jsonDecode catch : \n$e');
       }
       if (data is Map) {
         baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
