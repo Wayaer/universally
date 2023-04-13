@@ -117,10 +117,10 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
         '和',
         '《隐私政策》'
       ], styles: [
-        TStyle(color: color),
-        TStyle(color: mainColor ?? GlobalConfig().currentColor),
-        TStyle(color: color),
-        TStyle(color: mainColor ?? GlobalConfig().currentColor),
+        TStyle(color: color, fontSize: 12),
+        TStyle(color: mainColor ?? GlobalConfig().currentColor, fontSize: 12),
+        TStyle(color: color, fontSize: 12),
+        TStyle(color: mainColor ?? GlobalConfig().currentColor, fontSize: 12),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,
