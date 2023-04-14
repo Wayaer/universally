@@ -116,6 +116,7 @@ class HomePage extends StatelessWidget {
                   text: 'showDoubleChooseAlert'),
               ElevatedText(
                   onPressed: () {
+                    BHP().setBool(UConst.privacy, false);
                     showUserPrivacyAlert(
                         name: 'Universally',
                         onUserAgreementTap: () {},
