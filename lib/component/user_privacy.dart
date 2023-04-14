@@ -13,7 +13,7 @@ void showUserPrivacyAlert({
   if (result ?? false) {
     onConsentTap.call();
   } else {
-    _UserPrivacyAlert(
+    AlertWithUserPrivacy(
             name: name,
             options: options,
             onUserAgreementTap: onUserAgreementTap,
@@ -24,9 +24,10 @@ void showUserPrivacyAlert({
   }
 }
 
-class _UserPrivacyAlert extends StatelessWidget {
-  const _UserPrivacyAlert(
-      {required this.name,
+class AlertWithUserPrivacy extends StatelessWidget {
+  const AlertWithUserPrivacy(
+      {super.key,
+      required this.name,
       required this.onUserAgreementTap,
       required this.onPrivacyPolicyTap,
       required this.onConsentTap,

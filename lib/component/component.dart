@@ -15,8 +15,8 @@ class BottomPadding extends Universal {
                 left, top, right, getBottomNavigationBarHeight + bottom));
 }
 
-class CustomDivider extends Divider {
-  const CustomDivider(
+class BasicDivider extends Divider {
+  const BasicDivider(
       {super.color = UCS.background,
       super.key,
       super.endIndent,

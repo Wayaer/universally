@@ -11,7 +11,7 @@ class BasicPickerOptions<T> extends PickerOptions<T> {
       super.decoration,
       super.padding,
       super.top,
-      super.bottom = const CustomDivider(),
+      super.bottom = const BasicDivider(),
       double height = 250})
       : super(
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),

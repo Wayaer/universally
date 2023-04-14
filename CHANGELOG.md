@@ -1,3 +1,8 @@
+## 3.5.2+1
+
+* Change the `CustomDivider` to `BasicDivider`
+* Modify the style of `AlertWithUserPrivacy`
+
 ## 3.5.2
 
 * In `BasicAppBar`, change the `text` to `titleText` and change the `title` type to `Widget`, Change hasLeading to enableLeading
