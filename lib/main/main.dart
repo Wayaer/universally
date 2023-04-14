@@ -39,7 +39,11 @@ class GlobalConfig {
   ProjectConfig get config => _config;
 
   /// 设置app 一些默认参数
-  Future<void> setDefaultConfig(ProjectConfig config) async {
+  Future<void> setDefaultConfig(
+    ProjectConfig config, {
+    bool? enableBeta,
+    String? channel,
+  }) async {
     WidgetsFlutterBinding.ensureInitialized();
     _config = config;
 
@@ -48,6 +52,8 @@ class GlobalConfig {
       currentChannel = env;
       isBeta = currentChannel == UConst.beta;
     }
+    if (enableBeta != null) isBeta = enableBeta;
+    if (channel != null) currentChannel = channel;
 
     /// 关闭辅助触控
     /// Turn off auxiliary touch
@@ -62,14 +68,14 @@ class GlobalConfig {
 
     currentColor = config.mainColor;
     final bool isRelease = BHP().getBool(UConst.isRelease) ?? false;
-    if (isBeta && !isRelease) {
+    if (isRelease && !isBeta) {
+      isBeta = false;
+      _currentApi = config.releaseApi;
+    } else {
       _currentApi = config.betaApi;
       final String? localApi = BHP().getString(UConst.localApi);
       if (localApi != null && localApi.length > 5) _currentApi = localApi;
       isDebugger = BHP().getBool(UConst.isDebugger) ?? true;
-    } else {
-      isBeta = false;
-      _currentApi = config.releaseApi;
     }
 
     /// 设置toast
