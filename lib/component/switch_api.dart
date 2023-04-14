@@ -38,7 +38,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
         isScroll: true,
         safeBottom: true,
         padding: const EdgeInsets.all(12),
-        appBarTitle: '切换服务器',
+        appBarTitleText: '切换服务器',
         children: [
           TextVeryLarge('*本功能为测试版专用', color: GlobalConfig().currentColor),
           const SizedBox(height: 6),

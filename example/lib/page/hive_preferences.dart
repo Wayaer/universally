@@ -23,7 +23,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
     return BasicScaffold(
         isScroll: true,
         padding: const EdgeInsets.all(12),
-        appBarTitle: 'BHP Demo',
+        appBarTitleText: 'BHP Demo',
         children: [
           Container(
               padding: const EdgeInsets.all(12),

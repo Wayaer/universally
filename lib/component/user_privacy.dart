@@ -93,6 +93,7 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
       this.onPrivacyPolicyTap,
       this.shape,
       this.color = UCS.mainBlack,
+      this.fontSize = 12,
       this.mainColor})
       : super(key: key);
   final bool value;
@@ -100,8 +101,13 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
   final OutlinedBorder? shape;
+
+  /// 其他文字颜色
   final Color? color;
+
+  /// 高亮显示的颜色
   final Color? mainColor;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -117,10 +123,14 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
         '和',
         '《隐私政策》'
       ], styles: [
-        TStyle(color: color, fontSize: 12),
-        TStyle(color: mainColor ?? GlobalConfig().currentColor, fontSize: 12),
-        TStyle(color: color, fontSize: 12),
-        TStyle(color: mainColor ?? GlobalConfig().currentColor, fontSize: 12),
+        TStyle(color: color, fontSize: fontSize),
+        TStyle(
+            color: mainColor ?? GlobalConfig().currentColor,
+            fontSize: fontSize),
+        TStyle(color: color, fontSize: fontSize),
+        TStyle(
+            color: mainColor ?? GlobalConfig().currentColor,
+            fontSize: fontSize),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,

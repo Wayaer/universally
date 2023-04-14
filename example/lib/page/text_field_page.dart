@@ -9,7 +9,7 @@ class TextFieldPage extends StatelessWidget {
     return BasicScaffold(
         onWillPopOverlayClose: true,
         padding: const EdgeInsets.all(12),
-        appBarTitle: 'TextField',
+        appBarTitleText: 'TextField',
         children: [
           const SizedBox(height: 20),
           TextLarge('新版'),

@@ -233,14 +233,14 @@ class TStyle extends BTextStyle {
 enum FontType { normal, medium, semiBold, bold }
 
 class TextShowPage extends StatelessWidget {
-  const TextShowPage({super.key, required this.text, this.appBarTitle});
+  const TextShowPage({super.key, required this.text, this.appBarTitleText});
 
   final String text;
-  final String? appBarTitle;
+  final String? appBarTitleText;
 
   @override
   Widget build(BuildContext context) => BasicScaffold(
-      appBarTitle: appBarTitle,
+      appBarTitleText: appBarTitleText,
       padding: const EdgeInsets.all(20),
       child: SimpleButton(
           onTap: () {

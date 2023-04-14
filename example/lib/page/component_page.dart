@@ -7,7 +7,7 @@ class ComponentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicScaffold(
-        appBarTitle: 'Component',
+        appBarTitleText: 'Component',
         isScroll: true,
         children: const [
           BasicError(),

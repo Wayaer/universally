@@ -29,7 +29,7 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
     return BasicScaffold(
         isScroll: true,
         padding: const EdgeInsets.all(12),
-        appBarTitle: 'GIF Image',
+        appBarTitleText: 'GIF Image',
         children: [
           TextLarge('NetworkImage'),
           Gif(

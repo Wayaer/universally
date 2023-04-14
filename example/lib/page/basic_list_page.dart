@@ -14,7 +14,7 @@ class _BasicListPageState extends State<BasicListPage> {
   @override
   Widget build(BuildContext context) {
     return BasicScaffold(
-        appBarTitle: 'BasicList',
+        appBarTitleText: 'BasicList',
         child: BasicList(
             itemCount: list.length,
             onRefresh: () async {

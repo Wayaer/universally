@@ -59,9 +59,9 @@ class BasicScaffold extends ExtendedScaffold {
     /// [AppBar]
     super.appBarHeight,
     Widget? appBar,
-    Widget? title,
     double? elevation,
-    String? appBarTitle,
+    Widget? appBarTitle,
+    String? appBarTitleText,
     Widget? appBarRight,
     Color? appBarBackgroundColor,
     Color? appBarForegroundColor,
@@ -71,7 +71,7 @@ class BasicScaffold extends ExtendedScaffold {
     Widget? appBarLeft,
     IconThemeData? appBarIconTheme,
     bool isMaybePop = false,
-    bool hasLeading = true,
+    bool enableLeading = true,
     SystemUiOverlayStyle? systemOverlayStyle,
     bool centerTitle = true,
     IconThemeData? actionsIconTheme,
@@ -105,18 +105,19 @@ class BasicScaffold extends ExtendedScaffold {
                 : null,
             body: child,
             appBar: appBar ??
-                (title != null ||
+                (appBarTitleText != null ||
                         appBarTitle != null ||
                         appBarBottom != null ||
                         appBarActions != null ||
+                        appBarLeft != null ||
                         appBarRight != null
                     ? BasicAppBar(
-                        hasLeading: hasLeading,
+                        enableLeading: enableLeading,
                         actions: appBarActions,
                         isMaybePop: isMaybePop,
                         bottom: appBarBottom,
-                        text: appBarTitle,
-                        title: title,
+                        titleText: appBarTitleText,
+                        title: appBarTitle,
                         elevation: elevation,
                         right: appBarRight,
                         leading: appBarLeft,
@@ -148,7 +149,7 @@ class BasicScaffold extends ExtendedScaffold {
 class BasicAppBar extends AppBar {
   BasicAppBar({
     super.key,
-    String? text,
+    String? titleText,
     Widget? title,
     Widget? right,
     List<Widget>? actions,
@@ -156,7 +157,7 @@ class BasicAppBar extends AppBar {
     double? elevation,
     Widget? leading,
     Color? backgroundColor,
-    bool hasLeading = true,
+    bool enableLeading = true,
     IconThemeData? iconTheme,
     SystemUiOverlayStyle? systemOverlayStyle,
     super.centerTitle = true,
@@ -181,9 +182,9 @@ class BasicAppBar extends AppBar {
     super.toolbarTextStyle,
   }) : super(
             title: title ??
-                TextLarge(text,
+                TextLarge(titleText,
                     color: GlobalConfig().config.appBarConfig?.titleColor),
-            leading: hasLeading
+            leading: enableLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
                 : const SizedBox(),
             elevation:

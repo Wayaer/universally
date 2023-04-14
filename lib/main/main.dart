@@ -268,12 +268,13 @@ class MainBasicScaffold extends StatelessWidget {
       this.children,
       this.isScroll = false,
       this.resizeToAvoidBottomInset = false,
-      this.appBarTitle,
+      this.appBarTitleText,
       this.appBarLeft,
       this.appBarRight,
       this.appBarActions,
       this.padding,
-      this.elevation});
+      this.elevation,
+      this.appBarTitle});
 
   /// 不为null 时 显示为主页面的 MainTabPageBuilder
   final List<Widget>? widgets;
@@ -299,7 +300,8 @@ class MainBasicScaffold extends StatelessWidget {
   final bool isScroll;
   final bool resizeToAvoidBottomInset;
 
-  final String? appBarTitle;
+  final String? appBarTitleText;
+  final Widget? appBarTitle;
   final Widget? appBarLeft;
   final Widget? appBarRight;
   final List<Widget>? appBarActions;
@@ -315,6 +317,7 @@ class MainBasicScaffold extends StatelessWidget {
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
         isScroll: isScroll,
+        appBarTitleText: appBarTitleText,
         appBarTitle: appBarTitle,
         appBarLeft: appBarLeft,
         appBarRight: appBarRight,
