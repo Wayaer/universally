@@ -68,14 +68,14 @@ class GlobalConfig {
 
     currentColor = config.mainColor;
     final bool isRelease = BHP().getBool(UConst.isRelease) ?? false;
-    if (isRelease && !isBeta) {
-      isBeta = false;
-      _currentApi = config.releaseApi;
-    } else {
+    if (isBeta && !isRelease) {
       _currentApi = config.betaApi;
       final String? localApi = BHP().getString(UConst.localApi);
       if (localApi != null && localApi.length > 5) _currentApi = localApi;
       isDebugger = BHP().getBool(UConst.isDebugger) ?? true;
+    } else {
+      isBeta = false;
+      _currentApi = config.releaseApi;
     }
 
     /// 设置toast

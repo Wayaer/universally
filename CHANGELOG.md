@@ -1,4 +1,4 @@
-## 3.5.2+1
+## 3.5.2+2
 
 * Change the `CustomDivider` to `BasicDivider`
 * Modify the style of `AlertWithUserPrivacy`
