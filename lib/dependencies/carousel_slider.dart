@@ -41,12 +41,13 @@ class BasicCarouselSlider extends CarouselSlider {
       ValueChanged<double?>? onScrolled,
       Curve autoPlayCurve = Curves.linear,
       ScrollPhysics? scrollPhysics,
-      super.carouselController,
+      CarouselController? controller,
 
       /// 滚动间隔时间
       Duration autoPlayAnimationDuration = const Duration(milliseconds: 600),
       Function(int? index, CarouselPageChangedReason reason)? onPageChanged})
       : super.builder(
+            carouselController: controller,
             options: CarouselOptions(
                 height: height,
                 pageSnapping: pageSnapping,
@@ -66,33 +67,25 @@ class BasicCarouselSlider extends CarouselSlider {
                 enlargeCenterPage: enlargeCenterPage));
 }
 
-class MainTabPageBuilder extends StatelessWidget {
-  const MainTabPageBuilder(
-      {super.key,
-      required this.widgets,
-      required this.onPageChanged,
-      this.controller,
-      this.canScroll = true});
-
-  final List<Widget> widgets;
-  final ValueCallback<int> onPageChanged;
-  final CarouselControllerImpl? controller;
-  final bool canScroll;
-
-  @override
-  Widget build(BuildContext context) => BasicCarouselSlider(
-      autoPlay: false,
-      pauseAutoPlayOnTouch: false,
-      enableInfiniteScroll: false,
-      carouselController: controller,
-      pageSnapping: true,
-      height: double.infinity,
-      scrollPhysics: canScroll
-          ? const ClampingScrollPhysics()
-          : const NeverScrollableScrollPhysics(),
-      onPageChanged: (int? index, CarouselPageChangedReason reason) {
-        if (index != null) onPageChanged(index);
-      },
-      itemBuilder: (_, int index, __) => widgets[index],
-      itemCount: widgets.length);
+class TabPage extends BasicCarouselSlider {
+  TabPage({
+    super.key,
+    required List<Widget> children,
+    ValueCallback<int>? onPageChanged,
+    super.controller,
+    bool canScroll = true,
+  }) : super(
+            autoPlay: false,
+            pauseAutoPlayOnTouch: false,
+            enableInfiniteScroll: false,
+            pageSnapping: true,
+            height: double.infinity,
+            scrollPhysics: canScroll
+                ? const ClampingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            onPageChanged: (int? index, CarouselPageChangedReason reason) {
+              if (index != null) onPageChanged?.call(index);
+            },
+            itemCount: children.length,
+            itemBuilder: (_, int index, __) => children[index]);
 }

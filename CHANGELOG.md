@@ -1,3 +1,10 @@
+## 3.5.3
+
+* Remove the  `MainBasicScaffold`, Use the `isRootPage` of `BasicScaffold`
+* Change `appBarLeft` to `appBarLeading`
+* Change `appBarRight` to `appBarAction`
+* Change `MainTabPageBuilder` to `TabPage`
+
 ## 3.5.2+2
 
 * Change the `CustomDivider` to `BasicDivider`

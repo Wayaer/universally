@@ -29,14 +29,10 @@ class BasicScaffold extends ExtendedScaffold {
     super.padding,
     super.bottomNavigationBar,
     super.endDrawer,
-    Color? backgroundColor,
     super.floatingActionButton,
     super.floatingActionButtonAnimator,
     super.floatingActionButtonLocation,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
     super.onWillPopOverlayClose = false,
-    super.onWillPop,
     super.decoration,
     super.useSingleChildScrollView = true,
     super.margin,
@@ -55,6 +51,11 @@ class BasicScaffold extends ExtendedScaffold {
     super.persistentFooterButtons,
     super.primary = true,
     super.restorationId,
+    Color? backgroundColor,
+    bool isRootPage = false,
+    WillPopCallback? onWillPop,
+    VoidCallback? onRefresh,
+    VoidCallback? onLoading,
 
     /// [AppBar]
     super.appBarHeight,
@@ -62,13 +63,14 @@ class BasicScaffold extends ExtendedScaffold {
     double? elevation,
     Widget? appBarTitle,
     String? appBarTitleText,
-    Widget? appBarRight,
+    Widget? appBarAction,
+    List<Widget>? appBarActions,
+    Widget? appBarLeading,
+    double? leadingWidth,
     Color? appBarBackgroundColor,
     Color? appBarForegroundColor,
     bool appBarPrimary = true,
     PreferredSizeWidget? appBarBottom,
-    List<Widget>? appBarActions,
-    Widget? appBarLeft,
     IconThemeData? appBarIconTheme,
     bool isMaybePop = false,
     bool enableLeading = true,
@@ -79,7 +81,6 @@ class BasicScaffold extends ExtendedScaffold {
     bool excludeHeaderSemantics = true,
     double bottomOpacity = 1.0,
     Widget? flexibleSpace,
-    double? leadingWidth,
     ScrollNotificationPredicate notificationPredicate =
         defaultScrollNotificationPredicate,
     double? scrolledUnderElevation,
@@ -92,6 +93,7 @@ class BasicScaffold extends ExtendedScaffold {
     double toolbarOpacity = 1.0,
     TextStyle? toolbarTextStyle,
   }) : super(
+            onWillPop: onWillPop ?? _isRootPageWithWillPop(isRootPage),
             backgroundColor:
                 backgroundColor ?? GlobalConfig().config.scaffoldBackground,
             refreshConfig: (onRefresh != null || onLoading != null)
@@ -109,8 +111,8 @@ class BasicScaffold extends ExtendedScaffold {
                         appBarTitle != null ||
                         appBarBottom != null ||
                         appBarActions != null ||
-                        appBarLeft != null ||
-                        appBarRight != null
+                        appBarLeading != null ||
+                        appBarAction != null
                     ? BasicAppBar(
                         enableLeading: enableLeading,
                         actions: appBarActions,
@@ -119,8 +121,8 @@ class BasicScaffold extends ExtendedScaffold {
                         titleText: appBarTitleText,
                         title: appBarTitle,
                         elevation: elevation,
-                        right: appBarRight,
-                        leading: appBarLeft,
+                        action: appBarAction,
+                        leading: appBarLeading,
                         systemOverlayStyle: systemOverlayStyle,
                         backgroundColor: appBarBackgroundColor,
                         centerTitle: centerTitle,
@@ -144,6 +146,24 @@ class BasicScaffold extends ExtendedScaffold {
                         toolbarOpacity: toolbarOpacity,
                         toolbarTextStyle: toolbarTextStyle)
                     : null));
+
+  static DateTime? _dateTime;
+
+  static WillPopCallback? _isRootPageWithWillPop(bool isRootPage) => isRootPage
+      ? () async {
+          final now = DateTime.now();
+          if (_dateTime != null &&
+              now.difference(_dateTime!).inMilliseconds < 2500) {
+            Curiosity().native.exitApp();
+          } else {
+            _dateTime = now;
+            showToast('再次点击返回键退出',
+                options:
+                    const ToastOptions(duration: Duration(milliseconds: 1500)));
+          }
+          return false;
+        }
+      : null;
 }
 
 class BasicAppBar extends AppBar {
@@ -151,7 +171,7 @@ class BasicAppBar extends AppBar {
     super.key,
     String? titleText,
     Widget? title,
-    Widget? right,
+    Widget? action,
     List<Widget>? actions,
     bool isMaybePop = false,
     double? elevation,
@@ -195,12 +215,12 @@ class BasicAppBar extends AppBar {
                 iconTheme ?? GlobalConfig().config.appBarConfig?.iconTheme,
             actions: actions ??
                 [
-                  if (right != null)
+                  if (action != null)
                     Container(
                         width: 100,
                         alignment: Alignment.centerRight,
                         margin: const EdgeInsets.only(right: 16),
-                        child: right)
+                        child: action)
                 ],
             backgroundColor: backgroundColor ??
                 GlobalConfig().config.appBarConfig?.backgroundColor);
