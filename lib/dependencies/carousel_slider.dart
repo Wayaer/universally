@@ -73,14 +73,14 @@ class TabPage extends BasicCarouselSlider {
     required List<Widget> children,
     ValueCallback<int>? onPageChanged,
     super.controller,
-    bool canScroll = true,
+    bool enableScroll = true,
   }) : super(
             autoPlay: false,
             pauseAutoPlayOnTouch: false,
             enableInfiniteScroll: false,
             pageSnapping: true,
             height: double.infinity,
-            scrollPhysics: canScroll
+            scrollPhysics: enableScroll
                 ? const ClampingScrollPhysics()
                 : const NeverScrollableScrollPhysics(),
             onPageChanged: (int? index, CarouselPageChangedReason reason) {
