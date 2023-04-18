@@ -43,7 +43,6 @@ class BasicConnectivity {
   }) async {
     if (_subscription != null) return;
     log('Connectivity 初始化', crossLine: false);
-    _currentStatus = await connectivity.checkConnectivity();
 
     /// 添加模态框
     if (alertUnavailableNetwork != null) {
@@ -52,7 +51,7 @@ class BasicConnectivity {
           willPop: willPop);
       _listenerList.add(_overlayCallback!);
     }
-    _callListenerList();
+    await checkConnectivity();
     _subscription = connectivity.onConnectivityChanged
         .listen((ConnectivityResult connectivityResult) async {
       if (_currentStatus == connectivityResult) return;
@@ -60,6 +59,15 @@ class BasicConnectivity {
       log('Connectivity 网络状态变化 $_currentStatus', crossLine: false);
       _callListenerList();
     });
+  }
+
+  /// 重新检查是否链接网络
+  Future<void> checkConnectivity() async {
+    final connectivityResult = await connectivity.checkConnectivity();
+    if (_currentStatus == connectivityResult) return;
+    _currentStatus = connectivityResult;
+    log('Connectivity Status $_currentStatus', crossLine: false);
+    _callListenerList();
   }
 
   Future<void> _callListenerList() async {

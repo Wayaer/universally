@@ -624,6 +624,7 @@ class BasicDio {
   bool get hasNetWork {
     var network = BasicConnectivity().networkAvailability;
     if (!network) {
+      BasicConnectivity().checkConnectivity();
       _removeLoading();
       1.seconds.delayed(_sendRefreshStatus);
     }
