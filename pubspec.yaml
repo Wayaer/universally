@@ -15,7 +15,7 @@ dependencies:
   connectivity_plus: ^3.0.3
   flutter_curiosity: ^4.3.0
   flutter_svg: ^2.0.5
-  flutter_waya: ^6.0.1
+  flutter_waya: ^6.1.0
   permission_handler: ^10.2.0
   provider: ^6.0.5
   path_provider: ^2.0.14
