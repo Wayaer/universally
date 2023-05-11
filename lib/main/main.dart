@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
@@ -54,11 +53,6 @@ class GlobalConfig {
     }
     if (enableBeta != null) isBeta = enableBeta;
     if (channel != null) currentChannel = channel;
-
-    /// 关闭辅助触控
-    /// Turn off auxiliary touch
-    window.onSemanticsEnabledChanged = () {};
-    RendererBinding.instance.setSemanticsEnabled(false);
 
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

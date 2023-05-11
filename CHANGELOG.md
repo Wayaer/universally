@@ -1,3 +1,8 @@
+## 3.5.5
+
+* Remove the setSemanticsEnabled
+* Update dependency
+
 ## 3.5.3
 
 * Remove the  `MainBasicScaffold`, Use the `isRootPage` of `BasicScaffold`
