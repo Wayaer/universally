@@ -1,3 +1,8 @@
+## 4.0.0
+
+* Update dependency
+* Migrate to Flutter 3.10.0
+
 ## 3.5.5
 
 * Remove the setSemanticsEnabled
