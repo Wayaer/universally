@@ -16,7 +16,6 @@ class ProjectConfig {
     this.placeholder = const BasicPlaceholder(),
     this.toastOptions =
         const ToastOptions(duration: Duration(seconds: 2), ignoring: true),
-    this.pickerWheelOptions,
     this.generalDialogOptions,
     this.bottomSheetOptions,
     this.modalWindowsOptions,
@@ -84,9 +83,6 @@ class ProjectConfig {
 
   /// 全局 [DialogOptions] 配置信息
   DialogOptions? generalDialogOptions;
-
-  /// 全局 [PickerWheelOptions] 配置信息
-  PickerWheelOptions? pickerWheelOptions;
 
   /// 全局 [WheelOptions] 配置信息
   WheelOptions? wheelOptions;

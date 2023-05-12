@@ -65,9 +65,9 @@ class BasicList extends ScrollList {
 
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
+    super.cacheExtent,
     RefreshConfig? refreshConfig,
   }) : super.builder(
-            cacheExtent: deviceHeight / 2,
             header: header?.toSliverBox,
             footer: footer?.toSliverBox,
             refreshConfig: refreshConfig ??
@@ -110,6 +110,7 @@ class BasicList extends ScrollList {
     super.addRepaintBoundaries = true,
     super.addSemanticIndexes = true,
     super.gridStyle = GridStyle.none,
+    super.cacheExtent,
 
     /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
     super.itemExtent,
@@ -138,7 +139,6 @@ class BasicList extends ScrollList {
     super.mainAxisExtent,
     RefreshConfig? refreshConfig,
   }) : super.count(
-            cacheExtent: deviceHeight / 2,
             header: header?.toSliverBox,
             footer: footer?.toSliverBox,
             refreshConfig: refreshConfig ??
@@ -210,9 +210,9 @@ class BasicList extends ScrollList {
 
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
+    super.cacheExtent,
     RefreshConfig? refreshConfig,
   }) : super.builder(
-            cacheExtent: deviceHeight / 2,
             header: header?.toSliverBox,
             footer: footer?.toSliverBox,
             refreshConfig: refreshConfig ??
@@ -249,9 +249,9 @@ class BasicList extends ScrollList {
     super.dragStartBehavior,
     super.noScrollBehavior,
     super.restorationId,
+    super.cacheExtent,
     RefreshConfig? refreshConfig,
   }) : super(
-            cacheExtent: deviceHeight / 2,
             header: header?.toSliverBox,
             footer: footer?.toSliverBox,
             refreshConfig: refreshConfig ??

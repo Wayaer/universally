@@ -85,8 +85,6 @@ class UStyle {
       );
 }
 
-bool isPad = deviceWidth > 500;
-
 /// 下拉刷新
 bool pullDown = false;
 

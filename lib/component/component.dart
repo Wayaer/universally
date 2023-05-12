@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BottomPadding extends Universal {
-  BottomPadding(
+class BottomPadding extends StatelessWidget {
+  const BottomPadding(
       {super.key,
-      double left = 20,
-      double top = 10,
-      double right = 20,
-      double bottom = 10,
-      super.child,
-      super.color})
-      : super(
-            padding: EdgeInsets.fromLTRB(
-                left, top, right, getBottomNavigationBarHeight + bottom));
+      this.left = 20,
+      this.top = 10,
+      this.right = 20,
+      this.bottom = 10,
+      required this.child,
+      this.color});
+
+  final double left;
+  final double top;
+  final double right;
+  final double bottom;
+  final Widget child;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) => Universal(
+      padding: EdgeInsets.fromLTRB(
+          left, top, right, context.bottomNavigationBarHeight + bottom));
 }
 
 class BasicDivider extends Divider {

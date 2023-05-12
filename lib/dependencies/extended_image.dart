@@ -591,7 +591,7 @@ class PreviewImage extends StatelessWidget {
         Universal(
             alignment: Alignment.centerRight,
             margin: const EdgeInsets.only(right: 12),
-            height: context.mediaQueryPadding.top + 50,
+            height: context.padding.top + 50,
             child: const CloseButton(color: UCS.white)),
         ExtendedImageGesturePageView.builder(
                 controller:

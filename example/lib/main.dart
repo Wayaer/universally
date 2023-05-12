@@ -72,8 +72,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicScaffold(
-        padding: EdgeInsets.fromLTRB(
-            15, getStatusBarHeight + 15, 15, getBottomNavigationBarHeight + 15),
+        padding: EdgeInsets.fromLTRB(15, context.statusBarHeight + 15, 15,
+            context.bottomNavigationBarHeight + 15),
         isScroll: true,
         child: Wrap(
             spacing: 10,

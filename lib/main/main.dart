@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,7 @@ typedef LoadingCoreBuilder = Widget? Function(BasicLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
-GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> globalNavigatorKey = GlobalKey();
 
 class GlobalConfig {
   factory GlobalConfig() => _singleton ??= GlobalConfig._();
@@ -92,11 +91,6 @@ class GlobalConfig {
     /// 全局 [BottomSheetOptions] 配置信息
     if (config.bottomSheetOptions != null) {
       GlobalOptions().setBottomSheetOptions(config.bottomSheetOptions!);
-    }
-
-    /// 全局 [PickerWheelOptions] 配置信息
-    if (config.pickerWheelOptions != null) {
-      GlobalOptions().setPickerWheelOptions(config.pickerWheelOptions!);
     }
 
     /// 全局 [WheelOptions] 配置信息
@@ -226,8 +220,7 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
         title: widget.title ?? '',
         builder: (_, Widget? child) {
           final Widget current = MediaQuery(
-              data: MediaQueryData.fromWindow(window)
-                  .copyWith(textScaleFactor: 1),
+              data: context.mediaQuery.copyWith(textScaleFactor: 1),
               child: child!);
           return AnnotatedRegion<SystemUiOverlayStyle>(
               value: const SystemUiOverlayStyleDark(), child: current);
@@ -275,8 +268,8 @@ class MainBottomBar extends StatelessWidget {
           color: backgroundColor,
           border:
               Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
-      height: context.mediaQueryPadding.bottom + kToolbarHeight,
-      padding: EdgeInsets.only(bottom: context.mediaQueryPadding.bottom),
+      height: context.padding.bottom + kToolbarHeight,
+      padding: EdgeInsets.only(bottom: context.padding.bottom),
       children: itemCount.generate((index) => Universal(
           expanded: true,
           padding: EdgeInsets.all(spacing),
