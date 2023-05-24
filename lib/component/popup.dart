@@ -63,7 +63,7 @@ class AlertMessage extends StatelessWidget {
                       TextDefault(text ?? '',
                           maxLines: 5, color: Colors.black87)),
           actions: <Widget>[
-            SimpleButton(
+            Universal(
                 height: 45,
                 alignment: Alignment.center,
                 onTap: () {
@@ -154,7 +154,7 @@ class AlertConfirmAndCancel extends StatelessWidget {
                   constraints: const BoxConstraints(maxHeight: 100),
                   child: contentText ?? TextDefault(text ?? '', maxLines: 5)),
           actions: [
-            SimpleButton(
+            Universal(
                 height: 45,
                 onTap: () {
                   if (autoClose) pop();
@@ -162,7 +162,7 @@ class AlertConfirmAndCancel extends StatelessWidget {
                 },
                 alignment: Alignment.center,
                 child: cancel ?? TextDefault(cancelText ?? '取消')),
-            SimpleButton(
+            Universal(
                 height: 45,
                 alignment: Alignment.center,
                 onTap: () {

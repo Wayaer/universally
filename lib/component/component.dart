@@ -20,8 +20,10 @@ class BottomPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Universal(
+      color: color,
       padding: EdgeInsets.fromLTRB(
-          left, top, right, context.bottomNavigationBarHeight + bottom));
+          left, top, right, context.bottomNavigationBarHeight + bottom),
+      child: child);
 }
 
 class BasicDivider extends Divider {
@@ -150,23 +152,22 @@ class BasicCheckbox extends CheckboxState {
   }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
 }
 
-class UButton extends SimpleButton {
+class UButton extends Universal {
   UButton({
     super.key,
     super.color,
-    required super.text,
-    super.textStyle = const TStyle(color: UCS.white),
+    required String text,
     super.margin,
     super.width = UConst.longWidth,
     super.height = 45,
     bool enabled = true,
     super.visible = true,
-    super.child,
+    Widget? child,
     GestureTapCallback? onTap,
-    super.isElastic = true,
     super.alignment = Alignment.center,
   }) : super(
             heroTag: text,
+            child: child ?? BText(text, style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
                 border: Border.all(color: GlobalConfig().currentColor),

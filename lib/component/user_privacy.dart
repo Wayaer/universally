@@ -72,12 +72,10 @@ class AlertWithUserPrivacy extends StatelessWidget {
               null,
             ]),
           ]),
-      right: SimpleButton(
+      right: Universal(
           height: 40,
           margin: const EdgeInsets.only(left: 0.5),
           alignment: Alignment.center,
-          textStyle: const TStyle(color: UCS.white),
-          text: '同意',
           decoration: BoxDecoration(
               color: GlobalConfig().currentColor,
               borderRadius:
@@ -86,17 +84,17 @@ class AlertWithUserPrivacy extends StatelessWidget {
             pop();
             BHP().setBool(UConst.privacy, true);
             onConsentTap.call();
-          }),
-      left: SimpleButton(
-          text: '暂不使用',
+          },
+          child: TextDefault('同意', color: UCS.white)),
+      left: Universal(
           height: 40,
           margin: const EdgeInsets.only(right: 0.5),
           alignment: Alignment.center,
-          textStyle: const TStyle(color: UCS.black70),
           decoration: const BoxDecoration(
               color: UCS.background,
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))),
-          onTap: Curiosity().native.exitApp));
+          onTap: Curiosity().native.exitApp,
+          child: TextDefault('暂不使用', color: UCS.black70)));
 }
 
 class CheckboxWithUserPrivacy extends StatelessWidget {

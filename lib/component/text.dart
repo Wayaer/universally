@@ -242,12 +242,11 @@ class TextShowPage extends StatelessWidget {
   Widget build(BuildContext context) => BasicScaffold(
       appBarTitleText: appBarTitleText,
       padding: const EdgeInsets.all(20),
-      child: SimpleButton(
+      child: Universal(
           onTap: () {
             text.toClipboard;
             showToast('复制成功');
           },
-          text: text,
-          maxLines: 100,
-          textStyle: const TStyle(color: UCS.black, fontSize: 15)));
+          child: TextDefault(text,
+              maxLines: 100, color: UCS.black, fontSize: 15)));
 }
