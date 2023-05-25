@@ -124,22 +124,35 @@ class BasicSwitch extends SwitchState {
     super.key,
     required super.value,
     Color? activeColor,
-    super.activeTrackColor,
+    Color? activeTrackColor,
     super.onChanged,
     super.onWaitChanged,
-  }) : super.adaptive(activeColor: activeColor ?? GlobalConfig().currentColor);
+  }) : super(
+            builder: (bool value, onChanged) => Switch(
+                activeTrackColor: activeTrackColor,
+                activeColor: activeColor ?? GlobalConfig().currentColor,
+                value: value,
+                onChanged: onChanged));
 }
 
-class BasicCupertinoSwitch extends CupertinoSwitchState {
+class BasicCupertinoSwitch extends SwitchState {
   BasicCupertinoSwitch({
     super.key,
     required super.value,
     Color? activeColor,
-    super.trackColor,
-    super.thumbColor,
+    Color? activeTrackColor,
+    MaterialStateProperty<Color?>? trackColor,
+    MaterialStateProperty<Color?>? thumbColor,
     super.onChanged,
     super.onWaitChanged,
-  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+  }) : super(
+            builder: (bool value, onChanged) => Switch.adaptive(
+                trackColor: trackColor,
+                thumbColor: thumbColor,
+                activeTrackColor: activeTrackColor,
+                activeColor: activeColor ?? GlobalConfig().currentColor,
+                value: value,
+                onChanged: onChanged));
 }
 
 class BasicCheckbox extends CheckboxState {
@@ -149,7 +162,13 @@ class BasicCheckbox extends CheckboxState {
     Color? activeColor,
     super.onChanged,
     super.onWaitChanged,
-  }) : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+    OutlinedBorder? shape,
+  }) : super(
+            builder: (bool? value, onChanged) => Checkbox(
+                shape: shape,
+                activeColor: activeColor ?? GlobalConfig().currentColor,
+                value: value,
+                onChanged: onChanged));
 }
 
 class UButton extends Universal {

@@ -125,7 +125,7 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      CheckboxState(
+      BasicCheckbox(
           value: value,
           activeColor: mainColor ?? GlobalConfig().currentColor,
           shape: shape,

@@ -548,7 +548,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
     return SendSMS(
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         duration: const Duration(seconds: 60),
-        stateBuilder: (SendState state, int i) {
+        builder: (SendState state, int i) {
           switch (state) {
             case SendState.none:
               return TextDefault('发送验证码', color: GlobalConfig().currentColor);
