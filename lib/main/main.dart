@@ -127,9 +127,6 @@ class GlobalConfig {
       currentCacheDir = cachePath;
     }
   }
-
-  BasicDio setDioConfig([BasicDioOptions? options]) =>
-      BasicDio().initialize(options);
 }
 
 class BasicApp extends StatefulWidget {

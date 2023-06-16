@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 4.0.2
+version: 4.1.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -14,9 +14,9 @@ dependencies:
   carousel_slider: ^4.2.1
   connectivity_plus: ^4.0.1
   flutter_curiosity: ^4.3.1
-  flutter_svg: ^2.0.6
-  flutter_waya: ^7.3.1
-  permission_handler: ^10.2.0
+  flutter_svg: ^2.0.7
+  flutter_waya: ^7.5.0
+  permission_handler: ^10.3.0
   provider: ^6.0.5
   path_provider: ^2.0.15
   url_launcher: ^6.1.11
@@ -24,7 +24,7 @@ dependencies:
   keframe: ^3.0.0
   hive_flutter: ^1.1.0
   hive: ^2.2.3
-  extended_image: ^8.0.1
+  extended_image: ^8.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.1

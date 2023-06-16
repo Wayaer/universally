@@ -40,7 +40,7 @@ class InterceptorError {
 typedef BasicDioErrorIntercept = List<InterceptorError> Function(
     String path, dynamic tag);
 
-class BasicDioOptions extends ExtendedDioOptions {
+class BasicDioOptions extends BaseOptions {
   BasicDioOptions({
     /// 接收超时时间
     super.receiveTimeout = const Duration(seconds: 5),
@@ -157,13 +157,25 @@ class BasicDio {
 
   BasicDioOptions basicDioOptions = BasicDioOptions();
 
-  BasicDio initialize([BasicDioOptions? options]) {
+  BasicDio initialize({
+    BasicDioOptions? options,
+    BasicDioOptions? downloadOptions,
+    HttpClientAdapter? httpClientAdapter,
+    Transformer? transformer,
+    List<InterceptorsWrapper> interceptors = const [],
+  }) {
     if (options != null) basicDioOptions = options;
-    basicDioOptions.interceptors = [
-      if (isDebugger) DebuggerInterceptor(),
-      if (isDebug) LoggerInterceptor(filteredApi: options?.filteredApi ?? [])
-    ];
-    dio = ExtendedDio().initialize(options: basicDioOptions);
+    dio = ExtendedDio().initialize(
+        interceptors: [
+          ...interceptors,
+          if (isDebugger) DebuggerInterceptor(),
+          if (isDebug)
+            LoggerInterceptor(filteredApi: options?.filteredApi ?? [])
+        ],
+        options: basicDioOptions,
+        transformer: transformer,
+        httpClientAdapter: httpClientAdapter,
+        downloadOptions: downloadOptions);
     return this;
   }
 
@@ -179,7 +191,7 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final ResponseModel res = await dio.get(path,
+    final res = await dio.get(path,
         data: data,
         options: _initBasicOptions(options, path),
         cancelToken: cancelToken,
@@ -199,7 +211,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.getUri(uri,
+    final res = await dio.getUri(uri,
         data: data,
         cancelToken: cancelToken,
         options: _initBasicOptions(options, uri.path));
@@ -223,7 +235,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final ResponseModel res = await dio.post(path,
+    final res = await dio.post(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -249,7 +261,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.postUri(uri,
+    final res = await dio.postUri(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -274,7 +286,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final ResponseModel res = await dio.put(path,
+    final res = await dio.put(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -300,7 +312,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.putUri(uri,
+    final res = await dio.putUri(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -323,7 +335,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final ResponseModel res = await dio.delete(path,
+    final res = await dio.delete(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
@@ -345,7 +357,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.deleteUri(uri,
+    final res = await dio.deleteUri(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -368,7 +380,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final ResponseModel res = await dio.patch(path,
+    final res = await dio.patch(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -394,7 +406,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.patchUri(uri,
+    final res = await dio.patchUri(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -417,7 +429,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final ResponseModel res = await dio.head(path,
+    final res = await dio.head(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
@@ -439,7 +451,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.headUri(uri,
+    final res = await dio.headUri(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -463,7 +475,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final ResponseModel res = await dio.request(path,
+    final res = await dio.request(path,
         options: _initBasicOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -489,7 +501,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.requestUri(uri,
+    final res = await dio.requestUri(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -512,7 +524,7 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final ResponseModel res = await dio.post(path,
+    final res = await dio.post(path,
         data: basicDioOptions.extraData?.call(path, data) ?? data,
         options: _initBasicOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -537,7 +549,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.postUri(uri,
+    final res = await dio.postUri(uri,
         data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
         options: _initBasicOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -566,7 +578,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final ResponseModel res = await dio.download(path, savePath,
+    final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -597,7 +609,7 @@ class BasicDio {
     _addLoading(loading);
     data = jsonEncode(basicDioOptions.extraUriData?.call(uri, data) ?? data);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final ResponseModel res = await dio.downloadUri(uri, savePath,
+    final res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBasicOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -656,7 +668,7 @@ class BasicDio {
     return options;
   }
 
-  BasicModel _response(ResponseModel res, dynamic tag) {
+  BasicModel _response(ExtendedResponse res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
     BasicModel baseModel = BasicModel(
@@ -715,7 +727,7 @@ class BasicModel {
     this.statusMessage,
   });
 
-  BasicModel.fromJson(Map<String, dynamic>? json, ResponseModel response) {
+  BasicModel.fromJson(Map<String, dynamic>? json, ExtendedResponse response) {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
     code = statusCode.toString();
@@ -749,7 +761,7 @@ class BasicModel {
   String? statusMessage;
 
   /// 网络请求返回的原始数据
-  ResponseModel? original;
+  ExtendedResponse? original;
 
   /// 后台定义的 code
   late String code;
