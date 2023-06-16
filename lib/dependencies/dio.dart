@@ -179,7 +179,7 @@ class BasicDio {
     return this;
   }
 
-  Future<BasicModel> get(
+  Future<BasicModel> get<T>(
     String path, {
     dynamic tag,
     Map<String, dynamic>? params,
@@ -191,7 +191,7 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final res = await dio.get(path,
+    final res = await dio.get<T>(path,
         data: data,
         options: _initBasicOptions(options, path),
         cancelToken: cancelToken,
@@ -199,7 +199,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> getUri(
+  Future<BasicModel> getUri<T>(
     Uri uri, {
     dynamic tag,
     Object? data,
@@ -211,14 +211,14 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.getUri(uri,
+    final res = await dio.getUri<T>(uri,
         data: data,
         cancelToken: cancelToken,
         options: _initBasicOptions(options, uri.path));
     return _response(res, tag);
   }
 
-  Future<BasicModel> post(
+  Future<BasicModel> post<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -235,7 +235,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final res = await dio.post(path,
+    final res = await dio.post<T>(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -245,7 +245,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> postUri(
+  Future<BasicModel> postUri<T>(
     Uri uri, {
     Object? data,
     bool dataToJson = true,
@@ -261,7 +261,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.postUri(uri,
+    final res = await dio.postUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -270,7 +270,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> put(
+  Future<BasicModel> put<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -286,7 +286,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.put(path,
+    final res = await dio.put<T>(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -296,7 +296,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> putUri(
+  Future<BasicModel> putUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -312,7 +312,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.putUri(uri,
+    final res = await dio.putUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -321,7 +321,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> delete(
+  Future<BasicModel> delete<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -335,7 +335,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.delete(path,
+    final res = await dio.delete<T>(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
@@ -343,7 +343,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> deleteUri(
+  Future<BasicModel> deleteUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -357,14 +357,14 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.deleteUri(uri,
+    final res = await dio.deleteUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> patch(
+  Future<BasicModel> patch<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -380,7 +380,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.patch(path,
+    final res = await dio.patch<T>(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
@@ -390,7 +390,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> patchUri(
+  Future<BasicModel> patchUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -406,7 +406,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.patchUri(uri,
+    final res = await dio.patchUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -415,7 +415,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> head(
+  Future<BasicModel> head<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -429,7 +429,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.head(path,
+    final res = await dio.head<T>(path,
         options: _initBasicOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
@@ -437,7 +437,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> headUri(
+  Future<BasicModel> headUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -451,14 +451,14 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.headUri(uri,
+    final res = await dio.headUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> request(
+  Future<BasicModel> request<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -475,7 +475,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
-    final res = await dio.request(path,
+    final res = await dio.request<T>(path,
         options: _initBasicOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -485,7 +485,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> requestUri(
+  Future<BasicModel> requestUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -501,7 +501,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.requestUri(uri,
+    final res = await dio.requestUri<T>(uri,
         options: _initBasicOptions(options, uri.path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -512,7 +512,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> upload(String path, Object? data,
+  Future<BasicModel> upload<T>(String path, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -524,7 +524,7 @@ class BasicDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    final res = await dio.post(path,
+    final res = await dio.post<T>(path,
         data: basicDioOptions.extraData?.call(path, data) ?? data,
         options: _initBasicOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -536,7 +536,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> uploadUri(Uri uri, Object? data,
+  Future<BasicModel> uploadUri<T>(Uri uri, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -549,7 +549,7 @@ class BasicDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.postUri(uri,
+    final res = await dio.postUri<T>(uri,
         data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
         options: _initBasicOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
@@ -664,14 +664,14 @@ class BasicDio {
       final extraHeader = basicDioOptions.extraHeader!(url);
       if (extraHeader != null) headers.addAll(extraHeader);
     }
-    options.headers = headers;
-    return options;
+    return options.copyWith(headers: headers);
   }
 
   BasicModel _response(ExtendedResponse res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
     BasicModel baseModel = BasicModel(
+        headers: res.headers.map,
         code: '${res.statusCode}',
         msg: notNetWorkModel.msg,
         statusCode: res.statusCode,
@@ -680,12 +680,13 @@ class BasicDio {
         original: res);
     Object? data = baseModel.data;
     if (data is ResponseBody) {
-      return baseModel = BasicModel(
+      return BasicModel(
+          headers: data.headers,
           code: '${data.statusCode}',
           msg: data.statusMessage ?? notNetWorkModel.msg,
           statusCode: data.statusCode,
           statusMessage: data.statusMessage,
-          data: 'This is response stream',
+          data: res.data,
           original: res);
     } else if (data != null && data is String && data.contains('"')) {
       try {
@@ -725,6 +726,7 @@ class BasicModel {
     this.statusCode,
     required this.msg,
     this.statusMessage,
+    this.headers,
   });
 
   BasicModel.fromJson(Map<String, dynamic>? json, ExtendedResponse response) {
@@ -768,6 +770,8 @@ class BasicModel {
 
   /// 后台定义的 msg
   late String msg;
+
+  Map<String, List<String>>? headers;
 
   /// 后台返回数据
   dynamic data;

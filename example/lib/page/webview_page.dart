@@ -8,6 +8,7 @@ class FlWebViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(appBarTitleText: 'FlWebView', isScroll: isCalculateHeight);
+    return BasicScaffold(
+        appBarTitleText: 'FlWebView', isScroll: isCalculateHeight);
   }
 }
