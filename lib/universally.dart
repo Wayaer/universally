@@ -45,4 +45,3 @@ export 'main/main.dart';
 
 /// const
 export 'const/const.dart';
-export 'const/extension.dart';

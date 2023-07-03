@@ -98,7 +98,7 @@ bool isBeta = false;
 bool isDebugger = false;
 
 /// 渠道版本
-String currentChannel = defaultTargetPlatform.value;
+String currentChannel = defaultTargetPlatform.name.toLowerCase();
 
 ///dev user
 String devUserName = '';
