@@ -3,7 +3,6 @@ import 'package:app/page/component_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
-import 'package:app/page/webview_page.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -11,7 +10,7 @@ Future<void> main() async {
   isBeta = true;
 
   await GlobalConfig().setDefaultConfig(ProjectConfig(
-      mainColor: Colors.blueAccent,
+      mainColor: Colors.purple.shade900,
       textColor: TextColor(
           largeColor: const Color(0xFF292929),
           veryLargeColor: const Color(0xFF292929),
@@ -29,37 +28,39 @@ Future<void> main() async {
       releaseApi: '这里设置发布版Api',
       toastOptions: const ToastOptions(ignoring: false)));
 
-  BasicConnectivity().addListener((status, result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-        showToast('use wifi');
-        break;
-      case ConnectivityResult.ethernet:
-        showToast('use ethernet');
-        break;
-      case ConnectivityResult.mobile:
-        showToast('use Cellular networks');
-        break;
-      case ConnectivityResult.none:
-        showToast('none networks');
-        break;
-      case ConnectivityResult.bluetooth:
-        showToast('use bluetooth');
-        break;
-      case ConnectivityResult.vpn:
-        showToast('use vpn');
-        break;
-      case ConnectivityResult.other:
-        showToast('use other');
-        break;
-    }
-    return true;
-  });
-
   runApp(BasicApp(
+      title: 'Universally',
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
+      theme: ThemeData.light(useMaterial3: true),
+      darkTheme: ThemeData.dark(useMaterial3: true),
       initState: (context) async {
+        BasicConnectivity().addListener((status, result) async {
+          switch (result) {
+            case ConnectivityResult.wifi:
+              showToast('use wifi');
+              break;
+            case ConnectivityResult.ethernet:
+              showToast('use ethernet');
+              break;
+            case ConnectivityResult.mobile:
+              showToast('use Cellular networks');
+              break;
+            case ConnectivityResult.none:
+              showToast('none networks');
+              break;
+            case ConnectivityResult.bluetooth:
+              showToast('use bluetooth');
+              break;
+            case ConnectivityResult.vpn:
+              showToast('use vpn');
+              break;
+            case ConnectivityResult.other:
+              showToast('use other');
+              break;
+          }
+          return true;
+        });
         BasicConnectivity().subscription(
             alertUnavailableNetwork: (status, result) =>
                 alertOnlyMessage('Network Unavailable'));
@@ -75,57 +76,25 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(15, context.statusBarHeight + 15, 15,
             context.bottomNavigationBarHeight + 15),
         isScroll: true,
-        child: Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            alignment: WrapAlignment.center,
-            children: [
-              ElevatedText(
-                  onPressed: () => push(const ComponentPage()),
-                  text: 'Component'),
-              if (isMobile) ...[
-                ElevatedText(
-                    onPressed: () => push(const FlWebViewPage()),
-                    text: 'WebView'),
-                ElevatedText(
-                    onPressed: () =>
-                        push(const FlWebViewPage(isCalculateHeight: true)),
-                    text: 'WebView CalculateHeight'),
-              ],
-              ElevatedText(onPressed: _callPhone, text: 'Call Phone'),
-              ElevatedButton(
-                  onPressed: () {}, child: const CleanCache(color: UCS.white)),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const SwitchApiButton(color: UCS.white)),
-              ElevatedText(onPressed: () => push(const GifPage()), text: 'Gif'),
-              ElevatedText(
-                  onPressed: () => push(const TextFieldPage()),
-                  text: 'TextField'),
-              ElevatedText(
-                  onPressed: () => push(const BasicListPage()),
-                  text: 'BasicList'),
-              ElevatedText(
-                  onPressed: () => push(const HivePreferencesPage()),
-                  text: 'BHP(BasicHivePreferences)'),
-              ElevatedText(
-                  onPressed: () {
-                    showDoubleChooseAlert(
-                        title: 'title', left: 'left', right: 'right');
-                  },
-                  text: 'showDoubleChooseAlert'),
-              ElevatedText(
-                  onPressed: () {
-                    BHP().setBool(UConst.privacy, false);
-                    showUserPrivacyAlert(
-                        name: 'Universally',
-                        onUserAgreementTap: () {},
-                        onPrivacyPolicyTap: () {},
-                        onConsentTap: () {});
-                  },
-                  text: 'showUserPrivacyAlert'),
-              const ElevatedText(onPressed: showLoading, text: 'showLoading'),
-            ]));
+        isRootPage: true,
+        child: Wrap(alignment: WrapAlignment.center, children: [
+          Button(onTap: () => push(const ComponentPage()), text: 'Component'),
+          Button(onTap: _callPhone, text: 'Call Phone'),
+          Button(onTap: () => push(const GifPage()), text: 'Gif'),
+          Button(child: const SwitchApiButton(color: Colors.white)),
+          Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
+          Button(onTap: () => push(const BasicListPage()), text: 'BasicList'),
+          Button(
+              onTap: () => push(const HivePreferencesPage()),
+              text: 'BHP(BasicHivePreferences)'),
+          Button(
+              onTap: () {
+                showDoubleChooseAlert(
+                    title: 'title', left: 'left', right: 'right');
+              },
+              text: 'showDoubleChooseAlert'),
+          Button(onTap: showLoading, text: 'showLoading'),
+        ]));
   }
 
   Future<void> _callPhone() async {
@@ -133,15 +102,22 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ElevatedText extends StatelessWidget {
-  const ElevatedText({super.key, required this.text, required this.onPressed});
-
-  final String text;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) =>
-      ElevatedButton(onPressed: onPressed, child: Text(text));
+class Button extends Universal {
+  Button({
+    super.key,
+    Widget? child,
+    String? text,
+    super.onTap,
+  }) : super(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            margin: const EdgeInsets.all(5),
+            heroTag: text,
+            child: child ??
+                BText(text ?? '', style: const TStyle(color: UCS.white)),
+            decoration: BoxDecoration(
+                border: Border.all(color: GlobalConfig().currentColor),
+                color: GlobalConfig().currentColor,
+                borderRadius: BorderRadius.circular(8)));
 }
 
 class AppState with ChangeNotifier {}

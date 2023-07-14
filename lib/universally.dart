@@ -28,6 +28,7 @@ export 'component/tab_bar.dart';
 export 'component/user_privacy.dart';
 export 'component/switch_api.dart';
 export 'component/cache.dart';
+export 'component/basic_app.dart';
 
 /// dependencies
 export 'dependencies/connectivity.dart';
@@ -40,8 +41,7 @@ export 'dependencies/carousel_slider.dart';
 export 'dependencies/extended_image.dart';
 
 /// main
-export 'main/config.dart';
-export 'main/main.dart';
+export 'global.dart';
 
 /// const
 export 'const/const.dart';

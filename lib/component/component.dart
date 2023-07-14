@@ -119,23 +119,25 @@ class BasicPlaceholder extends StatelessWidget {
           title: TextSmall('什么也没有哎~', fontType: FontType.medium)));
 }
 
-class BasicSwitch extends SwitchState {
+class BasicSwitch extends ChangedBuilder<bool> {
   BasicSwitch({
     super.key,
     required super.value,
     Color? activeColor,
-    Color? activeTrackColor,
+    Color? trackColor,
+    Color thumbColor = Colors.white,
     super.onChanged,
     super.onWaitChanged,
   }) : super(
-            builder: (bool value, onChanged) => Switch(
-                activeTrackColor: activeTrackColor,
+            builder: (bool value, onChanged) => XSwitch(
                 activeColor: activeColor ?? GlobalConfig().currentColor,
+                trackColor: trackColor,
+                thumbColor: thumbColor,
                 value: value,
                 onChanged: onChanged));
 }
 
-class BasicCupertinoSwitch extends SwitchState {
+class BasicCupertinoSwitch extends ChangedBuilder<bool> {
   BasicCupertinoSwitch({
     super.key,
     required super.value,
@@ -155,7 +157,7 @@ class BasicCupertinoSwitch extends SwitchState {
                 onChanged: onChanged));
 }
 
-class BasicCheckbox extends CheckboxState {
+class BasicCheckbox extends ChangedBuilder<bool?> {
   BasicCheckbox({
     super.key,
     required super.value,
@@ -175,18 +177,19 @@ class UButton extends Universal {
   UButton({
     super.key,
     super.color,
-    required String text,
     super.margin,
-    super.width = UConst.longWidth,
+    super.width = double.infinity,
     super.height = 45,
     bool enabled = true,
     super.visible = true,
     Widget? child,
+    String? text,
     GestureTapCallback? onTap,
     super.alignment = Alignment.center,
   }) : super(
             heroTag: text,
-            child: child ?? BText(text, style: const TStyle(color: UCS.white)),
+            child: child ??
+                BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
                 border: Border.all(color: GlobalConfig().currentColor),

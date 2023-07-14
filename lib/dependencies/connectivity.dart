@@ -98,11 +98,11 @@ class BasicConnectivity {
       UnavailableNetworkAlertBuilder alertUnavailableNetwork,
       {bool willPop = true}) async {
     if (!networkAvailability) {
-      if (isAndroid && willPop) GlobalOptions().setScaffoldWillPop(false);
+      if (isAndroid && willPop) GlobalOptions().isWillPop = false;
       _connectivityOverlay ??=
           alertUnavailableNetwork(networkAvailability, _currentStatus);
     } else {
-      if (isAndroid && willPop) GlobalOptions().setScaffoldWillPop(true);
+      if (isAndroid && willPop) GlobalOptions().isWillPop = true;
       _connectivityOverlay?.removeEntry();
       _connectivityOverlay = null;
     }

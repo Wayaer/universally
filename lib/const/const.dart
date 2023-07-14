@@ -38,8 +38,6 @@ class UConst {
 
   /// beta
   static const String beta = 'beta';
-
-  static const double longWidth = 333;
 }
 
 class UIS {

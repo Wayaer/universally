@@ -7,7 +7,6 @@ class TextFieldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicScaffold(
-        onWillPopOverlayClose: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'TextField',
         children: [

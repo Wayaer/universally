@@ -34,81 +34,81 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
               width: double.infinity,
               child: BText(text)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setString',
-                onPressed: () {
+                onTap: () {
                   BHP().setString('String Key', 'String value').then((value) {
                     text = 'call setString() $value';
                     setState(() {});
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getString',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getString('String Key');
                   text = 'call getString() $value';
                   setState(() {});
                 }),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setBool',
-                onPressed: () {
+                onTap: () {
                   BHP().setBool('bool Key', true).then((value) {
                     text = 'call setBool() $value';
                     setState(() {});
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getBool',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getBool('bool Key');
                   text = 'call getBool() $value';
                   setState(() {});
                 }),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setDouble',
-                onPressed: () {
+                onTap: () {
                   BHP().setDouble('double Key', 2.33).then((value) {
                     text = 'call setDouble() $value';
                     setState(() {});
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getDouble',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getDouble('double Key');
                   text = 'call getDouble() $value';
                   setState(() {});
                 }),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setInt',
-                onPressed: () {
+                onTap: () {
                   BHP().setInt('int Key', 233).then((value) {
                     text = 'call setInt() $value';
                     setState(() {});
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getInt',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getInt('int Key');
                   text = 'call getInt() $value';
                   setState(() {});
                 }),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setMap',
-                onPressed: () {
+                onTap: () {
                   BHP().setMap('map Key', {'1': 'value1', '2': 'value2'}).then(
                       (value) {
                     text = 'call setMap() $value';
@@ -116,18 +116,18 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getMap',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getMap('map Key');
                   text = 'call getMap() $value';
                   setState(() {});
                 }),
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedText(
+            Button(
                 text: 'setStringList',
-                onPressed: () {
+                onTap: () {
                   BHP().setStringList('list<String> Key', ['1', '2', '3']).then(
                       (value) {
                     text = 'call setStringList() $value';
@@ -135,9 +135,9 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
                   });
                 }),
             const SizedBox(width: 20),
-            ElevatedText(
+            Button(
                 text: 'getStringList',
-                onPressed: () {
+                onTap: () {
                   final value = BHP().getStringList('list<String> Key');
                   text = 'call getStringList() $value';
                   setState(() {});
