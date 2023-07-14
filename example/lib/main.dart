@@ -79,7 +79,11 @@ class HomePage extends StatelessWidget {
         isRootPage: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
-          Button(onTap: _callPhone, text: 'Call Phone'),
+          Button(
+              onTap: () {
+                UrlLauncher().openUrl('tel:10086');
+              },
+              text: 'Call Phone'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(child: const SwitchApiButton(color: Colors.white)),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
@@ -95,10 +99,6 @@ class HomePage extends StatelessWidget {
               text: 'showDoubleChooseAlert'),
           Button(onTap: showLoading, text: 'showLoading'),
         ]));
-  }
-
-  Future<void> _callPhone() async {
-    await UrlLauncher().openUrl('tel:10086');
   }
 }
 

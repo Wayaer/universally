@@ -1,3 +1,3 @@
 cd ..
-flutter format . lib
-flutter format . example/lib
+dart format . lib
+dart format . example/lib
