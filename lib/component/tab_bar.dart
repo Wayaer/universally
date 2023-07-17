@@ -34,25 +34,24 @@ class BasicTabBar extends TabBar {
     double height = 38,
     List<Widget>? tabs,
     List<String>? list,
-  })
-      : assert(tabs != null || list != null),
+  })  : assert(tabs != null || list != null),
         super(
-          tabs: tabs ??
-              list?.builder((value) => Tab(text: value, height: height)) ??
-              [],
-          labelColor: labelColor ?? GlobalConfig().currentColor,
-          indicatorColor:
-          indicatorColor ?? labelColor ?? GlobalConfig().currentColor,
-          labelStyle: labelStyle ??
-              TStyle(
-                  fontFamily: fontFamily,
-                  fontSize: fontSize,
-                  fontType: fontType),
-          unselectedLabelStyle: unselectedLabelStyle ??
-              TStyle(
-                  fontFamily: fontFamily,
-                  fontSize: fontSize,
-                  fontType: fontType));
+            tabs: tabs ??
+                list?.builder((value) => Tab(text: value, height: height)) ??
+                [],
+            labelColor: labelColor ?? GlobalConfig().currentColor,
+            indicatorColor:
+                indicatorColor ?? labelColor ?? GlobalConfig().currentColor,
+            labelStyle: labelStyle ??
+                TStyle(
+                    fontFamily: fontFamily,
+                    fontSize: fontSize,
+                    fontType: fontType),
+            unselectedLabelStyle: unselectedLabelStyle ??
+                TStyle(
+                    fontFamily: fontFamily,
+                    fontSize: fontSize,
+                    fontType: fontType));
 
   BasicTabBar.indicator({
     super.key,
@@ -80,28 +79,27 @@ class BasicTabBar extends TabBar {
     double height = 38,
     List<Widget>? tabs,
     List<String>? list,
-  })
-      : assert(tabs != null || list != null),
+  })  : assert(tabs != null || list != null),
         super(
-          tabs: tabs ??
-              list?.builder((value) => Tab(text: value, height: height)) ??
-              [],
-          indicatorWeight: 0,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicator: BoxDecoration(
-              color: indicatorColor ?? GlobalConfig().currentColor,
-              borderRadius: BorderRadius.circular(4)),
-          labelColor: labelColor,
-          dividerColor: UCS.transparent,
-          unselectedLabelColor: unselectedLabelColor,
-          labelStyle: labelStyle ??
-              TStyle(
-                  fontFamily: fontFamily,
-                  fontSize: fontSize,
-                  fontType: fontType),
-          unselectedLabelStyle: unselectedLabelStyle ??
-              TStyle(
-                  fontFamily: fontFamily,
-                  fontSize: fontSize,
-                  fontType: fontType));
+            tabs: tabs ??
+                list?.builder((value) => Tab(text: value, height: height)) ??
+                [],
+            indicatorWeight: 0,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+                color: indicatorColor ?? GlobalConfig().currentColor,
+                borderRadius: BorderRadius.circular(4)),
+            labelColor: labelColor,
+            dividerColor: UCS.transparent,
+            unselectedLabelColor: unselectedLabelColor,
+            labelStyle: labelStyle ??
+                TStyle(
+                    fontFamily: fontFamily,
+                    fontSize: fontSize,
+                    fontType: fontType),
+            unselectedLabelStyle: unselectedLabelStyle ??
+                TStyle(
+                    fontFamily: fontFamily,
+                    fontSize: fontSize,
+                    fontType: fontType));
 }
