@@ -1,12 +1,8 @@
-## 5.0.0
+## 5.0.1
 
 * Update dependency
 
 ## 4.1.0
-
-* Update dependency
-
-## 4.0.0
 
 * Update dependency
 * Migrate to Flutter 3.10.0
