@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 5.0.1
+version: 5.0.2
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -17,7 +17,7 @@ dependencies:
   connectivity_plus: ^4.0.2
   flutter_curiosity: ^4.3.1
   flutter_svg: ^2.0.7
-  flutter_waya: ^8.0.2
+  flutter_waya: ^8.0.3
   permission_handler: ^10.4.3
   provider: ^6.0.5
   path_provider: ^2.1.0
