@@ -176,16 +176,19 @@ class AlertConfirmAndCancel extends StatelessWidget {
 /// 带取消的 弹窗 单列选择
 Future<int?>? showAlertCountSelect(
         {required List<String> list,
+        Widget? cancel,
+        String? cancelText,
         int? defaultIndex,
         BottomSheetOptions? bottomSheetOptions}) =>
     AlertCountSelect(
         cancelButton: Universal(
             safeBottom: true,
             onTap: maybePop,
-            child: TextDefault('取消',
-                    textAlign: TextAlign.center,
-                    color: GlobalConfig().currentColor)
-                .paddingSymmetric(vertical: 12)),
+            child: cancel ??
+                TextDefault(cancelText ?? '取消',
+                        textAlign: TextAlign.center,
+                        color: GlobalConfig().currentColor)
+                    .paddingSymmetric(vertical: 12)),
         actions: list.builderEntry((item) => CupertinoActionSheetAction(
               onPressed: () {
                 maybePop(item.key);
