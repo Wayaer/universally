@@ -55,6 +55,7 @@ class BasicApp extends StatefulWidget {
     this.actions,
     this.onGenerateInitialRoutes,
     this.restorationScopeId,
+    this.hidden,
   });
 
   final List<SingleChildWidget> providers;
@@ -80,6 +81,8 @@ class BasicApp extends StatefulWidget {
   final VoidCallback? detached;
 
   final VoidCallback? resumed;
+
+  final VoidCallback? hidden;
 
   final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
 
@@ -199,6 +202,9 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         widget.detached?.call();
+        break;
+      case AppLifecycleState.hidden:
+        widget.hidden?.call();
         break;
     }
   }
