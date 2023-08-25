@@ -5,7 +5,7 @@ echo "========== 💪 开始打包Android 💪 =========="
 
 # -n appName app名字  [appName]
 # -c channel 渠道名  [channel]
-# -o outputType 输出apk或者aab  [appbundle,apk(default)]
+# -o outputType 输出apk或者aab,appbundle,  [appbundle,apk(default),aar]
 # -t targetPlatform [1,2,3]
 # -b buildType buildType [release,profile,debug]
 # -p mainPath
@@ -58,7 +58,7 @@ else
   targetPlatformStr=""
 fi
 splitABI=""
-if [ 1 == "$split" ]; then
+if [ 1 == "$split" ] && [ "apk" == outputType ]; then
   splitABI=" --split-per-abi"
 fi
 version=$(grep 'version:' pubspec.yaml)
