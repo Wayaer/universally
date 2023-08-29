@@ -58,7 +58,7 @@ else
   targetPlatformStr=""
 fi
 splitABI=""
-if [ 1 == "$split" ] && [ "apk" == outputType ]; then
+if [ 1 == "$split" ] && [ "apk" == "$outputType" ]; then
   splitABI=" --split-per-abi"
 fi
 version=$(grep 'version:' pubspec.yaml)
