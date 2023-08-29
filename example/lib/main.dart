@@ -98,6 +98,23 @@ class HomePage extends StatelessWidget {
               },
               text: 'showDoubleChooseAlert'),
           Button(onTap: showLoading, text: 'showLoading'),
+          Button(
+              onTap: () async {
+                final res = await getPermission(Permission.camera,
+                    alert: '本服务需要访问您的“相机”，以修改头像或上传图片');
+                showToast(res.toString());
+              },
+              text: 'getPermission'),
+          Button(
+              onTap: () async {
+                final res = await getPermissions([
+                  Permission.camera,
+                  Permission.storage,
+                  if (isIOS) Permission.photos
+                ], alert: '本服务需要访问您的“相机”和“相册”，以修改头像或上传图片');
+                showToast(res.toString());
+              },
+              text: 'getPermissions'),
         ]));
   }
 }
