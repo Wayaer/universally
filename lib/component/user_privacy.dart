@@ -30,9 +30,9 @@ class UserPrivacyAlert extends StatelessWidget {
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
   final GestureTapCallback? onConsentTap;
-  final String name;
   final ModalWindowsOptions? options;
 
+  final String name;
   final String agree;
   final String exit;
   final String title;
