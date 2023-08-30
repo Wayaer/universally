@@ -15,7 +15,7 @@ Future<bool> getPermission(
     pop();
   }
   if (!(permissionStatus.isGranted || permissionStatus.isLimited)) {
-    final result = await showAlertConfirmCancel(
+    final result = await AlertConfirmCancel(
         text: alert,
         autoClose: false,
         confirmTap: () {
@@ -24,7 +24,7 @@ Future<bool> getPermission(
         cancelTap: () {
           pop(false);
           cancelTap?.call();
-        });
+        }).show();
     if (result == true) await openAppSettings();
   }
   return permissionStatus.isGranted || permissionStatus.isLimited;
@@ -47,7 +47,7 @@ Future<bool> getPermissions(List<Permission> permissions,
         .removeWhere((key, value) => value.isGranted || value.isLimited);
     pop();
     if (permissionsStatus.isNotEmpty) {
-      final result = await showAlertConfirmCancel(
+      final result = await AlertConfirmCancel(
           text: alert,
           autoClose: false,
           confirmTap: () {
@@ -56,7 +56,7 @@ Future<bool> getPermissions(List<Permission> permissions,
           cancelTap: () {
             pop(false);
             cancelTap?.call();
-          });
+          }).show();
       if (result == true) await openAppSettings();
     }
     return permissionsStatus.isEmpty;

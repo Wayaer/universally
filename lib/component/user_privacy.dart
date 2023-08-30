@@ -2,25 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-void showUserPrivacyAlert({
-  required String name,
-  required GestureTapCallback onUserAgreementTap,
-  required GestureTapCallback onPrivacyPolicyTap,
-  required GestureTapCallback onConsentTap,
-  ModalWindowsOptions? options,
-}) {
-  final result = BHP().getBool(UConst.privacy);
-  if (result ?? false) {
-    onConsentTap.call();
-  } else {
-    AlertWithUserPrivacy(
-            name: name,
-            options: options,
-            onUserAgreementTap: onUserAgreementTap,
-            onPrivacyPolicyTap: onPrivacyPolicyTap,
-            onConsentTap: onConsentTap)
-        .popupDialog(
-            options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter));
+extension ExtensionAlertWithUserPrivacy on AlertWithUserPrivacy {
+  void show() async {
+    final result = BHP().getBool(UConst.privacy);
+    if (result ?? false) {
+      onConsentTap.call();
+    } else {
+      await popupDialog(
+          options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter));
+    }
   }
 }
 

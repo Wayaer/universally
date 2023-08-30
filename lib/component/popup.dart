@@ -2,29 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-/// 弹出消息 提示 仅 带确认按钮
-/// A message is displayed with a confirm button only
-Future<dynamic>? showAlertMessage({
-  String? text,
-  String? confirmText,
-  String? titleText,
-  GestureTapCallback? confirmTap,
-  Widget? contentText,
-  Widget? content,
-  Widget? title,
-  Widget? confirm,
-  DialogOptions? dialogOptions,
-}) =>
-    AlertMessage(
-            text: text ?? '',
-            confirmText: confirmText,
-            contentText: contentText,
-            titleText: titleText,
-            confirmTap: confirmTap,
-            content: content,
-            title: title,
-            confirm: confirm)
-        .popupCupertinoDialog(options: dialogOptions);
+extension ExtensionAlertMessage on AlertMessage {
+  Future<T?> show<T>({DialogOptions? options}) =>
+      popupCupertinoDialog<T>(options: options);
+}
 
 /// 弹出带确定的按钮 点击确定自动关闭
 /// Pop up the button with "OK" and click "OK" to automatically close
@@ -76,44 +57,15 @@ class AlertMessage extends StatelessWidget {
           ]));
 }
 
-/// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
-/// Pop up the button with OK and cancel click OK or cancel to automatically close
-Future<dynamic>? showAlertConfirmCancel({
-  String? text,
-  String? confirmText,
-  String? cancelText,
-  String? titleText,
-  GestureTapCallback? confirmTap,
-  GestureTapCallback? cancelTap,
-  bool autoClose = true,
-  Widget? title,
-  Widget? contentText,
-  Widget? content,
-  Widget? cancel,
-  Widget? confirm,
-  DialogOptions? dialogOptions,
-}) =>
-    AlertConfirmAndCancel(
-            text: text,
-            confirmText: confirmText,
-            cancelText: cancelText,
-            titleText: titleText,
-            contentText: contentText,
-            confirmTap: confirmTap,
-            cancelTap: cancelTap,
-            title: title,
-            cancel: cancel,
-            confirm: confirm,
-            autoClose: autoClose,
-            content: content)
-        .popupDialog(
-            options:
-                const DialogOptions(barrierLabel: '').merge(dialogOptions));
+extension ExtensionAlertConfirmCancel on AlertConfirmCancel {
+  Future<T?> show<T>({DialogOptions? options}) => popupCupertinoDialog<T>(
+      options: const DialogOptions(barrierLabel: '').merge(options));
+}
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
 /// Pop up the button with OK and cancel click OK or cancel to automatically close
-class AlertConfirmAndCancel extends StatelessWidget {
-  const AlertConfirmAndCancel({
+class AlertConfirmCancel extends StatelessWidget {
+  const AlertConfirmCancel({
     super.key,
     this.text,
     this.contentText,
@@ -173,58 +125,59 @@ class AlertConfirmAndCancel extends StatelessWidget {
           ]);
 }
 
-/// 带取消的 弹窗 单列选择
-Future<int?>? showAlertCountSelect(
-        {required List<String> list,
-        Widget? cancel,
-        String? cancelText,
-        int? defaultIndex,
-        BottomSheetOptions? bottomSheetOptions}) =>
-    AlertCountSelect(
-        cancelButton: Universal(
-            safeBottom: true,
-            onTap: maybePop,
-            child: cancel ??
-                TextDefault(cancelText ?? '取消',
-                        textAlign: TextAlign.center,
-                        color: GlobalConfig().currentColor)
-                    .paddingSymmetric(vertical: 12)),
-        actions: list.builderEntry((item) => CupertinoActionSheetAction(
-              onPressed: () {
-                maybePop(item.key);
-              },
-              isDefaultAction: defaultIndex == item.key,
-              child: TextDefault(item.value),
-            ))).popupBottomSheet<int?>(
-        options: const BottomSheetOptions(backgroundColor: Colors.transparent)
-            .merge(bottomSheetOptions));
+extension ExtensionAlertCountSelect on AlertCountSelect {
+  Future<T?> show<T>({BottomSheetOptions? options}) => popupBottomSheet<T>(
+      options: const BottomSheetOptions(backgroundColor: Colors.transparent)
+          .merge(options));
+}
 
 /// 带取消的 弹窗 单列选择
 class AlertCountSelect extends StatelessWidget {
-  const AlertCountSelect(
-      {super.key,
-      this.title,
-      this.message,
-      required this.actions,
-      this.cancelButton,
-      this.actionScrollController,
-      this.messageScrollController});
+  const AlertCountSelect({
+    super.key,
+    this.cancelText = '取消',
+    this.list = const [],
+    this.defaultIndex,
+    this.title,
+    this.message,
+    this.actions,
+    this.cancel,
+    this.actionScrollController,
+    this.messageScrollController,
+  });
 
+  final String? cancelText;
+  final int? defaultIndex;
+  final List<String> list;
   final Widget? title;
   final Widget? message;
-  final Widget? cancelButton;
-  final List<Widget> actions;
+  final Widget? cancel;
+  final List<Widget>? actions;
   final ScrollController? actionScrollController;
   final ScrollController? messageScrollController;
 
   @override
   Widget build(BuildContext context) => CupertinoActionSheet(
-      cancelButton: cancelButton,
+      cancelButton: Universal(
+          safeBottom: true,
+          onTap: maybePop,
+          child: cancel ??
+              TextDefault(cancelText,
+                      textAlign: TextAlign.center,
+                      color: GlobalConfig().currentColor)
+                  .paddingSymmetric(vertical: 12)),
       title: title,
       actionScrollController: actionScrollController,
       messageScrollController: messageScrollController,
       message: message,
-      actions: actions);
+      actions: actions ??
+          list.builderEntry((item) => CupertinoActionSheetAction(
+                onPressed: () {
+                  maybePop(item.key);
+                },
+                isDefaultAction: defaultIndex == item.key,
+                child: TextDefault(item.value),
+              )));
 }
 
 ExtendedOverlayEntry? alertOnlyMessage(String? text, {bool autoOff = true}) =>

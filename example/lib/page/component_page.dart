@@ -17,11 +17,12 @@ class ComponentPage extends StatelessWidget {
               text: 'showUserPrivacyAlert',
               onTap: () {
                 BHP().setBool(UConst.privacy, false);
-                showUserPrivacyAlert(
-                    name: 'Universally',
-                    onUserAgreementTap: () {},
-                    onPrivacyPolicyTap: () {},
-                    onConsentTap: () {});
+                AlertWithUserPrivacy(
+                        name: 'Universally',
+                        onUserAgreementTap: () {},
+                        onPrivacyPolicyTap: () {},
+                        onConsentTap: () {})
+                    .show();
               }),
           10.heightBox,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -19,15 +19,14 @@ class BasicPickerOptions<T> extends PickerOptions<T> {
             cancel: TextDefault('取消', color: UCS.mainBlack.withOpacity(0.6)));
 }
 
+extension ExtensionBasicCupertinoActionSheet on BasicCupertinoActionSheet {
+  Future<int?> show({BottomSheetOptions? options}) => popupBottomSheet<int?>(
+      options: const BottomSheetOptions(backgroundColor: UCS.transparent)
+          .merge(options));
+}
+
 /// 底部有取消的单选
 /// 返回数组index
-Future<int?> pickerActionSheet(List<String> list,
-        {BottomSheetOptions? options}) =>
-    BasicCupertinoActionSheet(list).popupBottomSheet<int?>(
-        options: const BottomSheetOptions(backgroundColor: UCS.transparent)
-            .merge(options));
-
-/// 带取消的单选
 class BasicCupertinoActionSheet extends StatelessWidget {
   const BasicCupertinoActionSheet(this.list, {super.key});
 
