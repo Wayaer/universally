@@ -1,3 +1,7 @@
+## 5.2.0
+
+* Modify the permission application method
+
 ## 5.1.1
 
 * Update dependency
