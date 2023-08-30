@@ -6,7 +6,7 @@ extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
   Future<void> show() async {
     final result = BHP().getBool(UConst.privacy);
     if (result ?? false) {
-      onConsentTap.call();
+      onConsentTap?.call();
     } else {
       await popupDialog(
           options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter));
@@ -18,8 +18,8 @@ class UserPrivacyAlert extends StatelessWidget {
   const UserPrivacyAlert(
       {super.key,
       required this.name,
-      required this.onUserAgreementTap,
-      required this.onPrivacyPolicyTap,
+      this.onUserAgreementTap,
+      this.onPrivacyPolicyTap,
       required this.onConsentTap,
       this.options,
       this.agree = '同意',
@@ -27,9 +27,9 @@ class UserPrivacyAlert extends StatelessWidget {
       this.title = '个人隐私保护指引',
       this.content});
 
-  final GestureTapCallback onUserAgreementTap;
-  final GestureTapCallback onPrivacyPolicyTap;
-  final GestureTapCallback onConsentTap;
+  final GestureTapCallback? onUserAgreementTap;
+  final GestureTapCallback? onPrivacyPolicyTap;
+  final GestureTapCallback? onConsentTap;
   final String name;
   final ModalWindowsOptions? options;
 
@@ -83,7 +83,7 @@ class UserPrivacyAlert extends StatelessWidget {
           onTap: () {
             pop();
             BHP().setBool(UConst.privacy, true);
-            onConsentTap.call();
+            onConsentTap?.call();
           },
           child: TextDefault(agree, color: UCS.white)),
       left: Universal(
