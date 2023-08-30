@@ -18,12 +18,10 @@ class BasicCarouselSlider extends CarouselSlider {
   BasicCarouselSlider(
       {super.key,
       required super.itemBuilder,
-      required super.itemCount,
-      double? height,
+      required int itemCount,
+      double? height = 40,
       int initialPage = 0,
       double viewportFraction = 1,
-
-      /// 是否启动循环滚动
       bool enableInfiniteScroll = true,
 
       /// 有拖拽时不暂停滚动
@@ -31,7 +29,7 @@ class BasicCarouselSlider extends CarouselSlider {
 
       /// 是否启用手势
       bool pauseAutoPlayOnTouch = true,
-      bool autoPlay = true,
+      bool? autoPlay,
       bool pageSnapping = true,
 
       /// 播放完成后，暂停播放
@@ -47,6 +45,7 @@ class BasicCarouselSlider extends CarouselSlider {
       Duration autoPlayAnimationDuration = const Duration(milliseconds: 600),
       Function(int? index, CarouselPageChangedReason reason)? onPageChanged})
       : super.builder(
+            itemCount: itemCount,
             carouselController: controller,
             options: CarouselOptions(
                 height: height,
@@ -56,7 +55,7 @@ class BasicCarouselSlider extends CarouselSlider {
                 initialPage: initialPage,
                 autoPlayAnimationDuration: autoPlayAnimationDuration,
                 enableInfiniteScroll: enableInfiniteScroll,
-                autoPlay: autoPlay,
+                autoPlay: autoPlay ?? itemCount > 1,
                 scrollDirection: scrollDirection,
                 viewportFraction: viewportFraction,
                 autoPlayInterval: autoPlayInterval,
