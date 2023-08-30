@@ -29,7 +29,7 @@ dependencies:
   extended_image: ^8.1.0
 
 dev_dependencies:
-  flutter_lints: ^2.0.2
+  flutter_lints: ^2.0.3
 
 flutter:
   uses-material-design: true
