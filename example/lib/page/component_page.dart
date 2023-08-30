@@ -17,7 +17,7 @@ class ComponentPage extends StatelessWidget {
               text: 'showUserPrivacyAlert',
               onTap: () {
                 BHP().setBool(UConst.privacy, false);
-                AlertWithUserPrivacy(
+                UserPrivacyAlert(
                         name: 'Universally',
                         onUserAgreementTap: () {},
                         onPrivacyPolicyTap: () {},

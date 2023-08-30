@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-extension ExtensionAlertWithUserPrivacy on AlertWithUserPrivacy {
-  void show() async {
+extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
+  Future<void> show() async {
     final result = BHP().getBool(UConst.privacy);
     if (result ?? false) {
       onConsentTap.call();
@@ -14,8 +14,8 @@ extension ExtensionAlertWithUserPrivacy on AlertWithUserPrivacy {
   }
 }
 
-class AlertWithUserPrivacy extends StatelessWidget {
-  const AlertWithUserPrivacy(
+class UserPrivacyAlert extends StatelessWidget {
+  const UserPrivacyAlert(
       {super.key,
       required this.name,
       required this.onUserAgreementTap,

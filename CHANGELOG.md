@@ -1,4 +1,4 @@
-## 5.2.1
+## 5.2.2
 
 * Modify the permission application method
 * Modify the popup method invocation mode
