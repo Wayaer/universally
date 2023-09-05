@@ -38,7 +38,6 @@ class BasicConnectivity {
     UnavailableNetworkAlertBuilder? alertUnavailableNetwork,
 
     /// [alertUnavailableNetwork]弹出时 安卓上限制实体返回按键操作
-    /// [ExtendedScaffold] 中 [onWillPopOverlayClose] 必须为 true 才有效
     bool willPop = true,
   }) async {
     if (_subscription != null) return;

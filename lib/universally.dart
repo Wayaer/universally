@@ -45,10 +45,10 @@ export 'dependencies/extended_image.dart';
 export 'dependencies/flutter/path_provider.dart';
 export 'dependencies/flutter/package_info.dart';
 export 'dependencies/flutter/android_intent.dart';
-export 'dependencies/flutter/ios_macos_setting.dart';
 
 /// global
 export 'global.dart';
 
 /// const
 export 'const/const.dart';
+export 'const/ios_macos_setting.dart';
