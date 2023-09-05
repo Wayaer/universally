@@ -143,9 +143,6 @@ class Global {
   /// [BasicLoading] loading 颜色
   late Color currentColor;
 
-  /// 保存图片和视频的缓存地址
-  String? currentCacheDir;
-
   /// 当前项目使用的 url
   late String _currentApi;
 
@@ -229,14 +226,5 @@ class Global {
     /// 设置页面转场样式
     /// Set the page transition style
     GlobalOptions().pushStyle = config.pushStyle;
-
-    /// 图片或者文件缓存地址
-    final cachePath = _config.cachePath;
-    if (cachePath == null) {
-      final cachePath = await PathProvider().getApplicationCacheDirectory();
-      currentCacheDir = cachePath.path;
-    } else {
-      currentCacheDir = cachePath;
-    }
   }
 }

@@ -4,9 +4,7 @@ import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:flutter/material.dart';
-import 'package:universally/dependencies/ios_macos_setting.dart';
 import 'package:universally/universally.dart';
-
 import 'page/android_system_setting.dart';
 
 Future<void> main() async {

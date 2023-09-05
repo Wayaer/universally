@@ -1,4 +1,5 @@
-import 'package:universally/universally.dart';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 
 class AndroidAppMarketIntent extends AndroidIntent {
   AndroidAppMarketIntent({
@@ -15,7 +16,7 @@ class AndroidAppMarketIntent extends AndroidIntent {
             action: 'action_view',
             data: 'market://details?id=$packageName',
             flags: [
-              0x10000000,
+              Flag.FLAG_ACTIVITY_NEW_TASK,
               if (flags != null) ...flags,
             ]);
 }

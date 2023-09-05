@@ -31,10 +31,14 @@ class _CleanCacheState extends State<CleanCache> {
     addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
   }
 
-  void getSize() {
-    path = Global().currentCacheDir;
-    if (path == null || path!.isEmpty) return;
-    getDirSize(path!);
+  void getSize() async {
+    getDirSize(await PathProvider().getTemporaryDirectory());
+    if (isAndroid) {
+      final dirs = await PathProvider().getExternalCacheDirectories();
+      dirs?.forEach((element) {
+        getDirSize(element);
+      });
+    }
     if (size > 0) {
       final double s = size / 1024 / 1024;
       text = '${s.toStringAsFixed(2)} MB';
@@ -44,15 +48,14 @@ class _CleanCacheState extends State<CleanCache> {
     setState(() {});
   }
 
-  void getDirSize(String path) {
-    final dir = Directory(path);
+  void getDirSize(Directory dir) {
     if (dir.existsSync()) {
       final files = dir.listSync(recursive: true);
-      files.builder((file) {
+      for (var file in files) {
         if (file.existsSync()) {
           size += file.statSync().size;
         }
-      });
+      }
     }
   }
 
