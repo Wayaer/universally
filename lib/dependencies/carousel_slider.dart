@@ -11,7 +11,7 @@ class BasicIndicator extends FlIndicator {
       super.size = 8,
       super.color = UCS.background,
       Color? activeColor})
-      : super(activeColor: activeColor ?? GlobalConfig().currentColor);
+      : super(activeColor: activeColor ?? Global().currentColor);
 }
 
 class BasicCarouselSlider extends CarouselSlider {

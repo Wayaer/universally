@@ -32,7 +32,7 @@ class _CleanCacheState extends State<CleanCache> {
   }
 
   void getSize() {
-    path = GlobalConfig().currentCacheDir;
+    path = Global().currentCacheDir;
     if (path == null || path!.isEmpty) return;
     getDirSize(path!);
     if (size > 0) {

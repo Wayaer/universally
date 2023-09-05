@@ -16,7 +16,7 @@ class TextVeryLarge extends BasicText {
       super.fontType = FontType.semiBold,
       super.fontWeight,
       super.fontFamily})
-      : super(color: color ?? GlobalConfig().config.textColor?.veryLargeColor);
+      : super(color: color ?? Global().config.textColor?.veryLargeColor);
 }
 
 /// Large font
@@ -34,7 +34,7 @@ class TextLarge extends BasicText {
       super.fontType = FontType.semiBold,
       super.fontWeight,
       super.fontFamily})
-      : super(color: color ?? GlobalConfig().config.textColor?.largeColor);
+      : super(color: color ?? Global().config.textColor?.largeColor);
 }
 
 /// 小字体
@@ -53,7 +53,7 @@ class TextSmall extends BasicText {
       super.textAlign,
       super.fontType,
       super.fontFamily})
-      : super(color: color ?? GlobalConfig().config.textColor?.smallColor);
+      : super(color: color ?? Global().config.textColor?.smallColor);
 }
 
 /// 默认字体
@@ -73,7 +73,7 @@ class TextDefault extends BasicText {
       super.fontType,
       super.fontWeight,
       super.fontFamily})
-      : super(color: color ?? GlobalConfig().config.textColor?.defaultColor);
+      : super(color: color ?? Global().config.textColor?.defaultColor);
 }
 
 /// BasicText
@@ -159,7 +159,7 @@ class TStyle extends BTextStyle {
                                 ? FontWeight.bold
                                 : FontWeight.normal));
 
-  /// 使用 [GlobalConfig().config.textColor?.styleColor] 预设颜色，不适合主题适配
+  /// 使用 [Global().config.textColor?.styleColor] 预设颜色，不适合主题适配
   TStyle.global(
       {Color? color,
       super.fontSize = 14,
@@ -172,7 +172,7 @@ class TStyle extends BTextStyle {
       super.decoration = TextDecoration.none,
       super.backgroundColor})
       : super(
-            color: color ?? GlobalConfig().config.textColor?.styleColor,
+            color: color ?? Global().config.textColor?.styleColor,
             wordSpacing: letterSpacing,
             fontWeight: fontWeight ??
                 ((fontType == null || fontType == FontType.normal)
@@ -250,3 +250,5 @@ class TextShowPage extends StatelessWidget {
           child: TextDefault(text,
               maxLines: 100, color: UCS.black, fontSize: 15)));
 }
+
+

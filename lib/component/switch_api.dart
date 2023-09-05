@@ -9,11 +9,11 @@ class SwitchApiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconBox(
       icon: UIS.settingApi,
-      color: color ?? GlobalConfig().currentColor,
+      color: color ?? Global().currentColor,
       visible: isBeta,
       size: 18,
       onTap: () => push(_SwitchApiPage()),
-      title: TextDefault('切换API', color: color ?? GlobalConfig().currentColor));
+      title: TextDefault('切换API', color: color ?? Global().currentColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -32,26 +32,26 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Widget build(BuildContext context) {
     httpStr = 'http${isHttps ? 's' : ''}://';
     final defaultUrl = isBeta
-        ? GlobalConfig().config.betaApi
-        : GlobalConfig().config.releaseApi;
+        ? Global().config.betaApi
+        : Global().config.releaseApi;
     return BasicScaffold(
         isScroll: true,
         safeBottom: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: '切换服务器',
         children: [
-          TextVeryLarge('*本功能为测试版专用', color: GlobalConfig().currentColor),
+          TextVeryLarge('*本功能为测试版专用', color: Global().currentColor),
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TextDefault('默认服务器地址为：'),
             showApi(defaultUrl),
             TextDefault('当前服务器地址为：'),
-            showApi(GlobalConfig().currentApi),
+            showApi(Global().currentApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextDefault('使用https：'),
               BasicSwitch(
                   value: isHttps,
-                  activeColor: GlobalConfig().currentColor,
+                  activeColor: Global().currentColor,
                   onChanged: (bool? value) {
                     isHttps = !isHttps;
                     setState(() {});
@@ -109,25 +109,25 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           UButton(
               width: double.infinity,
               text: '切换正式服务器并重启APP',
-              onTap: () => saveApi(GlobalConfig().config.releaseApi)),
+              onTap: () => saveApi(Global().config.releaseApi)),
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('始终使用正式服务器').expandedNull,
             BasicSwitch(
                 value: isRelease,
-                activeColor: GlobalConfig().currentColor,
+                activeColor: Global().currentColor,
                 onChanged: (bool? value) {
                   isRelease = !isRelease;
                   setState(() {});
                 })
           ]),
           TextDefault('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-              maxLines: 3, color: GlobalConfig().currentColor),
+              maxLines: 3, color: Global().currentColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('开启接口请求日志打印：'),
             BasicSwitch(
                 value: isDebugger,
-                activeColor: GlobalConfig().currentColor,
+                activeColor: Global().currentColor,
                 onChanged: (bool? value) async {
                   isDebugger = !isDebugger;
                   setState(() {});
@@ -140,7 +140,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           Row(children: [
             TextDefault('正式服IP：', maxLines: 2, height: 1.5),
           ]),
-          showApi(GlobalConfig().config.releaseApi),
+          showApi(Global().config.releaseApi),
           const USpacing(),
         ]);
   }

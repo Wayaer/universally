@@ -5,17 +5,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!--允许程序安装应用程序-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="https" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.DIAL" />
-            <data android:scheme="tel" />
-        </intent>
-    </queries>
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -42,4 +34,16 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <queries>
+        <package android:name="com.tencent.mobileqq" />
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
 </manifest>

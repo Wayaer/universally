@@ -16,8 +16,6 @@ class ProjectConfig {
     this.pushStyle = RoutePushStyle.material,
     this.pullDownHeader,
     this.pullUpFooter,
-    this.scaffoldBackground,
-    this.appBarConfig,
     this.cachePath,
     this.placeholder = const BasicPlaceholder(),
     this.toastOptions = const ToastOptions(
@@ -74,9 +72,6 @@ class ProjectConfig {
   /// 当前项目 全局使用的 刷新Footer
   Footer? pullUpFooter;
 
-  /// 当前项目 全局使用的 [BasicScaffold] 的背景色
-  Color? scaffoldBackground;
-
   /// list 占位图
   Widget placeholder;
 
@@ -110,33 +105,6 @@ class ProjectConfig {
 
   /// 字体颜色
   TextColor? textColor;
-
-  /// 当前项目 全局使用的 [BasicAppBar]
-  AppBarConfig? appBarConfig;
-}
-
-class AppBarConfig {
-  AppBarConfig(
-      {this.backgroundColor,
-      this.titleColor,
-      this.elevation,
-      this.iconTheme,
-      this.systemOverlayStyle});
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的背景色
-  Color? backgroundColor;
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的文字颜色
-  Color? titleColor;
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的 elevation
-  double? elevation;
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的 iconTheme
-  IconThemeData? iconTheme;
-
-  /// 当前项目 全局使用的 [BasicAppBar] 的 systemOverlayStyle
-  SystemUiOverlayStyle? systemOverlayStyle;
 }
 
 class TextColor {
@@ -163,12 +131,12 @@ class TextColor {
   Color? styleColor;
 }
 
-class GlobalConfig {
-  factory GlobalConfig() => _singleton ??= GlobalConfig._();
+class Global {
+  factory Global() => _singleton ??= Global._();
 
-  GlobalConfig._();
+  Global._();
 
-  static GlobalConfig? _singleton;
+  static Global? _singleton;
 
   /// alert 确认按钮颜色
   /// [AssetSelect]  Badge 背景色
@@ -265,16 +233,8 @@ class GlobalConfig {
     /// 图片或者文件缓存地址
     final cachePath = _config.cachePath;
     if (cachePath == null) {
-      final appPath = await Curiosity().native.appPath;
-      if (appPath != null) {
-        if (isAndroid) {
-          currentCacheDir = '${appPath.externalCacheDir!}/';
-        } else if (isIOS) {
-          currentCacheDir = appPath.temporaryDirectory;
-        } else if (isMacOS) {
-          currentCacheDir = appPath.temporaryDirectory;
-        }
-      }
+      final cachePath = await PathProvider().getApplicationCacheDirectory();
+      currentCacheDir = cachePath.path;
     } else {
       currentCacheDir = cachePath;
     }

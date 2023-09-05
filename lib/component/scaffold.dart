@@ -238,7 +238,7 @@ class BasicScaffold extends StatelessWidget {
         key: key,
         primary: primary,
         backgroundColor:
-            backgroundColor ?? GlobalConfig().config.scaffoldBackground,
+            backgroundColor ,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         drawerDragStartBehavior: drawerDragStartBehavior,
         extendBodyBehindAppBar: extendBodyBehindAppBar,
@@ -339,8 +339,8 @@ class BasicScaffold extends StatelessWidget {
       expand: true,
       refreshConfig: (onRefresh != null || onLoading != null)
           ? RefreshConfig(
-              footer: GlobalConfig().config.pullUpFooter,
-              header: GlobalConfig().config.pullDownHeader,
+              footer: Global().config.pullUpFooter,
+              header: Global().config.pullDownHeader,
               onLoading:
                   onLoading == null ? null : () async => onLoading!.call(),
               onRefresh:
@@ -367,17 +367,17 @@ class BasicScaffold extends StatelessWidget {
 class BasicAppBar extends AppBar {
   BasicAppBar({
     super.key,
-    String? titleText,
+    String? titleText = '',
     Widget? title,
     Widget? action,
     List<Widget>? actions,
     bool isMaybePop = false,
-    double? elevation,
     Widget? leading,
-    Color? backgroundColor,
     bool enableLeading = true,
-    IconThemeData? iconTheme,
-    SystemUiOverlayStyle? systemOverlayStyle,
+    super.elevation,
+    super.backgroundColor,
+    super.iconTheme,
+    super.systemOverlayStyle,
     super.centerTitle = true,
     super.bottom,
     super.actionsIconTheme,
@@ -399,18 +399,10 @@ class BasicAppBar extends AppBar {
     super.toolbarOpacity = 1.0,
     super.toolbarTextStyle,
   }) : super(
-            title: title ??
-                TextLarge(titleText,
-                    color: GlobalConfig().config.appBarConfig?.titleColor),
+            title: title ?? (titleText == null ? null : Text(titleText)),
             leading: enableLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
                 : const SizedBox(),
-            elevation:
-                elevation ?? GlobalConfig().config.appBarConfig?.elevation,
-            systemOverlayStyle: systemOverlayStyle ??
-                GlobalConfig().config.appBarConfig?.systemOverlayStyle,
-            iconTheme:
-                iconTheme ?? GlobalConfig().config.appBarConfig?.iconTheme,
             actions: actions ??
                 [
                   if (action != null)
@@ -419,9 +411,7 @@ class BasicAppBar extends AppBar {
                         alignment: Alignment.centerRight,
                         margin: const EdgeInsets.only(right: 16),
                         child: action)
-                ],
-            backgroundColor: backgroundColor ??
-                GlobalConfig().config.appBarConfig?.backgroundColor);
+                ]);
 }
 
 class BackIcon extends IconButton {

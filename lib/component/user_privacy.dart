@@ -60,9 +60,9 @@ class UserPrivacyAlert extends StatelessWidget {
                   '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
                 ], styles: [
                   const TStyle(height: 1.4),
-                  TStyle(height: 1.4, color: GlobalConfig().currentColor),
+                  TStyle(height: 1.4, color: Global().currentColor),
                   const TStyle(height: 1.4),
-                  TStyle(height: 1.4, color: GlobalConfig().currentColor),
+                  TStyle(height: 1.4, color: Global().currentColor),
                   const TStyle(height: 1.4),
                 ], recognizers: [
                   null,
@@ -77,7 +77,7 @@ class UserPrivacyAlert extends StatelessWidget {
           margin: const EdgeInsets.only(left: 0.5),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: GlobalConfig().currentColor,
+              color: Global().currentColor,
               borderRadius:
                   const BorderRadius.only(bottomRight: Radius.circular(8))),
           onTap: () {
@@ -132,17 +132,17 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       BasicCheckbox(
           value: value,
-          activeColor: mainColor ?? GlobalConfig().currentColor,
+          activeColor: mainColor ?? Global().currentColor,
           shape: shape,
           onChanged: onChanged),
       RText(maxLines: 2, textAlign: TextAlign.start, texts: texts, styles: [
         TStyle(color: color, fontSize: fontSize),
         TStyle(
-            color: mainColor ?? GlobalConfig().currentColor,
+            color: mainColor ?? Global().currentColor,
             fontSize: fontSize),
         TStyle(color: color, fontSize: fontSize),
         TStyle(
-            color: mainColor ?? GlobalConfig().currentColor,
+            color: mainColor ?? Global().currentColor,
             fontSize: fontSize),
       ], recognizers: [
         null,

@@ -90,7 +90,7 @@ class BasicError extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(WayIcons.empty,
-              size: 80, color: GlobalConfig().config.textColor?.defaultColor),
+              size: 80, color: Global().config.textColor?.defaultColor),
           title: TextDefault('加载失败，点击刷新', fontType: FontType.medium)));
 }
 
@@ -111,7 +111,7 @@ class BasicPlaceholder extends StatelessWidget {
           spacing: 10,
           widget: Icon(WayIcons.empty,
               size: 80,
-              color: GlobalConfig()
+              color: Global()
                   .config
                   .textColor
                   ?.smallColor
@@ -130,7 +130,7 @@ class BasicSwitch extends ChangedBuilder<bool> {
     super.onWaitChanged,
   }) : super(
             builder: (bool value, onChanged) => XSwitch(
-                activeColor: activeColor ?? GlobalConfig().currentColor,
+                activeColor: activeColor ?? Global().currentColor,
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 value: value,
@@ -152,7 +152,7 @@ class BasicCupertinoSwitch extends ChangedBuilder<bool> {
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 activeTrackColor: activeTrackColor,
-                activeColor: activeColor ?? GlobalConfig().currentColor,
+                activeColor: activeColor ?? Global().currentColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -168,7 +168,7 @@ class BasicCheckbox extends ChangedBuilder<bool?> {
   }) : super(
             builder: (bool? value, onChanged) => Checkbox(
                 shape: shape,
-                activeColor: activeColor ?? GlobalConfig().currentColor,
+                activeColor: activeColor ?? Global().currentColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -192,8 +192,8 @@ class UButton extends Universal {
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
-                border: Border.all(color: GlobalConfig().currentColor),
-                color: color ?? GlobalConfig().currentColor,
+                border: Border.all(color: Global().currentColor),
+                color: color ?? Global().currentColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

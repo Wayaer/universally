@@ -7,7 +7,7 @@ Future<bool> getPermission(
   required String alert,
   GestureTapCallback? cancelTap,
 }) async {
-  if (!isMobile) return false;
+  if (!isMobile) return true;
   PermissionStatus permissionStatus = await permission.status;
   if (permissionStatus.isDenied) {
     PermissionPrompt.show(content: alert);
@@ -33,7 +33,7 @@ Future<bool> getPermission(
 /// 必须获取通过全部权限
 Future<bool> getPermissions(List<Permission> permissions,
     {required String alert, GestureTapCallback? cancelTap}) async {
-  if (!isMobile) return false;
+  if (!isMobile) return true;
   Map<Permission, bool> status = {};
   for (var element in permissions) {
     final isGranted = await element.isGranted;
@@ -82,7 +82,7 @@ class PermissionPrompt extends StatelessWidget {
       Universal(
           margin: EdgeInsets.fromLTRB(16, context.statusBarHeight + 16, 16, 16),
           decoration: BoxDecoration(
-              color: GlobalConfig().config.scaffoldBackground ?? UCS.white,
+              color: context.theme.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(12)),
           padding: const EdgeInsets.all(16),
           crossAxisAlignment: CrossAxisAlignment.start,

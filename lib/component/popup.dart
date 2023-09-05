@@ -53,7 +53,7 @@ class AlertMessage extends StatelessWidget {
                 },
                 child: confirm ??
                     TextDefault(confirmText ?? '确定',
-                        fontSize: 16, color: GlobalConfig().currentColor)),
+                        fontSize: 16, color: Global().currentColor)),
           ]));
 }
 
@@ -164,7 +164,7 @@ class AlertCountSelect extends StatelessWidget {
           child: cancel ??
               TextDefault(cancelText,
                       textAlign: TextAlign.center,
-                      color: GlobalConfig().currentColor)
+                      color: Global().currentColor)
                   .paddingSymmetric(vertical: 12)),
       title: title,
       actionScrollController: actionScrollController,
@@ -254,7 +254,7 @@ Future<bool?> showDoubleChooseAlert({
                 left: BorderSide(color: UCS.lineColor, width: 0.5),
               )),
               child: TextDefault(right,
-                  color: GlobalConfig().currentColor,
+                  color: Global().currentColor,
                   fontType: FontType.semiBold)),
           options: options,
           decoration: BoxDecoration(
@@ -302,5 +302,5 @@ class BasicLoading extends StatelessWidget {
       itemBuilder: itemBuilder,
       controller: controller,
       duration: duration,
-      color: color ?? GlobalConfig().currentColor);
+      color: color ?? Global().currentColor);
 }

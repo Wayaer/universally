@@ -4,12 +4,15 @@ import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:flutter/material.dart';
+import 'package:universally/dependencies/ios_macos_setting.dart';
 import 'package:universally/universally.dart';
+
+import 'page/android_system_setting.dart';
 
 Future<void> main() async {
   isBeta = true;
 
-  await GlobalConfig().setDefaultConfig(ProjectConfig(
+  await Global().setDefaultConfig(ProjectConfig(
       mainColor: Colors.purple.shade900,
       textColor: TextColor(
           largeColor: const Color(0xFF292929),
@@ -27,7 +30,7 @@ Future<void> main() async {
       betaApi: '这是设置测试Api',
       releaseApi: '这里设置发布版Api',
       toastOptions: const ToastOptions(ignoring: false)));
-
+  BasicPackageInfo().initialize();
   runApp(BasicApp(
       title: 'Universally',
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
@@ -100,6 +103,14 @@ class HomePage extends StatelessWidget {
           Button(onTap: showLoading, text: 'showLoading'),
           Button(
               onTap: () async {
+                final res = await getPermission(
+                    Permission.requestInstallPackages,
+                    alert: '请求安装app权限');
+                showToast(res.toString());
+              },
+              text: 'requestInstallPackages'),
+          Button(
+              onTap: () async {
                 final res = await getPermission(Permission.camera,
                     alert: '本服务需要访问您的“相机”，以修改头像或上传图片');
                 showToast(res.toString());
@@ -115,6 +126,31 @@ class HomePage extends StatelessWidget {
                 showToast(res.toString());
               },
               text: 'getPermissions'),
+          Button(
+              onTap: () {
+                UrlLauncher().openAppStore(
+                    packageName: 'com.tencent.mobileqq',
+                    appId: isIOS ? '444934666' : '451108668');
+              },
+              text: 'openAppStore'),
+          Button(
+              onTap: () async {
+                final result = await UrlLauncher().isInstalledApp(
+                    packageName: 'com.tencent.mobileqq',
+                    appId: isIOS ? '444934666' : '451108668');
+                showToast(result.toString());
+              },
+              text: 'isInstalledApp'),
+          Button(
+              onTap: () {
+                push(const AndroidSystemSettingPage());
+              },
+              text: 'AndroidSystemSetting'),
+          Button(
+              onTap: () {
+                UrlLauncher().openUrl(IOSSettingUrl.notifications.value);
+              },
+              text: 'IOSSystemSetting'),
         ]));
   }
 }
@@ -132,8 +168,8 @@ class Button extends Universal {
             child: child ??
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             decoration: BoxDecoration(
-                border: Border.all(color: GlobalConfig().currentColor),
-                color: GlobalConfig().currentColor,
+                border: Border.all(color: Global().currentColor),
+                color: Global().currentColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

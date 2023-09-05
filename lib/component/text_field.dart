@@ -397,7 +397,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
             borderRadius: widget.borderRadius,
             focusBorderSide: widget.hasFocusChangeBorder
                 ? widget.focusBorderSide ??
-                    BorderSide(color: GlobalConfig().currentColor)
+                    BorderSide(color: Global().currentColor)
                 : null,
             borderSide: widget.borderSide,
             constraints: const BoxConstraints(minHeight: 35),
@@ -432,11 +432,11 @@ class _BasicTextFieldState extends State<BasicTextField> {
                 decoration: const BoxDecoration(color: Colors.transparent),
                 placeholder: widget.hintText,
                 placeholderStyle: TStyle(
-                        color: GlobalConfig().config.textColor?.smallColor,
+                        color: Global().config.textColor?.smallColor,
                         fontSize: 13)
                     .merge(widget.hintStyle),
                 style:
-                    TStyle(color: GlobalConfig().config.textColor?.defaultColor)
+                    TStyle(color: Global().config.textColor?.defaultColor)
                         .merge(widget.style),
                 keyboardType: widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
@@ -459,7 +459,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
                     ? null
                     : () => widget.onEditingComplete!.call(controller),
                 showCursor: widget.showCursor,
-                cursorColor: GlobalConfig().currentColor,
+                cursorColor: Global().currentColor,
                 cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
@@ -551,27 +551,27 @@ class _BasicTextFieldState extends State<BasicTextField> {
         builder: (SendState state, int i) {
           switch (state) {
             case SendState.none:
-              return TextDefault('发送验证码', color: GlobalConfig().currentColor);
+              return TextDefault('发送验证码', color: Global().currentColor);
             case SendState.sending:
-              return TextDefault('发送中', color: GlobalConfig().currentColor);
+              return TextDefault('发送中', color: Global().currentColor);
             case SendState.resend:
-              return TextDefault('重新发送', color: GlobalConfig().currentColor);
+              return TextDefault('重新发送', color: Global().currentColor);
             case SendState.countDown:
-              return TextDefault('$i s', color: GlobalConfig().currentColor);
+              return TextDefault('$i s', color: Global().currentColor);
           }
         },
         onTap: widget.sendSMSTap);
   }
 
   Widget get buildSearchIcon => Icon(UIS.search,
-          size: 20, color: GlobalConfig().config.textColor?.smallColor)
+          size: 20, color: Global().config.textColor?.smallColor)
       .paddingOnly(left: 10);
 
   Widget get buildClearIcon => IconBox(
       size: 18,
       padding: const EdgeInsets.only(right: 10),
       icon: UIS.clear,
-      color: GlobalConfig().config.textColor?.defaultColor,
+      color: Global().config.textColor?.defaultColor,
       onTap: () {
         controller.clear();
         if (widget.onChanged != null) widget.onChanged!('');
@@ -585,7 +585,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
         if (mounted) setState(() {});
       },
       child: Icon(obscureText.value ? WayIcons.eyeClose : WayIcons.eyeOpen,
-          color: GlobalConfig().config.textColor?.defaultColor, size: 20));
+          color: Global().config.textColor?.defaultColor, size: 20));
 
   @override
   void didUpdateWidget(covariant BasicTextField oldWidget) {
