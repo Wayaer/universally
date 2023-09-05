@@ -180,8 +180,8 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
     addPostFrameCallback((_) async {
       widget.initState?.call(context);
       if (isDebug && isDesktop) {
-        await Curiosity().desktop.focusDesktop();
-        final state = await Curiosity().desktop.setDesktopSizeTo5P8();
+        await Curiosity().desktop.focus();
+        final state = await Curiosity().desktop.setSizeTo5P8();
         log('桌面端限制宽高 $state');
       }
     });

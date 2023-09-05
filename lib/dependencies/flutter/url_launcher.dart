@@ -83,7 +83,7 @@ class UrlLauncher {
     if ((isIOS || isMacOS) && appId.isNotEmptyOrNull) {
       return await canLaunchUrl(Uri.parse(appId!));
     } else if (isAndroid && packageName.isNotEmptyOrNull) {
-      final appList = await Curiosity().native.installedApps;
+      final appList = await Curiosity().native.getInstalledApps;
       bool installed = false;
       for (var element in appList) {
         if (element.packageName == packageName) {
