@@ -16,7 +16,7 @@ dependencies:
   json_annotation: ^4.8.1
   carousel_slider: ^4.2.1
   provider: ^6.0.5
-  flutter_curiosity: ^5.0.1
+  flutter_curiosity: ^5.0.2
   flutter_svg: ^2.0.7
   flutter_waya: ^8.1.0
   permission_handler: ^10.4.5

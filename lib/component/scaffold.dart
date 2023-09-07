@@ -397,19 +397,18 @@ class BasicAppBar extends AppBar {
     super.toolbarOpacity = 1.0,
     super.toolbarTextStyle,
   }) : super(
-            title: title ?? (titleText == null ? null : Text(titleText)),
+            title: title ?? (titleText == null ? null : TextLarge(titleText)),
             leading: enableLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
                 : const SizedBox(),
-            actions: actions ??
-                [
-                  if (action != null)
-                    Container(
-                        width: 100,
-                        alignment: Alignment.centerRight,
-                        margin: const EdgeInsets.only(right: 16),
-                        child: action)
-                ]);
+            actions: [
+              if (actions != null && actions.isNotEmpty) ...actions,
+              if (action != null)
+                Universal(
+                    color: Colors.red,
+                    margin: const EdgeInsets.only(right: 12),
+                    child: action)
+            ]);
 }
 
 class BackIcon extends IconButton {

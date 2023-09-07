@@ -74,9 +74,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicScaffold(
-        padding: EdgeInsets.fromLTRB(15, context.statusBarHeight + 15, 15,
-            context.bottomNavigationBarHeight + 15),
-        isScroll: true,
+        enableLeading: false,
+        appBarTitleText: 'Universally',
+        safeBottom: true,
         isRootPage: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
