@@ -85,7 +85,7 @@ class BasicScaffold extends StatelessWidget {
 
     /// ****** [AppBar] ****** ///
     this.appBar,
-    this.appBarHeight = 24,
+    this.appBarHeight,
     this.elevation,
     this.appBarTitle,
     this.appBarTitleText,
@@ -161,7 +161,7 @@ class BasicScaffold extends StatelessWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   /// 限制 [appBar] 高度
-  final double appBarHeight;
+  final double? appBarHeight;
 
   /// Scaffold相关属性
   final Color? backgroundColor;
@@ -328,9 +328,8 @@ class BasicScaffold extends StatelessWidget {
             : null);
 
     if (current == null) return null;
-
     return PreferredSize(
-        preferredSize: Size.fromHeight(context.padding.top + appBarHeight),
+        preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
         child: current);
   }
 
