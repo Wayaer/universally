@@ -237,8 +237,7 @@ class BasicScaffold extends StatelessWidget {
     final Widget scaffold = Scaffold(
         key: key,
         primary: primary,
-        backgroundColor:
-            backgroundColor ,
+        backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         drawerDragStartBehavior: drawerDragStartBehavior,
         extendBodyBehindAppBar: extendBodyBehindAppBar,

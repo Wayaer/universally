@@ -111,11 +111,7 @@ class BasicPlaceholder extends StatelessWidget {
           spacing: 10,
           widget: Icon(WayIcons.empty,
               size: 80,
-              color: Global()
-                  .config
-                  .textColor
-                  ?.smallColor
-                  ?.withOpacity(0.3)),
+              color: Global().config.textColor?.smallColor?.withOpacity(0.3)),
           title: TextSmall('什么也没有哎~', fontType: FontType.medium)));
 }
 
@@ -130,7 +126,7 @@ class BasicSwitch extends ChangedBuilder<bool> {
     super.onWaitChanged,
   }) : super(
             builder: (bool value, onChanged) => XSwitch(
-                activeColor: activeColor ?? Global().currentColor,
+                activeColor: activeColor ?? Global().mainColor,
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 value: value,
@@ -152,7 +148,7 @@ class BasicCupertinoSwitch extends ChangedBuilder<bool> {
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 activeTrackColor: activeTrackColor,
-                activeColor: activeColor ?? Global().currentColor,
+                activeColor: activeColor ?? Global().mainColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -168,7 +164,7 @@ class BasicCheckbox extends ChangedBuilder<bool?> {
   }) : super(
             builder: (bool? value, onChanged) => Checkbox(
                 shape: shape,
-                activeColor: activeColor ?? Global().currentColor,
+                activeColor: activeColor ?? Global().mainColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -192,8 +188,8 @@ class UButton extends Universal {
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
-                border: Border.all(color: Global().currentColor),
-                color: color ?? Global().currentColor,
+                border: Border.all(color: Global().mainColor),
+                color: color ?? Global().mainColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

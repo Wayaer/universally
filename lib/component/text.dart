@@ -250,5 +250,3 @@ class TextShowPage extends StatelessWidget {
           child: TextDefault(text,
               maxLines: 100, color: UCS.black, fontSize: 15)));
 }
-
-

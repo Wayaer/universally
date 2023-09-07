@@ -9,11 +9,11 @@ class SwitchApiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconBox(
       icon: UIS.settingApi,
-      color: color ?? Global().currentColor,
+      color: color ?? Global().mainColor,
       visible: isBeta,
       size: 18,
       onTap: () => push(_SwitchApiPage()),
-      title: TextDefault('切换API', color: color ?? Global().currentColor));
+      title: TextDefault('切换API', color: color ?? Global().mainColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -31,27 +31,26 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   @override
   Widget build(BuildContext context) {
     httpStr = 'http${isHttps ? 's' : ''}://';
-    final defaultUrl = isBeta
-        ? Global().config.betaApi
-        : Global().config.releaseApi;
+    final defaultUrl =
+        isBeta ? Global().config.betaApi : Global().config.releaseApi;
     return BasicScaffold(
         isScroll: true,
         safeBottom: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: '切换服务器',
         children: [
-          TextVeryLarge('*本功能为测试版专用', color: Global().currentColor),
+          TextVeryLarge('*本功能为测试版专用', color: Global().mainColor),
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TextDefault('默认服务器地址为：'),
             showApi(defaultUrl),
             TextDefault('当前服务器地址为：'),
-            showApi(Global().currentApi),
+            showApi(Global().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextDefault('使用https：'),
               BasicSwitch(
                   value: isHttps,
-                  activeColor: Global().currentColor,
+                  activeColor: Global().mainColor,
                   onChanged: (bool? value) {
                     isHttps = !isHttps;
                     setState(() {});
@@ -115,19 +114,19 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             TextDefault('始终使用正式服务器').expandedNull,
             BasicSwitch(
                 value: isRelease,
-                activeColor: Global().currentColor,
+                activeColor: Global().mainColor,
                 onChanged: (bool? value) {
                   isRelease = !isRelease;
                   setState(() {});
                 })
           ]),
           TextDefault('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-              maxLines: 3, color: Global().currentColor),
+              maxLines: 3, color: Global().mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('开启接口请求日志打印：'),
             BasicSwitch(
                 value: isDebugger,
-                activeColor: Global().currentColor,
+                activeColor: Global().mainColor,
                 onChanged: (bool? value) async {
                   isDebugger = !isDebugger;
                   setState(() {});

@@ -166,8 +166,8 @@ class Button extends Universal {
             child: child ??
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             decoration: BoxDecoration(
-                border: Border.all(color: Global().currentColor),
-                color: Global().currentColor,
+                border: Border.all(color: Global().mainColor),
+                color: Global().mainColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

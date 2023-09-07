@@ -170,10 +170,10 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
   @override
   void initState() {
     if (widget.navigatorKey != null) {
-      GlobalOptions().navigatorKey = widget.navigatorKey!;
+      GlobalWayUI().navigatorKey = widget.navigatorKey!;
     }
     if (widget.scaffoldMessengerKey != null) {
-      GlobalOptions().scaffoldMessengerKey = widget.scaffoldMessengerKey!;
+      GlobalWayUI().scaffoldMessengerKey = widget.scaffoldMessengerKey!;
     }
     super.initState();
     addObserver(this);
@@ -221,8 +221,8 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
               child: current);
           return current;
         },
-        navigatorKey: GlobalOptions().navigatorKey,
-        scaffoldMessengerKey: GlobalOptions().scaffoldMessengerKey,
+        navigatorKey: GlobalWayUI().navigatorKey,
+        scaffoldMessengerKey: GlobalWayUI().scaffoldMessengerKey,
         routes: widget.routes,
         initialRoute: widget.initialRoute,
         onGenerateRoute: widget.onGenerateRoute,

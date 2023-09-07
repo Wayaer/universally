@@ -5,8 +5,8 @@ import 'package:universally/universally.dart';
 class BasicMaterialHeader extends MaterialHeader {
   BasicMaterialHeader({Color? color})
       : super(
-            valueColor: AlwaysStoppedAnimation<Color>(
-                color ?? Global().currentColor),
+            valueColor:
+                AlwaysStoppedAnimation<Color>(color ?? Global().mainColor),
             backgroundColor: UCS.transparent);
 }
 

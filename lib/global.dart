@@ -141,12 +141,12 @@ class Global {
   /// alert 确认按钮颜色
   /// [AssetSelect]  Badge 背景色
   /// [BasicLoading] loading 颜色
-  late Color currentColor;
+  late Color mainColor;
 
   /// 当前项目使用的 url
-  late String _currentApi;
+  late String _baseApi;
 
-  String get currentApi => _currentApi;
+  String get baseApi => _baseApi;
 
   /// 项目配置信息
   ProjectConfig _config = ProjectConfig(mainColor: UCS.mainBlack);
@@ -176,48 +176,48 @@ class Global {
     /// 初始化本地储存
     await BHP().init();
 
-    currentColor = config.mainColor;
+    mainColor = config.mainColor;
     final bool isRelease = BHP().getBool(UConst.isRelease) ?? false;
     if (isBeta && !isRelease) {
-      _currentApi = config.betaApi;
+      _baseApi = config.betaApi;
       final String? localApi = BHP().getString(UConst.localApi);
-      if (localApi != null && localApi.length > 5) _currentApi = localApi;
+      if (localApi != null && localApi.length > 5) _baseApi = localApi;
       isDebugger = BHP().getBool(UConst.isDebugger) ?? true;
     } else {
       isBeta = false;
-      _currentApi = config.releaseApi;
+      _baseApi = config.releaseApi;
     }
 
     /// 设置toast
     /// Set the toast
-    GlobalOptions().toastOptions = config.toastOptions;
+    GlobalWayUI().toastOptions = config.toastOptions;
 
     /// 设置全局log 是否显示 分割线
-    GlobalOptions().logCrossLine = config.logCrossLine;
+    GlobalWayUI().logCrossLine = config.logCrossLine;
 
     /// 设置全局 [ModalWindows] 组件配置信息
     if (config.modalWindowsOptions != null) {
-      GlobalOptions().modalWindowsOptions = config.modalWindowsOptions!;
+      GlobalWayUI().modalWindowsOptions = config.modalWindowsOptions!;
     }
 
     /// 全局 [DialogOptions] 配置信息
     if (config.generalDialogOptions != null) {
-      GlobalOptions().dialogOptions = config.generalDialogOptions!;
+      GlobalWayUI().dialogOptions = config.generalDialogOptions!;
     }
 
     /// 全局 [BottomSheetOptions] 配置信息
     if (config.bottomSheetOptions != null) {
-      GlobalOptions().bottomSheetOptions = config.bottomSheetOptions!;
+      GlobalWayUI().bottomSheetOptions = config.bottomSheetOptions!;
     }
 
     /// 全局 [WheelOptions] 配置信息
     if (config.wheelOptions != null) {
-      GlobalOptions().wheelOptions = config.wheelOptions!;
+      GlobalWayUI().wheelOptions = config.wheelOptions!;
     }
 
     /// 全局 [LoadingOptions] 配置信息
     final loading = config.loadingBuilder?.call(const BasicLoading());
-    GlobalOptions().loadingOptions = LoadingOptions(
+    GlobalWayUI().loadingOptions = LoadingOptions(
         custom: loading,
         style: LoadingStyle.circular,
         options: const ModalWindowsOptions(absorbing: true)
@@ -225,6 +225,6 @@ class Global {
 
     /// 设置页面转场样式
     /// Set the page transition style
-    GlobalOptions().pushStyle = config.pushStyle;
+    GlobalWayUI().pushStyle = config.pushStyle;
   }
 }

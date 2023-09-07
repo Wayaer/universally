@@ -397,7 +397,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
             borderRadius: widget.borderRadius,
             focusBorderSide: widget.hasFocusChangeBorder
                 ? widget.focusBorderSide ??
-                    BorderSide(color: Global().currentColor)
+                    BorderSide(color: Global().mainColor)
                 : null,
             borderSide: widget.borderSide,
             constraints: const BoxConstraints(minHeight: 35),
@@ -435,9 +435,8 @@ class _BasicTextFieldState extends State<BasicTextField> {
                         color: Global().config.textColor?.smallColor,
                         fontSize: 13)
                     .merge(widget.hintStyle),
-                style:
-                    TStyle(color: Global().config.textColor?.defaultColor)
-                        .merge(widget.style),
+                style: TStyle(color: Global().config.textColor?.defaultColor)
+                    .merge(widget.style),
                 keyboardType: widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
@@ -459,7 +458,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
                     ? null
                     : () => widget.onEditingComplete!.call(controller),
                 showCursor: widget.showCursor,
-                cursorColor: Global().currentColor,
+                cursorColor: Global().mainColor,
                 cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
@@ -551,21 +550,21 @@ class _BasicTextFieldState extends State<BasicTextField> {
         builder: (SendState state, int i) {
           switch (state) {
             case SendState.none:
-              return TextDefault('发送验证码', color: Global().currentColor);
+              return TextDefault('发送验证码', color: Global().mainColor);
             case SendState.sending:
-              return TextDefault('发送中', color: Global().currentColor);
+              return TextDefault('发送中', color: Global().mainColor);
             case SendState.resend:
-              return TextDefault('重新发送', color: Global().currentColor);
+              return TextDefault('重新发送', color: Global().mainColor);
             case SendState.countDown:
-              return TextDefault('$i s', color: Global().currentColor);
+              return TextDefault('$i s', color: Global().mainColor);
           }
         },
         onTap: widget.sendSMSTap);
   }
 
-  Widget get buildSearchIcon => Icon(UIS.search,
-          size: 20, color: Global().config.textColor?.smallColor)
-      .paddingOnly(left: 10);
+  Widget get buildSearchIcon =>
+      Icon(UIS.search, size: 20, color: Global().config.textColor?.smallColor)
+          .paddingOnly(left: 10);
 
   Widget get buildClearIcon => IconBox(
       size: 18,
