@@ -34,17 +34,20 @@ export 'component/cache.dart';
 export 'component/basic_app.dart';
 
 /// dependencies
-export 'dependencies/flutter/connectivity.dart';
+
 export 'dependencies/dio.dart';
 export 'dependencies/hive.dart';
-export 'dependencies/permission_handler.dart';
 export 'dependencies/svg.dart';
-export 'dependencies/flutter/url_launcher.dart';
 export 'dependencies/carousel_slider.dart';
 export 'dependencies/extended_image.dart';
-export 'dependencies/flutter/path_provider.dart';
-export 'dependencies/flutter/package_info.dart';
-export 'dependencies/flutter/android_intent.dart';
+
+/// dependencies/plugin
+export 'dependencies/plugin/permission_handler.dart';
+export 'dependencies/plugin/url_launcher.dart';
+export 'dependencies/plugin/connectivity.dart';
+export 'dependencies/plugin/path_provider.dart';
+export 'dependencies/plugin/package_info.dart';
+export 'dependencies/plugin/android_intent.dart';
 
 /// global
 export 'global.dart';
