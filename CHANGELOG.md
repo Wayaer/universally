@@ -1,4 +1,8 @@
-## 5.3.0
+## 6.0.0
+
+* Change all `Basic` to `Base`
+* `GlobalConfig` is changed to `Global`
+* Change `ProjectConfig` to `GlobalConfig`
 
 ## 5.2.2
 
