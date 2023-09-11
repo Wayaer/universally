@@ -1,11 +1,11 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
-class BasicPackageInfo {
-  factory BasicPackageInfo() => _singleton ??= BasicPackageInfo._();
+class BasePackageInfo {
+  factory BasePackageInfo() => _singleton ??= BasePackageInfo._();
 
-  BasicPackageInfo._();
+  BasePackageInfo._();
 
-  static BasicPackageInfo? _singleton;
+  static BasePackageInfo? _singleton;
 
   PackageInfo? _packageInfo;
 

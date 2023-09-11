@@ -31,7 +31,7 @@ export 'component/tab_bar.dart';
 export 'component/user_privacy.dart';
 export 'component/switch_api.dart';
 export 'component/cache.dart';
-export 'component/basic_app.dart';
+export 'component/base_app.dart';
 
 /// dependencies
 

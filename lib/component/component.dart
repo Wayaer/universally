@@ -26,8 +26,8 @@ class BottomPadding extends StatelessWidget {
       child: child);
 }
 
-class BasicDivider extends Divider {
-  const BasicDivider(
+class BaseDivider extends Divider {
+  const BaseDivider(
       {super.color = UCS.background,
       super.key,
       super.endIndent,
@@ -48,36 +48,35 @@ extension ExtensionNotificationListener on Widget {
 }
 
 /// 局部 异步加载数据
-class BasicFutureBuilder<T> extends CustomFutureBuilder<T> {
-  BasicFutureBuilder({
+class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
+  BaseFutureBuilder({
     super.key,
     super.initialData,
     required super.future,
     required super.onDone,
     CustomFutureBuilderNone? onNone,
   }) : super(
-            onNone:
-                onNone ?? (_, __) => const Center(child: BasicPlaceholder()),
-            onWaiting: (_) => const Center(child: BasicLoading()),
-            onError: (_, __, reset) => BasicError(onTap: reset));
+            onNone: onNone ?? (_, __) => const Center(child: BasePlaceholder()),
+            onWaiting: (_) => const Center(child: BaseLoading()),
+            onError: (_, __, reset) => BaseError(onTap: reset));
 }
 
 /// 局部 异步加载数据
-class BasicStreamBuilder<T> extends CustomStreamBuilder<T> {
-  BasicStreamBuilder({
+class BaseStreamBuilder<T> extends CustomStreamBuilder<T> {
+  BaseStreamBuilder({
     super.key,
     super.initialData,
     required super.stream,
     required super.onDone,
     CustomBuilderContext? onNone,
   }) : super(
-            onNone: onNone ?? (_) => const Center(child: BasicPlaceholder()),
-            onWaiting: (_) => const Center(child: BasicLoading()),
-            onError: (_, __) => const BasicError());
+            onNone: onNone ?? (_) => const Center(child: BasePlaceholder()),
+            onWaiting: (_) => const Center(child: BaseLoading()),
+            onError: (_, __) => const BaseError());
 }
 
-class BasicError extends StatelessWidget {
-  const BasicError({super.key, this.onTap});
+class BaseError extends StatelessWidget {
+  const BaseError({super.key, this.onTap});
 
   final GestureTapCallback? onTap;
 
@@ -94,8 +93,8 @@ class BasicError extends StatelessWidget {
           title: TextDefault('加载失败，点击刷新', fontType: FontType.medium)));
 }
 
-class BasicPlaceholder extends StatelessWidget {
-  const BasicPlaceholder(
+class BasePlaceholder extends StatelessWidget {
+  const BasePlaceholder(
       {super.key, this.onTap, this.padding = const EdgeInsets.only(top: 100)});
 
   final GestureTapCallback? onTap;
@@ -115,8 +114,8 @@ class BasicPlaceholder extends StatelessWidget {
           title: TextSmall('什么也没有哎~', fontType: FontType.medium)));
 }
 
-class BasicSwitch extends ChangedBuilder<bool> {
-  BasicSwitch({
+class BaseSwitch extends ChangedBuilder<bool> {
+  BaseSwitch({
     super.key,
     required super.value,
     Color? activeColor,
@@ -133,8 +132,8 @@ class BasicSwitch extends ChangedBuilder<bool> {
                 onChanged: onChanged));
 }
 
-class BasicCupertinoSwitch extends ChangedBuilder<bool> {
-  BasicCupertinoSwitch({
+class BaseCupertinoSwitch extends ChangedBuilder<bool> {
+  BaseCupertinoSwitch({
     super.key,
     required super.value,
     Color? activeColor,
@@ -153,8 +152,8 @@ class BasicCupertinoSwitch extends ChangedBuilder<bool> {
                 onChanged: onChanged));
 }
 
-class BasicCheckbox extends ChangedBuilder<bool?> {
-  BasicCheckbox({
+class BaseCheckbox extends ChangedBuilder<bool?> {
+  BaseCheckbox({
     super.key,
     required super.value,
     Color? activeColor,

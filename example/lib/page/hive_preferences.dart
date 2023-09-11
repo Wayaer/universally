@@ -20,7 +20,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
+    return BaseScaffold(
         isScroll: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'BHP Demo',

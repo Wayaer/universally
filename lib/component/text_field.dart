@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-class BasicTextField extends StatefulWidget {
-  const BasicTextField(
+class BaseTextField extends StatefulWidget {
+  const BaseTextField(
       {super.key,
       this.value,
       this.controller,
@@ -313,10 +313,10 @@ class BasicTextField extends StatefulWidget {
   final SpellCheckConfiguration? spellCheckConfiguration;
 
   @override
-  State<BasicTextField> createState() => _BasicTextFieldState();
+  State<BaseTextField> createState() => _BaseTextFieldState();
 }
 
-class _BasicTextFieldState extends State<BasicTextField> {
+class _BaseTextFieldState extends State<BaseTextField> {
   late TextEditingController controller;
   ValueNotifier<bool> obscureText = ValueNotifier(true);
   late FocusNode focusNode;
@@ -524,7 +524,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   Widget? get buildHeader {
     List<Widget> headerRow = [];
     if (widget.labelText != null) {
-      headerRow.add(BasicText(widget.labelText, style: widget.labelStyle));
+      headerRow.add(BaseText(widget.labelText, style: widget.labelStyle));
     }
     if (widget.header != null) headerRow.add(widget.header!);
     if (headerRow.isNotEmpty) {
@@ -587,7 +587,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
           color: Global().config.textColor?.defaultColor, size: 20));
 
   @override
-  void didUpdateWidget(covariant BasicTextField oldWidget) {
+  void didUpdateWidget(covariant BaseTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) controller.text = widget.value ?? '';
   }

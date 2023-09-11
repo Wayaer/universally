@@ -37,11 +37,11 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-typedef BasicDioErrorIntercept = List<InterceptorError> Function(
+typedef BaseDioErrorIntercept = List<InterceptorError> Function(
     String path, dynamic tag);
 
-class BasicDioOptions extends BaseOptions {
-  BasicDioOptions({
+class BaseDioOptions extends BaseOptions {
+  BaseDioOptions({
     /// 接收超时时间
     super.receiveTimeout = const Duration(seconds: 5),
 
@@ -103,7 +103,7 @@ class BasicDioOptions extends BaseOptions {
   ValueCallbackUri? extraUri;
 
   /// 错误拦截;
-  BasicDioErrorIntercept? errorIntercept;
+  BaseDioErrorIntercept? errorIntercept;
 
   /// 不打印 返回 data 的 api
   List<String> filteredApi;
@@ -117,16 +117,16 @@ class BasicDioOptions extends BaseOptions {
   /// 上传的Type
   String? uploadContentType;
 
-  /// BasicModel 后台返回状态码
+  /// BaseModel 后台返回状态码
   List<String> codeKeys;
 
-  /// BasicModel 后台返回message
+  /// BaseModel 后台返回message
   List<String> msgKeys;
 
-  /// BasicModel 后台返回具体数据
+  /// BaseModel 后台返回具体数据
   List<String> dataKeys;
 
-  /// BasicModel 后台返回扩展数据
+  /// BaseModel 后台返回扩展数据
   List<String> extensionKeys;
 
   /// 后台返回成功的状态码
@@ -144,22 +144,22 @@ class BasicDioOptions extends BaseOptions {
   bool pullHideLoading;
 }
 
-class BasicDio {
-  factory BasicDio() => _singleton ??= BasicDio._();
+class BaseDio {
+  factory BaseDio() => _singleton ??= BaseDio._();
 
-  BasicDio._();
+  BaseDio._();
 
-  static BasicDio? _singleton;
+  static BaseDio? _singleton;
 
   late ExtendedDio dio;
 
   bool hasLoading = false;
 
-  BasicDioOptions basicDioOptions = BasicDioOptions();
+  BaseDioOptions basicDioOptions = BaseDioOptions();
 
-  BasicDio initialize({
-    BasicDioOptions? options,
-    BasicDioOptions? downloadOptions,
+  BaseDio initialize({
+    BaseDioOptions? options,
+    BaseDioOptions? downloadOptions,
     HttpClientAdapter? httpClientAdapter,
     Transformer? transformer,
     List<InterceptorsWrapper> interceptors = const [],
@@ -179,7 +179,7 @@ class BasicDio {
     return this;
   }
 
-  Future<BasicModel> get<T>(
+  Future<BaseModel> get<T>(
     String path, {
     dynamic tag,
     Map<String, dynamic>? params,
@@ -193,13 +193,13 @@ class BasicDio {
     _addLoading(loading);
     final res = await dio.get<T>(path,
         data: data,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         cancelToken: cancelToken,
         params: basicDioOptions.extraParams?.call(path, params) ?? params);
     return _response(res, tag);
   }
 
-  Future<BasicModel> getUri<T>(
+  Future<BaseModel> getUri<T>(
     Uri uri, {
     dynamic tag,
     Object? data,
@@ -214,11 +214,11 @@ class BasicDio {
     final res = await dio.getUri<T>(uri,
         data: data,
         cancelToken: cancelToken,
-        options: _initBasicOptions(options, uri.path));
+        options: _initBaseOptions(options, uri.path));
     return _response(res, tag);
   }
 
-  Future<BasicModel> post<T>(
+  Future<BaseModel> post<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -236,7 +236,7 @@ class BasicDio {
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
     final res = await dio.post<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -245,7 +245,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> postUri<T>(
+  Future<BaseModel> postUri<T>(
     Uri uri, {
     Object? data,
     bool dataToJson = true,
@@ -262,7 +262,7 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -270,7 +270,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> put<T>(
+  Future<BaseModel> put<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -287,7 +287,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -296,7 +296,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> putUri<T>(
+  Future<BaseModel> putUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -313,7 +313,7 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.putUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -321,7 +321,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> delete<T>(
+  Future<BaseModel> delete<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -336,14 +336,14 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> deleteUri<T>(
+  Future<BaseModel> deleteUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -358,13 +358,13 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.deleteUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> patch<T>(
+  Future<BaseModel> patch<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -381,7 +381,7 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -390,7 +390,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> patchUri<T>(
+  Future<BaseModel> patchUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -407,7 +407,7 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.patchUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -415,7 +415,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> head<T>(
+  Future<BaseModel> head<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -430,14 +430,14 @@ class BasicDio {
     _addLoading(loading);
     data = basicDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> headUri<T>(
+  Future<BaseModel> headUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -452,13 +452,13 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.headUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
   }
 
-  Future<BasicModel> request<T>(
+  Future<BaseModel> request<T>(
     String path, {
     Map<String, dynamic>? params,
     Object? data,
@@ -476,7 +476,7 @@ class BasicDio {
     data = basicDioOptions.extraData?.call(path, data) ?? data;
 
     final res = await dio.request<T>(path,
-        options: _initBasicOptions(options, path),
+        options: _initBaseOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
         params: basicDioOptions.extraParams?.call(path, params) ?? params,
@@ -485,7 +485,7 @@ class BasicDio {
     return _response(res, tag);
   }
 
-  Future<BasicModel> requestUri<T>(
+  Future<BaseModel> requestUri<T>(
     Uri uri, {
     Object? data,
     dynamic tag,
@@ -502,7 +502,7 @@ class BasicDio {
     data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.requestUri<T>(uri,
-        options: _initBasicOptions(options, uri.path),
+        options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -512,7 +512,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> upload<T>(String path, Object? data,
+  Future<BaseModel> upload<T>(String path, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -526,7 +526,7 @@ class BasicDio {
     _addLoading(loading);
     final res = await dio.post<T>(path,
         data: basicDioOptions.extraData?.call(path, data) ?? data,
-        options: _initBasicOptions(options, path)
+        options: _initBaseOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -536,7 +536,7 @@ class BasicDio {
 
   /// 文件上传
   /// File upload
-  Future<BasicModel> uploadUri<T>(Uri uri, Object? data,
+  Future<BaseModel> uploadUri<T>(Uri uri, Object? data,
       {ProgressCallback? onSendProgress,
       ProgressCallback? onReceiveProgress,
       bool? loading,
@@ -551,7 +551,7 @@ class BasicDio {
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
         data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
-        options: _initBasicOptions(options, uri.path)
+        options: _initBaseOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
@@ -561,7 +561,7 @@ class BasicDio {
 
   /// 文件下载
   /// File download
-  Future<BasicModel> download(String path, String savePath,
+  Future<BaseModel> download(String path, String savePath,
       {bool? loading,
       dynamic tag,
       Options? options,
@@ -580,7 +580,7 @@ class BasicDio {
     data = basicDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBasicOptions(options, path)
+        options: _initBaseOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
@@ -591,7 +591,7 @@ class BasicDio {
 
   /// 文件下载
   /// File download
-  Future<BasicModel> downloadUri(Uri uri, String savePath,
+  Future<BaseModel> downloadUri(Uri uri, String savePath,
       {bool? loading,
       dynamic tag,
       Options? options,
@@ -611,7 +611,7 @@ class BasicDio {
     uri = basicDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBasicOptions(options, uri.path)
+        options: _initBaseOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
@@ -634,17 +634,17 @@ class BasicDio {
   }
 
   bool get hasNetWork {
-    var network = BasicConnectivity().networkAvailability;
+    var network = BaseConnectivity().networkAvailability;
     if (!network) {
-      BasicConnectivity().checkConnectivity();
+      BaseConnectivity().checkConnectivity();
       _removeLoading();
       1.seconds.delayed(_sendRefreshStatus);
     }
     return !network;
   }
 
-  BasicModel get notNetWorkModel =>
-      BasicModel(data: null, code: '500', msg: '无法连接服务器');
+  BaseModel get notNetWorkModel =>
+      BaseModel(data: null, code: '500', msg: '无法连接服务器');
 
   void _sendRefreshStatus() {
     if (pullDown) {
@@ -657,7 +657,7 @@ class BasicDio {
     }
   }
 
-  Options _initBasicOptions(Options? options, String url) {
+  Options _initBaseOptions(Options? options, String url) {
     options ??= Options();
     final Map<String, dynamic> headers = <String, dynamic>{};
     if (basicDioOptions.extraHeader != null) {
@@ -667,10 +667,10 @@ class BasicDio {
     return options.copyWith(headers: headers);
   }
 
-  BasicModel _response(ExtendedResponse res, dynamic tag) {
+  BaseModel _response(ExtendedResponse res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
-    BasicModel baseModel = BasicModel(
+    BaseModel baseModel = BaseModel(
         headers: res.headers.map,
         code: '${res.statusCode}',
         msg: notNetWorkModel.msg,
@@ -680,7 +680,7 @@ class BasicDio {
         original: res);
     Object? data = baseModel.data;
     if (data is ResponseBody) {
-      return BasicModel(
+      return BaseModel(
           headers: data.headers,
           code: '${data.statusCode}',
           msg: data.statusMessage ?? notNetWorkModel.msg,
@@ -695,10 +695,10 @@ class BasicDio {
         log('jsonDecode catch : \n$e');
       }
       if (data is Map) {
-        baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
+        baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
       }
     } else if (data is Map) {
-      baseModel = BasicModel.fromJson(data as Map<String, dynamic>?, res);
+      baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
     }
     var errorIntercepts =
         basicDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
@@ -717,8 +717,8 @@ class BasicDio {
 }
 
 /// 基础解析数据model
-class BasicModel {
-  BasicModel({
+class BaseModel {
+  BaseModel({
     this.data,
     this.extension,
     this.original,
@@ -729,14 +729,14 @@ class BasicModel {
     this.headers,
   });
 
-  BasicModel.fromJson(Map<String, dynamic>? json, ExtendedResponse response) {
+  BaseModel.fromJson(Map<String, dynamic>? json, ExtendedResponse response) {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
     code = statusCode.toString();
     msg = '服务器异常';
     original = response;
     if (json != null) {
-      final dioOptions = BasicDio().basicDioOptions;
+      final dioOptions = BaseDio().basicDioOptions;
       final codeValue = _getValue(dioOptions.codeKeys, json);
       if (codeValue != null) code = codeValue!.toString();
       final msgValue = _getValue(dioOptions.msgKeys, json);
@@ -791,13 +791,13 @@ class BasicModel {
 }
 
 /// nullPass = true   data 为null  返回true
-bool resultSuccessFail(BasicModel data, {String? text, bool nullPass = false}) {
-  if (BasicDio().basicDioOptions.successCode.contains(data.code) &&
+bool resultSuccessFail(BaseModel data, {String? text, bool nullPass = false}) {
+  if (BaseDio().basicDioOptions.successCode.contains(data.code) &&
       (nullPass || data.data != null)) {
     if (text != null) showToast(text);
     return true;
   } else {
-    if (!BasicDio().basicDioOptions.hideMsg.contains(data.msg)) {
+    if (!BaseDio().basicDioOptions.hideMsg.contains(data.msg)) {
       showToast(data.msg);
     }
     return false;
@@ -806,7 +806,7 @@ bool resultSuccessFail(BasicModel data, {String? text, bool nullPass = false}) {
 
 void logJson(dynamic data) {
   try {
-    var json = jsonEncode(data is BasicModel ? data.toMap() : data);
+    var json = jsonEncode(data is BaseModel ? data.toMap() : data);
     log(json);
   } catch (e) {
     log(e);

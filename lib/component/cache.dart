@@ -94,7 +94,7 @@ class _PushStateState extends State<PushSwitchState> {
   }
 
   @override
-  Widget build(BuildContext context) => BasicSwitch(
+  Widget build(BuildContext context) => BaseSwitch(
       value: push,
       onChanged: (value) {
         if (value == push) return;

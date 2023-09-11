@@ -6,14 +6,14 @@ class TextFieldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
+    return BaseScaffold(
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'TextField',
         children: [
           const SizedBox(height: 20),
           TextLarge('新版'),
           const SizedBox(height: 20),
-          BasicTextField(
+          BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
               enableEye: true,
@@ -27,7 +27,7 @@ class TextFieldPage extends StatelessWidget {
                 send(true);
               }),
           const SizedBox(height: 20),
-          BasicTextField(
+          BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
               enableEye: true,

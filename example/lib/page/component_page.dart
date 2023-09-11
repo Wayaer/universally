@@ -7,7 +7,7 @@ class ComponentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
+    return BaseScaffold(
         appBarTitleText: 'Component',
         isScroll: true,
         children: [
@@ -35,7 +35,7 @@ class ComponentPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [TextDefault('清理缓存'), 10.widthBox, const CleanCache()]),
           10.heightBox,
-          const BasicError(),
+          const BaseError(),
         ]);
   }
 }

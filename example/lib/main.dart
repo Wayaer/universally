@@ -9,8 +9,7 @@ import 'page/android_system_setting.dart';
 
 Future<void> main() async {
   isBeta = true;
-
-  await Global().setDefaultConfig(ProjectConfig(
+  await Global().setConfig(GlobalConfig(
       mainColor: Colors.purple.shade900,
       textColor: TextColor(
           largeColor: const Color(0xFF292929),
@@ -18,25 +17,25 @@ Future<void> main() async {
           defaultColor: const Color(0xFF292929),
           styleColor: const Color(0xFF292929),
           smallColor: const Color(0x804D4D4D)),
-      loadingBuilder: (BasicLoading loading) => Container(
+      loadingBuilder: (BaseLoading loading) => Container(
           width: loading.size * 2,
           height: loading.size * 2,
           decoration: BoxDecoration(
               color: UCS.black, borderRadius: BorderRadius.circular(10)),
-          child: const BasicLoading(
+          child: const BaseLoading(
               color: Colors.white, style: SpinKitStyle.fadingCircle)),
       betaApi: '这是设置测试Api',
       releaseApi: '这里设置发布版Api',
       toastOptions: const ToastOptions(ignoring: false)));
-  BasicPackageInfo().initialize();
-  runApp(BasicApp(
+  BasePackageInfo().initialize();
+  runApp(BaseApp(
       title: 'Universally',
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
       theme: ThemeData.light(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
       initState: (context) async {
-        BasicConnectivity().addListener((status, result) async {
+        BaseConnectivity().addListener((status, result) async {
           switch (result) {
             case ConnectivityResult.wifi:
               showToast('use wifi');
@@ -62,7 +61,7 @@ Future<void> main() async {
           }
           return true;
         });
-        BasicConnectivity().subscription(
+        BaseConnectivity().subscription(
             alertUnavailableNetwork: (status, result) =>
                 alertOnlyMessage('Network Unavailable'));
       }));
@@ -73,7 +72,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
+    return BaseScaffold(
         enableLeading: false,
         appBarTitleText: 'Universally',
         safeBottom: true,
@@ -88,10 +87,10 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(child: const SwitchApiButton(color: Colors.white)),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
-          Button(onTap: () => push(const BasicListPage()), text: 'BasicList'),
+          Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(
               onTap: () => push(const HivePreferencesPage()),
-              text: 'BHP(BasicHivePreferences)'),
+              text: 'BHP(BaseHivePreferences)'),
           Button(
               onTap: () {
                 showDoubleChooseAlert(

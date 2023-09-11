@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicListPage extends StatefulWidget {
-  const BasicListPage({Key? key}) : super(key: key);
+class BaseListPage extends StatefulWidget {
+  const BaseListPage({Key? key}) : super(key: key);
 
   @override
-  State<BasicListPage> createState() => _BasicListPageState();
+  State<BaseListPage> createState() => _BaseListPageState();
 }
 
-class _BasicListPageState extends State<BasicListPage> {
+class _BaseListPageState extends State<BaseListPage> {
   List<Color> list = [];
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
-        appBarTitleText: 'BasicList',
-        child: BasicList(
+    return BaseScaffold(
+        appBarTitleText: 'BaseList',
+        child: BaseList(
             itemCount: list.length,
             onRefresh: () async {
               pullDown = true;

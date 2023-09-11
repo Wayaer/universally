@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-typedef LoadingCoreBuilder = Widget? Function(BasicLoading loading);
+typedef LoadingCoreBuilder = Widget? Function(BaseLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
-class ProjectConfig {
-  ProjectConfig({
+class GlobalConfig {
+  GlobalConfig({
     required this.mainColor,
     this.betaApi = '',
     this.releaseApi = '',
@@ -17,7 +17,7 @@ class ProjectConfig {
     this.pullDownHeader,
     this.pullUpFooter,
     this.cachePath,
-    this.placeholder = const BasicPlaceholder(),
+    this.placeholder = const BasePlaceholder(),
     this.toastOptions = const ToastOptions(
         positioned: Alignment.topCenter,
         duration: Duration(seconds: 2),
@@ -53,7 +53,7 @@ class ProjectConfig {
   }
 
   /// alert 确认按钮颜色
-  /// [BasicLoading] loading 颜色
+  /// [BaseLoading] loading 颜色
   Color mainColor;
 
   /// 保存图片和视频的缓存地址
@@ -100,7 +100,7 @@ class ProjectConfig {
   ModalWindowsOptions? loadingModalWindowsOptions;
   LoadingCoreBuilder? loadingBuilder;
 
-  /// [BasicImage] 加载失败时显示的组件
+  /// [BaseImage] 加载失败时显示的组件
   Widget? imageFailed;
 
   /// 字体颜色
@@ -140,7 +140,7 @@ class Global {
 
   /// alert 确认按钮颜色
   /// [AssetSelect]  Badge 背景色
-  /// [BasicLoading] loading 颜色
+  /// [BaseLoading] loading 颜色
   late Color mainColor;
 
   /// 当前项目使用的 url
@@ -149,13 +149,13 @@ class Global {
   String get baseApi => _baseApi;
 
   /// 项目配置信息
-  ProjectConfig _config = ProjectConfig(mainColor: UCS.mainBlack);
+  GlobalConfig _config = GlobalConfig(mainColor: UCS.mainBlack);
 
-  ProjectConfig get config => _config;
+  GlobalConfig get config => _config;
 
   /// 设置app 一些默认参数
-  Future<void> setDefaultConfig(
-    ProjectConfig config, {
+  Future<void> setConfig(
+    GlobalConfig config, {
     bool? enableBeta,
     String? channel,
   }) async {
@@ -216,7 +216,7 @@ class Global {
     }
 
     /// 全局 [LoadingOptions] 配置信息
-    final loading = config.loadingBuilder?.call(const BasicLoading());
+    final loading = config.loadingBuilder?.call(const BaseLoading());
     GlobalWayUI().loadingOptions = LoadingOptions(
         custom: loading,
         style: LoadingStyle.circular,

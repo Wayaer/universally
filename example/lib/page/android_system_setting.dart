@@ -7,15 +7,15 @@ class AndroidSystemSettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
-        appBarTitleText: 'BasicList',
+    return BaseScaffold(
+        appBarTitleText: 'BaseList',
         child: Wrap(
             alignment: WrapAlignment.center,
             children: SettingIntent.values.builder(
               (item) => Button(
                   onTap: () {
                     AndroidSystemSettingIntent(item,
-                            package: BasicPackageInfo().packageName)
+                            package: BasePackageInfo().packageName)
                         .launch();
                   },
                   text: item.name),

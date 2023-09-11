@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicResizeImage extends ExtendedResizeImage {
-  BasicResizeImage.memory(
+class BaseResizeImage extends ExtendedResizeImage {
+  BaseResizeImage.memory(
     Uint8List bytes, {
     double scale = 1.0,
     bool cacheRawData = false,
@@ -26,7 +26,7 @@ class BasicResizeImage extends ExtendedResizeImage {
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName)));
 
-  BasicResizeImage.asset(
+  BaseResizeImage.asset(
     String assetName, {
     AssetBundle? bundle,
     String? package,
@@ -49,7 +49,7 @@ class BasicResizeImage extends ExtendedResizeImage {
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName)));
 
-  BasicResizeImage.file(
+  BaseResizeImage.file(
     File file, {
     double scale = 1.0,
     bool cacheRawData = false,
@@ -70,7 +70,7 @@ class BasicResizeImage extends ExtendedResizeImage {
                 scale: scale,
                 imageCacheName: imageCacheName)));
 
-  BasicResizeImage.network(
+  BaseResizeImage.network(
     String url, {
     double scale = 1.0,
     Map<String, String>? headers,
@@ -110,8 +110,8 @@ class BasicResizeImage extends ExtendedResizeImage {
                 cacheMaxAge: cacheMaxAge)));
 }
 
-class BasicImage extends ExtendedImage {
-  BasicImage(
+class BaseImage extends ExtendedImage {
+  BaseImage(
     ImageProvider image, {
     super.key,
     super.semanticLabel,
@@ -153,7 +153,7 @@ class BasicImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
   }) : super(image: image);
 
-  BasicImage.file(
+  BaseImage.file(
     File? file, {
     super.key,
     super.scale = 1.0,
@@ -204,7 +204,7 @@ class BasicImage extends ExtendedImage {
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
-  BasicImage.memory(
+  BaseImage.memory(
     Uint8List bytes, {
     super.key,
     super.scale = 1.0,
@@ -255,7 +255,7 @@ class BasicImage extends ExtendedImage {
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
-  BasicImage.asset(
+  BaseImage.asset(
     String? name, {
     super.key,
     super.bundle,
@@ -308,7 +308,7 @@ class BasicImage extends ExtendedImage {
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
-  BasicImage.network(
+  BaseImage.network(
     String? url, {
     super.key,
     super.semanticLabel,
@@ -437,7 +437,7 @@ class BasicImage extends ExtendedImage {
     String? package,
   }) {
     if (value is File) {
-      return BasicResizeImage.file(value,
+      return BaseResizeImage.file(value,
           cacheWidth: cacheWidth,
           cacheHeight: cacheHeight,
           maxBytes: maxBytes,
@@ -446,7 +446,7 @@ class BasicImage extends ExtendedImage {
           imageCacheName: imageCacheName,
           scale: scale);
     } else if (value is Uint8List) {
-      return BasicResizeImage.memory(value,
+      return BaseResizeImage.memory(value,
           cacheWidth: cacheWidth,
           cacheHeight: cacheHeight,
           maxBytes: maxBytes,
@@ -456,7 +456,7 @@ class BasicImage extends ExtendedImage {
           scale: scale);
     } else if (value is String) {
       return value.startsWith('http')
-          ? BasicResizeImage.network(value,
+          ? BaseResizeImage.network(value,
               cacheWidth: cacheWidth,
               cacheHeight: cacheHeight,
               maxBytes: maxBytes,
@@ -473,7 +473,7 @@ class BasicImage extends ExtendedImage {
               cacheKey: cacheKey,
               printError: printError,
               cacheMaxAge: cacheMaxAge)
-          : BasicResizeImage.asset(value,
+          : BaseResizeImage.asset(value,
               cacheWidth: cacheWidth,
               cacheHeight: cacheHeight,
               maxBytes: maxBytes,
@@ -483,10 +483,10 @@ class BasicImage extends ExtendedImage {
               bundle: bundle,
               package: package);
     }
-    return BasicResizeImage.asset('');
+    return BaseResizeImage.asset('');
   }
 
-  BasicImage.custom(
+  BaseImage.custom(
     dynamic image, {
     super.key,
     super.semanticLabel,
@@ -619,7 +619,7 @@ class ImageFailed extends StatelessWidget {
   }
 }
 
-class ImageLoading extends BasicLoading {
+class ImageLoading extends BaseLoading {
   const ImageLoading(
       {super.key,
       super.size = 10,

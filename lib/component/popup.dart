@@ -262,7 +262,7 @@ Future<bool?> showDoubleChooseAlert({
 }
 
 /// showBottomPopup 移除背景色 关闭滑动手势
-Future<T?> showBasicBottomSheet<T>(Widget widget,
+Future<T?> showBaseBottomSheet<T>(Widget widget,
         {bool isScrollControlled = false, BottomSheetOptions? options}) =>
     widget.popupBottomSheet<T>(
         options: BottomSheetOptions(
@@ -276,8 +276,8 @@ class _Title extends TextLarge {
 }
 
 /// loading
-class BasicLoading extends StatelessWidget {
-  const BasicLoading(
+class BaseLoading extends StatelessWidget {
+  const BaseLoading(
       {Key? key,
       this.size = 50,
       this.style = SpinKitStyle.fadingCircle,

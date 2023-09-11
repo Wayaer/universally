@@ -2,16 +2,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicMaterialHeader extends MaterialHeader {
-  BasicMaterialHeader({Color? color})
+class BaseMaterialHeader extends MaterialHeader {
+  BaseMaterialHeader({Color? color})
       : super(
             valueColor:
                 AlwaysStoppedAnimation<Color>(color ?? Global().mainColor),
             backgroundColor: UCS.transparent);
 }
 
-class BasicList extends ScrollList {
-  BasicList({
+class BaseList extends ScrollList {
+  BaseList({
     super.key,
     required super.itemBuilder,
     super.itemCount,
@@ -85,7 +85,7 @@ class BasicList extends ScrollList {
                     : null),
             placeholder: placeholder ?? Global().config.placeholder);
 
-  BasicList.count({
+  BaseList.count({
     super.key,
     required super.children,
     EasyRefreshController? refreshController,
@@ -156,7 +156,7 @@ class BasicList extends ScrollList {
                     : null),
             placeholder: placeholder ?? Global().config.placeholder);
 
-  BasicList.waterfall({
+  BaseList.waterfall({
     super.key,
     required super.itemBuilder,
     required super.itemCount,
@@ -230,7 +230,7 @@ class BasicList extends ScrollList {
                     : null),
             placeholder: placeholder ?? Global().config.placeholder);
 
-  BasicList.custom({
+  BaseList.custom({
     super.key,
     required super.sliver,
     EasyRefreshController? refreshController,

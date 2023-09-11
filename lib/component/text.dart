@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// Very large font
-class TextVeryLarge extends BasicText {
+class TextVeryLarge extends BaseText {
   TextVeryLarge(super.text,
       {super.key,
       Color? color,
@@ -20,7 +20,7 @@ class TextVeryLarge extends BasicText {
 }
 
 /// Large font
-class TextLarge extends BasicText {
+class TextLarge extends BaseText {
   TextLarge(super.text,
       {super.key,
       Color? color,
@@ -39,7 +39,7 @@ class TextLarge extends BasicText {
 
 /// 小字体
 /// Small font
-class TextSmall extends BasicText {
+class TextSmall extends BaseText {
   TextSmall(super.text,
       {super.key,
       super.fontWeight,
@@ -58,7 +58,7 @@ class TextSmall extends BasicText {
 
 /// 默认字体
 /// The default font
-class TextDefault extends BasicText {
+class TextDefault extends BaseText {
   TextDefault(super.text,
       {super.key,
       Color? color,
@@ -76,9 +76,9 @@ class TextDefault extends BasicText {
       : super(color: color ?? Global().config.textColor?.defaultColor);
 }
 
-/// BasicText
-class BasicText extends BText {
-  BasicText(String? text,
+/// BaseText
+class BaseText extends BText {
+  BaseText(String? text,
       {super.key,
       Color? color,
       TextStyle? style,
@@ -108,7 +108,7 @@ class BasicText extends BText {
                 .merge(style));
 }
 
-/// BasicTextStyle
+/// BaseTextStyle
 class TStyle extends BTextStyle {
   /// 添加了基础颜色，不适合主题适配
   const TStyle(
@@ -232,14 +232,14 @@ class TStyle extends BTextStyle {
 
 enum FontType { normal, medium, semiBold, bold }
 
-class TextShowPage extends StatelessWidget {
-  const TextShowPage({super.key, required this.text, this.appBarTitleText});
+class TextBoxPage extends StatelessWidget {
+  const TextBoxPage({super.key, required this.text, this.appBarTitleText});
 
   final String text;
   final String? appBarTitleText;
 
   @override
-  Widget build(BuildContext context) => BasicScaffold(
+  Widget build(BuildContext context) => BaseScaffold(
       appBarTitleText: appBarTitleText,
       padding: const EdgeInsets.all(20),
       child: Universal(
@@ -247,6 +247,6 @@ class TextShowPage extends StatelessWidget {
             text.toClipboard;
             showToast('复制成功');
           },
-          child: TextDefault(text,
-              maxLines: 100, color: UCS.black, fontSize: 15)));
+          child:
+              TextDefault(text, maxLines: 0, color: UCS.black, fontSize: 15)));
 }

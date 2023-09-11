@@ -33,7 +33,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
     httpStr = 'http${isHttps ? 's' : ''}://';
     final defaultUrl =
         isBeta ? Global().config.betaApi : Global().config.releaseApi;
-    return BasicScaffold(
+    return BaseScaffold(
         isScroll: true,
         safeBottom: true,
         padding: const EdgeInsets.all(12),
@@ -48,7 +48,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             showApi(Global().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextDefault('使用https：'),
-              BasicSwitch(
+              BaseSwitch(
                   value: isHttps,
                   activeColor: Global().mainColor,
                   onChanged: (bool? value) {
@@ -57,7 +57,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                   })
             ]),
           ]),
-          BasicTextField(
+          BaseTextField(
               width: double.infinity,
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
@@ -70,7 +70,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               maxLength: 30,
               controller: ip,
               hintText: '请输入IP地址'),
-          BasicTextField(
+          BaseTextField(
               width: double.infinity,
               enableClearIcon: true,
               margin: const EdgeInsets.only(top: 10),
@@ -112,7 +112,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('始终使用正式服务器').expandedNull,
-            BasicSwitch(
+            BaseSwitch(
                 value: isRelease,
                 activeColor: Global().mainColor,
                 onChanged: (bool? value) {
@@ -124,7 +124,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               maxLines: 3, color: Global().mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextDefault('开启接口请求日志打印：'),
-            BasicSwitch(
+            BaseSwitch(
                 value: isDebugger,
                 activeColor: Global().mainColor,
                 onChanged: (bool? value) async {

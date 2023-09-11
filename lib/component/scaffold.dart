@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 /// ExtendedScaffold
-class BasicScaffold extends StatelessWidget {
-  const BasicScaffold({
+class BaseScaffold extends StatelessWidget {
+  const BaseScaffold({
     super.key,
     this.child,
 
@@ -293,7 +293,7 @@ class BasicScaffold extends StatelessWidget {
                 appBarActions != null ||
                 appBarLeading != null ||
                 appBarAction != null
-            ? BasicAppBar(
+            ? BaseAppBar(
                 enableLeading: enableLeading,
                 actions: appBarActions,
                 isMaybePop: isMaybePop,
@@ -362,8 +362,8 @@ class BasicScaffold extends StatelessWidget {
       child: child);
 }
 
-class BasicAppBar extends AppBar {
-  BasicAppBar({
+class BaseAppBar extends AppBar {
+  BaseAppBar({
     super.key,
     String? titleText = '',
     Widget? title,
@@ -405,9 +405,7 @@ class BasicAppBar extends AppBar {
               if (actions != null && actions.isNotEmpty) ...actions,
               if (action != null)
                 Universal(
-                    color: Colors.red,
-                    margin: const EdgeInsets.only(right: 12),
-                    child: action)
+                    margin: const EdgeInsets.only(right: 12), child: action)
             ]);
 }
 

@@ -26,7 +26,7 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BasicScaffold(
+    return BaseScaffold(
         isScroll: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'GIF Image',

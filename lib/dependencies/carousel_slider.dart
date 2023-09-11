@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BasicIndicator extends FlIndicator {
-  BasicIndicator(
+class BaseIndicator extends FlIndicator {
+  BaseIndicator(
       {super.key,
       required super.count,
       required super.position,
@@ -14,8 +14,8 @@ class BasicIndicator extends FlIndicator {
       : super(activeColor: activeColor ?? Global().mainColor);
 }
 
-class BasicCarouselSlider extends CarouselSlider {
-  BasicCarouselSlider(
+class BaseCarouselSlider extends CarouselSlider {
+  BaseCarouselSlider(
       {super.key,
       required super.itemBuilder,
       required int itemCount,
@@ -66,7 +66,7 @@ class BasicCarouselSlider extends CarouselSlider {
                 enlargeCenterPage: enlargeCenterPage));
 }
 
-class TabPage extends BasicCarouselSlider {
+class TabPage extends BaseCarouselSlider {
   TabPage({
     super.key,
     required List<Widget> children,

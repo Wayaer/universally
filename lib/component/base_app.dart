@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
 
-class BasicApp extends StatefulWidget {
-  const BasicApp({
+class BaseApp extends StatefulWidget {
+  const BaseApp({
     super.key,
     this.providers = const [],
     required this.home,
@@ -163,10 +163,10 @@ class BasicApp extends StatefulWidget {
   final String? restorationScopeId;
 
   @override
-  State<BasicApp> createState() => _BasicAppState();
+  State<BaseApp> createState() => _BaseAppState();
 }
 
-class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
+class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
   @override
   void initState() {
     if (widget.navigatorKey != null) {
@@ -262,7 +262,7 @@ class _BasicAppState extends State<BasicApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    BasicConnectivity().dispose();
+    BaseConnectivity().dispose();
     removeObserver(this);
     super.dispose();
     widget.dispose?.call();

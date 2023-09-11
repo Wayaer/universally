@@ -11,12 +11,12 @@ typedef UnavailableNetworkAlertBuilder = ExtendedOverlayEntry? Function(
     bool status, ConnectivityResult result);
 
 /// 网络状态变化管理
-class BasicConnectivity {
-  factory BasicConnectivity() => _singleton ??= BasicConnectivity._();
+class BaseConnectivity {
+  factory BaseConnectivity() => _singleton ??= BaseConnectivity._();
 
-  BasicConnectivity._();
+  BaseConnectivity._();
 
-  static BasicConnectivity? _singleton;
+  static BaseConnectivity? _singleton;
 
   final connectivity = Connectivity();
 
