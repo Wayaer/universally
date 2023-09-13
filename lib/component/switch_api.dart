@@ -66,7 +66,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                       width: 50,
                       child: TextDefault(httpStr))
                   .toDecoratorEntry()
-                  .convertToList(),
+                  .toList,
               maxLength: 30,
               controller: ip,
               hintText: '请输入IP地址'),
@@ -80,7 +80,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                       width: 50,
                       child: TextDefault('端口: '))
                   .toDecoratorEntry()
-                  .convertToList(),
+                  .toList,
               maxLength: 10,
               controller: port,
               hintText: '请输入端口'),
@@ -111,7 +111,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               onTap: () => saveApi(Global().config.releaseApi)),
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TextDefault('始终使用正式服务器').expandedNull,
+            TextDefault('始终使用正式服务器').expanded,
             BaseSwitch(
                 value: isRelease,
                 activeColor: Global().mainColor,

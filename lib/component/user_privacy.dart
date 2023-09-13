@@ -145,7 +145,7 @@ class CheckboxWithUserPrivacy extends StatelessWidget {
         TapGestureRecognizer()..onTap = onUserAgreementTap,
         null,
         TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
-      ]).expandedNull
+      ]).expanded
     ]);
   }
 }

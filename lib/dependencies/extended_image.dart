@@ -598,7 +598,7 @@ class PreviewImage extends StatelessWidget {
                     ExtendedPageController(initialPage: initialPage ?? 1),
                 itemCount: itemCount,
                 itemBuilder: itemBuilder)
-            .expandedNull,
+            .expanded,
       ]));
 }
 
