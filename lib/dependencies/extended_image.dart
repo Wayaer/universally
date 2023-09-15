@@ -408,7 +408,7 @@ class BaseImage extends ExtendedImage {
         value = imageProvider.assetName;
       }
     }
-    log('图片加载失败 $value', crossLine: false);
+    '图片加载失败 $value'.log(crossLine: false);
   }
 
   static ImageProvider buildImageProvider(

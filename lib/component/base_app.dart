@@ -181,8 +181,8 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
       widget.initState?.call(context);
       if (isDebug && isDesktop) {
         await Curiosity().desktop.focus();
-        final state = await Curiosity().desktop.setSizeTo5P8();
-        log('桌面端限制宽高 $state');
+        final state = await Curiosity().desktop.setSizeTo6P1();
+        '桌面端限制宽高 $state'.log();
       }
     });
   }

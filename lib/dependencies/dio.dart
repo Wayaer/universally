@@ -692,7 +692,7 @@ class BaseDio {
       try {
         data = jsonDecode(data);
       } catch (e) {
-        log('jsonDecode catch : \n$e');
+        'jsonDecode catch : \n$e'.log();
       }
       if (data is Map) {
         baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
@@ -807,8 +807,8 @@ bool resultSuccessFail(BaseModel data, {String? text, bool nullPass = false}) {
 void logJson(dynamic data) {
   try {
     var json = jsonEncode(data is BaseModel ? data.toMap() : data);
-    log(json);
+    json.log();
   } catch (e) {
-    log(e);
+    e.log();
   }
 }

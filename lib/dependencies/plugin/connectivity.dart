@@ -41,7 +41,7 @@ class BaseConnectivity {
     bool willPop = true,
   }) async {
     if (_subscription != null) return;
-    log('Connectivity 初始化', crossLine: false);
+    'Connectivity 初始化'.log(crossLine: false);
 
     /// 添加模态框
     if (alertUnavailableNetwork != null) {
@@ -55,7 +55,7 @@ class BaseConnectivity {
         .listen((ConnectivityResult connectivityResult) async {
       if (_currentStatus == connectivityResult) return;
       _currentStatus = connectivityResult;
-      log('Connectivity 网络状态变化 $_currentStatus', crossLine: false);
+      'Connectivity 网络状态变化 $_currentStatus'.log(crossLine: false);
       _callListenerList();
     });
   }
@@ -65,7 +65,7 @@ class BaseConnectivity {
     final connectivityResult = await connectivity.checkConnectivity();
     if (_currentStatus == connectivityResult) return;
     _currentStatus = connectivityResult;
-    log('Connectivity Status $_currentStatus', crossLine: false);
+    'Connectivity Status $_currentStatus'.log(crossLine: false);
     _callListenerList();
   }
 

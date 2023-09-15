@@ -15,7 +15,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
   @override
   void initState() {
     super.initState();
-    log(BHP().box().path);
+    BHP().box().path.log();
   }
 
   @override
