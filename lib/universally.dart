@@ -1,6 +1,5 @@
 library universally;
 
-export 'package:crypto/crypto.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:extended_image/extended_image.dart' hide MultipartFile;
 export 'package:flutter_curiosity/flutter_curiosity.dart';

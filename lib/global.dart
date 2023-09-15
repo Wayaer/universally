@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -228,9 +227,4 @@ class Global {
     /// Set the page transition style
     GlobalWayUI().pushStyle = config.pushStyle;
   }
-}
-
-extension ExtensionCryptoString on String {
-  /// md5 加密
-  String get toMd5 => md5.convert(utf8.encode(this)).toString();
 }
