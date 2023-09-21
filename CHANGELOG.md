@@ -1,4 +1,4 @@
-## 6.0.2
+## 6.0.3
 
 * Change all `Basic` to `Base`
 * `GlobalConfig` is changed to `Global`
