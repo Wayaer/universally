@@ -1,3 +1,7 @@
+## 6.0.4
+
+* fix problems
+
 ## 6.0.3
 
 * Change all `Basic` to `Base`

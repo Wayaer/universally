@@ -172,6 +172,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     if (widget.navigatorKey != null) {
       GlobalWayUI().navigatorKey = widget.navigatorKey!;
     }
+    DebuggerInterceptorHelper().navigatorKey = GlobalWayUI().navigatorKey;
     if (widget.scaffoldMessengerKey != null) {
       GlobalWayUI().scaffoldMessengerKey = widget.scaffoldMessengerKey!;
     }

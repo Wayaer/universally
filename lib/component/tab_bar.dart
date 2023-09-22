@@ -13,7 +13,7 @@ class BaseTabBar extends TabBar {
     super.indicatorPadding = EdgeInsets.zero,
     super.indicator,
     super.indicatorSize = TabBarIndicatorSize.label,
-    super.dividerColor,
+    super.dividerColor = UCS.transparent,
     super.labelPadding,
     super.dragStartBehavior = DragStartBehavior.start,
     super.overlayColor,
