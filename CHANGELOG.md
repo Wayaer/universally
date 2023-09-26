@@ -44,7 +44,7 @@
 
 * In `BasicAppBar`, change the `text` to `titleText` and change the `title` type to `Widget`, Change hasLeading to enableLeading
 * In `BasicScaffold`, add `appBarTitleText` and change the `appBarTitle` type to `Widget`, Change hasLeading to enableLeading
-* `CheckboxWithUserPrivacy` adds `fontSize`
+* `UserPrivacyCheckbox` adds `fontSize`
 
 ## 3.5.1
 

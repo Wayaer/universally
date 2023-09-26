@@ -11,7 +11,7 @@ class ComponentPage extends StatelessWidget {
         appBarTitleText: 'Component',
         isScroll: true,
         children: [
-          CheckboxWithUserPrivacy(value: false),
+          UserPrivacyCheckbox(value: false),
           10.heightBox,
           Button(
               text: 'showUserPrivacyAlert',

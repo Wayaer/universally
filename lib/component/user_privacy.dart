@@ -97,8 +97,8 @@ class UserPrivacyAlert extends StatelessWidget {
           child: TextDefault(exit, color: UCS.black70)));
 }
 
-class CheckboxWithUserPrivacy extends StatelessWidget {
-  const CheckboxWithUserPrivacy(
+class UserPrivacyCheckbox extends StatelessWidget {
+  const UserPrivacyCheckbox(
       {super.key,
       required this.value,
       this.onChanged,
