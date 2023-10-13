@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 6.0.4
+version: 6.0.5
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -29,10 +29,10 @@ dependencies:
   permission_handler: ^11.0.1
   path_provider: ^2.1.1
   url_launcher: ^6.1.14
-  package_info_plus: ^5.0.0
+  package_info_plus: ^4.1.0
   connectivity_plus: ^5.0.0
-  android_intent_plus: ^5.0.0
-  device_info_plus: ^10.0.0
+  android_intent_plus: ^4.0.3
+  device_info_plus: ^9.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.3

@@ -1,3 +1,7 @@
+## 6.0.5
+
+* Update dependency
+
 ## 6.0.4
 
 * fix problems
