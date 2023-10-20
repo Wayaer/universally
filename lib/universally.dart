@@ -35,7 +35,6 @@ export 'component/cache.dart';
 export 'component/base_app.dart';
 
 /// dependencies
-
 export 'dependencies/dio.dart';
 export 'dependencies/hive.dart';
 export 'dependencies/svg.dart';
@@ -49,6 +48,7 @@ export 'dependencies/plugin/connectivity.dart';
 export 'dependencies/plugin/path_provider.dart';
 export 'dependencies/plugin/package_info.dart';
 export 'dependencies/plugin/android_intent.dart';
+export 'dependencies/plugin/device_info.dart';
 
 /// global
 export 'global.dart';
