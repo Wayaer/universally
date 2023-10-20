@@ -115,7 +115,7 @@ class TStyle extends BTextStyle {
       {double? wordSpacing,
       FontType? fontType,
       FontWeight? fontWeight,
-      Color? color = UCS.mainBlack,
+      super.color = UCS.mainBlack,
       super.fontSize = 14,
       super.letterSpacing,
       super.height,
@@ -146,7 +146,6 @@ class TStyle extends BTextStyle {
       super.leadingDistribution,
       super.overflow})
       : super(
-            color: color,
             wordSpacing: wordSpacing ?? letterSpacing,
             fontWeight: fontWeight ??
                 ((fontType == null || fontType == FontType.normal)

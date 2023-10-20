@@ -278,14 +278,13 @@ class _Title extends TextLarge {
 /// loading
 class BaseLoading extends StatelessWidget {
   const BaseLoading(
-      {Key? key,
+      {super.key,
       this.size = 50,
       this.style = SpinKitStyle.fadingCircle,
       this.color,
       this.itemBuilder,
       this.duration = const Duration(milliseconds: 1200),
-      this.controller})
-      : super(key: key);
+      this.controller});
 
   final SpinKitStyle style;
   final Color? color;

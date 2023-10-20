@@ -41,7 +41,7 @@ class UrlLauncher {
     String? marketPackageName,
 
     /// android use intent launch
-    bool androidUseIntent = false,
+    bool androidUseIntent = true,
 
     ///  ios macos use
     String? appId,

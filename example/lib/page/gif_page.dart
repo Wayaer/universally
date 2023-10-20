@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class GifPage extends StatefulWidget {
-  const GifPage({Key? key}) : super(key: key);
+  const GifPage({super.key});
 
   @override
   State<GifPage> createState() => _GifPageState();

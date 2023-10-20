@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SVGAsset extends SvgPicture {
   SVGAsset(
-    String assetName, {
+    super.assetName, {
     super.key,
     double? size,
     double? height,
@@ -23,14 +23,14 @@ class SVGAsset extends SvgPicture {
     ColorFilter? colorFilter,
     BlendMode colorBlendMode = BlendMode.srcIn,
     Color? color,
-  }) : super.asset(assetName,
+  }) : super.asset(
             colorFilter: colorFilter ?? _getColorFilter(color, colorBlendMode),
             width: width ?? size,
             height: height ?? size);
 }
 
 class SVGNetwork extends SvgPicture {
-  SVGNetwork(String url,
+  SVGNetwork(super.url,
       {super.key,
       double? size,
       double? height,
@@ -49,7 +49,7 @@ class SVGNetwork extends SvgPicture {
       BlendMode colorBlendMode = BlendMode.srcIn,
       Color? color,
       super.headers})
-      : super.network(url,
+      : super.network(
             colorFilter: colorFilter ?? _getColorFilter(color, colorBlendMode),
             width: width ?? size,
             height: height ?? size);

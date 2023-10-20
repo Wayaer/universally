@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class BaseListPage extends StatefulWidget {
-  const BaseListPage({Key? key}) : super(key: key);
+  const BaseListPage({super.key});
 
   @override
   State<BaseListPage> createState() => _BaseListPageState();

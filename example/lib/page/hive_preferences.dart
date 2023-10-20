@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class HivePreferencesPage extends StatefulWidget {
-  const HivePreferencesPage({Key? key}) : super(key: key);
+  const HivePreferencesPage({super.key});
 
   @override
   State<HivePreferencesPage> createState() => _HivePreferencesPageState();

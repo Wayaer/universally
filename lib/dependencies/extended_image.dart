@@ -205,7 +205,7 @@ class BaseImage extends ExtendedImage {
                 buildLoadStateChanged(failed: failed, loading: loading));
 
   BaseImage.memory(
-    Uint8List bytes, {
+    super.bytes, {
     super.key,
     super.scale = 1.0,
     super.semanticLabel,
@@ -251,7 +251,7 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.memory(bytes,
+  }) : super.memory(
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
@@ -603,8 +603,8 @@ class PreviewImage extends StatelessWidget {
 }
 
 class ImageFailed extends StatelessWidget {
-  const ImageFailed({Key? key, this.failed, this.background, this.alignment})
-      : super(key: key);
+  const ImageFailed({super.key, this.failed, this.background, this.alignment});
+
   final Widget? failed;
   final Color? background;
   final AlignmentGeometry? alignment;
