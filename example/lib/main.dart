@@ -2,6 +2,7 @@ import 'package:app/page/basic_list_page.dart';
 import 'package:app/page/component_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
+import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
@@ -148,6 +149,11 @@ class HomePage extends StatelessWidget {
                 UrlLauncher().openUrl(IOSSettingUrl.notifications.value);
               },
               text: 'IOSSystemSetting'),
+          Button(
+              onTap: () {
+                push(const SpinKitPage());
+              },
+              text: 'SpinKit'),
         ]));
   }
 }

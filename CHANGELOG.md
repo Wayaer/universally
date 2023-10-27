@@ -1,6 +1,7 @@
-## 6.0.7
+## 6.0.8
 
 * Update dependency
+* Add `SpinKit()`
 
 ## 6.0.4
 

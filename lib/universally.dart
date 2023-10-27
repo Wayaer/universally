@@ -41,6 +41,7 @@ export 'dependencies/hive.dart';
 export 'dependencies/svg.dart';
 export 'dependencies/carousel_slider.dart';
 export 'dependencies/extended_image.dart';
+export 'dependencies/spin_kit.dart';
 
 /// dependencies/plugin
 export 'dependencies/plugin/permission_handler.dart';
