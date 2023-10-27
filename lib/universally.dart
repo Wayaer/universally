@@ -18,6 +18,7 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:android_intent_plus/android_intent.dart';
+export 'package:flutter_spinkit/flutter_spinkit.dart';
 
 /// component
 export 'component/component.dart';

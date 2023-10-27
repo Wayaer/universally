@@ -275,6 +275,23 @@ class _Title extends TextLarge {
   _Title({String? text}) : super(text ?? '提示', fontSize: 18);
 }
 
+enum SpinKitStyle {
+  circle,
+  fadingCircle,
+  squareCircle,
+  doubleBounce,
+  threeBounce,
+  pulse,
+  ripple,
+  cubeGrid,
+  foldingCube,
+  fadingFour,
+  wanderingCubes,
+  ring,
+  dualRing,
+  wave,
+}
+
 /// loading
 class BaseLoading extends StatelessWidget {
   const BaseLoading(
@@ -294,10 +311,104 @@ class BaseLoading extends StatelessWidget {
   final AnimationController? controller;
 
   @override
-  Widget build(BuildContext context) => SpinKit(style,
-      size: size,
-      itemBuilder: itemBuilder,
-      controller: controller,
-      duration: duration,
-      color: color ?? Global().mainColor);
+  Widget build(BuildContext context) {
+    final color = this.color ?? Global().mainColor;
+    switch (style) {
+      case SpinKitStyle.circle:
+        return SpinKitCircle(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.fadingCircle:
+        return SpinKitFadingCircle(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.squareCircle:
+        return SpinKitFadingCircle(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.doubleBounce:
+        return SpinKitDoubleBounce(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.threeBounce:
+        return SpinKitThreeBounce(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.pulse:
+        return SpinKitPulse(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.ripple:
+        return SpinKitRipple(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.cubeGrid:
+        return SpinKitCubeGrid(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.foldingCube:
+        return SpinKitFoldingCube(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.fadingFour:
+        return SpinKitFadingFour(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+      case SpinKitStyle.wanderingCubes:
+        return SpinKitWanderingCubes(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder);
+      case SpinKitStyle.ring:
+        return SpinKitRing(
+            color: color,
+            size: size,
+            duration: duration,
+            controller: controller);
+      case SpinKitStyle.dualRing:
+        return SpinKitDualRing(
+            color: color,
+            size: size,
+            duration: duration,
+            controller: controller);
+      case SpinKitStyle.wave:
+        return SpinKitWave(
+            color: color,
+            size: size,
+            duration: duration,
+            itemBuilder: itemBuilder,
+            controller: controller);
+    }
+  }
 }

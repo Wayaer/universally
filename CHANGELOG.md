@@ -1,4 +1,4 @@
-## 6.0.6
+## 6.0.7
 
 * Update dependency
 
