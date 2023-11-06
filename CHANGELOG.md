@@ -1,3 +1,9 @@
+## 6.1.0
+
+* `FontType` removed, please use `FontWeights` or `FontWeight`
+* Change `TextDefault` to `TextNormal`
+* Change `TextVeryLarge` to `TextExtraLarge`
+
 ## 6.0.8
 
 * Update dependency

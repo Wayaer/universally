@@ -26,14 +26,14 @@ class ComponentPage extends StatelessWidget {
               }),
           10.heightBox,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            TextDefault('消息推送'),
+            TextNormal('消息推送'),
             10.widthBox,
             const PushSwitchState(),
           ]),
           10.heightBox,
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [TextDefault('清理缓存'), 10.widthBox, const CleanCache()]),
+              children: [TextNormal('清理缓存'), 10.widthBox, const CleanCache()]),
           10.heightBox,
           const BaseError(),
         ]);

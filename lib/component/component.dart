@@ -90,7 +90,7 @@ class BaseError extends StatelessWidget {
           spacing: 10,
           widget: Icon(WayIcons.empty,
               size: 80, color: Global().config.textColor?.defaultColor),
-          title: TextDefault('加载失败，点击刷新', fontType: FontType.medium)));
+          title: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
 class BasePlaceholder extends StatelessWidget {
@@ -111,7 +111,7 @@ class BasePlaceholder extends StatelessWidget {
           widget: Icon(WayIcons.empty,
               size: 80,
               color: Global().config.textColor?.smallColor?.withOpacity(0.3)),
-          title: TextSmall('什么也没有哎~', fontType: FontType.medium)));
+          title: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
 class BaseSwitch extends ChangedBuilder<bool> {

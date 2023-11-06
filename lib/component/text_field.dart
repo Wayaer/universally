@@ -539,7 +539,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
         margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
         onTap: () => widget.searchTextTap?.call(controller.text),
         alignment: Alignment.center,
-        child: TextDefault('搜索'));
+        child: TextNormal('搜索'));
   }
 
   Widget get buildSendSMS {
@@ -550,13 +550,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
         builder: (SendState state, int i) {
           switch (state) {
             case SendState.none:
-              return TextDefault('发送验证码', color: Global().mainColor);
+              return TextNormal('发送验证码', color: Global().mainColor);
             case SendState.sending:
-              return TextDefault('发送中', color: Global().mainColor);
+              return TextNormal('发送中', color: Global().mainColor);
             case SendState.resend:
-              return TextDefault('重新发送', color: Global().mainColor);
+              return TextNormal('重新发送', color: Global().mainColor);
             case SendState.countDown:
-              return TextDefault('$i s', color: Global().mainColor);
+              return TextNormal('$i s', color: Global().mainColor);
           }
         },
         onTap: widget.sendSMSTap);

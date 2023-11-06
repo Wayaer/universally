@@ -13,7 +13,7 @@ class SwitchApiButton extends StatelessWidget {
       visible: isBeta,
       size: 18,
       onTap: () => push(_SwitchApiPage()),
-      title: TextDefault('切换API', color: color ?? Global().mainColor));
+      title: TextNormal('切换API', color: color ?? Global().mainColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -39,15 +39,15 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
         padding: const EdgeInsets.all(12),
         appBarTitleText: '切换服务器',
         children: [
-          TextVeryLarge('*本功能为测试版专用', color: Global().mainColor),
+          TextExtraLarge('*本功能为测试版专用', color: Global().mainColor),
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TextDefault('默认服务器地址为：'),
+            TextNormal('默认服务器地址为：'),
             showApi(defaultUrl),
-            TextDefault('当前服务器地址为：'),
+            TextNormal('当前服务器地址为：'),
             showApi(Global().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              TextDefault('使用https：'),
+              TextNormal('使用https：'),
               BaseSwitch(
                   value: isHttps,
                   activeColor: Global().mainColor,
@@ -64,7 +64,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               prefix: Container(
                       alignment: Alignment.centerLeft,
                       width: 50,
-                      child: TextDefault(httpStr))
+                      child: TextNormal(httpStr))
                   .toDecoratorEntry()
                   .toList,
               maxLength: 30,
@@ -78,7 +78,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               prefix: Container(
                       alignment: Alignment.centerLeft,
                       width: 50,
-                      child: TextDefault('端口: '))
+                      child: TextNormal('端口: '))
                   .toDecoratorEntry()
                   .toList,
               maxLength: 10,
@@ -111,7 +111,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               onTap: () => saveApi(Global().config.releaseApi)),
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TextDefault('始终使用正式服务器').expanded,
+            TextNormal('始终使用正式服务器').expanded,
             BaseSwitch(
                 value: isRelease,
                 activeColor: Global().mainColor,
@@ -120,10 +120,10 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                   setState(() {});
                 })
           ]),
-          TextDefault('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
+          TextNormal('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
               maxLines: 3, color: Global().mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TextDefault('开启接口请求日志打印：'),
+            TextNormal('开启接口请求日志打印：'),
             BaseSwitch(
                 value: isDebugger,
                 activeColor: Global().mainColor,
@@ -137,7 +137,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           ]),
           const USpacing(),
           Row(children: [
-            TextDefault('正式服IP：', maxLines: 2, height: 1.5),
+            TextNormal('正式服IP：', maxLines: 2, height: 1.5),
           ]),
           showApi(Global().config.releaseApi),
           const USpacing(),
@@ -163,5 +163,5 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           boxShadow: getBoxShadow(color: UCS.background, num: 3),
           color: UCS.white,
           borderRadius: BorderRadius.circular(8)),
-      child: TextDefault(url, maxLines: 3, height: 1.5));
+      child: TextNormal(url, maxLines: 3, height: 1.5));
 }

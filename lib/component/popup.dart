@@ -41,7 +41,7 @@ class AlertMessage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
                   child: contentText ??
-                      TextDefault(text ?? '',
+                      TextNormal(text ?? '',
                           maxLines: 5, color: Colors.black87)),
           actions: <Widget>[
             Universal(
@@ -52,7 +52,7 @@ class AlertMessage extends StatelessWidget {
                   if (confirmTap != null) confirmTap!();
                 },
                 child: confirm ??
-                    TextDefault(confirmText ?? '确定',
+                    TextNormal(confirmText ?? '确定',
                         fontSize: 16, color: Global().mainColor)),
           ]));
 }
@@ -104,7 +104,7 @@ class AlertConfirmCancel extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ?? TextDefault(text ?? '', maxLines: 5)),
+                  child: contentText ?? TextNormal(text ?? '', maxLines: 5)),
           actions: [
             Universal(
                 height: 45,
@@ -113,7 +113,7 @@ class AlertConfirmCancel extends StatelessWidget {
                   if (cancelTap != null) cancelTap!();
                 },
                 alignment: Alignment.center,
-                child: cancel ?? TextDefault(cancelText ?? '取消')),
+                child: cancel ?? TextNormal(cancelText ?? '取消')),
             Universal(
                 height: 45,
                 alignment: Alignment.center,
@@ -121,7 +121,7 @@ class AlertConfirmCancel extends StatelessWidget {
                   if (autoClose) pop();
                   if (confirmTap != null) confirmTap!();
                 },
-                child: confirm ?? TextDefault(confirmText ?? '确定'))
+                child: confirm ?? TextNormal(confirmText ?? '确定'))
           ]);
 }
 
@@ -162,7 +162,7 @@ class AlertCountSelect extends StatelessWidget {
           safeBottom: true,
           onTap: maybePop,
           child: cancel ??
-              TextDefault(cancelText,
+              TextNormal(cancelText,
                       textAlign: TextAlign.center, color: Global().mainColor)
                   .paddingSymmetric(vertical: 12)),
       title: title,
@@ -175,7 +175,7 @@ class AlertCountSelect extends StatelessWidget {
                   maybePop(item.key);
                 },
                 isDefaultAction: defaultIndex == item.key,
-                child: TextDefault(item.value),
+                child: TextNormal(item.value),
               )));
 }
 
@@ -208,7 +208,7 @@ class AlertOnlyMessage extends StatelessWidget {
               Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ?? TextDefault(text ?? '', maxLines: 5))));
+                  child: contentText ?? TextNormal(text ?? '', maxLines: 5))));
 }
 
 Future<bool?> showDoubleChooseAlert({
@@ -242,7 +242,7 @@ Future<bool?> showDoubleChooseAlert({
               )),
               alignment: Alignment.center,
               onTap: leftTap ?? pop,
-              child: TextDefault(left, fontType: FontType.semiBold)),
+              child: TextNormal(left, fontWeight: FontWeights.semiBold)),
           right: Universal(
               height: 40,
               onTap: rightTap,
@@ -252,8 +252,8 @@ Future<bool?> showDoubleChooseAlert({
                 top: BorderSide(color: UCS.lineColor, width: 1),
                 left: BorderSide(color: UCS.lineColor, width: 0.5),
               )),
-              child: TextDefault(right,
-                  color: Global().mainColor, fontType: FontType.semiBold)),
+              child: TextNormal(right,
+                  color: Global().mainColor, fontWeight: FontWeights.semiBold)),
           options: options,
           decoration: BoxDecoration(
               color: UCS.white, borderRadius: BorderRadius.circular(6)))

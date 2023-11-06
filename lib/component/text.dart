@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-/// Very large font
-class TextVeryLarge extends BaseText {
-  TextVeryLarge(super.text,
+extension FontWeights on FontWeight {
+  /// medium
+  static const FontWeight medium = FontWeight.w500;
+
+  /// semiBold
+  static const FontWeight semiBold = FontWeight.w600;
+}
+
+/// extra large font
+class TextExtraLarge extends BaseText {
+  TextExtraLarge(super.text,
       {super.key,
       Color? color,
       super.maxLines,
@@ -13,8 +21,7 @@ class TextVeryLarge extends BaseText {
       super.style,
       super.overflow,
       super.textAlign,
-      super.fontType = FontType.semiBold,
-      super.fontWeight,
+      super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
       : super(color: color ?? Global().config.textColor?.veryLargeColor);
 }
@@ -31,10 +38,28 @@ class TextLarge extends BaseText {
       super.style,
       super.overflow,
       super.textAlign,
-      super.fontType = FontType.semiBold,
-      super.fontWeight,
+      super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
       : super(color: color ?? Global().config.textColor?.largeColor);
+}
+
+/// 默认字体
+/// The formal font
+class TextNormal extends BaseText {
+  TextNormal(super.text,
+      {super.key,
+      Color? color,
+      super.style,
+      super.backgroundColor,
+      super.maxLines,
+      super.height,
+      super.fontSize = 14,
+      super.letterSpacing,
+      super.overflow,
+      super.textAlign,
+      super.fontWeight = FontWeight.normal,
+      super.fontFamily})
+      : super(color: color ?? Global().config.textColor?.defaultColor);
 }
 
 /// 小字体
@@ -51,29 +76,8 @@ class TextSmall extends BaseText {
       super.style,
       super.overflow,
       super.textAlign,
-      super.fontType,
       super.fontFamily})
       : super(color: color ?? Global().config.textColor?.smallColor);
-}
-
-/// 默认字体
-/// The default font
-class TextDefault extends BaseText {
-  TextDefault(super.text,
-      {super.key,
-      Color? color,
-      super.style,
-      super.backgroundColor,
-      super.maxLines,
-      super.height,
-      super.fontSize = 14,
-      super.letterSpacing,
-      super.overflow,
-      super.textAlign,
-      super.fontType,
-      super.fontWeight,
-      super.fontFamily})
-      : super(color: color ?? Global().config.textColor?.defaultColor);
 }
 
 /// BaseText
@@ -90,7 +94,6 @@ class BaseText extends BText {
       TextOverflow? overflow,
       FontWeight? fontWeight,
       super.textAlign,
-      FontType? fontType,
       String? fontFamily})
       : super(text ?? '',
             maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
@@ -99,7 +102,6 @@ class BaseText extends BText {
             style: TStyle(
                     fontWeight: fontWeight,
                     letterSpacing: letterSpacing,
-                    fontType: fontType,
                     backgroundColor: backgroundColor,
                     fontSize: fontSize,
                     color: color,
@@ -113,8 +115,7 @@ class TStyle extends BTextStyle {
   /// 添加了基础颜色，不适合主题适配
   const TStyle(
       {double? wordSpacing,
-      FontType? fontType,
-      FontWeight? fontWeight,
+      super.fontWeight,
       super.color = UCS.mainBlack,
       super.fontSize = 14,
       super.letterSpacing,
@@ -145,18 +146,7 @@ class TStyle extends BTextStyle {
       super.fontVariations,
       super.leadingDistribution,
       super.overflow})
-      : super(
-            wordSpacing: wordSpacing ?? letterSpacing,
-            fontWeight: fontWeight ??
-                ((fontType == null || fontType == FontType.normal)
-                    ? FontWeight.normal
-                    : fontType == FontType.medium
-                        ? FontWeight.w500
-                        : fontType == FontType.semiBold
-                            ? FontWeight.w600
-                            : fontType == FontType.bold
-                                ? FontWeight.bold
-                                : FontWeight.normal));
+      : super(wordSpacing: wordSpacing ?? letterSpacing);
 
   /// 使用 [Global().config.textColor?.styleColor] 预设颜色，不适合主题适配
   TStyle.global(
@@ -166,23 +156,12 @@ class TStyle extends BTextStyle {
       super.height,
       super.fontFamily,
       super.textBaseline = TextBaseline.ideographic,
-      FontType? fontType,
-      FontWeight? fontWeight,
+      super.fontWeight,
       super.decoration = TextDecoration.none,
       super.backgroundColor})
       : super(
             color: color ?? Global().config.textColor?.styleColor,
-            wordSpacing: letterSpacing,
-            fontWeight: fontWeight ??
-                ((fontType == null || fontType == FontType.normal)
-                    ? FontWeight.normal
-                    : fontType == FontType.medium
-                        ? FontWeight.w500
-                        : fontType == FontType.semiBold
-                            ? FontWeight.w600
-                            : fontType == FontType.bold
-                                ? FontWeight.bold
-                                : FontWeight.normal));
+            wordSpacing: letterSpacing);
 
   /// 原始数据，不添加任何颜色
   const TStyle.origin(
@@ -212,29 +191,14 @@ class TStyle extends BTextStyle {
       super.fontVariations,
       super.leadingDistribution,
       super.overflow});
-
-  static FontWeight typeToWeight(FontType? fontType) {
-    switch (fontType) {
-      case FontType.normal:
-        return FontWeight.normal;
-      case FontType.medium:
-        return FontWeight.w500;
-      case FontType.semiBold:
-        return FontWeight.w600;
-      case FontType.bold:
-        return FontWeight.bold;
-      default:
-        return FontWeight.normal;
-    }
-  }
 }
 
-enum FontType { normal, medium, semiBold, bold }
-
 class TextBoxPage extends StatelessWidget {
-  const TextBoxPage({super.key, required this.text, this.appBarTitleText});
+  const TextBoxPage(
+      {super.key, required this.text, this.color, this.appBarTitleText});
 
   final String text;
+  final Color? color;
   final String? appBarTitleText;
 
   @override
@@ -246,6 +210,5 @@ class TextBoxPage extends StatelessWidget {
             text.toClipboard;
             showToast('复制成功');
           },
-          child:
-              TextDefault(text, maxLines: 0, color: UCS.black, fontSize: 15)));
+          child: TextNormal(text, maxLines: 0, color: color, fontSize: 15)));
 }

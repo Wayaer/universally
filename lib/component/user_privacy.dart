@@ -85,7 +85,7 @@ class UserPrivacyAlert extends StatelessWidget {
             BHP().setBool(UConst.privacy, true);
             onConsentTap?.call();
           },
-          child: TextDefault(agree, color: UCS.white)),
+          child: TextNormal(agree, color: UCS.white)),
       left: Universal(
           height: 40,
           margin: const EdgeInsets.only(right: 0.5),
@@ -94,7 +94,7 @@ class UserPrivacyAlert extends StatelessWidget {
               color: UCS.background,
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))),
           onTap: Curiosity().native.exitApp,
-          child: TextDefault(exit, color: UCS.black70)));
+          child: TextNormal(exit, color: UCS.black70)));
 }
 
 class UserPrivacyCheckbox extends StatelessWidget {

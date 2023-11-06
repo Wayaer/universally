@@ -29,7 +29,7 @@ class BaseTabBar extends TabBar {
     Color? labelColor,
     super.unselectedLabelColor = UCS.black70,
     String? fontFamily,
-    FontType? fontType,
+    FontWeight? fontWeight,
     double fontSize = 16,
     double height = 38,
     List<Widget>? tabs,
@@ -45,12 +45,12 @@ class BaseTabBar extends TabBar {
                 TStyle(
                     fontFamily: fontFamily,
                     fontSize: fontSize,
-                    fontType: fontType),
+                    fontWeight: fontWeight),
             unselectedLabelStyle: unselectedLabelStyle ??
                 TStyle(
                     fontFamily: fontFamily,
                     fontSize: fontSize,
-                    fontType: fontType));
+                    fontWeight: fontWeight));
 
   BaseTabBar.indicator({
     super.key,
@@ -73,7 +73,7 @@ class BaseTabBar extends TabBar {
     Color labelColor = UCS.white,
     Color unselectedLabelColor = UCS.black70,
     String? fontFamily,
-    FontType? fontType,
+    FontWeight? fontWeight,
     double fontSize = 16,
     double height = 38,
     List<Widget>? tabs,
@@ -95,10 +95,10 @@ class BaseTabBar extends TabBar {
                 TStyle(
                     fontFamily: fontFamily,
                     fontSize: fontSize,
-                    fontType: fontType),
+                    fontWeight: fontWeight),
             unselectedLabelStyle: unselectedLabelStyle ??
                 TStyle(
                     fontFamily: fontFamily,
                     fontSize: fontSize,
-                    fontType: fontType));
+                    fontWeight: fontWeight));
 }
