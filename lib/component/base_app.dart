@@ -218,7 +218,8 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
           Widget current =
               (widget.builder?.call(_, __)) ?? __ ?? const SizedBox();
           current = MediaQuery(
-              data: context.mediaQuery.copyWith(textScaleFactor: 1),
+              data:
+                  context.mediaQuery.copyWith(textScaler: TextScaler.noScaling),
               child: current);
           return current;
         },

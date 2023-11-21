@@ -36,8 +36,8 @@ class BaseScaffold extends StatelessWidget {
     this.onRefresh,
     this.onLoading,
 
-    /// ****** [WillPopScope] ****** ///
-    this.onWillPop,
+    /// ****** [PopScope] ****** ///
+    this.onPopInvoked,
     this.isCloseOverlay = false,
     this.isRootPage = false,
 
@@ -149,8 +149,8 @@ class BaseScaffold extends StatelessWidget {
   /// false 点击android实体返回按键先关闭Overlay【toast loading ...】并pop 当前页面
   final bool isCloseOverlay;
 
-  /// 返回按键监听
-  final WillPopCallback? onWillPop;
+  /// 返回拦截
+  final PopInvokedCallback? onPopInvoked;
 
   /// ****** 刷新组件相关 ******  ///
   final RefreshConfig? refreshConfig;
@@ -260,13 +260,13 @@ class BaseScaffold extends StatelessWidget {
         restorationId: restorationId,
         body: universal,
         persistentFooterAlignment: persistentFooterAlignment);
-    return onWillPop != null || isCloseOverlay || isRootPage
-        ? ExtendedWillPopScope(
-            onWillPop: () async {
-              bool result = await onWillPop?.call() ?? true;
-              if (result == false) return result;
+    return onPopInvoked != null || isCloseOverlay || isRootPage
+        ? ExtendedPopScope(
+            canPop: !isRootPage,
+            isCloseOverlay: isCloseOverlay,
+            onPopInvoked: (bool didPop) async {
+              onPopInvoked?.call(didPop);
               if (isRootPage) {
-                result = false;
                 final now = DateTime.now();
                 if (_dateTime != null &&
                     now.difference(_dateTime!).inMilliseconds < 2500) {
@@ -278,9 +278,7 @@ class BaseScaffold extends StatelessWidget {
                           duration: Duration(milliseconds: 1500)));
                 }
               }
-              return result;
             },
-            isCloseOverlay: isCloseOverlay,
             child: scaffold)
         : scaffold;
   }

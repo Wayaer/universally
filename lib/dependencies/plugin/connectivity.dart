@@ -36,18 +36,14 @@ class BaseConnectivity {
   Future<void> subscription({
     /// 网络不可用 时 弹出 Overlay 禁止操作
     UnavailableNetworkAlertBuilder? alertUnavailableNetwork,
-
-    /// [alertUnavailableNetwork]弹出时 安卓上限制实体返回按键操作
-    bool willPop = true,
   }) async {
     if (_subscription != null) return;
     'Connectivity 初始化'.log(crossLine: false);
 
     /// 添加模态框
     if (alertUnavailableNetwork != null) {
-      _overlayCallback ??= (_, __) => showOverlayWhenUnavailableNetwork(
-          alertUnavailableNetwork,
-          willPop: willPop);
+      _overlayCallback ??=
+          (_, __) => showOverlayWhenUnavailableNetwork(alertUnavailableNetwork);
       _listenerList.add(_overlayCallback!);
     }
     await checkConnectivity();
@@ -94,14 +90,11 @@ class BaseConnectivity {
 
   /// 网络不可用 时 弹出 Overlay 禁止操作
   Future<bool> showOverlayWhenUnavailableNetwork(
-      UnavailableNetworkAlertBuilder alertUnavailableNetwork,
-      {bool willPop = true}) async {
+      UnavailableNetworkAlertBuilder alertUnavailableNetwork) async {
     if (!networkAvailability) {
-      if (isAndroid && willPop) GlobalWayUI().isWillPop = false;
       _connectivityOverlay ??=
           alertUnavailableNetwork(networkAvailability, _currentStatus);
     } else {
-      if (isAndroid && willPop) GlobalWayUI().isWillPop = true;
       _connectivityOverlay?.removeEntry();
       _connectivityOverlay = null;
     }

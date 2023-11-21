@@ -1,3 +1,7 @@
+## 6.2.0
+
+* Migrate to 3.16.0
+
 ## 6.1.0
 
 * `FontType` removed, please use `FontWeights` or `FontWeight`

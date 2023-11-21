@@ -33,8 +33,6 @@ Future<void> main() async {
       title: 'Universally',
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
-      theme: ThemeData.light(useMaterial3: true),
-      darkTheme: ThemeData.dark(useMaterial3: true),
       initState: (context) async {
         BaseConnectivity().addListener((status, result) async {
           switch (result) {

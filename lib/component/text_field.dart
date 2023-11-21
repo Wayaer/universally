@@ -152,7 +152,7 @@ class BaseTextField extends StatefulWidget {
   final TextEditingController? controller;
 
   /// 是否可输入
-  final bool? enabled;
+  final bool enabled;
 
   /// 最长输入的字符串
   final int? maxLength;
