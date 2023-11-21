@@ -38,8 +38,10 @@ class BaseScaffold extends StatelessWidget {
 
     /// ****** [PopScope] ****** ///
     this.onPopInvoked,
+    this.canPop = true,
     this.isCloseOverlay = false,
-    this.isRootPage = false,
+    this.enableDoubleClickExit = false,
+    this.doubleClickExitPrompt = '再次点击返回键退出',
 
     /// ****** [Scaffold] ****** ///
     this.extendBody = false,
@@ -119,7 +121,6 @@ class BaseScaffold extends StatelessWidget {
     this.toolbarTextStyle,
   });
 
-  final bool isRootPage;
   final Widget? child;
 
   /// 相当于给[child] 套用 [Column]、[Row]、[Stack]
@@ -148,9 +149,10 @@ class BaseScaffold extends StatelessWidget {
   /// true 点击android实体返回按键先关闭Overlay【toast loading ...】但不pop 当前页面
   /// false 点击android实体返回按键先关闭Overlay【toast loading ...】并pop 当前页面
   final bool isCloseOverlay;
-
-  /// 返回拦截
   final PopInvokedCallback? onPopInvoked;
+  final bool canPop;
+  final bool enableDoubleClickExit;
+  final String doubleClickExitPrompt;
 
   /// ****** 刷新组件相关 ******  ///
   final RefreshConfig? refreshConfig;
@@ -260,20 +262,23 @@ class BaseScaffold extends StatelessWidget {
         restorationId: restorationId,
         body: universal,
         persistentFooterAlignment: persistentFooterAlignment);
-    return onPopInvoked != null || isCloseOverlay || isRootPage
+    return onPopInvoked != null ||
+            isCloseOverlay ||
+            !canPop ||
+            enableDoubleClickExit
         ? ExtendedPopScope(
-            canPop: !isRootPage,
             isCloseOverlay: isCloseOverlay,
-            onPopInvoked: (bool didPop) async {
+            canPop: enableDoubleClickExit ? false : canPop,
+            onPopInvoked: (bool didPop) {
               onPopInvoked?.call(didPop);
-              if (isRootPage) {
+              if (enableDoubleClickExit) {
                 final now = DateTime.now();
                 if (_dateTime != null &&
                     now.difference(_dateTime!).inMilliseconds < 2500) {
                   Curiosity().native.exitApp();
                 } else {
                   _dateTime = now;
-                  showToast('再次点击返回键退出',
+                  showToast(doubleClickExitPrompt,
                       options: const ToastOptions(
                           duration: Duration(milliseconds: 1500)));
                 }

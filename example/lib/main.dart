@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
         enableLeading: false,
         appBarTitleText: 'Universally',
         safeBottom: true,
-        isRootPage: true,
+        enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(
