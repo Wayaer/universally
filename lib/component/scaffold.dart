@@ -169,7 +169,7 @@ class BaseScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final bool extendBody;
   final bool extendBodyBehindAppBar;
-  final Widget? appBar;
+  final PreferredSizeWidget? appBar;
   final Widget? floatingActionButton;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -203,13 +203,13 @@ class BaseScaffold extends StatelessWidget {
   final Widget? appBarAction;
   final List<Widget>? appBarActions;
   final Widget? appBarLeading;
-  final double? leadingWidth;
   final Color? appBarBackgroundColor;
   final Color? appBarForegroundColor;
   final bool appBarPrimary;
   final PreferredSizeWidget? appBarBottom;
   final IconThemeData? appBarIconTheme;
   final bool isMaybePop;
+  final double? leadingWidth;
   final bool enableLeading;
   final bool centerTitle;
   final IconThemeData? actionsIconTheme;
@@ -256,7 +256,7 @@ class BaseScaffold extends StatelessWidget {
         floatingActionButtonLocation: floatingActionButtonLocation,
         floatingActionButton: floatingActionButton,
         floatingActionButtonAnimator: floatingActionButtonAnimator,
-        appBar: buildAppBar(context),
+        appBar: appBar ?? buildAppBar(context),
         bottomNavigationBar: bottomNavigationBar,
         bottomSheet: bottomSheet,
         restorationId: restorationId,
@@ -289,47 +289,45 @@ class BaseScaffold extends StatelessWidget {
   }
 
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    Widget? current = appBar ??
-        (appBarTitleText != null ||
-                appBarTitle != null ||
-                appBarBottom != null ||
-                appBarActions != null ||
-                appBarLeading != null ||
-                appBarAction != null
-            ? BaseAppBar(
-                enableLeading: enableLeading,
-                actions: appBarActions,
-                isMaybePop: isMaybePop,
-                bottom: appBarBottom,
-                titleText: appBarTitleText,
-                title: appBarTitle,
-                elevation: elevation,
-                action: appBarAction,
-                leading: appBarLeading,
-                systemOverlayStyle: systemOverlayStyle,
-                backgroundColor: appBarBackgroundColor,
-                centerTitle: centerTitle,
-                iconTheme: appBarIconTheme,
-                actionsIconTheme: actionsIconTheme,
-                automaticallyImplyLeading: automaticallyImplyLeading,
-                bottomOpacity: bottomOpacity,
-                excludeHeaderSemantics: excludeHeaderSemantics,
-                flexibleSpace: flexibleSpace,
-                leadingWidth: leadingWidth,
-                notificationPredicate: notificationPredicate,
-                primary: appBarPrimary,
-                scrolledUnderElevation: scrolledUnderElevation,
-                shadowColor: shadowColor,
-                foregroundColor: appBarForegroundColor,
-                shape: shape,
-                surfaceTintColor: surfaceTintColor,
-                titleSpacing: titleSpacing,
-                titleTextStyle: titleTextStyle,
-                toolbarHeight: toolbarHeight,
-                toolbarOpacity: toolbarOpacity,
-                toolbarTextStyle: toolbarTextStyle)
-            : null);
-
+    Widget? current = (appBarTitleText != null ||
+            appBarTitle != null ||
+            appBarBottom != null ||
+            appBarActions != null ||
+            appBarLeading != null ||
+            appBarAction != null
+        ? BaseAppBar(
+            enableLeading: enableLeading,
+            actions: appBarActions,
+            isMaybePop: isMaybePop,
+            bottom: appBarBottom,
+            titleText: appBarTitleText,
+            title: appBarTitle,
+            elevation: elevation,
+            action: appBarAction,
+            leading: appBarLeading,
+            systemOverlayStyle: systemOverlayStyle,
+            backgroundColor: appBarBackgroundColor,
+            centerTitle: centerTitle,
+            iconTheme: appBarIconTheme,
+            actionsIconTheme: actionsIconTheme,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            bottomOpacity: bottomOpacity,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            flexibleSpace: flexibleSpace,
+            leadingWidth: leadingWidth,
+            notificationPredicate: notificationPredicate,
+            primary: appBarPrimary,
+            scrolledUnderElevation: scrolledUnderElevation,
+            shadowColor: shadowColor,
+            foregroundColor: appBarForegroundColor,
+            shape: shape,
+            surfaceTintColor: surfaceTintColor,
+            titleSpacing: titleSpacing,
+            titleTextStyle: titleTextStyle,
+            toolbarHeight: toolbarHeight,
+            toolbarOpacity: toolbarOpacity,
+            toolbarTextStyle: toolbarTextStyle)
+        : null);
     if (current == null) return null;
     return PreferredSize(
         preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
