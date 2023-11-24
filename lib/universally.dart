@@ -6,8 +6,7 @@ export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:fl_dio/fl_dio.dart';
-export 'package:hive_flutter/hive_flutter.dart';
-export 'package:hive/hive.dart';
+export 'package:isar/isar.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:keframe/keframe.dart';
 export 'package:permission_handler/permission_handler.dart';
@@ -37,7 +36,7 @@ export 'component/base_app.dart';
 
 /// dependencies
 export 'dependencies/dio.dart';
-export 'dependencies/hive.dart';
+export 'dependencies/isar/hive.dart';
 export 'dependencies/svg.dart';
 export 'dependencies/carousel_slider.dart';
 export 'dependencies/extended_image.dart';
