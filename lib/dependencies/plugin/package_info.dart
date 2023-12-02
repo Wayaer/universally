@@ -9,9 +9,8 @@ class BasePackageInfo {
 
   PackageInfo? _packageInfo;
 
-  Future<PackageInfo> initialize() async {
-    return _packageInfo = await PackageInfo.fromPlatform();
-  }
+  Future<PackageInfo> initialize() async =>
+      _packageInfo ??= (await PackageInfo.fromPlatform());
 
   PackageInfo get packageInfo {
     assert(_packageInfo != null, 'initialize must be called first');
