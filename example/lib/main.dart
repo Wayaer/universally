@@ -12,12 +12,6 @@ Future<void> main() async {
   isBeta = true;
   await Global().setConfig(GlobalConfig(
       mainColor: Colors.purple.shade900,
-      textColor: TextColor(
-          largeColor: const Color(0xFF292929),
-          veryLargeColor: const Color(0xFF292929),
-          defaultColor: const Color(0xFF292929),
-          styleColor: const Color(0xFF292929),
-          smallColor: const Color(0x804D4D4D)),
       loadingBuilder: (BaseLoading loading) => Container(
           width: loading.size * 2,
           height: loading.size * 2,
@@ -31,6 +25,7 @@ Future<void> main() async {
   BasePackageInfo().initialize();
   runApp(BaseApp(
       title: 'Universally',
+      desktopWindowsSize: DesktopWindowsSize.iPhone5P5,
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
       initState: (context) async {
@@ -78,11 +73,6 @@ class HomePage extends StatelessWidget {
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
-          Button(
-              onTap: () {
-                UrlLauncher().openUrl('tel:10086');
-              },
-              text: 'Call Phone'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(child: const SwitchApiButton(color: Colors.white)),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
@@ -98,6 +88,21 @@ class HomePage extends StatelessWidget {
               text: 'showDoubleChooseAlert'),
           Button(onTap: showLoading, text: 'showLoading'),
           Button(
+              onTap: () {
+                push(const SpinKitPage());
+              },
+              text: 'SpinKit'),
+        ]));
+  }
+
+  List<Widget> get buildMobile => !isWeb && isMobile
+      ? [
+          Button(
+              onTap: () {
+                UrlLauncher().openUrl('tel:10086');
+              },
+              text: 'Call Phone'),
+          Button(
               onTap: () async {
                 final res = await getPermission(
                     Permission.requestInstallPackages,
@@ -105,13 +110,6 @@ class HomePage extends StatelessWidget {
                 showToast(res.toString());
               },
               text: 'requestInstallPackages'),
-          Button(
-              onTap: () async {
-                final res = await getPermission(Permission.camera,
-                    alert: '本服务需要访问您的“相机”，以修改头像或上传图片');
-                showToast(res.toString());
-              },
-              text: 'getPermission'),
           Button(
               onTap: () async {
                 final res = await getPermissions([
@@ -123,12 +121,24 @@ class HomePage extends StatelessWidget {
               },
               text: 'getPermissions'),
           Button(
+              onTap: () async {
+                final res = await getPermission(Permission.camera,
+                    alert: '本服务需要访问您的“相机”，以修改头像或上传图片');
+                showToast(res.toString());
+              },
+              text: 'getPermission'),
+          Button(
               onTap: () {
                 UrlLauncher().openAppStore(
                     packageName: 'com.tencent.mobileqq',
                     appId: isIOS ? '444934666' : '451108668');
               },
               text: 'openAppStore'),
+        ]
+      : [];
+
+  List<Widget> get buildAndroid => !isWeb && isAndroid
+      ? [
           Button(
               onTap: () async {
                 final result = await UrlLauncher().isInstalledApp(
@@ -142,18 +152,20 @@ class HomePage extends StatelessWidget {
                 push(const AndroidSystemSettingPage());
               },
               text: 'AndroidSystemSetting'),
+        ]
+      : [];
+
+  List<Widget> get buildIOS => !isWeb && isIOS
+      ? [
           Button(
               onTap: () {
                 UrlLauncher().openUrl(IOSSettingUrl.notifications.value);
               },
               text: 'IOSSystemSetting'),
-          Button(
-              onTap: () {
-                push(const SpinKitPage());
-              },
-              text: 'SpinKit'),
-        ]));
-  }
+        ]
+      : [];
+
+  List<Widget> get buildDesktop => !isWeb && isDesktop ? [] : [];
 }
 
 class Button extends Universal {

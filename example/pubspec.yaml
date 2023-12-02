@@ -15,7 +15,7 @@ dependencies:
   crypto: ^3.0.3
 
 dev_dependencies:
-  flutter_lints: ^3.0.1
+  flutter_lints: any
 
 flutter:
   uses-material-design: true

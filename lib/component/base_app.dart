@@ -56,6 +56,7 @@ class BaseApp extends StatefulWidget {
     this.onGenerateInitialRoutes,
     this.restorationScopeId,
     this.hidden,
+    this.desktopWindowsSize = DesktopWindowsSize.iPhone6P1,
   });
 
   final List<SingleChildWidget> providers;
@@ -162,6 +163,8 @@ class BaseApp extends StatefulWidget {
   final InitialRouteListFactory? onGenerateInitialRoutes;
   final String? restorationScopeId;
 
+  final DesktopWindowsSize desktopWindowsSize;
+
   @override
   State<BaseApp> createState() => _BaseAppState();
 }
@@ -182,7 +185,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
       widget.initState?.call(context);
       if (isDebug && isDesktop) {
         await Curiosity().desktop.focus();
-        final state = await Curiosity().desktop.setSizeTo6P1();
+        final state = await widget.desktopWindowsSize.set();
         '桌面端限制宽高 $state'.log();
       }
     });
