@@ -1,4 +1,4 @@
-## 6.3.0
+## 6.3.1
 
 * Change `BasePackage` to `PackageInfoPlus`
 * Change `BaseConnectivity` to `ConnectivityPlus`
