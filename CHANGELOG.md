@@ -1,7 +1,8 @@
 ## 6.3.0
 
-* Change BasePackage to PackageInfoPlus
-* 
+* Change `BasePackage` to `PackageInfoPlus`
+* Change `BaseConnectivity` to `ConnectivityPlus`
+* Change `BaseDeviceInfo` to `DeviceInfoPlus`
 
 ## 6.2.2
 
