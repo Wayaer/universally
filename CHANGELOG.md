@@ -1,3 +1,8 @@
+## 6.3.0
+
+* Change BasePackage to PackageInfoPlus
+* 
+
 ## 6.2.2
 
 * Migrate to 3.16.0
@@ -57,8 +62,10 @@
 
 ## 3.5.2
 
-* In `BasicAppBar`, change the `text` to `titleText` and change the `title` type to `Widget`, Change hasLeading to enableLeading
-* In `BasicScaffold`, add `appBarTitleText` and change the `appBarTitle` type to `Widget`, Change hasLeading to enableLeading
+* In `BasicAppBar`, change the `text` to `titleText` and change the `title` type to `Widget`, Change
+  hasLeading to enableLeading
+* In `BasicScaffold`, add `appBarTitleText` and change the `appBarTitle` type to `Widget`, Change
+  hasLeading to enableLeading
 * `UserPrivacyCheckbox` adds `fontSize`
 
 ## 3.5.1
@@ -121,7 +128,8 @@
 
 ## 1.7.0
 
-* Remove `showNetworkToast`, `alertNotNetwork`, `onConnectivityChanged` from `BasicApp()`,Please use `BasicConnectivity()`
+* Remove `showNetworkToast`, `alertNotNetwork`, `onConnectivityChanged` from `BasicApp()`,Please
+  use `BasicConnectivity()`
 
 ## 1.6.2+2
 
@@ -138,7 +146,8 @@
 ## 1.5.0+1
 
 * Remove appPath from `ProjectConfig()`,
-* Add cachePath to `ProjectConfig()`,If you do not set cachePath, the default cache path is automatically used
+* Add cachePath to `ProjectConfig()`,If you do not set cachePath, the default cache path is
+  automatically used
 
 ## 1.3.3
 

@@ -22,14 +22,14 @@ Future<void> main() async {
       betaApi: '这是设置测试Api',
       releaseApi: '这里设置发布版Api',
       toastOptions: const ToastOptions(ignoring: false)));
-  BasePackageInfo().initialize();
+  PackageInfoPlus().initialize();
   runApp(BaseApp(
       title: 'Universally',
-      desktopWindowsSize: DesktopWindowsSize.iPhone5P5,
+      desktopWindowsSize: DesktopWindowsSize.iPhone4P7.value,
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
       initState: (context) async {
-        BaseConnectivity().addListener((status, result) async {
+        ConnectivityPlus().addListener((status, result) async {
           switch (result) {
             case ConnectivityResult.wifi:
               showToast('use wifi');
@@ -55,7 +55,7 @@ Future<void> main() async {
           }
           return true;
         });
-        BaseConnectivity().subscription(
+        ConnectivityPlus().subscription(
             alertUnavailableNetwork: (status, result) =>
                 alertOnlyMessage('Network Unavailable'));
       }));

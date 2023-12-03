@@ -634,9 +634,9 @@ class BaseDio {
   }
 
   bool get hasNetWork {
-    var network = BaseConnectivity().networkAvailability;
+    var network = ConnectivityPlus().networkAvailability;
     if (!network) {
-      BaseConnectivity().checkConnectivity();
+      ConnectivityPlus().checkConnectivity();
       _removeLoading();
       1.seconds.delayed(_sendRefreshStatus);
     }

@@ -15,7 +15,7 @@ class AndroidSystemSettingPage extends StatelessWidget {
               (item) => Button(
                   onTap: () {
                     AndroidSystemSettingIntent(item,
-                            package: BasePackageInfo().packageName)
+                            package: PackageInfoPlus().packageName)
                         .launch();
                   },
                   text: item.name),

@@ -1,11 +1,11 @@
 import 'package:device_info_plus/device_info_plus.dart';
 
-class DeviceInfo {
-  factory DeviceInfo() => _singleton ??= DeviceInfo._();
+class DeviceInfoPlus {
+  factory DeviceInfoPlus() => _singleton ??= DeviceInfoPlus._();
 
-  DeviceInfo._();
+  DeviceInfoPlus._();
 
-  static DeviceInfo? _singleton;
+  static DeviceInfoPlus? _singleton;
 
   final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
 

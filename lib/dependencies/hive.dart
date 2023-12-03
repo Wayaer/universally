@@ -21,6 +21,7 @@ abstract class HiveBox {
         await openBox();
       }
     }
+    box().path.log();
   }
 
   Future<Box> openBox() async {
