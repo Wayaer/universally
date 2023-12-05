@@ -178,9 +178,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     }
     super.initState();
     addObserver(this);
-    addPostFrameCallback((_) async {
-      widget.initState?.call(context);
-    });
+    widget.initState?.call(context);
   }
 
   @override

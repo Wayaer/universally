@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
-import 'package:window_manager/window_manager.dart';
 
 typedef LoadingCoreBuilder = Widget? Function(BaseLoading loading);
 
