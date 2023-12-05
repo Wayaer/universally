@@ -1,3 +1,10 @@
+## 6.4.
+
+* Removed `DesktopWindowsSize`, and Added `WindowsSize`.
+* Removed `Curiosity().desktop`, and Added `window_manager`.
+* `Global().setConfig()` adds `windowOptions`
+* The scripts directory adds macos and windows support
+
 ## 6.3.1
 
 * Change `BasePackage` to `PackageInfoPlus`
