@@ -10,22 +10,31 @@ import 'page/android_system_setting.dart';
 
 Future<void> main() async {
   isBeta = true;
-  await Global().setConfig(GlobalConfig(
-      mainColor: Colors.purple.shade900,
-      loadingBuilder: (BaseLoading loading) => Container(
-          width: loading.size * 2,
-          height: loading.size * 2,
-          decoration: BoxDecoration(
-              color: UCS.black, borderRadius: BorderRadius.circular(10)),
-          child: const BaseLoading(
-              color: Colors.white, style: SpinKitStyle.fadingCircle)),
-      betaApi: '这是设置测试Api',
-      releaseApi: '这里设置发布版Api',
-      toastOptions: const ToastOptions(ignoring: false)));
+  await Global().setConfig(
+      GlobalConfig(
+          mainColor: Colors.purple.shade900,
+          loadingBuilder: (BaseLoading loading) => Container(
+              width: loading.size * 2,
+              height: loading.size * 2,
+              decoration: BoxDecoration(
+                  color: UCS.black, borderRadius: BorderRadius.circular(10)),
+              child: const BaseLoading(
+                  color: Colors.white, style: SpinKitStyle.fadingCircle)),
+          betaApi: '这是设置测试Api',
+          releaseApi: '这里设置发布版Api',
+          toastOptions: const ToastOptions(ignoring: false)),
+      windowOptions: WindowOptions(
+          size: WindowsSize.iPhone5P8.value,
+          minimumSize: WindowsSize.iPhone4P7.value,
+          maximumSize: WindowsSize.iPhone6P1.value,
+          center: true,
+          backgroundColor: Colors.transparent,
+          skipTaskbar: false,
+          title: '0000',
+          titleBarStyle: TitleBarStyle.hidden));
   PackageInfoPlus().initialize();
   runApp(BaseApp(
       title: 'Universally',
-      desktopWindowsSize: DesktopWindowsSize.iPhone4P7.value,
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),
       initState: (context) async {

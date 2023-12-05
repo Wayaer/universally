@@ -19,6 +19,7 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:android_intent_plus/android_intent.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
+export 'package:window_manager/window_manager.dart';
 
 /// component
 export 'component/component.dart';
@@ -57,4 +58,5 @@ export 'global.dart';
 
 /// const
 export 'const/const.dart';
+export 'const/desktop.dart';
 export 'const/ios_macos_setting.dart';
