@@ -1,4 +1,4 @@
-## 6.4.
+## 6.4.0
 
 * Removed `DesktopWindowsSize`, and Added `WindowsSize`.
 * Removed `Curiosity().desktop`, and Added `window_manager`.
