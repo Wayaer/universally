@@ -59,7 +59,6 @@ class BaseDioOptions extends BaseOptions {
     this.extraParams,
     this.extraUri,
     this.errorIntercept,
-    this.filteredApi = const [],
     super.method,
     super.baseUrl = '',
     super.queryParameters,
@@ -104,9 +103,6 @@ class BaseDioOptions extends BaseOptions {
 
   /// 错误拦截;
   BaseDioErrorIntercept? errorIntercept;
-
-  /// 不打印 返回 data 的 api
-  List<String> filteredApi;
 
   /// 下载的ContentType;
   String? downloadContentType;
@@ -169,8 +165,6 @@ class BaseDio {
         interceptors: [
           ...interceptors,
           if (isDebugger) DebuggerInterceptor(),
-          if (isDebug)
-            LoggerInterceptor(filteredApi: options?.filteredApi ?? [])
         ],
         options: basicDioOptions,
         transformer: transformer,
