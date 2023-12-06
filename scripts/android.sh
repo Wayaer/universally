@@ -97,19 +97,19 @@ echo "😄 打包 $channel 的 $buildType 已完成 😄"
 if [ "apk" == "$outputType" ]; then
   if [ 1 == "$split" ]; then
     if [ "$targetPlatform" -ge 1 ]; then
-      mv ./build/app/outputs/flutter-apk/app-armeabi-v7a-"$buildType".apk ./"$outputDir""$outputName-$channel-32v${version}.$(date "+%Y%m%d%H%M")".apk
+      mv ./build/app/outputs/flutter-apk/app-armeabi-v7a-"$buildType".apk ./"$outputDir""$outputName-$channel-32v${version}-$(date "+%Y%m%d%H%M")".apk
     fi
     if [ "$targetPlatform" -ge 2 -o "$targetPlatform" == 0 ]; then
-      mv ./build/app/outputs/flutter-apk/app-arm64-v8a-"$buildType".apk ./"$outputDir""$outputName-$channel-64v${version}.$(date "+%Y%m%d%H%M")".apk
+      mv ./build/app/outputs/flutter-apk/app-arm64-v8a-"$buildType".apk ./"$outputDir""$outputName-$channel-64v${version}-$(date "+%Y%m%d%H%M")".apk
     fi
     if [ "$targetPlatform" -ge 3 ]; then
-      mv ./build/app/outputs/flutter-apk/app-x86_64-"$buildType".apk ./"$outputDir""$outputName-$channel-x86v${version}.$(date "+%Y%m%d%H%M")".apk
+      mv ./build/app/outputs/flutter-apk/app-x86_64-"$buildType".apk ./"$outputDir""$outputName-$channel-x86v${version}-$(date "+%Y%m%d%H%M")".apk
     fi
   else
-    mv ./build/app/outputs/flutter-apk/app-"$buildType".apk ./"$outputDir""$outputName-$channel-v${version}.$(date "+%Y%m%d%H%M")".apk
+    mv ./build/app/outputs/flutter-apk/app-"$buildType".apk ./"$outputDir""$outputName-$channel-v${version}-$(date "+%Y%m%d%H%M")".apk
   fi
 elif [ "appbundle" == "$outputType" ]; then
-  mv ./build/app/outputs/bundle/"$buildType"/app-"$buildType".aab ./"$outputDir""$outputName-$channel-v${version}.$(date "+%Y%m%d%H%M")".aab
+  mv ./build/app/outputs/bundle/"$buildType"/app-"$buildType".aab ./"$outputDir""$outputName-$channel-v${version}-$(date "+%Y%m%d%H%M")".aab
 fi
 
 echo ""

@@ -69,7 +69,7 @@ mkdir -p "$outputDir"
 echo ""
 echo "😄 打包 $channel 的 $exportMethodName $buildType 已完成 😄"
 
-mv ./build/ios/ipa/"$outputName".ipa ./"$outputDir"/"$outputName-$channel-$exportMethodName-v$version"".$(date "+%Y%m%d%H%M")".ipa
+mv ./build/ios/ipa/"$outputName".ipa ./"$outputDir"/"$outputName-$channel-$exportMethodName-v$version""-$(date "+%Y%m%d%H%M")".ipa
 
 echo ""
 echo "========== 💪 iOS打包完成 💪 =========="

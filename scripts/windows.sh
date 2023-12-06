@@ -63,7 +63,7 @@ echo ""
 echo "😄 打包 $channel 的 $buildType 已完成 😄"
 
 # shellcheck disable=SC2140
-mv ./build/windows/x64/runner/"$buildType" ./"$outputDir"/"$outputName-$channel-v$version/"
+mv ./build/windows/x64/runner/"$buildType" ./"$outputDir"/"$outputName-$channel-v$version""-$(date "+%Y%m%d%H%M")"/"
 
 echo ""
 echo "========== 💪 windows 打包完成 💪 =========="
