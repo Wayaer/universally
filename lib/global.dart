@@ -163,7 +163,7 @@ class Global {
     WindowOptions? windowOptions,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
-    if (isDesktop) {
+    if (isDesktop && !isWeb) {
       await windowManager.ensureInitialized();
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
