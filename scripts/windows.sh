@@ -44,7 +44,7 @@ fi
 
 echo "
  -------------------------------------------------------------
- |    android: $version,
+ |    windows: $version,
  |    outputName: $outputName,
  |    channel: $channel,
  |    buildType: $buildType,

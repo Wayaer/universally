@@ -50,7 +50,7 @@ exportMethod=" --export-method $exportMethodName"
 
 echo "
  -------------------------------------------------------------
- |    android: $version,
+ |    ios: $version,
  |    outputName: $outputName,
  |    channel: $channel,
  |    exportMethod: $exportMethod,
