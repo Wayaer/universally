@@ -63,7 +63,7 @@ echo ""
 echo "😄 打包 $channel 的 $buildType 已完成 😄"
 
 # shellcheck disable=SC2140
-mv "./build/macos/Build/Products/$buildType/$outputName.app" "./$outputDir/$outputName-$channel-v$version-$(date "+%Y%m%d%H%M").app"
+mv "./build/macos/Build/Products/$buildType/$outputName.app" "./$outputDir$outputName-$channel-v$version-$(date "+%Y%m%d%H%M").app"
 
 echo ""
 echo "========== 💪 macos 打包完成 💪 =========="
