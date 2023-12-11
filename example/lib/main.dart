@@ -30,8 +30,7 @@ Future<void> main() async {
           center: true,
           backgroundColor: Colors.transparent,
           skipTaskbar: false,
-          title: '0000',
-          titleBarStyle: TitleBarStyle.hidden));
+          title: 'Universally'));
   PackageInfoPlus().initialize();
   runApp(BaseApp(
       title: 'Universally',
