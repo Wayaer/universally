@@ -21,13 +21,13 @@ dependencies:
   keframe: ^3.0.0
   extended_image: ^8.2.0
   flutter_curiosity: ^6.0.0
-  flutter_waya: ^8.6.2
+  flutter_waya: ^8.6.3
   fl_dio: ^0.2.0
   window_manager: ^0.3.7
 
   permission_handler: ^11.1.0
   path_provider: ^2.1.1
-  url_launcher: ^6.2.1
+  url_launcher: ^6.2.2
   package_info_plus: ^5.0.1
   connectivity_plus: ^5.0.2
   android_intent_plus: ^4.0.3
