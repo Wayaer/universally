@@ -1,5 +1,8 @@
 ## 6.4.1
 
+* Update dependency
+* example Supports windows
+
 ## 6.4.0
 
 * Removed `DesktopWindowsSize`, and Added `WindowsSize`.
