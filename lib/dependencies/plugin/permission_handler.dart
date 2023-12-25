@@ -71,10 +71,9 @@ class PermissionPrompt extends StatelessWidget {
   final String title;
   final String content;
 
-  static show<T>({String title = "权限申请说明", required String content}) {
-    return PermissionPrompt(title: title, content: content).popupDialog<T>(
-        options: const DialogOptions(fromStyle: PopupFromStyle.fromTop));
-  }
+  static show<T>({String title = "权限申请说明", required String content}) =>
+      PermissionPrompt(title: title, content: content).popupDialog<T>(
+          options: const DialogOptions(fromStyle: PopupFromStyle.fromTop));
 
   @override
   Widget build(BuildContext context) {
