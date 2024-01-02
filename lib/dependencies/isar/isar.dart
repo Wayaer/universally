@@ -5,6 +5,7 @@ abstract class IsarBoX {
   String? _name;
   bool _lazy = false;
   bool _isOpen = false;
+
   Future<void> initialize(String name,
       {String? subDir, bool lazy = false}) async {
     if (!isInitialize) {
@@ -14,12 +15,10 @@ abstract class IsarBoX {
 
       isInitialize = true;
       if (lazy) {
-        await openLazyBox();
+        // await openLazyBox();
       } else {
-        await openBox();
+        // await openBox();
       }
     }
   }
-
-
 }

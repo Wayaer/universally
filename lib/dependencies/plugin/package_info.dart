@@ -1,17 +1,16 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
-class BasePackageInfo {
-  factory BasePackageInfo() => _singleton ??= BasePackageInfo._();
+class PackageInfoPlus {
+  factory PackageInfoPlus() => _singleton ??= PackageInfoPlus._();
 
-  BasePackageInfo._();
+  PackageInfoPlus._();
 
-  static BasePackageInfo? _singleton;
+  static PackageInfoPlus? _singleton;
 
   PackageInfo? _packageInfo;
 
-  Future<PackageInfo> initialize() async {
-    return _packageInfo = await PackageInfo.fromPlatform();
-  }
+  Future<PackageInfo> initialize() async =>
+      _packageInfo ??= (await PackageInfo.fromPlatform());
 
   PackageInfo get packageInfo {
     assert(_packageInfo != null, 'initialize must be called first');

@@ -158,8 +158,18 @@ class Global {
     GlobalConfig config, {
     bool? enableBeta,
     String? channel,
+
+    /// desktop
+    WindowOptions? windowOptions,
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
+    if (isDesktop && !isWeb) {
+      await windowManager.ensureInitialized();
+      windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.focus();
+      });
+    }
     _config = config;
 
     const env = String.fromEnvironment(UConst.channel);

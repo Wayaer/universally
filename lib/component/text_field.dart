@@ -34,6 +34,7 @@ class BaseTextField extends StatefulWidget {
       this.fillColor,
       this.suffix = const [],
       this.prefix = const [],
+      this.constraints,
       this.borderRadius = const BorderRadius.all(Radius.circular(4)),
       this.borderType = BorderType.outline,
       this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
@@ -56,8 +57,8 @@ class BaseTextField extends StatefulWidget {
       this.smartDashesType,
       this.smartQuotesType,
       this.enableSuggestions = true,
-      this.maxLines = 1,
-      this.minLines = 1,
+      this.maxLines,
+      this.minLines,
       this.expands = false,
       this.maxLength,
       this.maxLengthEnforcement,
@@ -123,6 +124,7 @@ class BaseTextField extends StatefulWidget {
   /// 头部和底部 添加组件
   final Widget? header;
   final Widget? footer;
+  final BoxConstraints? constraints;
 
   /// 边框样式
   final BorderRadius? borderRadius;
@@ -177,8 +179,8 @@ class BaseTextField extends StatefulWidget {
   final Color? fillColor;
 
   /// 默认为 1
-  final int maxLines;
-  final int minLines;
+  final int? maxLines;
+  final int? minLines;
 
   /// 是否自动获取焦点 默认false
   final bool autoFocus;
@@ -400,7 +402,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                     BorderSide(color: Global().mainColor)
                 : null,
             borderSide: widget.borderSide,
-            constraints: const BoxConstraints(minHeight: 35),
+            constraints: widget.constraints,
             child: buildTextField(
                 innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
   }
@@ -446,7 +448,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 autofocus: widget.autoFocus,
                 obscureText: widget.enableEye && value,
                 obscuringCharacter: widget.obscuringCharacter,
-                maxLines: _maxLines,
+                maxLines: widget.maxLines,
                 minLines: widget.minLines,
                 maxLengthEnforcement: widget.maxLengthEnforcement,
                 maxLength: widget.maxLength,
@@ -454,9 +456,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 textAlign: _textAlign,
                 onTap: widget.onTap,
                 onSubmitted: widget.onSubmitted,
-                onEditingComplete: widget.onEditingComplete == null
-                    ? null
-                    : () => widget.onEditingComplete!.call(controller),
+                onEditingComplete: () =>
+                    widget.onEditingComplete?.call(controller),
                 showCursor: widget.showCursor,
                 cursorColor: Global().mainColor,
                 cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
@@ -510,15 +511,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   TextAlign get _textAlign {
     TextAlign align = widget.textAlign;
-    if (_maxLines > 1) align = TextAlign.start;
+    if (widget.maxLines != null && widget.maxLines! > 1) {
+      align = TextAlign.start;
+    }
     return align;
-  }
-
-  int get _maxLines {
-    final int max = widget.maxLines;
-    final int min = widget.minLines;
-    if (min > max) return min;
-    return max;
   }
 
   Widget? get buildHeader {

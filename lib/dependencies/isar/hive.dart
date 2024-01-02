@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:universally/universally.dart';
 
 abstract class HiveBox {
   bool isInitialize = false;
@@ -204,7 +204,8 @@ class BHP extends HiveBox {
   static BHP? _singleton;
 
   Future<bool> init() async {
-    await super.initialize('preferences');
+    final dir = await PathProvider().getApplicationSupportDirectory();
+    await super.initialize('preferences', subDir: dir.path);
     await ApiCache().init();
     return isInitialize;
   }
@@ -219,7 +220,8 @@ class ApiCache extends HiveBox {
   static ApiCache? _singleton;
 
   Future<bool> init() async {
-    await super.initialize('url_data');
+    final dir = await PathProvider().getApplicationSupportDirectory();
+    await super.initialize('url_data', subDir: dir.path);
     return isInitialize;
   }
 }

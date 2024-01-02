@@ -59,7 +59,6 @@ class BaseDioOptions extends BaseOptions {
     this.extraParams,
     this.extraUri,
     this.errorIntercept,
-    this.filteredApi = const [],
     super.method,
     super.baseUrl = '',
     super.queryParameters,
@@ -104,9 +103,6 @@ class BaseDioOptions extends BaseOptions {
 
   /// 错误拦截;
   BaseDioErrorIntercept? errorIntercept;
-
-  /// 不打印 返回 data 的 api
-  List<String> filteredApi;
 
   /// 下载的ContentType;
   String? downloadContentType;
@@ -155,7 +151,7 @@ class BaseDio {
 
   bool hasLoading = false;
 
-  BaseDioOptions basicDioOptions = BaseDioOptions();
+  BaseDioOptions baseDioOptions = BaseDioOptions();
 
   BaseDio initialize({
     BaseDioOptions? options,
@@ -164,15 +160,13 @@ class BaseDio {
     Transformer? transformer,
     List<InterceptorsWrapper> interceptors = const [],
   }) {
-    if (options != null) basicDioOptions = options;
+    if (options != null) baseDioOptions = options;
     dio = ExtendedDio().initialize(
         interceptors: [
           ...interceptors,
           if (isDebugger) DebuggerInterceptor(),
-          if (isDebug)
-            LoggerInterceptor(filteredApi: options?.filteredApi ?? [])
         ],
-        options: basicDioOptions,
+        options: baseDioOptions,
         transformer: transformer,
         httpClientAdapter: httpClientAdapter,
         downloadOptions: downloadOptions);
@@ -195,7 +189,7 @@ class BaseDio {
         data: data,
         options: _initBaseOptions(options, path),
         cancelToken: cancelToken,
-        params: basicDioOptions.extraParams?.call(path, params) ?? params);
+        params: baseDioOptions.extraParams?.call(path, params) ?? params);
     return _response(res, tag);
   }
 
@@ -210,7 +204,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.getUri<T>(uri,
         data: data,
         cancelToken: cancelToken,
@@ -233,11 +227,11 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
 
     final res = await dio.post<T>(path,
         options: _initBaseOptions(options, path),
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -259,8 +253,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
@@ -285,10 +279,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
         options: _initBaseOptions(options, path),
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -310,8 +304,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.putUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
@@ -334,10 +328,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
         options: _initBaseOptions(options, path),
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -355,8 +349,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.deleteUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
@@ -379,10 +373,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
         options: _initBaseOptions(options, path),
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -404,8 +398,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.patchUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
@@ -428,10 +422,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
         options: _initBaseOptions(options, path),
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -449,8 +443,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.headUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
@@ -473,13 +467,13 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
 
     final res = await dio.request<T>(path,
         options: _initBaseOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        params: basicDioOptions.extraParams?.call(path, params) ?? params,
+        params: baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -499,8 +493,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.requestUri<T>(uri,
         options: _initBaseOptions(options, uri.path),
         cancelToken: cancelToken,
@@ -525,7 +519,7 @@ class BaseDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     final res = await dio.post<T>(path,
-        data: basicDioOptions.extraData?.call(path, data) ?? data,
+        data: baseDioOptions.extraData?.call(path, data) ?? data,
         options: _initBaseOptions(options, path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         cancelToken: cancelToken,
@@ -548,9 +542,9 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
-        data: basicDioOptions.extraUriData?.call(uri, data) ?? data,
+        data: baseDioOptions.extraUriData?.call(uri, data) ?? data,
         options: _initBaseOptions(options, uri.path)
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         onReceiveProgress: onReceiveProgress,
@@ -577,7 +571,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = basicDioOptions.extraData?.call(path, data) ?? data;
+    data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBaseOptions(options, path)
@@ -607,8 +601,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
-    data = jsonEncode(basicDioOptions.extraUriData?.call(uri, data) ?? data);
-    uri = basicDioOptions.extraUri?.call(uri) ?? uri;
+    data = jsonEncode(baseDioOptions.extraUriData?.call(uri, data) ?? data);
+    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _initBaseOptions(options, uri.path)
@@ -621,8 +615,8 @@ class BaseDio {
   }
 
   void _addLoading(bool? loading) {
-    hasLoading = loading ?? basicDioOptions.showLoading;
-    if (hasLoading && basicDioOptions.pullHideLoading) {
+    hasLoading = loading ?? baseDioOptions.showLoading;
+    if (hasLoading && baseDioOptions.pullHideLoading) {
       hasLoading = !(pullDown || pullUp);
     }
     if (hasLoading) showLoading();
@@ -634,9 +628,9 @@ class BaseDio {
   }
 
   bool get hasNetWork {
-    var network = BaseConnectivity().networkAvailability;
+    var network = ConnectivityPlus().networkAvailability;
     if (!network) {
-      BaseConnectivity().checkConnectivity();
+      ConnectivityPlus().checkConnectivity();
       _removeLoading();
       1.seconds.delayed(_sendRefreshStatus);
     }
@@ -660,8 +654,8 @@ class BaseDio {
   Options _initBaseOptions(Options? options, String url) {
     options ??= Options();
     final Map<String, dynamic> headers = <String, dynamic>{};
-    if (basicDioOptions.extraHeader != null) {
-      final extraHeader = basicDioOptions.extraHeader!(url);
+    if (baseDioOptions.extraHeader != null) {
+      final extraHeader = baseDioOptions.extraHeader!(url);
       if (extraHeader != null) headers.addAll(extraHeader);
     }
     return options.copyWith(headers: headers);
@@ -701,7 +695,7 @@ class BaseDio {
       baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
     }
     var errorIntercepts =
-        basicDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
+        baseDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
     if (errorIntercepts?.isNotEmpty ?? false) {
       bool pass = true;
       for (var element in errorIntercepts!) {
@@ -736,7 +730,7 @@ class BaseModel {
     msg = '服务器异常';
     original = response;
     if (json != null) {
-      final dioOptions = BaseDio().basicDioOptions;
+      final dioOptions = BaseDio().baseDioOptions;
       final codeValue = _getValue(dioOptions.codeKeys, json);
       if (codeValue != null) code = codeValue!.toString();
       final msgValue = _getValue(dioOptions.msgKeys, json);
@@ -792,12 +786,12 @@ class BaseModel {
 
 /// nullPass = true   data 为null  返回true
 bool resultSuccessFail(BaseModel data, {String? text, bool nullPass = false}) {
-  if (BaseDio().basicDioOptions.successCode.contains(data.code) &&
+  if (BaseDio().baseDioOptions.successCode.contains(data.code) &&
       (nullPass || data.data != null)) {
     if (text != null) showToast(text);
     return true;
   } else {
-    if (!BaseDio().basicDioOptions.hideMsg.contains(data.msg)) {
+    if (!BaseDio().baseDioOptions.hideMsg.contains(data.msg)) {
       showToast(data.msg);
     }
     return false;

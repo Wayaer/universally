@@ -6,7 +6,6 @@ export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:fl_dio/fl_dio.dart';
-export 'package:isar/isar.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:keframe/keframe.dart';
 export 'package:permission_handler/permission_handler.dart';
@@ -18,6 +17,11 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:android_intent_plus/android_intent.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
+export 'package:window_manager/window_manager.dart';
+export 'package:hive/hive.dart';
+export 'package:hive_flutter/hive_flutter.dart';
+export 'package:isar/isar.dart';
+export 'package:isar_flutter_libs/isar_flutter_libs.dart';
 
 /// component
 export 'component/component.dart';
@@ -32,7 +36,7 @@ export 'component/tab_bar.dart';
 export 'component/user_privacy.dart';
 export 'component/switch_api.dart';
 export 'component/cache.dart';
-export 'component/base_app.dart';
+export 'component/material_app.dart';
 
 /// dependencies
 export 'dependencies/dio.dart';
@@ -56,4 +60,5 @@ export 'global.dart';
 
 /// const
 export 'const/const.dart';
+export 'const/desktop.dart';
 export 'const/ios_macos_setting.dart';
