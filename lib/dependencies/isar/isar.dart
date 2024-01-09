@@ -1,24 +1,34 @@
 import 'package:universally/universally.dart';
 
-abstract class IsarBoX {
-  bool isInitialize = false;
-  String? _name;
-  bool _lazy = false;
-  bool _isOpen = false;
+abstract class IsarCore {
+  Isar? _isar;
 
-  Future<void> initialize(String name,
-      {String? subDir, bool lazy = false}) async {
-    if (!isInitialize) {
-      _name = name;
-      _lazy = lazy;
-      Isar.initializeIsarCore();
+  Isar? get isar => _isar;
 
-      isInitialize = true;
-      if (lazy) {
-        // await openLazyBox();
-      } else {
-        // await openBox();
-      }
+  static Future<void> initialize({bool download = false}) async {
+    await Isar.initializeIsarCore(download: download);
+  }
+
+  Future<void> open(
+    List<CollectionSchema<dynamic>> schemas, {
+    String? directory,
+    String name = Isar.defaultName,
+    int maxSizeMiB = Isar.defaultMaxSizeMiB,
+    bool relaxedDurability = true,
+    CompactCondition? compactOnLaunch,
+    bool inspector = true,
+  }) async {
+    if (directory == null) {
+      final documentsDir =
+          await PathProvider().getApplicationDocumentsDirectory();
+      directory = documentsDir.absolute.path;
     }
+    _isar = await Isar.open(schemas,
+        directory: directory,
+        name: name,
+        maxSizeMiB: maxSizeMiB,
+        relaxedDurability: relaxedDurability,
+        compactOnLaunch: compactOnLaunch,
+        inspector: inspector);
   }
 }

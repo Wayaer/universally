@@ -40,7 +40,7 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: any
-  isar_generator: ^3.1.0+1
+
 
 flutter:
   uses-material-design: true
