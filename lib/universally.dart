@@ -1,25 +1,28 @@
 library universally;
 
+export 'package:flutter_localizations/flutter_localizations.dart';
+export 'package:json_annotation/json_annotation.dart';
 export 'package:carousel_slider/carousel_slider.dart';
+export 'package:provider/provider.dart';
+export 'package:flutter_svg/flutter_svg.dart';
+export 'package:flutter_spinkit/flutter_spinkit.dart';
+export 'package:keframe/keframe.dart';
 export 'package:extended_image/extended_image.dart' hide MultipartFile;
 export 'package:flutter_curiosity/flutter_curiosity.dart';
-export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:fl_dio/fl_dio.dart';
-export 'package:hive_flutter/hive_flutter.dart';
-export 'package:hive/hive.dart';
-export 'package:json_annotation/json_annotation.dart';
-export 'package:keframe/keframe.dart';
+export 'package:window_manager/window_manager.dart';
+
 export 'package:permission_handler/permission_handler.dart';
-export 'package:provider/provider.dart';
-export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:url_launcher/url_launcher.dart';
-export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:android_intent_plus/android_intent.dart';
-export 'package:flutter_spinkit/flutter_spinkit.dart';
-export 'package:window_manager/window_manager.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';
+export 'package:device_info_plus/device_info_plus.dart';
+
+export 'package:hive_flutter/hive_flutter.dart';
+export 'package:hive/hive.dart';
 
 /// component
 export 'component/component.dart';
