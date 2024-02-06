@@ -1,4 +1,4 @@
-## 6.4.3
+## 6.4.4
 
 * Modify the `maxLines` and `minLines` of the `BaseTextField` and add the `TextEditingController` extension method
 
