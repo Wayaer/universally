@@ -1,3 +1,8 @@
+## 6.4.5
+
+* Migrate to 3.19.0
+* Update dependency
+
 ## 6.4.4
 
 * Modify the `maxLines` and `minLines` of the `BaseTextField` and add the `TextEditingController` extension method
