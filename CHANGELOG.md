@@ -1,6 +1,6 @@
-## 6.5.0
+## 6.5.1
 
-* Change `BaseApp` to `BaseMaterialApp`,Add the `appBuilder` parameter and you can build your own `MaterialApp`
+* Split `BaseApp` and add `BaseMaterialApp`, `BaseCupertinoApp`, `BaseWidgetsApp`.
 * Migrate to 3.19.0
 * Update dependency
 

@@ -24,6 +24,12 @@ export 'package:device_info_plus/device_info_plus.dart';
 export 'package:hive_flutter/hive_flutter.dart';
 export 'package:hive/hive.dart';
 
+/// app
+export 'app/base_app.dart';
+export 'app/material_app.dart';
+export 'app/cupertino_app.dart';
+export 'app/widgets_app.dart';
+
 /// component
 export 'component/component.dart';
 export 'component/gif.dart';
@@ -37,7 +43,6 @@ export 'component/tab_bar.dart';
 export 'component/user_privacy.dart';
 export 'component/switch_api.dart';
 export 'component/cache.dart';
-export 'component/material_app.dart';
 
 /// dependencies
 export 'dependencies/dio.dart';
