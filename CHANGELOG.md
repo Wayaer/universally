@@ -1,5 +1,6 @@
-## 6.4.5
+## 6.5.0
 
+* Change `BaseApp` to `BaseMaterialApp`,Add the `appBuilder` parameter and you can build your own `MaterialApp`
 * Migrate to 3.19.0
 * Update dependency
 

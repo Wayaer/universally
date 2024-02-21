@@ -32,7 +32,7 @@ Future<void> main() async {
           skipTaskbar: false,
           title: 'Universally'));
   PackageInfoPlus().initialize();
-  runApp(BaseApp(
+  runApp(BaseMaterialApp(
       title: 'Universally',
       providers: [ChangeNotifierProvider(create: (_) => AppState())],
       home: const HomePage(),

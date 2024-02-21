@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
 
-class BaseApp extends StatefulWidget {
-  const BaseApp({
+typedef BaseMaterialAppBuilder = Widget Function(MaterialApp materialApp);
+
+class BaseMaterialApp extends StatefulWidget {
+  const BaseMaterialApp({
     super.key,
     this.providers = const [],
-    required this.home,
-    required this.title,
+    this.home,
+    this.title = '',
     this.consumer,
     this.initState,
     this.dispose,
@@ -56,6 +58,7 @@ class BaseApp extends StatefulWidget {
     this.onGenerateInitialRoutes,
     this.restorationScopeId,
     this.hidden,
+    this.appBuilder,
   });
 
   final List<SingleChildWidget> providers;
@@ -162,11 +165,15 @@ class BaseApp extends StatefulWidget {
   final InitialRouteListFactory? onGenerateInitialRoutes;
   final String? restorationScopeId;
 
+  /// MaterialApp builder
+  final BaseMaterialAppBuilder? appBuilder;
+
   @override
-  State<BaseApp> createState() => _BaseAppState();
+  State<BaseMaterialApp> createState() => _BaseMaterialAppState();
 }
 
-class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
+class _BaseMaterialAppState extends State<BaseMaterialApp>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     if (widget.navigatorKey != null) {
@@ -205,7 +212,7 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final app = MaterialApp(
+    Widget app = MaterialApp(
         title: widget.title,
         builder: (_, __) {
           Widget current =
@@ -247,6 +254,10 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
         restorationScopeId: widget.restorationScopeId,
         scrollBehavior: widget.scrollBehavior,
         home: widget.home);
+
+    if (widget.appBuilder != null) {
+      app = widget.appBuilder!(app as MaterialApp);
+    }
     if (widget.providers.isNotEmpty) {
       return MultiProvider(
           providers: widget.providers,
