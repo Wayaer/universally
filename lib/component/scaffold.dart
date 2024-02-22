@@ -7,6 +7,7 @@ import 'package:universally/universally.dart';
 class BaseScaffold extends StatelessWidget {
   const BaseScaffold({
     super.key,
+    this.body,
     this.child,
 
     /// [children].length > 0 [child] invalid
@@ -121,6 +122,10 @@ class BaseScaffold extends StatelessWidget {
     this.toolbarTextStyle,
   });
 
+  /// [body] > [child] > [children]
+  final Widget? body;
+
+  /// child
   final Widget? child;
 
   /// 相当于给[child] 套用 [Column]、[Row]、[Stack]
@@ -260,7 +265,7 @@ class BaseScaffold extends StatelessWidget {
         bottomNavigationBar: bottomNavigationBar,
         bottomSheet: bottomSheet,
         restorationId: restorationId,
-        body: universal,
+        body: body ?? universal,
         persistentFooterAlignment: persistentFooterAlignment);
     return onPopInvoked != null ||
             isCloseOverlay ||

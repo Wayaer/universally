@@ -1,5 +1,6 @@
 ## 6.5.1
 
+* `BaseScaffold` adds `body`
 * Split `BaseApp` and add `BaseMaterialApp`, `BaseCupertinoApp`, `BaseWidgetsApp`.
 * Migrate to 3.19.0
 * Update dependency
