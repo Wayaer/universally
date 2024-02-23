@@ -1,13 +1,14 @@
 ## 6.5.2
 
 * Fixed the `headers` of `BaseDio` `options` being replaced
+* Update dependencies
 
 ## 6.5.1
 
 * `BaseScaffold` adds `body`
 * Split `BaseApp` and add `BaseMaterialApp`, `BaseCupertinoApp`, `BaseWidgetsApp`.
 * Migrate to 3.19.0
-* Update dependency
+* Update dependencies
 
 ## 6.4.4
 
@@ -15,7 +16,7 @@
 
 ## 6.4.1
 
-* Update dependency
+* Update dependencies
 * example Supports windows
 
 ## 6.4.0
@@ -43,7 +44,7 @@
 
 ## 6.0.8
 
-* Update dependency
+* Update dependencies
 * Add `SpinKit()`
 
 ## 6.0.4
@@ -63,18 +64,18 @@
 
 ## 5.1.1
 
-* Update dependency
+* Update dependencies
 * Migrate to Flutter 3.13.0
 
 ## 4.1.0
 
-* Update dependency
+* Update dependencies
 * Migrate to Flutter 3.10.0
 
 ## 3.5.5
 
 * Remove the setSemanticsEnabled
-* Update dependency
+* Update dependencies
 
 ## 3.5.3
 
@@ -98,7 +99,7 @@
 
 ## 3.5.1
 
-* Updating dependency
+* Updating dependencies
 
 ## 3.5.0+2
 
@@ -106,7 +107,7 @@
 
 ## 3.5.0
 
-* Updating dependency
+* Updating dependencies
 
 ## 3.3.2+2
 
@@ -118,11 +119,11 @@
 
 ## 3.3.1
 
-* Updating dependency
+* Updating dependencies
 
 ## 3.2.0+2
 
-* Updating dependency
+* Updating dependencies
 * Fixed BasicList issues
 
 ## 3.1.0
