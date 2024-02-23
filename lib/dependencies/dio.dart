@@ -187,7 +187,7 @@ class BaseDio {
     _addLoading(loading);
     final res = await dio.get<T>(path,
         data: data,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         cancelToken: cancelToken,
         params: baseDioOptions.extraParams?.call(path, params) ?? params);
     return _response(res, tag);
@@ -208,7 +208,7 @@ class BaseDio {
     final res = await dio.getUri<T>(uri,
         data: data,
         cancelToken: cancelToken,
-        options: _initBaseOptions(options, uri.path));
+        options: _mergeOptions(options, uri.path));
     return _response(res, tag);
   }
 
@@ -228,9 +228,8 @@ class BaseDio {
     if (hasNetWork) return notNetWorkModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
-
     final res = await dio.post<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -256,7 +255,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -281,7 +280,7 @@ class BaseDio {
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -307,7 +306,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.putUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -330,7 +329,7 @@ class BaseDio {
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -352,7 +351,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.deleteUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -375,7 +374,7 @@ class BaseDio {
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -401,7 +400,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.patchUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -424,7 +423,7 @@ class BaseDio {
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -446,7 +445,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.headUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _response(res, tag);
@@ -470,7 +469,7 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
 
     final res = await dio.request<T>(path,
-        options: _initBaseOptions(options, path),
+        options: _mergeOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
         params: baseDioOptions.extraParams?.call(path, params) ?? params,
@@ -496,7 +495,7 @@ class BaseDio {
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.requestUri<T>(uri,
-        options: _initBaseOptions(options, uri.path),
+        options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -520,7 +519,7 @@ class BaseDio {
     _addLoading(loading);
     final res = await dio.post<T>(path,
         data: baseDioOptions.extraData?.call(path, data) ?? data,
-        options: _initBaseOptions(options, path)
+        options: (_mergeOptions(options, path) ?? Options())
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -545,7 +544,7 @@ class BaseDio {
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
         data: baseDioOptions.extraUriData?.call(uri, data) ?? data,
-        options: _initBaseOptions(options, uri.path)
+        options: (_mergeOptions(options, uri.path) ?? Options())
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
@@ -574,7 +573,7 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBaseOptions(options, path)
+        options: (_mergeOptions(options, path) ?? Options())
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
@@ -605,7 +604,7 @@ class BaseDio {
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: _initBaseOptions(options, uri.path)
+        options: (_mergeOptions(options, uri.path) ?? Options())
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
@@ -651,14 +650,17 @@ class BaseDio {
     }
   }
 
-  Options _initBaseOptions(Options? options, String url) {
-    options ??= Options();
-    final Map<String, dynamic> headers = <String, dynamic>{};
-    if (baseDioOptions.extraHeader != null) {
-      final extraHeader = baseDioOptions.extraHeader!(url);
+  Options? _mergeOptions(Options? options, String url) {
+    final extraHeader = baseDioOptions.extraHeader?.call(url);
+    if (options != null || extraHeader != null) {
+      options ??= Options();
+      final Map<String, dynamic> headers = {};
       if (extraHeader != null) headers.addAll(extraHeader);
+      if (options.headers != null) headers.addAll(options.headers!);
+      log("headers: $headers");
+      return options.copyWith(headers: headers);
     }
-    return options.copyWith(headers: headers);
+    return null;
   }
 
   BaseModel _response(ExtendedResponse res, dynamic tag) {

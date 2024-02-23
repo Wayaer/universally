@@ -1,3 +1,7 @@
+## 6.5.2
+
+* Fixed the `headers` of `BaseDio` `options` being replaced
+
 ## 6.5.1
 
 * `BaseScaffold` adds `body`
