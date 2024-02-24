@@ -1,4 +1,4 @@
-## 6.5.2
+## 6.5.3
 
 * Fixed the `headers` of `BaseDio` `options` being replaced
 * Update dependencies
@@ -12,7 +12,8 @@
 
 ## 6.4.4
 
-* Modify the `maxLines` and `minLines` of the `BaseTextField` and add the `TextEditingController` extension method
+* Modify the `maxLines` and `minLines` of the `BaseTextField` and add the `TextEditingController`
+  extension method
 
 ## 6.4.1
 

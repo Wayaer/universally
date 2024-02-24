@@ -657,7 +657,6 @@ class BaseDio {
       final Map<String, dynamic> headers = {};
       if (extraHeader != null) headers.addAll(extraHeader);
       if (options.headers != null) headers.addAll(options.headers!);
-      log("headers: $headers");
       return options.copyWith(headers: headers);
     }
     return null;
