@@ -8,6 +8,8 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:keframe/keframe.dart';
 export 'package:extended_image/extended_image.dart' hide MultipartFile;
+export 'package:extended_image_library/extended_image_library.dart'
+    hide MultipartFile;
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_waya/flutter_waya.dart';
 export 'package:fl_dio/fl_dio.dart';
