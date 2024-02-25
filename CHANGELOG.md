@@ -1,3 +1,7 @@
+## 6.6.0
+
+* Support web
+
 ## 6.5.3
 
 * Fixed the `headers` of `BaseDio` `options` being replaced

@@ -205,7 +205,7 @@ class BHP extends HiveBox {
 
   Future<bool> init() async {
     final dir = await PathProvider().getApplicationSupportDirectory();
-    await super.initialize('preferences', subDir: dir.path);
+    await super.initialize('preferences', subDir: dir?.path);
     await ApiCache().init();
     return isInitialize;
   }
@@ -221,7 +221,7 @@ class ApiCache extends HiveBox {
 
   Future<bool> init() async {
     final dir = await PathProvider().getApplicationSupportDirectory();
-    await super.initialize('url_data', subDir: dir.path);
+    await super.initialize('url_data', subDir: dir?.path);
     return isInitialize;
   }
 }

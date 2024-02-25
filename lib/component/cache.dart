@@ -32,7 +32,9 @@ class _CleanCacheState extends State<CleanCache> {
   }
 
   void getSize() async {
-    getDirSize(await PathProvider().getTemporaryDirectory());
+    if (isWeb) return;
+    final dir = await PathProvider().getTemporaryDirectory();
+    getDirSize(dir!);
     if (isAndroid) {
       final dirs = await PathProvider().getExternalCacheDirectories();
       dirs?.forEach((element) {

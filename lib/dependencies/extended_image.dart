@@ -1,6 +1,6 @@
-import 'dart:io';
+// import 'dart:io'
+//     if (dart.library.html) 'package:extended_image_library/extended_image_library.dart';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -48,27 +48,27 @@ class BaseResizeImage extends ExtendedResizeImage {
                 package: package,
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName)));
-
-  BaseResizeImage.file(
-    File file, {
-    double scale = 1.0,
-    bool cacheRawData = false,
-    String? imageCacheName,
-    int? cacheWidth,
-    int? cacheHeight,
-    double? compressionRatio,
-    int? maxBytes,
-  }) : super(ExtendedResizeImage.resizeIfNeeded(
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            provider: ExtendedFileImageProvider(file,
-                cacheRawData: cacheRawData,
-                scale: scale,
-                imageCacheName: imageCacheName)));
+  //
+  // BaseResizeImage.file(
+  //   File file, {
+  //   double scale = 1.0,
+  //   bool cacheRawData = false,
+  //   String? imageCacheName,
+  //   int? cacheWidth,
+  //   int? cacheHeight,
+  //   double? compressionRatio,
+  //   int? maxBytes,
+  // }) : super(ExtendedResizeImage.resizeIfNeeded(
+  //           cacheWidth: cacheWidth,
+  //           cacheHeight: cacheHeight,
+  //           maxBytes: maxBytes,
+  //           compressionRatio: compressionRatio,
+  //           cacheRawData: cacheRawData,
+  //           imageCacheName: imageCacheName,
+  //           provider: ExtendedFileImageProvider(file,
+  //               cacheRawData: cacheRawData,
+  //               scale: scale,
+  //               imageCacheName: imageCacheName)));
 
   BaseResizeImage.network(
     String url, {
@@ -154,7 +154,7 @@ class BaseImage extends ExtendedImage {
   }) : super(image: image);
 
   BaseImage.file(
-    File? file, {
+    super.file, {
     super.key,
     super.scale = 1.0,
     super.semanticLabel,
@@ -200,7 +200,7 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.file(file ?? File('file is null'),
+  }) : super.file(
             loadStateChanged:
                 buildLoadStateChanged(failed: failed, loading: loading));
 
@@ -436,16 +436,18 @@ class BaseImage extends ExtendedImage {
     AssetBundle? bundle,
     String? package,
   }) {
-    if (value is File) {
-      return BaseResizeImage.file(value,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
-          maxBytes: maxBytes,
-          compressionRatio: compressionRatio,
-          cacheRawData: cacheRawData,
-          imageCacheName: imageCacheName,
-          scale: scale);
-    } else if (value is Uint8List) {
+    // if (value is File) {
+    //   return BaseResizeImage.file(value,
+    //       cacheWidth: cacheWidth,
+    //       cacheHeight: cacheHeight,
+    //       maxBytes: maxBytes,
+    //       compressionRatio: compressionRatio,
+    //       cacheRawData: cacheRawData,
+    //       imageCacheName: imageCacheName,
+    //       scale: scale);
+    // } else
+    //
+    if (value is Uint8List) {
       return BaseResizeImage.memory(value,
           cacheWidth: cacheWidth,
           cacheHeight: cacheHeight,
