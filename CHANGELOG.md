@@ -1,4 +1,4 @@
-## 6.6.2
+## 6.6.1
 
 * Support web
 * Fixed `enableLeading` misalignment of `BaseAppBar`
