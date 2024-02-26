@@ -406,7 +406,7 @@ class BaseAppBar extends AppBar {
             title: title ?? (titleText == null ? null : TextLarge(titleText)),
             leading: enableLeading
                 ? leading ?? BackIcon(isMaybePop: isMaybePop)
-                : const SizedBox(),
+                : null,
             actions: [
               if (actions != null && actions.isNotEmpty) ...actions,
               if (action != null)
