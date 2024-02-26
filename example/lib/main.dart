@@ -4,6 +4,7 @@ import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/text_field_page.dart';
+import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 import 'page/android_system_setting.dart';
@@ -32,41 +33,55 @@ Future<void> main() async {
           skipTaskbar: false,
           title: 'Universally'));
   PackageInfoPlus().initialize();
-  runApp(BaseMaterialApp(
-      title: 'Universally',
-      providers: [ChangeNotifierProvider(create: (_) => AppState())],
-      home: const HomePage(),
-      initState: (context) async {
-        ConnectivityPlus().addListener((status, result) async {
-          switch (result) {
-            case ConnectivityResult.wifi:
-              showToast('use wifi');
-              break;
-            case ConnectivityResult.ethernet:
-              showToast('use ethernet');
-              break;
-            case ConnectivityResult.mobile:
-              showToast('use Cellular networks');
-              break;
-            case ConnectivityResult.none:
-              showToast('none networks');
-              break;
-            case ConnectivityResult.bluetooth:
-              showToast('use bluetooth');
-              break;
-            case ConnectivityResult.vpn:
-              showToast('use vpn');
-              break;
-            case ConnectivityResult.other:
-              showToast('use other');
-              break;
-          }
-          return true;
+  runApp(DevicePreview(
+      enabled: isDesktop || isWeb,
+      defaultDevice: Devices.ios.iPhone13Mini,
+      builder: (context) => const _App()));
+}
+
+class _App extends StatelessWidget {
+  const _App();
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseMaterialApp(
+        title: 'Universally',
+        providers: [ChangeNotifierProvider(create: (_) => AppState())],
+        home: const HomePage(),
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
+        initState: (context) async {
+          ConnectivityPlus().addListener((status, result) async {
+            switch (result) {
+              case ConnectivityResult.wifi:
+                showToast('use wifi');
+                break;
+              case ConnectivityResult.ethernet:
+                showToast('use ethernet');
+                break;
+              case ConnectivityResult.mobile:
+                showToast('use Cellular networks');
+                break;
+              case ConnectivityResult.none:
+                showToast('none networks');
+                break;
+              case ConnectivityResult.bluetooth:
+                showToast('use bluetooth');
+                break;
+              case ConnectivityResult.vpn:
+                showToast('use vpn');
+                break;
+              case ConnectivityResult.other:
+                showToast('use other');
+                break;
+            }
+            return true;
+          });
+          ConnectivityPlus().subscription(
+              alertUnavailableNetwork: (status, result) =>
+                  alertOnlyMessage('Network Unavailable'));
         });
-        ConnectivityPlus().subscription(
-            alertUnavailableNetwork: (status, result) =>
-                alertOnlyMessage('Network Unavailable'));
-      }));
+  }
 }
 
 class HomePage extends StatelessWidget {
@@ -80,9 +95,9 @@ class HomePage extends StatelessWidget {
         safeBottom: true,
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
+          Button(child: const SwitchApiButton(color: Colors.white)),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
-          Button(child: const SwitchApiButton(color: Colors.white)),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(
@@ -181,17 +196,11 @@ class Button extends Universal {
     super.key,
     Widget? child,
     String? text,
-    super.onTap,
+    final VoidCallback? onTap,
   }) : super(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            margin: const EdgeInsets.all(5),
-            heroTag: text,
-            child: child ??
-                BText(text ?? '', style: const TStyle(color: UCS.white)),
-            decoration: BoxDecoration(
-                border: Border.all(color: Global().mainColor),
-                color: Global().mainColor,
-                borderRadius: BorderRadius.circular(8)));
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: ElevatedButton(
+                onPressed: onTap, child: child ?? Text(text ?? '')));
 }
 
 class AppState with ChangeNotifier {}
