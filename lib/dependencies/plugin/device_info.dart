@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:universally/universally.dart';
 
 class DeviceInfoPlus {
