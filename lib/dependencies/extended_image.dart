@@ -106,6 +106,81 @@ class BaseResizeImage extends ExtendedResizeImage {
                 cacheRawData: cacheRawData,
                 imageCacheName: imageCacheName,
                 cacheMaxAge: cacheMaxAge)));
+
+  static ImageProvider buildImageProvider(
+    dynamic value, {
+    int? cacheWidth,
+    int? cacheHeight,
+    double? compressionRatio,
+    int? maxBytes,
+    bool cacheRawData = false,
+    String? imageCacheName,
+    double scale = 1.0,
+
+    /// [ExtendedNetworkImageProvider]
+    Map<String, String>? headers,
+    bool cache = true,
+    int retries = 3,
+    Duration? timeLimit,
+    Duration timeRetry = const Duration(milliseconds: 100),
+    CancellationToken? cancelToken,
+    String? cacheKey,
+    bool printError = true,
+    Duration? cacheMaxAge,
+
+    /// [ExtendedAssetImageProvider]
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    if (value is File) {
+      return BaseResizeImage.file(value,
+          cacheWidth: cacheWidth,
+          cacheHeight: cacheHeight,
+          maxBytes: maxBytes,
+          compressionRatio: compressionRatio,
+          cacheRawData: cacheRawData,
+          imageCacheName: imageCacheName,
+          scale: scale);
+    } else if (value is Uint8List) {
+      return BaseResizeImage.memory(value,
+          cacheWidth: cacheWidth,
+          cacheHeight: cacheHeight,
+          maxBytes: maxBytes,
+          compressionRatio: compressionRatio,
+          cacheRawData: cacheRawData,
+          imageCacheName: imageCacheName,
+          scale: scale);
+    } else if (value is String) {
+      return value.startsWith('http') || value.startsWith('blob:http')
+          ? BaseResizeImage.network(value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              scale: scale,
+              headers: headers,
+              cache: cache,
+              cancelToken: cancelToken,
+              retries: retries,
+              timeRetry: timeRetry,
+              timeLimit: timeLimit,
+              cacheKey: cacheKey,
+              printError: printError,
+              cacheMaxAge: cacheMaxAge)
+          : BaseResizeImage.asset(value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              bundle: bundle,
+              package: package);
+    }
+    return BaseResizeImage.asset('');
+  }
 }
 
 class BaseImage extends ExtendedImage {
@@ -409,82 +484,7 @@ class BaseImage extends ExtendedImage {
     '图片加载失败 $value'.log(crossLine: false);
   }
 
-  static ImageProvider buildImageProvider(
-    dynamic value, {
-    int? cacheWidth,
-    int? cacheHeight,
-    double? compressionRatio,
-    int? maxBytes,
-    bool cacheRawData = false,
-    String? imageCacheName,
-    double scale = 1.0,
-
-    /// [ExtendedNetworkImageProvider]
-    Map<String, String>? headers,
-    bool cache = true,
-    int retries = 3,
-    Duration? timeLimit,
-    Duration timeRetry = const Duration(milliseconds: 100),
-    CancellationToken? cancelToken,
-    String? cacheKey,
-    bool printError = true,
-    Duration? cacheMaxAge,
-
-    /// [ExtendedAssetImageProvider]
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    if (value is File) {
-      return BaseResizeImage.file(value,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
-          maxBytes: maxBytes,
-          compressionRatio: compressionRatio,
-          cacheRawData: cacheRawData,
-          imageCacheName: imageCacheName,
-          scale: scale);
-    } else if (value is Uint8List) {
-      return BaseResizeImage.memory(value,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
-          maxBytes: maxBytes,
-          compressionRatio: compressionRatio,
-          cacheRawData: cacheRawData,
-          imageCacheName: imageCacheName,
-          scale: scale);
-    } else if (value is String) {
-      return value.startsWith('http')
-          ? BaseResizeImage.network(value,
-              cacheWidth: cacheWidth,
-              cacheHeight: cacheHeight,
-              maxBytes: maxBytes,
-              compressionRatio: compressionRatio,
-              cacheRawData: cacheRawData,
-              imageCacheName: imageCacheName,
-              scale: scale,
-              headers: headers,
-              cache: cache,
-              cancelToken: cancelToken,
-              retries: retries,
-              timeRetry: timeRetry,
-              timeLimit: timeLimit,
-              cacheKey: cacheKey,
-              printError: printError,
-              cacheMaxAge: cacheMaxAge)
-          : BaseResizeImage.asset(value,
-              cacheWidth: cacheWidth,
-              cacheHeight: cacheHeight,
-              maxBytes: maxBytes,
-              compressionRatio: compressionRatio,
-              cacheRawData: cacheRawData,
-              imageCacheName: imageCacheName,
-              bundle: bundle,
-              package: package);
-    }
-    return BaseResizeImage.asset('');
-  }
-
-  BaseImage.custom(
+  BaseImage.dynamic(
     dynamic image, {
     super.key,
     super.semanticLabel,
@@ -548,7 +548,7 @@ class BaseImage extends ExtendedImage {
     AssetBundle? bundle,
     String? package,
   }) : super(
-            image: buildImageProvider(image,
+            image: BaseResizeImage.buildImageProvider(image,
                 cacheWidth: cacheWidth,
                 cacheHeight: cacheHeight,
                 maxBytes: maxBytes,
