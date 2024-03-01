@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
 
 class BaseApp extends StatefulWidget {
@@ -228,37 +227,5 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     removeObserver(this);
     super.dispose();
     widget.dispose?.call(context);
-  }
-}
-
-class BaseMultiProvider extends StatelessWidget {
-  const BaseMultiProvider(
-      {super.key,
-      this.providers = const [],
-      this.consumer,
-      required this.child,
-      this.builder});
-
-  /// multi provider
-  final List<SingleChildWidget> providers;
-
-  /// consumer
-  final ConsumerBuilder? consumer;
-
-  /// child
-  final Widget child;
-
-  /// [MultiProvider] builder
-  final TransitionBuilder? builder;
-
-  @override
-  Widget build(BuildContext context) {
-    if (providers.isNotEmpty) {
-      return MultiProvider(
-          builder: builder,
-          providers: providers,
-          child: consumer?.call(child) ?? child);
-    }
-    return child;
   }
 }

@@ -6,6 +6,7 @@ import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:universally/universally.dart';
 import 'page/android_system_setting.dart';
 
@@ -44,43 +45,45 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseMaterialApp(
-        title: 'Universally',
-        providers: [ChangeNotifierProvider(create: (_) => AppState())],
-        home: const HomePage(),
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        initState: (context) async {
-          ConnectivityPlus().addListener((status, result) async {
-            switch (result) {
-              case ConnectivityResult.wifi:
-                showToast('use wifi');
-                break;
-              case ConnectivityResult.ethernet:
-                showToast('use ethernet');
-                break;
-              case ConnectivityResult.mobile:
-                showToast('use Cellular networks');
-                break;
-              case ConnectivityResult.none:
-                showToast('none networks');
-                break;
-              case ConnectivityResult.bluetooth:
-                showToast('use bluetooth');
-                break;
-              case ConnectivityResult.vpn:
-                showToast('use vpn');
-                break;
-              case ConnectivityResult.other:
-                showToast('use other');
-                break;
-            }
-            return true;
-          });
-          ConnectivityPlus().subscription(
-              alertUnavailableNetwork: (status, result) =>
-                  alertOnlyMessage('Network Unavailable'));
-        });
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AppState())],
+      child: BaseMaterialApp(
+          title: 'Universally',
+          home: const HomePage(),
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          initState: (context) async {
+            ConnectivityPlus().addListener((status, result) async {
+              switch (result) {
+                case ConnectivityResult.wifi:
+                  showToast('use wifi');
+                  break;
+                case ConnectivityResult.ethernet:
+                  showToast('use ethernet');
+                  break;
+                case ConnectivityResult.mobile:
+                  showToast('use Cellular networks');
+                  break;
+                case ConnectivityResult.none:
+                  showToast('none networks');
+                  break;
+                case ConnectivityResult.bluetooth:
+                  showToast('use bluetooth');
+                  break;
+                case ConnectivityResult.vpn:
+                  showToast('use vpn');
+                  break;
+                case ConnectivityResult.other:
+                  showToast('use other');
+                  break;
+              }
+              return true;
+            });
+            ConnectivityPlus().subscription(
+                alertUnavailableNetwork: (status, result) =>
+                    alertOnlyMessage('Network Unavailable'));
+          }),
+    );
   }
 }
 

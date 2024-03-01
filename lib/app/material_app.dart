@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
 
 class BaseMaterialApp extends StatelessWidget {
   const BaseMaterialApp({
     super.key,
-    this.providers = const [],
     this.home,
     this.title = '',
-    this.consumer,
     this.initState,
     this.dispose,
     this.theme,
@@ -58,11 +55,6 @@ class BaseMaterialApp extends StatelessWidget {
     this.onResumed,
     this.onHidden,
   });
-
-  final List<SingleChildWidget> providers;
-
-  /// 初始化 consumer
-  final ConsumerBuilder? consumer;
 
   /// 组件初始化
   final ValueCallback<BuildContext>? initState;
@@ -171,50 +163,46 @@ class BaseMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final current = BaseMultiProvider(
-        providers: providers,
-        consumer: consumer,
-        child: MaterialApp(
-            title: title,
-            builder: (BuildContext context, Widget? child) {
-              return MediaQuery(
-                  data: context.mediaQuery
-                      .copyWith(textScaler: TextScaler.noScaling),
-                  child: builder?.call(context, child) ??
-                      child ??
-                      const SizedBox());
-            },
-            navigatorKey: GlobalWayUI().navigatorKey,
-            scaffoldMessengerKey: GlobalWayUI().scaffoldMessengerKey,
-            routes: routes,
-            initialRoute: initialRoute,
-            onGenerateRoute: onGenerateRoute,
-            onGenerateInitialRoutes: onGenerateInitialRoutes,
-            onUnknownRoute: onUnknownRoute,
-            navigatorObservers: navigatorObservers,
-            onGenerateTitle: onGenerateTitle,
-            color: color,
-            theme: theme,
-            darkTheme: darkTheme,
-            highContrastTheme: highContrastTheme,
-            highContrastDarkTheme: highContrastDarkTheme,
-            themeMode: themeMode,
-            locale: locale,
-            localizationsDelegates: localizationsDelegates,
-            localeListResolutionCallback: localeListResolutionCallback,
-            localeResolutionCallback: localeResolutionCallback,
-            supportedLocales: supportedLocales,
-            debugShowMaterialGrid: debugShowMaterialGrid,
-            debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-            showPerformanceOverlay: showPerformanceOverlay,
-            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-            showSemanticsDebugger: showSemanticsDebugger,
-            shortcuts: shortcuts,
-            actions: actions,
-            restorationScopeId: restorationScopeId,
-            scrollBehavior: scrollBehavior,
-            home: home));
+    final current = MaterialApp(
+        title: title,
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+              data:
+                  context.mediaQuery.copyWith(textScaler: TextScaler.noScaling),
+              child:
+                  builder?.call(context, child) ?? child ?? const SizedBox());
+        },
+        navigatorKey: GlobalWayUI().navigatorKey,
+        scaffoldMessengerKey: GlobalWayUI().scaffoldMessengerKey,
+        routes: routes,
+        initialRoute: initialRoute,
+        onGenerateRoute: onGenerateRoute,
+        onGenerateInitialRoutes: onGenerateInitialRoutes,
+        onUnknownRoute: onUnknownRoute,
+        navigatorObservers: navigatorObservers,
+        onGenerateTitle: onGenerateTitle,
+        color: color,
+        theme: theme,
+        darkTheme: darkTheme,
+        highContrastTheme: highContrastTheme,
+        highContrastDarkTheme: highContrastDarkTheme,
+        themeMode: themeMode,
+        locale: locale,
+        localizationsDelegates: localizationsDelegates,
+        localeListResolutionCallback: localeListResolutionCallback,
+        localeResolutionCallback: localeResolutionCallback,
+        supportedLocales: supportedLocales,
+        debugShowMaterialGrid: debugShowMaterialGrid,
+        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+        showPerformanceOverlay: showPerformanceOverlay,
+        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+        showSemanticsDebugger: showSemanticsDebugger,
+        shortcuts: shortcuts,
+        actions: actions,
+        restorationScopeId: restorationScopeId,
+        scrollBehavior: scrollBehavior,
+        home: home);
     return BaseApp(
         scaffoldMessengerKey: scaffoldMessengerKey,
         navigatorKey: navigatorKey,

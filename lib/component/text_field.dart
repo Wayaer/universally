@@ -7,89 +7,96 @@ import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class BaseTextField extends StatefulWidget {
-  const BaseTextField(
-      {super.key,
-      this.value,
-      this.controller,
-      this.searchTextTap,
-      this.searchTextPositioned = DecoratorPositioned.outer,
-      this.sendSMSPositioned = DecoratorPositioned.outer,
-      this.sendSMSTap,
-      this.enableEye = false,
-      this.enableClearIcon = false,
-      this.enableSearchIcon = false,
-      this.hintText,
-      this.width = double.infinity,
-      this.margin,
-      this.padding,
-      this.hintStyle,
-      this.focusNode,
-      this.header,
-      this.heroTag,
-      this.footer,
-      this.labelText,
-      this.labelStyle,
-      this.disposeController = true,
-      this.hasFocusChangeBorder = true,
-      this.fillColor,
-      this.suffix = const [],
-      this.prefix = const [],
-      this.constraints,
-      this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-      this.borderType = BorderType.outline,
-      this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
-      this.focusBorderSide,
-      this.contentPadding =
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      this.clearButtonMode = OverlayVisibilityMode.never,
-      this.textInputAction = TextInputAction.done,
-      this.textCapitalization = TextCapitalization.none,
-      this.style,
-      this.strutStyle,
-      this.textAlign = TextAlign.left,
-      this.textAlignVertical,
-      this.textDirection,
-      this.readOnly = false,
-      this.showCursor,
-      this.autoFocus = false,
-      this.obscuringCharacter = '•',
-      this.autocorrect = true,
-      this.smartDashesType,
-      this.smartQuotesType,
-      this.enableSuggestions = true,
-      this.maxLines,
-      this.minLines,
-      this.expands = false,
-      this.maxLength,
-      this.maxLengthEnforcement,
-      this.onChanged,
-      this.onEditingComplete,
-      this.onSubmitted,
-      this.inputFormatters,
-      this.enabled = true,
-      this.cursorWidth = 2.0,
-      this.cursorHeight,
-      this.cursorRadius = const Radius.circular(2.0),
-      this.selectionHeightStyle = ui.BoxHeightStyle.tight,
-      this.selectionWidthStyle = ui.BoxWidthStyle.tight,
-      this.keyboardAppearance,
-      this.scrollPadding = const EdgeInsets.all(20.0),
-      this.dragStartBehavior = DragStartBehavior.start,
-      this.enableInteractiveSelection,
-      this.selectionControls,
-      this.onTap,
-      this.scrollController,
-      this.scrollPhysics,
-      this.autofillHints = const [],
-      this.clipBehavior = Clip.hardEdge,
-      this.restorationId,
-      this.scribbleEnabled = true,
-      this.enableIMEPersonalizedLearning = true,
-      this.textInputType = TextInputLimitFormatter.text,
-      this.contextMenuBuilder,
-      this.magnifierConfiguration,
-      this.onTapOutside,
-      this.spellCheckConfiguration});
+  const BaseTextField({
+    super.key,
+    this.value,
+    this.controller,
+    this.searchText,
+    this.searchTextTap,
+    this.searchTextPositioned = DecoratorPositioned.outer,
+    this.sendSMSTap,
+    this.sendSMSTextBuilder,
+    this.sendSMSPositioned = DecoratorPositioned.outer,
+    this.enableEye = false,
+    this.eyeIconBuilder,
+    this.enableClearIcon = false,
+    this.clearIcon,
+    this.enableSearchIcon = false,
+    this.searchIcon,
+    this.hintText,
+    this.width = double.infinity,
+    this.height,
+    this.margin,
+    this.padding,
+    this.hintStyle,
+    this.focusNode,
+    this.header,
+    this.heroTag,
+    this.footer,
+    this.labelText,
+    this.labelStyle,
+    this.disposeController = true,
+    this.hasFocusChangeBorder = true,
+    this.fillColor,
+    this.suffix = const [],
+    this.prefix = const [],
+    this.constraints,
+    this.borderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.borderType = BorderType.outline,
+    this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
+    this.focusBorderSide,
+    this.contentPadding =
+        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    this.clearButtonMode = OverlayVisibilityMode.never,
+    this.textInputAction = TextInputAction.done,
+    this.textCapitalization = TextCapitalization.none,
+    this.style,
+    this.strutStyle,
+    this.textAlign = TextAlign.left,
+    this.textAlignVertical,
+    this.textDirection,
+    this.readOnly = false,
+    this.showCursor,
+    this.autoFocus = false,
+    this.obscuringCharacter = '•',
+    this.autocorrect = true,
+    this.smartDashesType,
+    this.smartQuotesType,
+    this.enableSuggestions = true,
+    this.maxLines,
+    this.minLines,
+    this.expands = false,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.onChanged,
+    this.onEditingComplete,
+    this.onSubmitted,
+    this.inputFormatters,
+    this.enabled = true,
+    this.cursorWidth = 2.0,
+    this.cursorHeight,
+    this.cursorRadius = const Radius.circular(2.0),
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.keyboardAppearance,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.enableInteractiveSelection,
+    this.selectionControls,
+    this.onTap,
+    this.scrollController,
+    this.scrollPhysics,
+    this.autofillHints = const [],
+    this.clipBehavior = Clip.hardEdge,
+    this.restorationId,
+    this.scribbleEnabled = true,
+    this.enableIMEPersonalizedLearning = true,
+    this.textInputType = TextInputLimitFormatter.text,
+    this.contextMenuBuilder,
+    this.magnifierConfiguration,
+    this.onTapOutside,
+    this.spellCheckConfiguration,
+  });
 
   /// ***** 附加功能 *****
   /// 初始化默认的文本
@@ -97,20 +104,26 @@ class BaseTextField extends StatefulWidget {
 
   /// 添加 搜索文字 点击事件
   final ValueCallback<String>? searchTextTap;
+  final Widget? searchText;
   final DecoratorPositioned searchTextPositioned;
 
   /// 添加 发送验证码 点击事件
   final SendSMSValueCallback? sendSMSTap;
+  final ValueTwoCallbackT<Widget, SendState, int>? sendSMSTextBuilder;
   final DecoratorPositioned sendSMSPositioned;
 
   /// 开启 显示和隐藏 eye
   final bool enableEye;
 
+  final ValueCallbackTV<Widget, bool>? eyeIconBuilder;
+
   /// 开启 清除 icon
   final bool enableClearIcon;
+  final Widget? clearIcon;
 
   /// 开启 搜索 icon
   final bool enableSearchIcon;
+  final Widget? searchIcon;
 
   /// 后缀
   final List<DecoratorEntry> suffix;
@@ -141,6 +154,9 @@ class BaseTextField extends StatefulWidget {
 
   /// 宽度
   final double width;
+
+  /// 高度
+  final double? height;
 
   final String? labelText;
   final TextStyle? labelStyle;
@@ -388,6 +404,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     return Universal(
         heroTag: widget.heroTag,
         width: widget.width,
+        height: widget.height,
         child: DecoratorBoxState(
             margin: widget.margin,
             padding: widget.padding,
@@ -436,9 +453,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 placeholderStyle: TStyle(
                         color: Global().config.textColor?.smallColor,
                         fontSize: 13)
-                    .merge(widget.hintStyle),
+                    .merge(widget.hintStyle ??
+                        Global().config.textField?.hintStyle),
                 style: TStyle(color: Global().config.textColor?.defaultColor)
-                    .merge(widget.style),
+                    .merge(widget.style ?? Global().config.textField?.style),
                 keyboardType: widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
@@ -484,7 +502,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 selectionWidthStyle: widget.selectionWidthStyle,
                 smartDashesType: widget.smartDashesType,
                 smartQuotesType: widget.smartQuotesType,
-                strutStyle: widget.strutStyle,
+                strutStyle:
+                    widget.strutStyle ?? Global().config.textField?.strutStyle,
                 textAlignVertical: widget.textAlignVertical,
                 textDirection: widget.textDirection,
                 padding: widget.contentPadding,
@@ -530,20 +549,31 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildSearchText {
-    bool left = widget.searchTextPositioned != DecoratorPositioned.inner;
+    bool isLeft = (Global().config.textField?.searchTextPositioned ??
+            widget.searchTextPositioned) !=
+        DecoratorPositioned.inner;
+    final current = widget.searchText ??
+        Global().config.textField?.searchText ??
+        TextNormal('搜索');
     return Universal(
-        margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
+        margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
         onTap: () => widget.searchTextTap?.call(controller.text),
         alignment: Alignment.center,
-        child: TextNormal('搜索'));
+        child: current);
   }
 
   Widget get buildSendSMS {
-    bool left = widget.sendSMSPositioned != DecoratorPositioned.inner;
+    bool isLeft = (Global().config.textField?.sendSMSPositioned ??
+            widget.sendSMSPositioned) !=
+        DecoratorPositioned.inner;
     return SendSMS(
-        margin: EdgeInsets.only(left: left ? 12 : 0, right: left ? 0 : 10),
+        margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
         duration: const Duration(seconds: 60),
         builder: (SendState state, int i) {
+          final current = (widget.sendSMSTextBuilder ??
+                  Global().config.textField?.sendSMSTextBuilder)
+              ?.call(state, i);
+          if (current != null) return current;
           switch (state) {
             case SendState.none:
               return TextNormal('发送验证码', color: Global().mainColor);
@@ -558,29 +588,44 @@ class _BaseTextFieldState extends State<BaseTextField> {
         onTap: widget.sendSMSTap);
   }
 
-  Widget get buildSearchIcon =>
-      Icon(UIS.search, size: 20, color: Global().config.textColor?.smallColor)
-          .paddingOnly(left: 10);
+  Widget get buildSearchIcon {
+    final current = widget.searchIcon ??
+        Global().config.textField?.searchIcon ??
+        Icon(UIS.search,
+            size: 20, color: Global().config.textColor?.smallColor);
+    return Padding(padding: const EdgeInsets.only(left: 10), child: current);
+  }
 
-  Widget get buildClearIcon => IconBox(
-      size: 18,
-      padding: const EdgeInsets.only(right: 10),
-      icon: UIS.clear,
-      color: Global().config.textColor?.defaultColor,
-      onTap: () {
-        controller.clear();
-        if (widget.onChanged != null) widget.onChanged!('');
-      });
+  Widget get buildClearIcon {
+    final current = widget.clearIcon ??
+        Global().config.textField?.clearIcon ??
+        IconBox(
+            size: 18,
+            icon: UIS.clear,
+            color: Global().config.textColor?.defaultColor);
+    return Universal(
+        onTap: () {
+          controller.clear();
+          if (widget.onChanged != null) widget.onChanged!('');
+        },
+        padding: const EdgeInsets.only(right: 10),
+        child: current);
+  }
 
-  Widget get buildEyeIcon => Universal(
-      margin: const EdgeInsets.only(right: 10),
-      enabled: widget.enableEye,
-      onTap: () {
-        obscureText.value = !obscureText.value;
-        if (mounted) setState(() {});
-      },
-      child: Icon(obscureText.value ? WayIcons.eyeClose : WayIcons.eyeOpen,
-          color: Global().config.textColor?.defaultColor, size: 20));
+  Widget get buildEyeIcon {
+    final current =
+        (widget.eyeIconBuilder ?? Global().config.textField?.eyeIconBuilder)
+                ?.call(obscureText.value) ??
+            Icon(obscureText.value ? WayIcons.eyeClose : WayIcons.eyeOpen,
+                color: Global().config.textColor?.defaultColor, size: 20);
+    return Universal(
+        margin: const EdgeInsets.only(right: 10),
+        enabled: widget.enableEye,
+        onTap: () {
+          obscureText.value = !obscureText.value;
+        },
+        child: current);
+  }
 
   @override
   void didUpdateWidget(covariant BaseTextField oldWidget) {
@@ -591,6 +636,47 @@ class _BaseTextFieldState extends State<BaseTextField> {
   @override
   void dispose() {
     super.dispose();
+    focusNode.dispose();
     if (widget.disposeController) controller.dispose();
   }
+}
+
+class TextFieldConfig {
+  const TextFieldConfig(
+      {this.style,
+      this.hintStyle,
+      this.strutStyle,
+      this.searchText,
+      this.searchTextPositioned,
+      this.sendSMSTextBuilder,
+      this.sendSMSPositioned,
+      this.eyeIconBuilder,
+      this.clearIcon,
+      this.searchIcon});
+
+  ///  搜索文字
+  final Widget? searchText;
+  final DecoratorPositioned? searchTextPositioned;
+
+  ///  发送验证码
+  final ValueTwoCallbackT<Widget, SendState, int>? sendSMSTextBuilder;
+  final DecoratorPositioned? sendSMSPositioned;
+
+  ///  显示和隐藏 eye
+  final ValueCallbackTV<Widget, bool>? eyeIconBuilder;
+
+  ///  清除 icon
+  final Widget? clearIcon;
+
+  ///  搜索 icon
+  final Widget? searchIcon;
+
+  /// 输入文字样式
+  final TextStyle? style;
+
+  /// 提示文字样式
+  final TextStyle? hintStyle;
+
+  /// strutStyle
+  final StrutStyle? strutStyle;
 }

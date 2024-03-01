@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:universally/universally.dart';
 
 class BaseWidgetsApp extends StatelessWidget {
   const BaseWidgetsApp({
     super.key,
-    this.providers = const [],
     this.home,
     this.title = '',
-    this.consumer,
     this.initState,
     this.dispose,
     this.navigatorKey,
@@ -49,11 +46,6 @@ class BaseWidgetsApp extends StatelessWidget {
     this.onResumed,
     this.onHidden,
   });
-
-  final List<SingleChildWidget> providers;
-
-  /// 初始化 consumer
-  final ConsumerBuilder? consumer;
 
   /// 组件初始化
   final ValueCallback<BuildContext>? initState;
@@ -149,43 +141,38 @@ class BaseWidgetsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final current = BaseMultiProvider(
-        providers: providers,
-        consumer: consumer,
-        child: WidgetsApp(
-            title: title,
-            builder: (BuildContext context, Widget? child) {
-              return MediaQuery(
-                  data: context.mediaQuery
-                      .copyWith(textScaler: TextScaler.noScaling),
-                  child: builder?.call(context, child) ??
-                      child ??
-                      const SizedBox());
-            },
-            navigatorKey: GlobalWayUI().navigatorKey,
-            routes: routes,
-            initialRoute: initialRoute,
-            onGenerateRoute: onGenerateRoute,
-            onGenerateInitialRoutes: onGenerateInitialRoutes,
-            onUnknownRoute: onUnknownRoute,
-            navigatorObservers: navigatorObservers,
-            onGenerateTitle: onGenerateTitle,
-            color: color,
-            locale: locale,
-            localizationsDelegates: localizationsDelegates,
-            localeListResolutionCallback: localeListResolutionCallback,
-            localeResolutionCallback: localeResolutionCallback,
-            supportedLocales: supportedLocales,
-            debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-            showPerformanceOverlay: showPerformanceOverlay,
-            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-            showSemanticsDebugger: showSemanticsDebugger,
-            shortcuts: shortcuts,
-            actions: actions,
-            restorationScopeId: restorationScopeId,
-            home: home));
-
+    final current = WidgetsApp(
+        title: title,
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+              data:
+                  context.mediaQuery.copyWith(textScaler: TextScaler.noScaling),
+              child:
+                  builder?.call(context, child) ?? child ?? const SizedBox());
+        },
+        navigatorKey: GlobalWayUI().navigatorKey,
+        routes: routes,
+        initialRoute: initialRoute,
+        onGenerateRoute: onGenerateRoute,
+        onGenerateInitialRoutes: onGenerateInitialRoutes,
+        onUnknownRoute: onUnknownRoute,
+        navigatorObservers: navigatorObservers,
+        onGenerateTitle: onGenerateTitle,
+        color: color,
+        locale: locale,
+        localizationsDelegates: localizationsDelegates,
+        localeListResolutionCallback: localeListResolutionCallback,
+        localeResolutionCallback: localeResolutionCallback,
+        supportedLocales: supportedLocales,
+        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+        showPerformanceOverlay: showPerformanceOverlay,
+        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+        showSemanticsDebugger: showSemanticsDebugger,
+        shortcuts: shortcuts,
+        actions: actions,
+        restorationScopeId: restorationScopeId,
+        home: home);
     return BaseApp(
         navigatorKey: navigatorKey,
         onInactive: onInactive,

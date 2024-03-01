@@ -2,11 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 extension FontWeights on FontWeight {
+  /// normal
+  static const FontWeight normal = FontWeight.normal;
+
   /// medium
   static const FontWeight medium = FontWeight.w500;
 
   /// semiBold
   static const FontWeight semiBold = FontWeight.w600;
+
+  /// bold
+  static const FontWeight bold = FontWeight.bold;
+}
+
+class TextColor {
+  TextColor(
+      {this.smallColor,
+      this.defaultColor,
+      this.largeColor,
+      this.veryLargeColor,
+      this.styleColor});
+
+  /// 超大字体颜色
+  Color? veryLargeColor;
+
+  /// 大字体颜色
+  Color? largeColor;
+
+  /// 默认字体颜色
+  Color? defaultColor;
+
+  /// 小字体颜色
+  Color? smallColor;
+
+  /// [TStyle] color
+  Color? styleColor;
 }
 
 /// extra large font

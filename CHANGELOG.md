@@ -1,3 +1,8 @@
+## 6.7.0
+
+* Remove the `provider` package
+* Add `TextFieldConfig` to support global configuration as `BaseTextField`
+
 ## 6.6.1
 
 * Support web
