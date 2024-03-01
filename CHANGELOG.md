@@ -1,4 +1,4 @@
-## 6.7.0
+## 6.7.1
 
 * Remove the `provider` package
 * Add `TextFieldConfig` to support global configuration as `BaseTextField`

@@ -466,7 +466,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 autofocus: widget.autoFocus,
                 obscureText: widget.enableEye && value,
                 obscuringCharacter: widget.obscuringCharacter,
-                maxLines: widget.maxLines,
+                maxLines: (widget.enableEye && value) ? 1 : widget.maxLines,
                 minLines: widget.minLines,
                 maxLengthEnforcement: widget.maxLengthEnforcement,
                 maxLength: widget.maxLength,
@@ -636,7 +636,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
   @override
   void dispose() {
     super.dispose();
-    focusNode.dispose();
     if (widget.disposeController) controller.dispose();
   }
 }
