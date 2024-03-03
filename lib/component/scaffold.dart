@@ -39,7 +39,6 @@ class BaseScaffold extends StatelessWidget {
 
     /// ****** [PopScope] ****** ///
     this.onPopInvoked,
-    this.canPop = true,
     this.isCloseOverlay = false,
     this.enableDoubleClickExit = false,
     this.doubleClickExitPrompt = '再次点击返回键退出',
@@ -154,8 +153,7 @@ class BaseScaffold extends StatelessWidget {
   /// true 点击android实体返回按键先关闭Overlay【toast loading ...】但不pop 当前页面
   /// false 点击android实体返回按键先关闭Overlay【toast loading ...】并pop 当前页面
   final bool isCloseOverlay;
-  final PopInvokedCallback? onPopInvoked;
-  final bool canPop;
+  final PopInvokedWithOverlayCallback? onPopInvoked;
   final bool enableDoubleClickExit;
   final String doubleClickExitPrompt;
 
@@ -267,14 +265,15 @@ class BaseScaffold extends StatelessWidget {
         restorationId: restorationId,
         body: body ?? universal,
         persistentFooterAlignment: persistentFooterAlignment);
-    return onPopInvoked != null ||
-            isCloseOverlay ||
-            !canPop ||
-            enableDoubleClickExit
+    return onPopInvoked != null || isCloseOverlay || enableDoubleClickExit
         ? ExtendedPopScope(
+            canPop: !(isCloseOverlay ||
+                onPopInvoked != null ||
+                enableDoubleClickExit),
             isCloseOverlay: isCloseOverlay,
             onPopInvoked: (bool didPop, didCloseOverlay) {
-              onPopInvoked?.call(didPop);
+              onPopInvoked?.call(didPop, didCloseOverlay);
+              if (didCloseOverlay || didPop) return;
               if (enableDoubleClickExit) {
                 final now = DateTime.now();
                 if (_dateTime != null &&
@@ -287,6 +286,8 @@ class BaseScaffold extends StatelessWidget {
                           alignment: Alignment.center,
                           duration: Duration(milliseconds: 1500)));
                 }
+              } else if (onPopInvoked == null) {
+                pop();
               }
             },
             child: scaffold)

@@ -1,7 +1,8 @@
 ## 7.0.0
 
 * `Global()` changed to `Universally()`
-* `GlobalConfig()` 改为 `UConfig()`
+* `GlobalConfig()` changed to `UConfig()`
+* `BHP()` changed to `BasePreferences()`
 
 ## 6.7.1
 
