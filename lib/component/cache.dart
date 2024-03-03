@@ -90,7 +90,7 @@ class _PushStateState extends State<PushSwitchState> {
   void initState() {
     super.initState();
     addPostFrameCallback((_) {
-      push = BHP().getBool(UConst.isPush) ?? true;
+      push = BasePreferences().getBool(UConst.isPush) ?? true;
       setState(() {});
     });
   }
@@ -101,7 +101,7 @@ class _PushStateState extends State<PushSwitchState> {
       onChanged: (value) {
         if (value == push) return;
         push = value;
-        BHP().setBool(UConst.isPush, push);
+        BasePreferences().setBool(UConst.isPush, push);
         setState(() {});
       });
 }

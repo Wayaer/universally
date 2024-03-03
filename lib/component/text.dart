@@ -53,7 +53,7 @@ class TextExtraLarge extends BaseText {
       super.textAlign,
       super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
-      : super(color: color ?? Global().config.textColor?.veryLargeColor);
+      : super(color: color ?? Universally().config.textColor?.veryLargeColor);
 }
 
 /// Large font
@@ -70,7 +70,7 @@ class TextLarge extends BaseText {
       super.textAlign,
       super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
-      : super(color: color ?? Global().config.textColor?.largeColor);
+      : super(color: color ?? Universally().config.textColor?.largeColor);
 }
 
 /// 默认字体
@@ -89,7 +89,7 @@ class TextNormal extends BaseText {
       super.textAlign,
       super.fontWeight = FontWeight.normal,
       super.fontFamily})
-      : super(color: color ?? Global().config.textColor?.defaultColor);
+      : super(color: color ?? Universally().config.textColor?.defaultColor);
 }
 
 /// 小字体
@@ -107,7 +107,7 @@ class TextSmall extends BaseText {
       super.overflow,
       super.textAlign,
       super.fontFamily})
-      : super(color: color ?? Global().config.textColor?.smallColor);
+      : super(color: color ?? Universally().config.textColor?.smallColor);
 }
 
 /// BaseText
@@ -178,7 +178,7 @@ class TStyle extends BTextStyle {
       super.overflow})
       : super(wordSpacing: wordSpacing ?? letterSpacing);
 
-  /// 使用 [Global().config.textColor?.styleColor] 预设颜色，不适合主题适配
+  /// 使用 [Universally().config.textColor?.styleColor] 预设颜色，不适合主题适配
   TStyle.global(
       {Color? color,
       super.fontSize = 14,
@@ -190,7 +190,7 @@ class TStyle extends BTextStyle {
       super.decoration = TextDecoration.none,
       super.backgroundColor})
       : super(
-            color: color ?? Global().config.textColor?.styleColor,
+            color: color ?? Universally().config.textColor?.styleColor,
             wordSpacing: letterSpacing);
 
   /// 原始数据，不添加任何颜色

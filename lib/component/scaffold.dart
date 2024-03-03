@@ -273,18 +273,18 @@ class BaseScaffold extends StatelessWidget {
             enableDoubleClickExit
         ? ExtendedPopScope(
             isCloseOverlay: isCloseOverlay,
-            canPop: enableDoubleClickExit ? false : canPop,
-            onPopInvoked: (bool didPop) {
+            onPopInvoked: (bool didPop, didCloseOverlay) {
               onPopInvoked?.call(didPop);
               if (enableDoubleClickExit) {
                 final now = DateTime.now();
                 if (_dateTime != null &&
                     now.difference(_dateTime!).inMilliseconds < 2500) {
-                  Curiosity().native.exitApp();
+                  Curiosity.native.exitApp();
                 } else {
                   _dateTime = now;
                   showToast(doubleClickExitPrompt,
                       options: const ToastOptions(
+                          alignment: Alignment.center,
                           duration: Duration(milliseconds: 1500)));
                 }
               }
@@ -343,8 +343,8 @@ class BaseScaffold extends StatelessWidget {
       expand: true,
       refreshConfig: (onRefresh != null || onLoading != null)
           ? RefreshConfig(
-              footer: Global().config.pullUpFooter,
-              header: Global().config.pullDownHeader,
+              footer: Universally().config.pullUpFooter,
+              header: Universally().config.pullDownHeader,
               onLoading:
                   onLoading == null ? null : () async => onLoading!.call(),
               onRefresh:

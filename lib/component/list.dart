@@ -6,7 +6,7 @@ class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
       : super(
             valueColor:
-                AlwaysStoppedAnimation<Color>(color ?? Global().mainColor),
+                AlwaysStoppedAnimation<Color>(color ?? Universally().mainColor),
             backgroundColor: UCS.transparent);
 }
 
@@ -74,8 +74,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Global().config.pullDownHeader,
-                        footer: Global().config.pullUpFooter,
+                        header: Universally().config.pullDownHeader,
+                        footer: Universally().config.pullUpFooter,
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -83,7 +83,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Global().config.placeholder);
+            placeholder: placeholder ?? Universally().config.placeholder);
 
   BaseList.count({
     super.key,
@@ -145,8 +145,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Global().config.pullDownHeader,
-                        footer: Global().config.pullUpFooter,
+                        header: Universally().config.pullDownHeader,
+                        footer: Universally().config.pullUpFooter,
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -154,7 +154,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Global().config.placeholder);
+            placeholder: placeholder ?? Universally().config.placeholder);
 
   BaseList.waterfall({
     super.key,
@@ -219,8 +219,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Global().config.pullDownHeader,
-                        footer: Global().config.pullUpFooter,
+                        header: Universally().config.pullDownHeader,
+                        footer: Universally().config.pullUpFooter,
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -228,7 +228,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Global().config.placeholder);
+            placeholder: placeholder ?? Universally().config.placeholder);
 
   BaseList.custom({
     super.key,
@@ -258,8 +258,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        footer: Global().config.pullUpFooter,
-                        header: Global().config.pullDownHeader,
+                        footer: Universally().config.pullUpFooter,
+                        header: Universally().config.pullDownHeader,
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),

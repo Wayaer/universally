@@ -8,8 +8,8 @@ typedef LoadingCoreBuilder = Widget? Function(BaseLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
-class GlobalConfig {
-  GlobalConfig({
+class UConfig {
+  UConfig({
     required this.mainColor,
     this.betaApi = '',
     this.releaseApi = '',
@@ -19,7 +19,7 @@ class GlobalConfig {
     this.cachePath,
     this.placeholder = const BasePlaceholder(),
     this.toastOptions = const ToastOptions(
-        positioned: Alignment.topCenter,
+        alignment: Alignment.center,
         duration: Duration(seconds: 2),
         ignoring: true),
     this.generalDialogOptions,
@@ -27,7 +27,7 @@ class GlobalConfig {
     this.modalWindowsOptions,
     this.logCrossLine = true,
     this.wheelOptions,
-    this.loadingModalWindowsOptions,
+    this.loadingOptions,
     this.loadingBuilder,
     this.imageFailed,
     this.textColor,
@@ -57,7 +57,7 @@ class GlobalConfig {
   Color mainColor;
 
   /// 保存图片和视频的缓存地址
-  /// 如不设置 默认通过 [Curiosity().native.appPath] 获取
+  /// 如不设置 默认通过 [Curiosity.native.appPath] 获取
   String? cachePath;
 
   /// 测试版 url 包含 debug 模式
@@ -97,7 +97,7 @@ class GlobalConfig {
   RoutePushStyle pushStyle;
 
   /// loading 样式
-  ModalWindowsOptions? loadingModalWindowsOptions;
+  LoadingOptions? loadingOptions;
   LoadingCoreBuilder? loadingBuilder;
 
   /// [BaseImage] 加载失败时显示的组件
@@ -110,12 +110,12 @@ class GlobalConfig {
   TextFieldConfig? textField;
 }
 
-class Global {
-  factory Global() => _singleton ??= Global._();
+class Universally {
+  factory Universally() => _singleton ??= Universally._();
 
-  Global._();
+  Universally._();
 
-  static Global? _singleton;
+  static Universally? _singleton;
 
   /// alert 确认按钮颜色
   /// [AssetSelect]  Badge 背景色
@@ -128,13 +128,13 @@ class Global {
   String get baseApi => _baseApi;
 
   /// 项目配置信息
-  GlobalConfig _config = GlobalConfig(mainColor: UCS.mainBlack);
+  UConfig _config = UConfig(mainColor: UCS.mainBlack);
 
-  GlobalConfig get config => _config;
+  UConfig get config => _config;
 
   /// 设置app 一些默认参数
   Future<void> setConfig(
-    GlobalConfig config, {
+    UConfig config, {
     bool? enableBeta,
     String? channel,
 
@@ -163,15 +163,15 @@ class Global {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     /// 初始化本地储存
-    await BHP().init();
+    await BasePreferences().init();
 
     mainColor = config.mainColor;
-    final bool isRelease = BHP().getBool(UConst.isRelease) ?? false;
+    final bool isRelease = BasePreferences().getBool(UConst.isRelease) ?? false;
     if (isBeta && !isRelease) {
       _baseApi = config.betaApi;
-      final String? localApi = BHP().getString(UConst.localApi);
+      final String? localApi = BasePreferences().getString(UConst.localApi);
       if (localApi != null && localApi.length > 5) _baseApi = localApi;
-      isDebugger = BHP().getBool(UConst.isDebugger) ?? true;
+      isDebugger = BasePreferences().getBool(UConst.isDebugger) ?? true;
     } else {
       isBeta = false;
       _baseApi = config.releaseApi;
@@ -179,41 +179,42 @@ class Global {
 
     /// 设置toast
     /// Set the toast
-    GlobalWayUI().toastOptions = config.toastOptions;
+    FlExtended().toastOptions = config.toastOptions;
 
     /// 设置全局log 是否显示 分割线
-    GlobalWayUI().logCrossLine = config.logCrossLine;
+    FlExtended().logCrossLine = config.logCrossLine;
 
     /// 设置全局 [ModalWindows] 组件配置信息
     if (config.modalWindowsOptions != null) {
-      GlobalWayUI().modalWindowsOptions = config.modalWindowsOptions!;
+      FlExtended().modalWindowsOptions = config.modalWindowsOptions!;
     }
 
     /// 全局 [DialogOptions] 配置信息
     if (config.generalDialogOptions != null) {
-      GlobalWayUI().dialogOptions = config.generalDialogOptions!;
+      FlExtended().dialogOptions = config.generalDialogOptions!;
     }
 
     /// 全局 [BottomSheetOptions] 配置信息
     if (config.bottomSheetOptions != null) {
-      GlobalWayUI().bottomSheetOptions = config.bottomSheetOptions!;
+      FlExtended().bottomSheetOptions = config.bottomSheetOptions!;
     }
 
     /// 全局 [WheelOptions] 配置信息
     if (config.wheelOptions != null) {
-      GlobalWayUI().wheelOptions = config.wheelOptions!;
+      FlExtended().wheelOptions = config.wheelOptions!;
     }
 
     /// 全局 [LoadingOptions] 配置信息
     final loading = config.loadingBuilder?.call(const BaseLoading());
-    GlobalWayUI().loadingOptions = LoadingOptions(
-        custom: loading,
-        style: LoadingStyle.circular,
-        options: const ModalWindowsOptions(absorbing: true)
-            .merge(config.loadingModalWindowsOptions));
+    FlExtended().loadingOptions = LoadingOptions(
+            alignment: Alignment.center,
+            custom: loading,
+            style: LoadingStyle.circular,
+            absorbing: true)
+        .merge(config.loadingOptions);
 
     /// 设置页面转场样式
     /// Set the page transition style
-    GlobalWayUI().pushStyle = config.pushStyle;
+    FlExtended().pushStyle = config.pushStyle;
   }
 }

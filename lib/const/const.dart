@@ -53,6 +53,20 @@ class UIS {
   static const IconData search = Icons.search;
   static const IconData back = Icons.arrow_back_ios_outlined;
   static const IconData androidBack = Icons.arrow_back;
+
+  /// 空数据
+  static const IconData empty = _IconData(0xe621);
+
+  /// 眼睛关闭
+  static const IconData eyeClose = _IconData(0xe65b);
+
+  /// 眼睛打开
+  static const IconData eyeOpen = _IconData(0xe659);
+}
+
+class _IconData extends IconData {
+  const _IconData(super.codePoint)
+      : super(fontFamily: 'Universally', fontPackage: 'universally');
 }
 
 class UCS {
@@ -81,6 +95,21 @@ class UStyle {
       blurRadius: 3.0, //阴影模糊程度
       spreadRadius: 2.0 //阴影扩散程度
       );
+
+  static List<BoxShadow> getBoxShadow(
+          {int num = 1,
+          Color color = Colors.black12,
+          double? radius,
+          BlurStyle blurStyle = BlurStyle.normal,
+          double blurRadius = 0.05,
+          double spreadRadius = 0.05,
+          Offset? offset}) =>
+      num.generate((index) => BoxShadow(
+          color: color,
+          blurStyle: blurStyle,
+          blurRadius: radius ?? blurRadius,
+          spreadRadius: radius ?? spreadRadius,
+          offset: offset ?? const Offset(0, 0)));
 }
 
 /// 下拉刷新

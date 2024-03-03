@@ -53,7 +53,7 @@ class AlertMessage extends StatelessWidget {
                 },
                 child: confirm ??
                     TextNormal(confirmText ?? '确定',
-                        fontSize: 16, color: Global().mainColor)),
+                        fontSize: 16, color: Universally().mainColor)),
           ]));
 }
 
@@ -163,7 +163,8 @@ class AlertCountSelect extends StatelessWidget {
           onTap: maybePop,
           child: cancel ??
               TextNormal(cancelText,
-                      textAlign: TextAlign.center, color: Global().mainColor)
+                      textAlign: TextAlign.center,
+                      color: Universally().mainColor)
                   .paddingSymmetric(vertical: 12)),
       title: title,
       actionScrollController: actionScrollController,
@@ -201,7 +202,7 @@ class AlertOnlyMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ModalWindows(
-      options: ModalWindowsOptions(onTap: () {}),
+      options: ModalWindowsOptions(onModalTap: () {}),
       child: CupertinoAlertDialog(
           title: title ?? _Title(text: titleText ?? '提示'),
           content: content ??
@@ -253,7 +254,8 @@ Future<bool?> showDoubleChooseAlert({
                 left: BorderSide(color: UCS.lineColor, width: 0.5),
               )),
               child: TextNormal(right,
-                  color: Global().mainColor, fontWeight: FontWeights.semiBold)),
+                  color: Universally().mainColor,
+                  fontWeight: FontWeights.semiBold)),
           options: options,
           decoration: BoxDecoration(
               color: UCS.white, borderRadius: BorderRadius.circular(6)))
@@ -299,5 +301,5 @@ class BaseLoading extends StatelessWidget {
       itemBuilder: itemBuilder,
       controller: controller,
       duration: duration,
-      color: color ?? Global().mainColor);
+      color: color ?? Universally().mainColor);
 }

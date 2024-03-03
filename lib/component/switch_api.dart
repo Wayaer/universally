@@ -9,11 +9,11 @@ class SwitchApiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconBox(
       icon: UIS.settingApi,
-      color: color ?? Global().mainColor,
+      color: color ?? Universally().mainColor,
       visible: isBeta,
       size: 18,
       onTap: () => push(_SwitchApiPage()),
-      title: TextNormal('切换API', color: color ?? Global().mainColor));
+      title: TextNormal('切换API', color: color ?? Universally().mainColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -32,25 +32,25 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Widget build(BuildContext context) {
     httpStr = 'http${isHttps ? 's' : ''}://';
     final defaultUrl =
-        isBeta ? Global().config.betaApi : Global().config.releaseApi;
+        isBeta ? Universally().config.betaApi : Universally().config.releaseApi;
     return BaseScaffold(
         isScroll: true,
         safeBottom: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: '切换服务器',
         children: [
-          TextExtraLarge('*本功能为测试版专用', color: Global().mainColor),
+          TextExtraLarge('*本功能为测试版专用', color: Universally().mainColor),
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TextNormal('默认服务器地址为：'),
             showApi(defaultUrl),
             TextNormal('当前服务器地址为：'),
-            showApi(Global().baseApi),
+            showApi(Universally().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextNormal('使用https：'),
               BaseSwitch(
                   value: isHttps,
-                  activeColor: Global().mainColor,
+                  activeColor: Universally().mainColor,
                   onChanged: (bool? value) {
                     isHttps = !isHttps;
                     setState(() {});
@@ -108,38 +108,39 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           UButton(
               width: double.infinity,
               text: '切换正式服务器并重启APP',
-              onTap: () => saveApi(Global().config.releaseApi)),
+              onTap: () => saveApi(Universally().config.releaseApi)),
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextNormal('始终使用正式服务器').expanded,
             BaseSwitch(
                 value: isRelease,
-                activeColor: Global().mainColor,
+                activeColor: Universally().mainColor,
                 onChanged: (bool? value) {
                   isRelease = !isRelease;
                   setState(() {});
                 })
           ]),
           TextNormal('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-              maxLines: 3, color: Global().mainColor),
+              maxLines: 3, color: Universally().mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextNormal('开启接口请求日志打印：'),
             BaseSwitch(
                 value: isDebugger,
-                activeColor: Global().mainColor,
+                activeColor: Universally().mainColor,
                 onChanged: (bool? value) async {
                   isDebugger = !isDebugger;
                   setState(() {});
-                  await BHP().setBool(UConst.isDebugger, isDebugger);
+                  await BasePreferences()
+                      .setBool(UConst.isDebugger, isDebugger);
                   await showToast('修改成功,请重新打开APP');
-                  Curiosity().native.exitApp();
+                  Curiosity.native.exitApp();
                 })
           ]),
           const USpacing(),
           Row(children: [
             TextNormal('正式服IP：', maxLines: 2, height: 1.5),
           ]),
-          showApi(Global().config.releaseApi),
+          showApi(Universally().config.releaseApi),
           const USpacing(),
         ]);
   }
@@ -147,12 +148,12 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   Future<void> saveApi(String api) async {
     context.requestFocus();
     if (isRelease) {
-      await BHP().setBool(UConst.isRelease, isRelease);
+      await BasePreferences().setBool(UConst.isRelease, isRelease);
     } else {
-      await BHP().setString(UConst.localApi, api);
+      await BasePreferences().setString(UConst.localApi, api);
     }
     await showToast('修改成功,请重新打开APP');
-    Curiosity().native.exitApp();
+    Curiosity.native.exitApp();
   }
 
   Widget showApi(String url) => Container(

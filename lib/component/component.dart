@@ -88,8 +88,8 @@ class BaseError extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           direction: Axis.vertical,
           spacing: 10,
-          widget: Icon(WayIcons.empty,
-              size: 80, color: Global().config.textColor?.defaultColor),
+          widget: Icon(UIS.empty,
+              size: 80, color: Universally().config.textColor?.defaultColor),
           title: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
@@ -101,16 +101,17 @@ class BasePlaceholder extends StatelessWidget {
   final EdgeInsetsGeometry padding;
 
   @override
-  Widget build(BuildContext context) => PlaceholderChild(
+  Widget build(BuildContext context) => Padding(
       padding: padding,
       child: IconBox(
           onTap: onTap,
           mainAxisAlignment: MainAxisAlignment.center,
           direction: Axis.vertical,
           spacing: 10,
-          widget: Icon(WayIcons.empty,
+          widget: Icon(UIS.empty,
               size: 80,
-              color: Global().config.textColor?.smallColor?.withOpacity(0.3)),
+              color:
+                  Universally().config.textColor?.smallColor?.withOpacity(0.3)),
           title: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
@@ -125,7 +126,7 @@ class BaseSwitch extends ChangedBuilder<bool> {
     super.onWaitChanged,
   }) : super(
             builder: (bool value, onChanged) => XSwitch(
-                activeColor: activeColor ?? Global().mainColor,
+                activeColor: activeColor ?? Universally().mainColor,
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 value: value,
@@ -147,7 +148,7 @@ class BaseCupertinoSwitch extends ChangedBuilder<bool> {
                 trackColor: trackColor,
                 thumbColor: thumbColor,
                 activeTrackColor: activeTrackColor,
-                activeColor: activeColor ?? Global().mainColor,
+                activeColor: activeColor ?? Universally().mainColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -163,7 +164,7 @@ class BaseCheckbox extends ChangedBuilder<bool?> {
   }) : super(
             builder: (bool? value, onChanged) => Checkbox(
                 shape: shape,
-                activeColor: activeColor ?? Global().mainColor,
+                activeColor: activeColor ?? Universally().mainColor,
                 value: value,
                 onChanged: onChanged));
 }
@@ -187,8 +188,8 @@ class UButton extends Universal {
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
-                border: Border.all(color: Global().mainColor),
-                color: color ?? Global().mainColor,
+                border: Border.all(color: Universally().mainColor),
+                color: color ?? Universally().mainColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

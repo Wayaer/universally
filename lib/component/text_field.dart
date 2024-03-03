@@ -416,7 +416,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
             borderRadius: widget.borderRadius,
             focusBorderSide: widget.hasFocusChangeBorder
                 ? widget.focusBorderSide ??
-                    BorderSide(color: Global().mainColor)
+                    BorderSide(color: Universally().mainColor)
                 : null,
             borderSide: widget.borderSide,
             constraints: widget.constraints,
@@ -451,12 +451,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 decoration: const BoxDecoration(color: Colors.transparent),
                 placeholder: widget.hintText,
                 placeholderStyle: TStyle(
-                        color: Global().config.textColor?.smallColor,
+                        color: Universally().config.textColor?.smallColor,
                         fontSize: 13)
                     .merge(widget.hintStyle ??
-                        Global().config.textField?.hintStyle),
-                style: TStyle(color: Global().config.textColor?.defaultColor)
-                    .merge(widget.style ?? Global().config.textField?.style),
+                        Universally().config.textField?.hintStyle),
+                style: TStyle(
+                        color: Universally().config.textColor?.defaultColor)
+                    .merge(
+                        widget.style ?? Universally().config.textField?.style),
                 keyboardType: widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
@@ -477,7 +479,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 onEditingComplete: () =>
                     widget.onEditingComplete?.call(controller),
                 showCursor: widget.showCursor,
-                cursorColor: Global().mainColor,
+                cursorColor: Universally().mainColor,
                 cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
@@ -502,8 +504,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 selectionWidthStyle: widget.selectionWidthStyle,
                 smartDashesType: widget.smartDashesType,
                 smartQuotesType: widget.smartQuotesType,
-                strutStyle:
-                    widget.strutStyle ?? Global().config.textField?.strutStyle,
+                strutStyle: widget.strutStyle ??
+                    Universally().config.textField?.strutStyle,
                 textAlignVertical: widget.textAlignVertical,
                 textDirection: widget.textDirection,
                 padding: widget.contentPadding,
@@ -549,11 +551,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildSearchText {
-    bool isLeft = (Global().config.textField?.searchTextPositioned ??
+    bool isLeft = (Universally().config.textField?.searchTextPositioned ??
             widget.searchTextPositioned) !=
         DecoratorPositioned.inner;
     final current = widget.searchText ??
-        Global().config.textField?.searchText ??
+        Universally().config.textField?.searchText ??
         TextNormal('搜索');
     return Universal(
         margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
@@ -563,7 +565,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildSendSMS {
-    bool isLeft = (Global().config.textField?.sendSMSPositioned ??
+    bool isLeft = (Universally().config.textField?.sendSMSPositioned ??
             widget.sendSMSPositioned) !=
         DecoratorPositioned.inner;
     return SendSMS(
@@ -571,18 +573,18 @@ class _BaseTextFieldState extends State<BaseTextField> {
         duration: const Duration(seconds: 60),
         builder: (SendState state, int i) {
           final current = (widget.sendSMSTextBuilder ??
-                  Global().config.textField?.sendSMSTextBuilder)
+                  Universally().config.textField?.sendSMSTextBuilder)
               ?.call(state, i);
           if (current != null) return current;
           switch (state) {
             case SendState.none:
-              return TextNormal('发送验证码', color: Global().mainColor);
+              return TextNormal('发送验证码', color: Universally().mainColor);
             case SendState.sending:
-              return TextNormal('发送中', color: Global().mainColor);
+              return TextNormal('发送中', color: Universally().mainColor);
             case SendState.resend:
-              return TextNormal('重新发送', color: Global().mainColor);
+              return TextNormal('重新发送', color: Universally().mainColor);
             case SendState.countDown:
-              return TextNormal('$i s', color: Global().mainColor);
+              return TextNormal('$i s', color: Universally().mainColor);
           }
         },
         onTap: widget.sendSMSTap);
@@ -590,19 +592,19 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   Widget get buildSearchIcon {
     final current = widget.searchIcon ??
-        Global().config.textField?.searchIcon ??
+        Universally().config.textField?.searchIcon ??
         Icon(UIS.search,
-            size: 20, color: Global().config.textColor?.smallColor);
+            size: 20, color: Universally().config.textColor?.smallColor);
     return Padding(padding: const EdgeInsets.only(left: 10), child: current);
   }
 
   Widget get buildClearIcon {
     final current = widget.clearIcon ??
-        Global().config.textField?.clearIcon ??
+        Universally().config.textField?.clearIcon ??
         IconBox(
             size: 18,
             icon: UIS.clear,
-            color: Global().config.textColor?.defaultColor);
+            color: Universally().config.textColor?.defaultColor);
     return Universal(
         onTap: () {
           controller.clear();
@@ -613,11 +615,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildEyeIcon {
-    final current =
-        (widget.eyeIconBuilder ?? Global().config.textField?.eyeIconBuilder)
-                ?.call(obscureText.value) ??
-            Icon(obscureText.value ? WayIcons.eyeClose : WayIcons.eyeOpen,
-                color: Global().config.textColor?.defaultColor, size: 20);
+    final current = (widget.eyeIconBuilder ??
+                Universally().config.textField?.eyeIconBuilder)
+            ?.call(obscureText.value) ??
+        Icon(obscureText.value ? UIS.eyeClose : UIS.eyeOpen,
+            color: Universally().config.textColor?.defaultColor, size: 20);
     return Universal(
         margin: const EdgeInsets.only(right: 10),
         enabled: widget.enableEye,

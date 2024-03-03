@@ -15,7 +15,7 @@ class BasePickerOptions<T> extends PickerOptions<T> {
       double height = 250})
       : super(
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
-            confirm: TextNormal('确定', color: Global().mainColor),
+            confirm: TextNormal('确定', color: Universally().mainColor),
             cancel: TextNormal('取消', color: UCS.mainBlack.withOpacity(0.6)));
 }
 
@@ -41,7 +41,7 @@ class BaseCupertinoActionSheet extends StatelessWidget {
     actions.add(CupertinoActionSheetAction(
         onPressed: maybePop,
         isDefaultAction: true,
-        child: TextNormal('取消', color: Global().mainColor)));
+        child: TextNormal('取消', color: Universally().mainColor)));
     return CupertinoActionSheet(actions: actions);
   }
 }

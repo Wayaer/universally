@@ -12,9 +12,14 @@ import 'page/android_system_setting.dart';
 
 Future<void> main() async {
   isBeta = true;
-  await Global().setConfig(
-      GlobalConfig(
+  await Universally().setConfig(
+      UConfig(
           mainColor: Colors.purple.shade900,
+          loadingOptions: LoadingOptions(
+              onLoadingTap: () {},
+              onModalTap: () {
+                closeLoading();
+              }),
           loadingBuilder: (BaseLoading loading) => Container(
               width: loading.size * 2,
               height: loading.size * 2,
@@ -24,7 +29,8 @@ Future<void> main() async {
                   color: Colors.white, style: SpinKitStyle.fadingCircle)),
           betaApi: '这是设置测试Api',
           releaseApi: '这里设置发布版Api',
-          toastOptions: const ToastOptions(ignoring: false)),
+          toastOptions:
+              const ToastOptions(alignment: Alignment.center, ignoring: false)),
       windowOptions: WindowOptions(
           size: WindowsSize.iPhone5P8.value,
           minimumSize: WindowsSize.iPhone4P7.value,
@@ -105,7 +111,7 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(
               onTap: () => push(const HivePreferencesPage()),
-              text: 'BHP(BaseHivePreferences)'),
+              text: 'BasePreferences'),
           Button(
               onTap: () {
                 showDoubleChooseAlert(
@@ -113,6 +119,11 @@ class HomePage extends StatelessWidget {
               },
               text: 'showDoubleChooseAlert'),
           Button(onTap: showLoading, text: 'showLoading'),
+          Button(
+              onTap: () {
+                showToast('showToast');
+              },
+              text: 'showToast'),
           Button(
               onTap: () {
                 push(const SpinKitPage());

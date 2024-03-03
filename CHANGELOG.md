@@ -1,3 +1,8 @@
+## 7.0.0
+
+* `Global()` changed to `Universally()`
+* `GlobalConfig()` 改为 `UConfig()`
+
 ## 6.7.1
 
 * Remove the `provider` package

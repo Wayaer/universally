@@ -172,8 +172,8 @@ class BaseMaterialApp extends StatelessWidget {
               child:
                   builder?.call(context, child) ?? child ?? const SizedBox());
         },
-        navigatorKey: GlobalWayUI().navigatorKey,
-        scaffoldMessengerKey: GlobalWayUI().scaffoldMessengerKey,
+        navigatorKey: FlExtended().navigatorKey,
+        scaffoldMessengerKey: FlExtended().scaffoldMessengerKey,
         routes: routes,
         initialRoute: initialRoute,
         onGenerateRoute: onGenerateRoute,

@@ -15,7 +15,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
   @override
   void initState() {
     super.initState();
-    BHP().box().path.log();
+    BasePreferences().box().path.log();
   }
 
   @override
@@ -23,7 +23,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
     return BaseScaffold(
         isScroll: true,
         padding: const EdgeInsets.all(12),
-        appBarTitleText: 'BHP Demo',
+        appBarTitleText: 'BasePreferences Demo',
         children: [
           Container(
               padding: const EdgeInsets.all(12),
@@ -37,7 +37,9 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setString',
                 onTap: () {
-                  BHP().setString('String Key', 'String value').then((value) {
+                  BasePreferences()
+                      .setString('String Key', 'String value')
+                      .then((value) {
                     text = 'call setString() $value';
                     setState(() {});
                   });
@@ -46,7 +48,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getString',
                 onTap: () {
-                  final value = BHP().getString('String Key');
+                  final value = BasePreferences().getString('String Key');
                   text = 'call getString() $value';
                   setState(() {});
                 }),
@@ -55,7 +57,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setBool',
                 onTap: () {
-                  BHP().setBool('bool Key', true).then((value) {
+                  BasePreferences().setBool('bool Key', true).then((value) {
                     text = 'call setBool() $value';
                     setState(() {});
                   });
@@ -64,7 +66,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getBool',
                 onTap: () {
-                  final value = BHP().getBool('bool Key');
+                  final value = BasePreferences().getBool('bool Key');
                   text = 'call getBool() $value';
                   setState(() {});
                 }),
@@ -73,7 +75,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setDouble',
                 onTap: () {
-                  BHP().setDouble('double Key', 2.33).then((value) {
+                  BasePreferences().setDouble('double Key', 2.33).then((value) {
                     text = 'call setDouble() $value';
                     setState(() {});
                   });
@@ -82,7 +84,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getDouble',
                 onTap: () {
-                  final value = BHP().getDouble('double Key');
+                  final value = BasePreferences().getDouble('double Key');
                   text = 'call getDouble() $value';
                   setState(() {});
                 }),
@@ -91,7 +93,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setInt',
                 onTap: () {
-                  BHP().setInt('int Key', 233).then((value) {
+                  BasePreferences().setInt('int Key', 233).then((value) {
                     text = 'call setInt() $value';
                     setState(() {});
                   });
@@ -100,7 +102,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getInt',
                 onTap: () {
-                  final value = BHP().getInt('int Key');
+                  final value = BasePreferences().getInt('int Key');
                   text = 'call getInt() $value';
                   setState(() {});
                 }),
@@ -109,8 +111,8 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setMap',
                 onTap: () {
-                  BHP().setMap('map Key', {'1': 'value1', '2': 'value2'}).then(
-                      (value) {
+                  BasePreferences().setMap(
+                      'map Key', {'1': 'value1', '2': 'value2'}).then((value) {
                     text = 'call setMap() $value';
                     setState(() {});
                   });
@@ -119,7 +121,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getMap',
                 onTap: () {
-                  final value = BHP().getMap('map Key');
+                  final value = BasePreferences().getMap('map Key');
                   text = 'call getMap() $value';
                   setState(() {});
                 }),
@@ -128,8 +130,8 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'setStringList',
                 onTap: () {
-                  BHP().setStringList('list<String> Key', ['1', '2', '3']).then(
-                      (value) {
+                  BasePreferences().setStringList(
+                      'list<String> Key', ['1', '2', '3']).then((value) {
                     text = 'call setStringList() $value';
                     setState(() {});
                   });
@@ -138,7 +140,8 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
                 text: 'getStringList',
                 onTap: () {
-                  final value = BHP().getStringList('list<String> Key');
+                  final value =
+                      BasePreferences().getStringList('list<String> Key');
                   text = 'call getStringList() $value';
                   setState(() {});
                 }),

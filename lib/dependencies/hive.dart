@@ -196,12 +196,12 @@ abstract class HiveBox {
 }
 
 /// Preferences 配置信息存储
-class BHP extends HiveBox {
-  factory BHP() => _singleton ??= BHP._();
+class BasePreferences extends HiveBox {
+  factory BasePreferences() => _singleton ??= BasePreferences._();
 
-  BHP._();
+  BasePreferences._();
 
-  static BHP? _singleton;
+  static BasePreferences? _singleton;
 
   Future<bool> init() async {
     final dir = await PathProvider().getApplicationSupportDirectory();

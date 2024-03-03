@@ -4,7 +4,7 @@ import 'package:universally/universally.dart';
 
 extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
   Future<void> show() async {
-    final result = BHP().getBool(UConst.privacy);
+    final result = BasePreferences().getBool(UConst.privacy);
     if (result ?? false) {
       onConsentTap?.call();
     } else {
@@ -40,7 +40,7 @@ class UserPrivacyAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DoubleChooseWindows(
-      options: GlobalWayUI()
+      options: FlExtended()
           .modalWindowsOptions
           .copyWith(color: UCS.black50)
           .merge(options),
@@ -60,9 +60,9 @@ class UserPrivacyAlert extends StatelessWidget {
                   '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
                 ], styles: [
                   const TStyle(height: 1.4),
-                  TStyle(height: 1.4, color: Global().mainColor),
+                  TStyle(height: 1.4, color: Universally().mainColor),
                   const TStyle(height: 1.4),
-                  TStyle(height: 1.4, color: Global().mainColor),
+                  TStyle(height: 1.4, color: Universally().mainColor),
                   const TStyle(height: 1.4),
                 ], recognizers: [
                   null,
@@ -77,12 +77,12 @@ class UserPrivacyAlert extends StatelessWidget {
           margin: const EdgeInsets.only(left: 0.5),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Global().mainColor,
+              color: Universally().mainColor,
               borderRadius:
                   const BorderRadius.only(bottomRight: Radius.circular(8))),
           onTap: () {
             pop();
-            BHP().setBool(UConst.privacy, true);
+            BasePreferences().setBool(UConst.privacy, true);
             onConsentTap?.call();
           },
           child: TextNormal(agree, color: UCS.white)),
@@ -93,7 +93,7 @@ class UserPrivacyAlert extends StatelessWidget {
           decoration: const BoxDecoration(
               color: UCS.background,
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))),
-          onTap: Curiosity().native.exitApp,
+          onTap: Curiosity.native.exitApp,
           child: TextNormal(exit, color: UCS.black70)));
 }
 
@@ -132,14 +132,14 @@ class UserPrivacyCheckbox extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       BaseCheckbox(
           value: value,
-          activeColor: mainColor ?? Global().mainColor,
+          activeColor: mainColor ?? Universally().mainColor,
           shape: shape,
           onChanged: onChanged),
       RText(maxLines: 2, textAlign: TextAlign.start, texts: texts, styles: [
         TStyle(color: color, fontSize: fontSize),
-        TStyle(color: mainColor ?? Global().mainColor, fontSize: fontSize),
+        TStyle(color: mainColor ?? Universally().mainColor, fontSize: fontSize),
         TStyle(color: color, fontSize: fontSize),
-        TStyle(color: mainColor ?? Global().mainColor, fontSize: fontSize),
+        TStyle(color: mainColor ?? Universally().mainColor, fontSize: fontSize),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,

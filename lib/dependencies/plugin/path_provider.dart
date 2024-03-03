@@ -1,7 +1,7 @@
 import 'dart:io' show Directory;
 
-import 'package:flutter_curiosity/flutter_curiosity.dart';
 import 'package:path_provider/path_provider.dart' as path;
+import 'package:universally/universally.dart';
 
 class PathProvider {
   factory PathProvider() => _singleton ??= PathProvider._();

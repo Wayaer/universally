@@ -41,8 +41,9 @@ class BaseTabBar extends TabBar {
             tabs: tabs ??
                 list?.builder((value) => Tab(text: value, height: height)) ??
                 [],
-            labelColor: labelColor ?? Global().mainColor,
-            indicatorColor: indicatorColor ?? labelColor ?? Global().mainColor,
+            labelColor: labelColor ?? Universally().mainColor,
+            indicatorColor:
+                indicatorColor ?? labelColor ?? Universally().mainColor,
             labelStyle: labelStyle ??
                 TStyle(
                     fontFamily: fontFamily,
@@ -90,7 +91,7 @@ class BaseTabBar extends TabBar {
             indicatorWeight: 0,
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
-                color: indicatorColor ?? Global().mainColor,
+                color: indicatorColor ?? Universally().mainColor,
                 borderRadius: BorderRadius.circular(4)),
             labelColor: labelColor,
             dividerColor: UCS.transparent,

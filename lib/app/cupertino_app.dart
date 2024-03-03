@@ -156,7 +156,7 @@ class BaseCupertinoApp extends StatelessWidget {
               child:
                   builder?.call(context, child) ?? child ?? const SizedBox());
         },
-        navigatorKey: GlobalWayUI().navigatorKey,
+        navigatorKey: FlExtended().navigatorKey,
         routes: routes,
         initialRoute: initialRoute,
         onGenerateRoute: onGenerateRoute,
