@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 7.0.0
+version: 7.0.1
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -21,8 +21,8 @@ dependencies:
   extended_image: ^8.2.0
   extended_image_library: ^4.0.2
   flutter_curiosity: ^6.1.0
-  flutter_waya: ^8.8.0
-  fl_extended: ^0.0.1
+  flutter_waya: ^9.0.0
+  fl_extended: ^0.1.0
   fl_dio: ^0.2.1
   window_manager: ^0.3.8
 
