@@ -265,11 +265,11 @@ class BaseScaffold extends StatelessWidget {
         restorationId: restorationId,
         body: body ?? universal,
         persistentFooterAlignment: persistentFooterAlignment);
-    return onPopInvoked != null || isCloseOverlay || enableDoubleClickExit
+    final hasPopScope =
+        onPopInvoked != null || isCloseOverlay || enableDoubleClickExit;
+    return hasPopScope
         ? ExtendedPopScope(
-            canPop: !(isCloseOverlay ||
-                onPopInvoked != null ||
-                enableDoubleClickExit),
+            canPop: !hasPopScope,
             isCloseOverlay: isCloseOverlay,
             onPopInvoked: (bool didPop, didCloseOverlay) {
               onPopInvoked?.call(didPop, didCloseOverlay);
