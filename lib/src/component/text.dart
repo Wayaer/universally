@@ -15,71 +15,71 @@ extension FontWeights on FontWeight {
   static const FontWeight bold = FontWeight.bold;
 }
 
-class TextColor {
-  TextColor(
-      {this.smallColor,
-      this.defaultColor,
-      this.largeColor,
-      this.veryLargeColor,
-      this.styleColor});
+class TextThemeStyle {
+  TextThemeStyle(
+      {this.extraLarge, this.large, this.normal, this.small, this.style});
 
-  /// 超大字体颜色
-  Color? veryLargeColor;
+  /// 超大字体
+  TextStyle? extraLarge;
 
-  /// 大字体颜色
-  Color? largeColor;
+  /// 大字体
+  TextStyle? large;
 
-  /// 默认字体颜色
-  Color? defaultColor;
+  /// 默认字体
+  TextStyle? normal;
 
-  /// 小字体颜色
-  Color? smallColor;
+  /// 小字体
+  TextStyle? small;
 
   /// [TStyle] color
-  Color? styleColor;
+  TextStyle? style;
 }
 
 /// extra large font
 class TextExtraLarge extends BaseText {
   TextExtraLarge(super.text,
-      {super.key,
-      Color? color,
+      {TextStyle? style,
+      super.key,
+      super.color,
       super.maxLines,
       super.height,
       super.letterSpacing,
       super.fontSize = 18,
-      super.style,
       super.overflow,
       super.textAlign,
       super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
-      : super(color: color ?? Universally().config.textColor?.veryLargeColor);
+      : super(
+            style: BaseText._mergeStyle(
+                Universally().config.textStyle?.large, style));
 }
 
 /// Large font
 class TextLarge extends BaseText {
   TextLarge(super.text,
-      {super.key,
-      Color? color,
+      {TextStyle? style,
+      super.key,
+      super.color,
       super.maxLines,
       super.height,
       super.letterSpacing,
       super.fontSize = 16,
-      super.style,
       super.overflow,
       super.textAlign,
       super.fontWeight = FontWeights.semiBold,
       super.fontFamily})
-      : super(color: color ?? Universally().config.textColor?.largeColor);
+      : super(
+            style: BaseText._mergeStyle(
+                Universally().config.textStyle?.large, style));
 }
 
 /// 默认字体
 /// The formal font
 class TextNormal extends BaseText {
   TextNormal(super.text,
-      {super.key,
-      Color? color,
-      super.style,
+      {TextStyle? style,
+      super.key,
+      super.color,
       super.backgroundColor,
       super.maxLines,
       super.height,
@@ -89,29 +89,40 @@ class TextNormal extends BaseText {
       super.textAlign,
       super.fontWeight = FontWeight.normal,
       super.fontFamily})
-      : super(color: color ?? Universally().config.textColor?.defaultColor);
+      : super(
+            style: BaseText._mergeStyle(
+                Universally().config.textStyle?.normal, style));
 }
 
 /// 小字体
 /// Small font
 class TextSmall extends BaseText {
   TextSmall(super.text,
-      {super.key,
+      {TextStyle? style,
+      super.key,
       super.fontWeight,
-      Color? color,
+      super.color,
       super.maxLines,
       super.height,
       super.letterSpacing,
       super.fontSize = 12,
-      super.style,
       super.overflow,
       super.textAlign,
       super.fontFamily})
-      : super(color: color ?? Universally().config.textColor?.smallColor);
+      : super(
+            style: BaseText._mergeStyle(
+                Universally().config.textStyle?.small, style));
 }
 
 /// BaseText
 class BaseText extends BText {
+  static TextStyle? _mergeStyle(TextStyle? firstStyle, TextStyle? secondStyle) {
+    if (firstStyle != null) {
+      return firstStyle.merge(secondStyle);
+    }
+    return secondStyle;
+  }
+
   BaseText(String? text,
       {super.key,
       Color? color,
@@ -137,7 +148,8 @@ class BaseText extends BText {
                     color: color,
                     fontFamily: fontFamily,
                     height: height)
-                .merge(style));
+                .merge(BaseText._mergeStyle(
+                    Universally().config.textStyle?.style, style)));
 }
 
 /// BaseTextStyle
@@ -180,7 +192,7 @@ class TStyle extends BTextStyle {
 
   /// 使用 [Universally().config.textColor?.styleColor] 预设颜色，不适合主题适配
   TStyle.global(
-      {Color? color,
+      {super.color,
       super.fontSize = 14,
       super.letterSpacing,
       super.height,
@@ -189,9 +201,7 @@ class TStyle extends BTextStyle {
       super.fontWeight,
       super.decoration = TextDecoration.none,
       super.backgroundColor})
-      : super(
-            color: color ?? Universally().config.textColor?.styleColor,
-            wordSpacing: letterSpacing);
+      : super(wordSpacing: letterSpacing);
 
   /// 原始数据，不添加任何颜色
   const TStyle.origin(

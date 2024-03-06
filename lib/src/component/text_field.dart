@@ -450,15 +450,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
                             innerPrefixes.builder((entry) => entry.widget)),
                 decoration: const BoxDecoration(color: Colors.transparent),
                 placeholder: widget.hintText,
-                placeholderStyle: TStyle(
-                        color: Universally().config.textColor?.smallColor,
-                        fontSize: 13)
-                    .merge(widget.hintStyle ??
-                        Universally().config.textField?.hintStyle),
-                style: TStyle(
-                        color: Universally().config.textColor?.defaultColor)
-                    .merge(
-                        widget.style ?? Universally().config.textField?.style),
+                placeholderStyle: const TStyle(fontSize: 13).merge(
+                    widget.hintStyle ??
+                        Universally().config.textField?.hintStyle ??
+                        Universally().config.textStyle?.small),
+                style: const TStyle().merge(widget.style ??
+                    Universally().config.textField?.style ??
+                    Universally().config.textStyle?.normal),
                 keyboardType: widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
@@ -594,7 +592,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     final current = widget.searchIcon ??
         Universally().config.textField?.searchIcon ??
         Icon(UIS.search,
-            size: 20, color: Universally().config.textColor?.smallColor);
+            size: 20, color: Universally().config.textStyle?.normal?.color);
     return Padding(padding: const EdgeInsets.only(left: 10), child: current);
   }
 
@@ -604,7 +602,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
         IconBox(
             size: 18,
             icon: UIS.clear,
-            color: Universally().config.textColor?.defaultColor);
+            color: Universally().config.textStyle?.normal?.color);
     return Universal(
         onTap: () {
           controller.clear();
@@ -619,7 +617,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 Universally().config.textField?.eyeIconBuilder)
             ?.call(obscureText.value) ??
         Icon(obscureText.value ? UIS.eyeClose : UIS.eyeOpen,
-            color: Universally().config.textColor?.defaultColor, size: 20);
+            color: Universally().config.textStyle?.normal?.color, size: 20);
     return Universal(
         margin: const EdgeInsets.only(right: 10),
         enabled: widget.enableEye,

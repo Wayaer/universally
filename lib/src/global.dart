@@ -30,7 +30,7 @@ class UConfig {
     this.loadingOptions,
     this.loadingBuilder,
     this.imageFailed,
-    this.textColor,
+    this.textStyle,
   }) {
     pullDownHeader ??= const ClassicHeader(
         dragText: '请尽情拉我',
@@ -103,8 +103,8 @@ class UConfig {
   /// [BaseImage] 加载失败时显示的组件
   Widget? imageFailed;
 
-  /// 全局设置 [TextNormal],[TextSmall], [TextLarge], [TextExtraLarge] 字体颜色
-  TextColor? textColor;
+  /// 全局设置 [TextNormal],[TextSmall], [TextLarge], [TextExtraLarge] 字体样式
+  TextThemeStyle? textStyle;
 
   /// 全局设置 [BaseTextField] 部分配置
   TextFieldConfig? textField;

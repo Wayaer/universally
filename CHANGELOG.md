@@ -1,3 +1,7 @@
+## 7.1.0
+
+* Change the `textColor` in `UConfig` to `textStyle`
+
 ## 7.0.1
 
 * `Global()` changed to `Universally()`

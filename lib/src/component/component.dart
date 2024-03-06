@@ -89,7 +89,7 @@ class BaseError extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80, color: Universally().config.textColor?.defaultColor),
+              size: 80, color: Universally().config.textStyle?.normal?.color),
           title: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
@@ -109,9 +109,7 @@ class BasePlaceholder extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80,
-              color:
-                  Universally().config.textColor?.smallColor?.withOpacity(0.3)),
+              size: 80, color: Universally().config.textStyle?.small?.color),
           title: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
