@@ -11,8 +11,6 @@ class TextFieldPage extends StatelessWidget {
         appBarTitleText: 'TextField',
         children: [
           const SizedBox(height: 20),
-          TextLarge('新版'),
-          const SizedBox(height: 20),
           BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,

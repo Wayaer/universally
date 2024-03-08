@@ -36,45 +36,6 @@ class BaseDivider extends Divider {
       super.height = 1});
 }
 
-extension ExtensionNotificationListener on Widget {
-  Widget interceptNotificationListener<T extends Notification>(
-          {NotificationListenerCallback<T>? onNotification}) =>
-      NotificationListener<T>(
-          onNotification: (T notification) {
-            if (onNotification != null) onNotification(notification);
-            return true;
-          },
-          child: this);
-}
-
-/// 局部 异步加载数据
-class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
-  BaseFutureBuilder({
-    super.key,
-    super.initialData,
-    required super.future,
-    required super.onDone,
-    CustomFutureBuilderNone? onNone,
-  }) : super(
-            onNone: onNone ?? (_, __) => const Center(child: BasePlaceholder()),
-            onWaiting: (_) => const Center(child: BaseLoading()),
-            onError: (_, __, reset) => BaseError(onTap: reset));
-}
-
-/// 局部 异步加载数据
-class BaseStreamBuilder<T> extends CustomStreamBuilder<T> {
-  BaseStreamBuilder({
-    super.key,
-    super.initialData,
-    required super.stream,
-    required super.onDone,
-    CustomBuilderContext? onNone,
-  }) : super(
-            onNone: onNone ?? (_) => const Center(child: BasePlaceholder()),
-            onWaiting: (_) => const Center(child: BaseLoading()),
-            onError: (_, __) => const BaseError());
-}
-
 class BaseError extends StatelessWidget {
   const BaseError({super.key, this.onTap});
 
@@ -90,7 +51,7 @@ class BaseError extends StatelessWidget {
           spacing: 10,
           widget: Icon(UIS.empty,
               size: 80, color: Universally().config.textStyle?.normal?.color),
-          title: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
+          label: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
 class BasePlaceholder extends StatelessWidget {
@@ -110,61 +71,7 @@ class BasePlaceholder extends StatelessWidget {
           spacing: 10,
           widget: Icon(UIS.empty,
               size: 80, color: Universally().config.textStyle?.small?.color),
-          title: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
-}
-
-class BaseSwitch extends ChangedBuilder<bool> {
-  BaseSwitch({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    Color? trackColor,
-    Color thumbColor = Colors.white,
-    super.onChanged,
-    super.onWaitChanged,
-  }) : super(
-            builder: (bool value, onChanged) => XSwitch(
-                activeColor: activeColor ?? Universally().mainColor,
-                trackColor: trackColor,
-                thumbColor: thumbColor,
-                value: value,
-                onChanged: onChanged));
-}
-
-class BaseCupertinoSwitch extends ChangedBuilder<bool> {
-  BaseCupertinoSwitch({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    Color? activeTrackColor,
-    MaterialStateProperty<Color?>? trackColor,
-    MaterialStateProperty<Color?>? thumbColor,
-    super.onChanged,
-    super.onWaitChanged,
-  }) : super(
-            builder: (bool value, onChanged) => Switch.adaptive(
-                trackColor: trackColor,
-                thumbColor: thumbColor,
-                activeTrackColor: activeTrackColor,
-                activeColor: activeColor ?? Universally().mainColor,
-                value: value,
-                onChanged: onChanged));
-}
-
-class BaseCheckbox extends ChangedBuilder<bool?> {
-  BaseCheckbox({
-    super.key,
-    required super.value,
-    Color? activeColor,
-    super.onChanged,
-    super.onWaitChanged,
-    OutlinedBorder? shape,
-  }) : super(
-            builder: (bool? value, onChanged) => Checkbox(
-                shape: shape,
-                activeColor: activeColor ?? Universally().mainColor,
-                value: value,
-                onChanged: onChanged));
+          label: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
 class UButton extends Universal {

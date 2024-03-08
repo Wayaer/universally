@@ -58,6 +58,10 @@ class _App extends StatelessWidget {
           home: const HomePage(),
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
+          theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                  titleTextStyle:
+                      TStyle(fontSize: 24, fontWeight: FontWeight.bold))),
           initState: (context) async {
             ConnectivityPlus().addListener((status, result) async {
               switch (result) {
@@ -99,12 +103,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        enableLeading: false,
         appBarTitleText: 'Universally',
         safeBottom: true,
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
-          Button(child: const SwitchApiButton(color: Colors.white)),
+          const SwitchApiButton(),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
@@ -206,12 +209,13 @@ class HomePage extends StatelessWidget {
 }
 
 class Button extends Universal {
-  Button({
-    super.key,
-    Widget? child,
-    String? text,
-    final VoidCallback? onTap,
-  }) : super(
+  Button(
+      {super.key,
+      Widget? child,
+      String? text,
+      final VoidCallback? onTap,
+      super.unifiedButtonCategory = UnifiedButtonCategory.elevated})
+      : super(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: ElevatedButton(
                 onPressed: onTap, child: child ?? Text(text ?? '')));

@@ -1,6 +1,9 @@
 ## 7.1.0
 
 * Change the `textColor` in `UConfig` to `textStyle`
+* Remove `isMaybePop`, `enableLeading`, and `appBarAction` for `BaseScaffold`
+* Remove `BackIcon`,
+* Remove `BaseAppBar`
 
 ## 7.0.1
 

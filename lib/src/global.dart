@@ -31,6 +31,7 @@ class UConfig {
     this.loadingBuilder,
     this.imageFailed,
     this.textStyle,
+    this.textField,
   }) {
     pullDownHeader ??= const ClassicHeader(
         dragText: '请尽情拉我',

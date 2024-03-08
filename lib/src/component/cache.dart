@@ -47,7 +47,7 @@ class _CleanCacheState extends State<CleanCache> {
     } else {
       text = '0.00 MB';
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void getDirSize(Directory dir) {
@@ -96,7 +96,7 @@ class _PushStateState extends State<PushSwitchState> {
   }
 
   @override
-  Widget build(BuildContext context) => BaseSwitch(
+  Widget build(BuildContext context) => BaseXSwitch(
       value: push,
       onChanged: (value) {
         if (value == push) return;

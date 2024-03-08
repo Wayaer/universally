@@ -47,7 +47,7 @@ class TextExtraLarge extends BaseText {
       super.fontSize = 18,
       super.overflow,
       super.textAlign,
-      super.fontWeight = FontWeights.semiBold,
+      super.fontWeight,
       super.fontFamily})
       : super(
             style: BaseText._mergeStyle(
@@ -66,7 +66,7 @@ class TextLarge extends BaseText {
       super.fontSize = 16,
       super.overflow,
       super.textAlign,
-      super.fontWeight = FontWeights.semiBold,
+      super.fontWeight,
       super.fontFamily})
       : super(
             style: BaseText._mergeStyle(
@@ -83,11 +83,11 @@ class TextNormal extends BaseText {
       super.backgroundColor,
       super.maxLines,
       super.height,
-      super.fontSize = 14,
+      super.fontSize,
       super.letterSpacing,
       super.overflow,
       super.textAlign,
-      super.fontWeight = FontWeight.normal,
+      super.fontWeight,
       super.fontFamily})
       : super(
             style: BaseText._mergeStyle(
@@ -129,7 +129,7 @@ class BaseText extends BText {
       TextStyle? style,
       Color? backgroundColor,
       int? maxLines,
-      double fontSize = 14,
+      double? fontSize,
       double? height,
       double? letterSpacing,
       TextOverflow? overflow,
@@ -140,16 +140,17 @@ class BaseText extends BText {
             maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
             overflow: overflow ??
                 (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
-            style: TStyle(
+            style: (BaseText._mergeStyle(
+                        Universally().config.textStyle?.style, style) ??
+                    const TStyle())
+                .merge(TStyle(
                     fontWeight: fontWeight,
                     letterSpacing: letterSpacing,
                     backgroundColor: backgroundColor,
                     fontSize: fontSize,
                     color: color,
                     fontFamily: fontFamily,
-                    height: height)
-                .merge(BaseText._mergeStyle(
-                    Universally().config.textStyle?.style, style)));
+                    height: height)));
 }
 
 /// BaseTextStyle
@@ -158,8 +159,8 @@ class TStyle extends BTextStyle {
   const TStyle(
       {double? wordSpacing,
       super.fontWeight,
-      super.color = UCS.mainBlack,
-      super.fontSize = 14,
+      super.color,
+      super.fontSize,
       super.letterSpacing,
       super.height,
       super.fontFamily,
@@ -191,7 +192,7 @@ class TStyle extends BTextStyle {
       : super(wordSpacing: wordSpacing ?? letterSpacing);
 
   /// 使用 [Universally().config.textColor?.styleColor] 预设颜色，不适合主题适配
-  TStyle.global(
+  const TStyle.global(
       {super.color,
       super.fontSize = 14,
       super.letterSpacing,

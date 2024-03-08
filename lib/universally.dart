@@ -33,6 +33,8 @@ export 'src/app/cupertino_app.dart';
 export 'src/app/widgets_app.dart';
 
 /// component
+export 'src/component/switch_check_box.dart';
+export 'src/component/extension.dart';
 export 'src/component/component.dart';
 export 'src/component/gif.dart';
 export 'src/component/list.dart';
@@ -45,6 +47,7 @@ export 'src/component/tab_bar.dart';
 export 'src/component/user_privacy.dart';
 export 'src/component/switch_api.dart';
 export 'src/component/cache.dart';
+export 'src/component/keep_alive_wrapper.dart';
 
 /// dependencies
 export 'src/dependencies/dio.dart';

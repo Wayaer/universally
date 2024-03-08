@@ -7,13 +7,15 @@ class SwitchApiButton extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) => IconBox(
-      icon: UIS.settingApi,
-      color: color ?? Universally().mainColor,
-      visible: isBeta,
-      size: 18,
-      onTap: () => push(_SwitchApiPage()),
-      title: TextNormal('切换API', color: color ?? Universally().mainColor));
+  Widget build(BuildContext context) => !isBeta
+      ? const SizedBox()
+      : IconBox(
+          icon: UIS.settingApi,
+          unifiedButtonCategory: UnifiedButtonCategory.elevated,
+          color: color ?? Universally().mainColor,
+          size: 18,
+          onTap: () => push(_SwitchApiPage()),
+          label: TextNormal('切换API', color: color ?? Universally().mainColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -48,7 +50,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             showApi(Universally().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               TextNormal('使用https：'),
-              BaseSwitch(
+              BaseXSwitch(
                   value: isHttps,
                   activeColor: Universally().mainColor,
                   onChanged: (bool? value) {
@@ -112,7 +114,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextNormal('始终使用正式服务器').expanded,
-            BaseSwitch(
+            BaseXSwitch(
                 value: isRelease,
                 activeColor: Universally().mainColor,
                 onChanged: (bool? value) {
@@ -124,7 +126,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               maxLines: 3, color: Universally().mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextNormal('开启接口请求日志打印：'),
-            BaseSwitch(
+            BaseXSwitch(
                 value: isDebugger,
                 activeColor: Universally().mainColor,
                 onChanged: (bool? value) async {

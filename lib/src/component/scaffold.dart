@@ -91,7 +91,6 @@ class BaseScaffold extends StatelessWidget {
     this.elevation,
     this.appBarTitle,
     this.appBarTitleText,
-    this.appBarAction,
     this.appBarActions,
     this.appBarLeading,
     this.leadingWidth,
@@ -100,8 +99,6 @@ class BaseScaffold extends StatelessWidget {
     this.appBarPrimary = true,
     this.appBarBottom,
     this.appBarIconTheme,
-    this.isMaybePop = false,
-    this.enableLeading = true,
     this.systemOverlayStyle,
     this.centerTitle = true,
     this.actionsIconTheme,
@@ -119,6 +116,8 @@ class BaseScaffold extends StatelessWidget {
     this.toolbarHeight,
     this.toolbarOpacity = 1.0,
     this.toolbarTextStyle,
+    this.forceMaterialTransparency = false,
+    this.clipBehavior,
   });
 
   /// [body] > [child] > [children]
@@ -203,7 +202,6 @@ class BaseScaffold extends StatelessWidget {
   final double? elevation;
   final Widget? appBarTitle;
   final String? appBarTitleText;
-  final Widget? appBarAction;
   final List<Widget>? appBarActions;
   final Widget? appBarLeading;
   final Color? appBarBackgroundColor;
@@ -211,9 +209,7 @@ class BaseScaffold extends StatelessWidget {
   final bool appBarPrimary;
   final PreferredSizeWidget? appBarBottom;
   final IconThemeData? appBarIconTheme;
-  final bool isMaybePop;
   final double? leadingWidth;
-  final bool enableLeading;
   final bool centerTitle;
   final IconThemeData? actionsIconTheme;
   final bool automaticallyImplyLeading;
@@ -230,6 +226,8 @@ class BaseScaffold extends StatelessWidget {
   final double? toolbarHeight;
   final double toolbarOpacity;
   final TextStyle? toolbarTextStyle;
+  final bool forceMaterialTransparency;
+  final Clip? clipBehavior;
 
   /// ****** [Refreshed] ****** ///
   final VoidCallback? onRefresh;
@@ -299,17 +297,14 @@ class BaseScaffold extends StatelessWidget {
             appBarTitle != null ||
             appBarBottom != null ||
             appBarActions != null ||
-            appBarLeading != null ||
-            appBarAction != null
-        ? BaseAppBar(
-            enableLeading: enableLeading,
+            flexibleSpace != null ||
+            appBarLeading != null
+        ? AppBar(
             actions: appBarActions,
-            isMaybePop: isMaybePop,
             bottom: appBarBottom,
-            titleText: appBarTitleText,
-            title: appBarTitle,
+            title: appBarTitle ??
+                (appBarTitleText == null ? null : Text(appBarTitleText!)),
             elevation: elevation,
-            action: appBarAction,
             leading: appBarLeading,
             systemOverlayStyle: systemOverlayStyle,
             backgroundColor: appBarBackgroundColor,
@@ -332,7 +327,9 @@ class BaseScaffold extends StatelessWidget {
             titleTextStyle: titleTextStyle,
             toolbarHeight: toolbarHeight,
             toolbarOpacity: toolbarOpacity,
-            toolbarTextStyle: toolbarTextStyle)
+            toolbarTextStyle: toolbarTextStyle,
+            forceMaterialTransparency: forceMaterialTransparency,
+            clipBehavior: clipBehavior)
         : null);
     if (current == null) return null;
     return PreferredSize(
@@ -369,81 +366,31 @@ class BaseScaffold extends StatelessWidget {
       child: child);
 }
 
-class BaseAppBar extends AppBar {
-  BaseAppBar({
-    super.key,
-    String? titleText = '',
-    Widget? title,
-    Widget? action,
-    List<Widget>? actions,
-    bool isMaybePop = false,
-    Widget? leading,
-    bool enableLeading = true,
-    super.elevation,
-    super.backgroundColor,
-    super.iconTheme,
-    super.systemOverlayStyle,
-    super.centerTitle = true,
-    super.bottom,
-    super.actionsIconTheme,
-    super.automaticallyImplyLeading,
-    super.bottomOpacity = 1.0,
-    super.excludeHeaderSemantics = true,
-    super.flexibleSpace,
-    super.leadingWidth,
-    super.notificationPredicate = defaultScrollNotificationPredicate,
-    super.primary = true,
-    super.scrolledUnderElevation,
-    super.shadowColor,
-    super.foregroundColor,
-    super.shape,
-    super.surfaceTintColor,
-    super.titleSpacing,
-    super.titleTextStyle,
-    super.toolbarHeight,
-    super.toolbarOpacity = 1.0,
-    super.toolbarTextStyle,
-  }) : super(
-            title: title ?? (titleText == null ? null : TextLarge(titleText)),
-            leading: enableLeading
-                ? leading ?? BackIcon(isMaybePop: isMaybePop)
-                : null,
-            actions: [
-              if (actions != null && actions.isNotEmpty) ...actions,
-              if (action != null)
-                Universal(
-                    margin: const EdgeInsets.only(right: 12), child: action)
-            ]);
-}
-
-class BackIcon extends IconButton {
-  const BackIcon(
-      {super.key,
-      VoidCallback? onPressed,
-      bool isMaybePop = false,
-      super.icon = const Icon(UIS.androidBack),
-      super.padding = EdgeInsets.zero,
-      super.color})
-      : super(onPressed: onPressed ?? (isMaybePop ? maybePop : pop));
-}
-
-typedef MainBottomBarIconBuilder = Widget Function(int index);
-typedef MainBottomBarIconCallback = void Function(int index);
-
 class MainBottomBar extends StatelessWidget {
-  const MainBottomBar(
-      {super.key,
-      required this.builder,
-      this.backgroundColor,
-      required this.onTap,
-      required this.itemCount,
-      this.spacing = 4});
+  const MainBottomBar({
+    super.key,
+    required this.itemBuilder,
+    this.backgroundColor,
+    this.spacing = 4,
+    this.automaticKeepAlive = false,
+    this.onChanged,
+    this.unifiedButtonCategory,
+    this.style,
+  });
 
-  final MainBottomBarIconBuilder builder;
+  final ValueCallbackTV<List<Widget>, BuildContext> itemBuilder;
+
   final Color? backgroundColor;
-  final MainBottomBarIconCallback onTap;
-  final int itemCount;
+
+  final ValueCallback<int>? onChanged;
   final double spacing;
+
+  /// 保持子widget 状态
+  final bool automaticKeepAlive;
+
+  /// 为组件添加水波纹效果
+  final UnifiedButtonCategory? unifiedButtonCategory;
+  final ButtonStyle? style;
 
   @override
   Widget build(BuildContext context) => Universal(
@@ -454,10 +401,17 @@ class MainBottomBar extends StatelessWidget {
               Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
       height: context.padding.bottom + kToolbarHeight,
       padding: EdgeInsets.only(bottom: context.padding.bottom),
-      children: itemCount.generate((index) => Universal(
-          expanded: true,
-          padding: EdgeInsets.all(spacing),
-          height: double.infinity,
-          onTap: () => onTap(index),
-          child: builder(index))));
+      children: itemBuilder(context).builderEntry((item) {
+        final current = Universal(
+            expanded: true,
+            style: style,
+            onTap: () => onChanged?.call(item.key),
+            unifiedButtonCategory: unifiedButtonCategory,
+            padding: EdgeInsets.all(spacing),
+            height: double.infinity,
+            child: item.value);
+        return automaticKeepAlive
+            ? AutomaticKeepAliveWrapper(current)
+            : current;
+      }));
 }
