@@ -59,11 +59,14 @@ class UserPrivacyAlert extends StatelessWidget {
                   '《隐私政策》',
                   '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
                 ], styles: [
-                  const TStyle(height: 1.4),
+                  const TStyle(height: 1.4)
+                      .merge(Universally().config.textStyle?.normal),
                   TStyle(height: 1.4, color: Universally().mainColor),
-                  const TStyle(height: 1.4),
+                  const TStyle(height: 1.4)
+                      .merge(Universally().config.textStyle?.normal),
                   TStyle(height: 1.4, color: Universally().mainColor),
-                  const TStyle(height: 1.4),
+                  const TStyle(height: 1.4)
+                      .merge(Universally().config.textStyle?.normal),
                 ], recognizers: [
                   null,
                   TapGestureRecognizer()..onTap = onUserAgreementTap,
