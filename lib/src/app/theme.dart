@@ -15,4 +15,3 @@ class BaseThemeData {
         useMaterial3: useMaterial3,
       ).copyWith();
 }
-

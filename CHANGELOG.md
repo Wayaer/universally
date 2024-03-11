@@ -1,9 +1,13 @@
+## 7.1.1
+
+* `UserPrivacyAlert`新增`textColor`和`highlightColor`
+
 ## 7.1.0
 
 * Change the `textColor` in `UConfig` to `textStyle`
 * Remove `isMaybePop`, `enableLeading`, and `appBarAction` for `BaseScaffold`
-* Remove `BackIcon`,
-* Remove `BaseAppBar`
+* Remove `BackIcon`,use `BackButton`
+* Remove `BaseAppBar`use `AppBar`
 
 ## 7.0.1
 
