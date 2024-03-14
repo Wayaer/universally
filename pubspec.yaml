@@ -21,7 +21,7 @@ dependencies:
   extended_image: ^8.2.0
   extended_image_library: ^4.0.2
   flutter_curiosity: ^6.1.0
-  flutter_waya: ^9.1.1
+  flutter_waya: ^9.1.2
   fl_extended: ^0.2.0
   fl_dio: ^0.2.1
   window_manager: ^0.3.8

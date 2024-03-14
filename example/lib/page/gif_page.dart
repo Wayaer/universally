@@ -19,7 +19,7 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
     networkController = AnimationController(vsync: this);
     addPostFrameCallback((_) {
       assetController.repeat(
-          min: 0, max: 1, period: const Duration(milliseconds: 10));
+          min: 0, max: 1, period: const Duration(seconds: 1));
       networkController.repeat(period: const Duration(milliseconds: 1000));
     });
   }
@@ -31,13 +31,15 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'GIF Image',
         children: [
-          TextLarge('NetworkImage'),
-          Gif(
-              autostart: Autostart.loop,
-              controller: networkController,
-              useCache: false,
-              image: const NetworkImage(
-                  'http://qiniu.sczhongda88.com/kger/xdgif.gif')),
+          if (!isWeb) ...[
+            TextLarge('NetworkImage'),
+            Gif(
+                autostart: Autostart.loop,
+                controller: networkController,
+                useCache: false,
+                image: const NetworkImage(
+                    'http://qiniu.sczhongda88.com/kger/xdgif.gif')),
+          ],
           TextLarge('AssetImage'),
           Gif(
               controller: assetController,
