@@ -40,6 +40,13 @@ class InterceptorError {
 typedef BaseDioErrorIntercept = List<InterceptorError> Function(
     String path, dynamic tag);
 
+enum BaseDioState {
+  /// 无网络
+  noNotwork,
+}
+
+typedef BaseDioBuildBaseModelState = BaseModel Function(BaseDioState state);
+
 class BaseDioOptions extends BaseOptions {
   BaseDioOptions({
     /// 接收超时时间
@@ -81,6 +88,7 @@ class BaseDioOptions extends BaseOptions {
     this.successCode = const ['200'],
     this.showLoading = true,
     this.pullHideLoading = true,
+    this.buildBaseModelState,
   }) {
     downloadContentType ??= kContentTypeWithFormData;
     uploadContentType ??= kContentTypeWithFormData;
@@ -138,6 +146,9 @@ class BaseDioOptions extends BaseOptions {
 
   /// [showLoading] 为 true 时 刷新组件 下拉或上拉 隐藏loading，默认为true
   bool pullHideLoading;
+
+  /// 构建默认 [BaseModel]
+  BaseDioBuildBaseModelState? buildBaseModelState;
 }
 
 class BaseDio {
@@ -183,7 +194,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.get<T>(path,
         data: data,
@@ -202,7 +213,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.getUri<T>(uri,
@@ -225,7 +236,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.post<T>(path,
@@ -250,7 +261,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -276,7 +287,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
@@ -301,7 +312,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -325,7 +336,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
@@ -346,7 +357,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -370,7 +381,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
@@ -395,7 +406,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -419,7 +430,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
@@ -440,7 +451,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -464,7 +475,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
 
@@ -490,7 +501,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -515,7 +526,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.post<T>(path,
         data: baseDioOptions.extraData?.call(path, data) ?? data,
@@ -539,7 +550,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
@@ -568,7 +579,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
@@ -598,7 +609,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (hasNetWork) return notNetWorkModel;
+    if (noNetWork) return buildBaseModel;
     _addLoading(loading);
     data = jsonEncode(baseDioOptions.extraUriData?.call(uri, data) ?? data);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -626,7 +637,7 @@ class BaseDio {
     if (hasLoading) closeLoading();
   }
 
-  bool get hasNetWork {
+  bool get noNetWork {
     var network = ConnectivityPlus().networkAvailability;
     if (!network) {
       ConnectivityPlus().checkConnectivity();
@@ -636,7 +647,8 @@ class BaseDio {
     return !network;
   }
 
-  BaseModel get notNetWorkModel =>
+  BaseModel get buildBaseModel =>
+      baseDioOptions.buildBaseModelState?.call(BaseDioState.noNotwork) ??
       BaseModel(data: null, code: '500', msg: '无法连接服务器');
 
   void _sendRefreshStatus() {
@@ -668,7 +680,7 @@ class BaseDio {
     BaseModel baseModel = BaseModel(
         headers: res.headers.map,
         code: '${res.statusCode}',
-        msg: notNetWorkModel.msg,
+        msg: buildBaseModel.msg,
         statusCode: res.statusCode,
         statusMessage: res.statusMessage,
         data: res.data,
@@ -678,7 +690,7 @@ class BaseDio {
       return BaseModel(
           headers: data.headers,
           code: '${data.statusCode}',
-          msg: data.statusMessage ?? notNetWorkModel.msg,
+          msg: data.statusMessage ?? buildBaseModel.msg,
           statusCode: data.statusCode,
           statusMessage: data.statusMessage,
           data: res.data,

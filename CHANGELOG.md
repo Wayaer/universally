@@ -1,6 +1,7 @@
-## 7.1.1
+## 7.1.2
 
 * `UserPrivacyAlert`新增`textColor`和`highlightColor`
+* `BaseDioOptions` 添加 `buildBaseModelState`,用于构建默认的 `BaseModel`
 
 ## 7.1.0
 
