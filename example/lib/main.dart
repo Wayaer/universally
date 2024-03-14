@@ -14,6 +14,7 @@ Future<void> main() async {
   isBeta = true;
   await Universally().setConfig(
       UConfig(
+          isCloseOverlay: false,
           mainColor: Colors.purple.shade900,
           loadingOptions: LoadingOptions(
               onLoadingTap: () {},

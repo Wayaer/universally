@@ -26,6 +26,7 @@ class UConfig {
     this.bottomSheetOptions,
     this.modalWindowsOptions,
     this.logCrossLine = true,
+    this.isCloseOverlay,
     this.wheelOptions,
     this.loadingOptions,
     this.loadingBuilder,
@@ -93,6 +94,10 @@ class UConfig {
 
   /// 全局log是否添加分割线
   bool logCrossLine;
+
+  /// 全局修改[BaseScaffold]的 isCloseOverlay
+  /// 设为true也可禁用侧滑返回
+  bool? isCloseOverlay;
 
   /// 全局路由跳转样式
   RoutePushStyle pushStyle;

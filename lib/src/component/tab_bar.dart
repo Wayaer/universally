@@ -23,9 +23,9 @@ class BaseTabBar extends TabBar {
     super.physics,
     super.splashFactory,
     super.splashBorderRadius,
-    super.tabAlignment = TabAlignment.start,
     super.dividerHeight,
     super.unselectedLabelColor = UCS.black70,
+    TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
     Color? indicatorColor,
@@ -38,6 +38,8 @@ class BaseTabBar extends TabBar {
     List<String>? list,
   })  : assert(tabs != null || list != null),
         super(
+            tabAlignment:
+                tabAlignment ?? (isScrollable ? TabAlignment.start : null),
             tabs: tabs ??
                 list?.builder((value) => Tab(text: value, height: height)) ??
                 [],
@@ -70,8 +72,8 @@ class BaseTabBar extends TabBar {
     super.physics,
     super.splashFactory,
     super.splashBorderRadius,
-    super.tabAlignment = TabAlignment.start,
     super.dividerHeight,
+    TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
     Color? indicatorColor,
@@ -85,6 +87,8 @@ class BaseTabBar extends TabBar {
     List<String>? list,
   })  : assert(tabs != null || list != null),
         super(
+            tabAlignment:
+                tabAlignment ?? (isScrollable ? TabAlignment.start : null),
             tabs: tabs ??
                 list?.builder((value) => Tab(text: value, height: height)) ??
                 [],
