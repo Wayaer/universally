@@ -41,7 +41,7 @@ class Gif extends StatefulWidget {
   final ImageProvider image;
 
   /// This playback controller.
-  final GifController controller;
+  final AnimationController controller;
 
   /// Frames per second at which this runs.
   final int? fps;
@@ -130,18 +130,7 @@ class GifCache {
   bool evict(Object key) => caches.remove(key) != null ? true : false;
 }
 
-///
-/// Controller that wraps [AnimationController] and protects the [duration] parameter.
-/// This falls into a design choice to keep the duration control to the [Gif]
-/// widget.
-///
-class GifController extends AnimationController {
-  GifController({required super.vsync});
-}
-
-///
 /// Stores all the [ImageInfo] and duration of a gif.
-///
 @immutable
 class GifInfo {
   final List<ImageInfo> frames;
@@ -154,7 +143,7 @@ class GifInfo {
 }
 
 class _GifState extends State<Gif> {
-  late GifController controller;
+  late AnimationController controller;
 
   /// List of [ImageInfo] of every frame of this gif.
   List<ImageInfo> _frames = [];

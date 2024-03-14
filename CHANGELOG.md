@@ -1,7 +1,8 @@
-## 7.1.2
+## 7.1.3
 
 * `UserPrivacyAlert`新增`textColor`和`highlightColor`
 * `BaseDioOptions` 添加 `buildBaseModelState`,用于构建默认的 `BaseModel`
+* 修改 `GifController` 为 `AnimationController`
 
 ## 7.1.0
 

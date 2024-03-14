@@ -9,14 +9,14 @@ class GifPage extends StatefulWidget {
 }
 
 class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
-  late GifController assetController;
-  late GifController networkController;
+  late AnimationController assetController;
+  late AnimationController networkController;
 
   @override
   void initState() {
     super.initState();
-    assetController = GifController(vsync: this);
-    networkController = GifController(vsync: this);
+    assetController = AnimationController(vsync: this);
+    networkController = AnimationController(vsync: this);
     addPostFrameCallback((_) {
       assetController.repeat(
           min: 0, max: 1, period: const Duration(milliseconds: 10));
