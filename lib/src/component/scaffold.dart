@@ -341,15 +341,16 @@ class BaseScaffold extends StatelessWidget {
 
   Universal get universal => Universal(
       expand: true,
-      refreshConfig: (onRefresh != null || onLoading != null)
-          ? RefreshConfig(
-              footer: Universally().config.pullUpFooter,
-              header: Universally().config.pullDownHeader,
-              onLoading:
-                  onLoading == null ? null : () async => onLoading!.call(),
-              onRefresh:
-                  onRefresh == null ? null : () async => onRefresh!.call())
-          : null,
+      refreshConfig: refreshConfig ??
+          ((onRefresh != null || onLoading != null)
+              ? RefreshConfig(
+                  footer: Universally().config.pullUpFooter,
+                  header: Universally().config.pullDownHeader,
+                  onLoading:
+                      onLoading == null ? null : () async => onLoading!.call(),
+                  onRefresh:
+                      onRefresh == null ? null : () async => onRefresh!.call())
+              : null),
       margin: margin,
       systemOverlayStyle: systemOverlayStyle,
       useSingleChildScrollView: useSingleChildScrollView,
