@@ -1,3 +1,7 @@
+## 7.1.4
+
+* `BaseDioOptions` 添加 `checkNetwork`,用于请求接口时是否校验网络状态
+
 ## 7.1.3
 
 * `UserPrivacyAlert`新增`textColor`和`highlightColor`

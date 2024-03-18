@@ -80,6 +80,7 @@ class BaseDioOptions extends BaseOptions {
     super.requestEncoder,
     super.responseDecoder,
     super.listFormat,
+    this.checkNetwork = true,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
@@ -149,6 +150,9 @@ class BaseDioOptions extends BaseOptions {
 
   /// 构建默认 [BaseModel]
   BaseDioBuildBaseModelState? buildBaseModelState;
+
+  /// 使用 [ConnectivityPlus] 校验网络状态
+  bool checkNetwork;
 }
 
 class BaseDio {
@@ -194,7 +198,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.get<T>(path,
         data: data,
@@ -213,7 +217,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.getUri<T>(uri,
@@ -236,7 +240,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.post<T>(path,
@@ -261,7 +265,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -287,7 +291,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
@@ -312,7 +316,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -336,7 +340,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
@@ -357,7 +361,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -381,7 +385,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
@@ -406,7 +410,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -430,7 +434,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
@@ -451,7 +455,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -475,7 +479,7 @@ class BaseDio {
     CancelToken? cancelToken,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
 
@@ -501,7 +505,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -526,7 +530,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.post<T>(path,
         data: baseDioOptions.extraData?.call(path, data) ?? data,
@@ -550,7 +554,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.postUri<T>(uri,
@@ -579,7 +583,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
@@ -609,7 +613,7 @@ class BaseDio {
       Duration receiveTimeout = const Duration(seconds: 40),
       Duration sendTimeout = const Duration(seconds: 40)}) async {
     assert(_singleton != null, '请先调用 initialize');
-    if (noNetWork) return buildBaseModel;
+    if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = jsonEncode(baseDioOptions.extraUriData?.call(uri, data) ?? data);
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
@@ -637,14 +641,18 @@ class BaseDio {
     if (hasLoading) closeLoading();
   }
 
-  bool get noNetWork {
-    var network = ConnectivityPlus().networkAvailability;
-    if (!network) {
-      ConnectivityPlus().checkConnectivity();
-      _removeLoading();
-      1.seconds.delayed(_sendRefreshStatus);
+  Future<bool> get checkNetwork async {
+    if (baseDioOptions.checkNetwork) {
+      await ConnectivityPlus().checkConnectivity();
+      var network = ConnectivityPlus().networkAvailability;
+      if (!network) {
+        await ConnectivityPlus().checkConnectivity();
+        _removeLoading();
+        1.seconds.delayed(_sendRefreshStatus);
+      }
+      return !network;
     }
-    return !network;
+    return false;
   }
 
   BaseModel get buildBaseModel =>
