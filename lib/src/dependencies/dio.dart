@@ -80,15 +80,15 @@ class BaseDioOptions extends BaseOptions {
     super.requestEncoder,
     super.responseDecoder,
     super.listFormat,
-    this.checkNetwork = true,
+    this.enableCheckNetwork = true,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
     this.extensionKeys = const ['extension'],
     this.hideMsg = const ['success', 'OK'],
     this.successCode = const ['200'],
-    this.showLoading = true,
-    this.pullHideLoading = true,
+    this.enableLoading = true,
+    this.enablePullHideLoading = true,
     this.buildBaseModelState,
   }) {
     downloadContentType ??= kContentTypeWithFormData;
@@ -142,17 +142,17 @@ class BaseDioOptions extends BaseOptions {
   /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
   List<String> hideMsg;
 
-  /// 全局控制显示loading
-  bool showLoading;
+  /// 全局是否启用loading
+  bool enableLoading;
 
-  /// [showLoading] 为 true 时 刷新组件 下拉或上拉 隐藏loading，默认为true
-  bool pullHideLoading;
+  /// 刷新组件 下拉或上拉 隐藏loading，默认为true
+  bool enablePullHideLoading;
 
   /// 构建默认 [BaseModel]
   BaseDioBuildBaseModelState? buildBaseModelState;
 
   /// 使用 [ConnectivityPlus] 校验网络状态
-  bool checkNetwork;
+  bool enableCheckNetwork;
 }
 
 class BaseDio {
@@ -163,8 +163,6 @@ class BaseDio {
   static BaseDio? _singleton;
 
   late ExtendedDio dio;
-
-  bool hasLoading = false;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
@@ -628,25 +626,28 @@ class BaseDio {
     return _response(res, tag);
   }
 
+  ExtendedOverlayEntry? loadingEntry;
+
   void _addLoading(bool? loading) {
-    hasLoading = loading ?? baseDioOptions.showLoading;
-    if (hasLoading && baseDioOptions.pullHideLoading) {
-      hasLoading = !(pullDown || pullUp);
+    bool enableLoading = loading ?? baseDioOptions.enableLoading;
+    if (enableLoading && baseDioOptions.enablePullHideLoading) {
+      enableLoading = !(pullDown || pullUp);
     }
-    if (hasLoading) showLoading();
+    if (enableLoading && loadingEntry == null) loadingEntry = showLoading();
   }
 
-  Future<void> _removeLoading() async {
-    await 200.milliseconds.delayed(() {});
-    if (hasLoading) closeLoading();
+  void _removeLoading() {
+    200.milliseconds.delayed(() {
+      loadingEntry?.removeEntry();
+      loadingEntry = null;
+    });
   }
 
   Future<bool> get checkNetwork async {
-    if (baseDioOptions.checkNetwork) {
+    if (baseDioOptions.enableCheckNetwork) {
       await ConnectivityPlus().checkConnectivity();
       var network = ConnectivityPlus().networkAvailability;
       if (!network) {
-        await ConnectivityPlus().checkConnectivity();
         _removeLoading();
         1.seconds.delayed(_sendRefreshStatus);
       }
