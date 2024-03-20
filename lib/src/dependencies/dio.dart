@@ -86,6 +86,7 @@ class BaseDioOptions extends BaseOptions {
     this.dataKeys = const ['data', 'result'],
     this.extensionKeys = const ['extension'],
     this.hideMsg = const ['success', 'OK'],
+    this.hideCode = const [],
     this.successCode = const ['200'],
     this.enableLoading = true,
     this.enablePullHideLoading = true,
@@ -141,6 +142,10 @@ class BaseDioOptions extends BaseOptions {
   /// 后台返回 message 隐藏 toast
   /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
   List<String> hideMsg;
+
+  /// 后台返回 code 隐藏 toast
+  /// 主要用于 网络请求返回 判断方法[resultSuccessFail]
+  List<String> hideCode;
 
   /// 全局是否启用loading
   bool enableLoading;
@@ -813,7 +818,8 @@ bool resultSuccessFail(BaseModel data, {String? text, bool nullPass = false}) {
     if (text != null) showToast(text);
     return true;
   } else {
-    if (!BaseDio().baseDioOptions.hideMsg.contains(data.msg)) {
+    if (!(BaseDio().baseDioOptions.hideMsg.contains(data.msg) ||
+        BaseDio().baseDioOptions.hideCode.contains(data.code))) {
       showToast(data.msg);
     }
     return false;

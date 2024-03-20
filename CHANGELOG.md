@@ -1,8 +1,9 @@
-## 7.1.5
+## 7.1.6
 
 * `BaseDioOptions` 添加 `enableCheckNetwork`,用于请求接口时是否校验网络状态
 * `BaseDioOptions` 的 `showLoading` 修改为 `enableLoading`
 * `BaseDioOptions` 的 `pullHideLoading` 修改为 `enablePullHideLoading`
+* `BaseDioOptions` 新增 `hideCode`
 * 修复 `BaseDio` 单独添加 `loading` 时无法关闭
 
 ## 7.1.3
