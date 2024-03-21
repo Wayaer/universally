@@ -28,6 +28,18 @@ class TextFieldPage extends StatelessWidget {
           BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
+              sendSMSTextBuilder: (SendState state, int i) {
+                switch (state) {
+                  case SendState.none:
+                    return TextNormal('发送验证码', color: Universally().mainColor);
+                  case SendState.sending:
+                    return TextNormal('发送中', color: Universally().mainColor);
+                  case SendState.resend:
+                    return TextNormal('重新发送', color: Universally().mainColor);
+                  case SendState.countDown:
+                    return TextNormal('$i s', color: Universally().mainColor);
+                }
+              },
               enableEye: true,
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
