@@ -1,3 +1,10 @@
+## 8.0.0
+
+* Update dependencies
+* `extended_image_library`、`package_info_plus`、`connectivity_plus`、`device_info_plus`、`android_intent_plus`
+* 修复 `connectivity_plus` 新版回调状态
+* `TextExtraLarge`、`TextLarge`、`TextNormal`、`TextSmall`添加全部样式属性
+
 ## 7.1.6
 
 * `BaseDioOptions` 添加 `enableCheckNetwork`,用于请求接口时是否校验网络状态

@@ -37,59 +37,151 @@ class TextThemeStyle {
 
 /// extra large font
 class TextExtraLarge extends BaseText {
-  TextExtraLarge(super.text,
-      {TextStyle? style,
-      super.key,
-      super.color,
-      super.maxLines,
-      super.height,
-      super.letterSpacing,
-      super.fontSize = 18,
-      super.overflow,
-      super.textAlign,
-      super.fontWeight,
-      super.fontFamily})
-      : super(
+  TextExtraLarge(
+    super.text, {
+    super.key,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize = 18,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.shadows,
+    super.textAlign,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.useStyleFirst = false,
+    super.recognizer,
+    super.semanticsLabel,
+    super.strutStyle,
+    super.textDirection,
+    super.softWrap,
+    super.textScaleFactor,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+    super.leadingDistribution,
+    super.fontVariations,
+    super.overflow,
+    super.maxLines,
+    TextStyle? style,
+  }) : super(
             style: BaseText._mergeStyle(
                 Universally().config.textStyle?.large, style));
 }
 
 /// Large font
 class TextLarge extends BaseText {
-  TextLarge(super.text,
-      {TextStyle? style,
-      super.key,
-      super.color,
-      super.maxLines,
-      super.height,
-      super.letterSpacing,
-      super.fontSize = 16,
-      super.overflow,
-      super.textAlign,
-      super.fontWeight,
-      super.fontFamily})
-      : super(
+  TextLarge(
+    super.text, {
+    super.key,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize = 16,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.shadows,
+    super.textAlign,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.useStyleFirst = false,
+    super.recognizer,
+    super.semanticsLabel,
+    super.strutStyle,
+    super.textDirection,
+    super.softWrap,
+    super.textScaleFactor,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+    super.leadingDistribution,
+    super.fontVariations,
+    super.overflow,
+    super.maxLines,
+    TextStyle? style,
+  }) : super(
             style: BaseText._mergeStyle(
-                Universally().config.textStyle?.large, style));
+                Universally().config.textStyle?.extraLarge, style));
 }
 
 /// 默认字体
 /// The formal font
 class TextNormal extends BaseText {
-  TextNormal(super.text,
-      {TextStyle? style,
-      super.key,
-      super.color,
-      super.backgroundColor,
-      super.maxLines,
-      super.height,
-      super.fontSize,
-      super.letterSpacing,
-      super.overflow,
-      super.textAlign,
-      super.fontWeight,
-      super.fontFamily})
-      : super(
+  TextNormal(
+    super.text, {
+    super.key,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize = 14,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.shadows,
+    super.textAlign,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.useStyleFirst = false,
+    super.recognizer,
+    super.semanticsLabel,
+    super.strutStyle,
+    super.textDirection,
+    super.softWrap,
+    super.textScaleFactor,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+    super.leadingDistribution,
+    super.fontVariations,
+    super.overflow,
+    super.maxLines,
+    TextStyle? style,
+  }) : super(
             style: BaseText._mergeStyle(
                 Universally().config.textStyle?.normal, style));
 }
@@ -97,19 +189,50 @@ class TextNormal extends BaseText {
 /// 小字体
 /// Small font
 class TextSmall extends BaseText {
-  TextSmall(super.text,
-      {TextStyle? style,
-      super.key,
-      super.fontWeight,
-      super.color,
-      super.maxLines,
-      super.height,
-      super.letterSpacing,
-      super.fontSize = 12,
-      super.overflow,
-      super.textAlign,
-      super.fontFamily})
-      : super(
+  TextSmall(
+    super.text, {
+    super.key,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize = 12,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.shadows,
+    super.textAlign,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.useStyleFirst = false,
+    super.recognizer,
+    super.semanticsLabel,
+    super.strutStyle,
+    super.textDirection,
+    super.softWrap,
+    super.textScaleFactor,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+    super.leadingDistribution,
+    super.fontVariations,
+    super.overflow,
+    super.maxLines,
+    TextStyle? style,
+  }) : super(
             style: BaseText._mergeStyle(
                 Universally().config.textStyle?.small, style));
 }
@@ -123,124 +246,132 @@ class BaseText extends BText {
     return secondStyle;
   }
 
-  BaseText(String? text,
-      {super.key,
-      Color? color,
-      TextStyle? style,
-      Color? backgroundColor,
-      int? maxLines,
-      double? fontSize,
-      double? height,
-      double? letterSpacing,
-      TextOverflow? overflow,
-      FontWeight? fontWeight,
-      super.textAlign,
-      String? fontFamily})
-      : super(text ?? '',
+  BaseText(
+    String? text, {
+    super.key,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.shadows,
+    super.textAlign,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.useStyleFirst = false,
+    super.recognizer,
+    super.semanticsLabel,
+    super.strutStyle,
+    super.textDirection,
+    super.softWrap,
+    super.textScaleFactor,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+    super.leadingDistribution,
+    super.fontVariations,
+    TextOverflow? overflow,
+    TextStyle? style,
+    int? maxLines,
+  }) : super(text ?? '',
             maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
             overflow: overflow ??
                 (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
             style: (BaseText._mergeStyle(
-                        Universally().config.textStyle?.style, style) ??
-                    const TStyle())
-                .merge(TStyle(
-                    fontWeight: fontWeight,
-                    letterSpacing: letterSpacing,
-                    backgroundColor: backgroundColor,
-                    fontSize: fontSize,
-                    color: color,
-                    fontFamily: fontFamily,
-                    height: height)));
+                Universally().config.textStyle?.style, style)));
 }
 
 /// BaseTextStyle
 class TStyle extends BTextStyle {
   /// 添加了基础颜色，不适合主题适配
-  const TStyle(
-      {double? wordSpacing,
-      super.fontWeight,
-      super.color,
-      super.fontSize,
-      super.letterSpacing,
-      super.height,
-      super.fontFamily,
-      super.textBaseline = TextBaseline.ideographic,
-      super.backgroundColor,
-      super.inherit = true,
-      super.fontFamilyFallback,
-      super.package,
-      super.locale,
-      super.fontStyle,
-      super.foreground,
-      super.background,
-
-      /// [text]的划线
-      /// [TextDecoration.none] 没有 默认
-      /// [TextDecoration.underline] 下划线
-      /// [TextDecoration.overline] 上划线
-      /// [TextDecoration.lineThrough] 中间的线（删除线）
-      super.decoration = TextDecoration.none,
-      super.decorationColor,
-      super.decorationStyle,
-      super.decorationThickness,
-      super.debugLabel,
-      super.shadows,
-      super.fontFeatures,
-      super.fontVariations,
-      super.leadingDistribution,
-      super.overflow})
-      : super(wordSpacing: wordSpacing ?? letterSpacing);
-
-  /// 使用 [Universally().config.textColor?.styleColor] 预设颜色，不适合主题适配
-  const TStyle.global(
-      {super.color,
-      super.fontSize = 14,
-      super.letterSpacing,
-      super.height,
-      super.fontFamily,
-      super.textBaseline = TextBaseline.ideographic,
-      super.fontWeight,
-      super.decoration = TextDecoration.none,
-      super.backgroundColor})
-      : super(wordSpacing: letterSpacing);
+  const TStyle({
+    super.letterSpacing,
+    super.wordSpacing,
+    super.fontSize,
+    super.fontFamily,
+    super.fontWeight,
+    super.fontFamilyFallback,
+    super.fontStyle,
+    super.color,
+    super.backgroundColor,
+    super.foreground,
+    super.background,
+    super.height,
+    super.textBaseline = TextBaseline.ideographic,
+    super.inherit = true,
+    super.package,
+    super.locale,
+    super.fontFeatures,
+    super.fontVariations,
+    super.shadows,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.leadingDistribution,
+    super.overflow,
+  });
 
   /// 原始数据，不添加任何颜色
-  const TStyle.origin(
-      {super.color,
-      super.fontSize = 14,
-      super.letterSpacing,
-      super.wordSpacing,
-      super.height,
-      super.fontFamily,
-      super.textBaseline = TextBaseline.ideographic,
-      super.fontWeight,
-      super.backgroundColor,
-      super.inherit = true,
-      super.fontFamilyFallback,
-      super.package,
-      super.locale,
-      super.fontStyle,
-      super.foreground,
-      super.background,
-      super.decoration = TextDecoration.none,
-      super.decorationColor,
-      super.decorationStyle,
-      super.decorationThickness,
-      super.debugLabel,
-      super.shadows,
-      super.fontFeatures,
-      super.fontVariations,
-      super.leadingDistribution,
-      super.overflow});
+  const TStyle.origin({
+    super.color,
+    super.fontSize = 14,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.height,
+    super.fontFamily,
+    super.textBaseline = TextBaseline.ideographic,
+    super.fontWeight,
+    super.backgroundColor,
+    super.inherit = true,
+    super.fontFamilyFallback,
+    super.package,
+    super.locale,
+    super.fontStyle,
+    super.foreground,
+    super.background,
+    super.decoration = TextDecoration.none,
+    super.decorationColor,
+    super.decorationStyle,
+    super.decorationThickness,
+    super.debugLabel,
+    super.shadows,
+    super.fontFeatures,
+    super.fontVariations,
+    super.leadingDistribution,
+    super.overflow,
+  });
 }
 
 class TextBoxPage extends StatelessWidget {
   const TextBoxPage(
-      {super.key, required this.text, this.color, this.appBarTitleText});
+      {super.key,
+      required this.text,
+      this.color,
+      this.appBarTitleText,
+      this.toastText = '复制成功'});
 
   final String text;
   final Color? color;
   final String? appBarTitleText;
+  final String toastText;
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
@@ -249,7 +380,7 @@ class TextBoxPage extends StatelessWidget {
       child: Universal(
           onTap: () {
             text.toClipboard;
-            showToast('复制成功');
+            showToast(toastText);
           },
           child: TextNormal(text, maxLines: 0, color: color, fontSize: 15)));
 }

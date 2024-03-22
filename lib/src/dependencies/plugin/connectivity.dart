@@ -5,10 +5,10 @@ import 'package:universally/universally.dart';
 /// 返回 false 不再继续执行其他方法
 /// 返回 true 继续执行其他方法
 typedef ConnectivityListenCallback = Future<bool> Function(
-    bool status, ConnectivityResult result);
+    bool status, List<ConnectivityResult> result);
 
 typedef UnavailableNetworkAlertBuilder = ExtendedOverlayEntry? Function(
-    bool status, ConnectivityResult result);
+    bool status, List<ConnectivityResult> result);
 
 /// 网络状态变化管理
 class ConnectivityPlus {
@@ -22,15 +22,24 @@ class ConnectivityPlus {
 
   final List<ConnectivityListenCallback> _listenerList = [];
 
-  StreamSubscription<ConnectivityResult>? _subscription;
+  StreamSubscription<List<ConnectivityResult>>? _subscription;
 
-  ConnectivityResult _currentStatus = ConnectivityResult.none;
+  List<ConnectivityResult> _currentStatus = [];
 
   /// 当前网络状态
-  ConnectivityResult get current => _currentStatus;
+  List<ConnectivityResult> get current => _currentStatus;
 
   /// 网络是否可用
-  bool get networkAvailability => _currentStatus != ConnectivityResult.none;
+  bool get networkAvailability {
+    bool availability = false;
+    for (var element in _currentStatus) {
+      if (element != ConnectivityResult.none) {
+        availability = true;
+        continue;
+      }
+    }
+    return availability;
+  }
 
   /// 订阅网络监听
   Future<void> subscription({
@@ -48,7 +57,7 @@ class ConnectivityPlus {
     }
     await checkConnectivity();
     _subscription = connectivity.onConnectivityChanged
-        .listen((ConnectivityResult connectivityResult) async {
+        .listen((List<ConnectivityResult> connectivityResult) async {
       if (_currentStatus == connectivityResult) return;
       _currentStatus = connectivityResult;
       'Connectivity 网络状态变化 $_currentStatus'.log(crossLine: false);

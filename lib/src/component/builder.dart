@@ -5,7 +5,7 @@ import 'package:universally/universally.dart';
 class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
   BaseFutureBuilder({
     super.key,
-    super.initialData,
+    super.initial,
     required super.future,
     required super.onDone,
     super.initState,
@@ -13,7 +13,7 @@ class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
     super.didUpdateWidget,
     super.deactivate,
     super.dispose,
-    CustomFutureBuilderNone? onNone,
+    ValueTwoCallbackT<Widget, BuildContext, Function()>? onNone,
   }) : super(
             onNone: onNone ?? (_, __) => const Center(child: BasePlaceholder()),
             onWaiting: (_) => const Center(child: BaseLoading()),
@@ -24,7 +24,7 @@ class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
 class BaseStreamBuilder<T> extends CustomStreamBuilder<T> {
   BaseStreamBuilder({
     super.key,
-    super.initialData,
+    super.initial,
     required super.stream,
     required super.onDone,
     super.didUpdateWidgetCallStream = false,

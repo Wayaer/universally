@@ -4,6 +4,7 @@ import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/text_field_page.dart';
+import 'package:app/page/text_page.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,13 @@ Future<void> main() async {
                   color: Colors.white, style: SpinKitStyle.fadingCircle)),
           betaApi: '这是设置测试Api',
           releaseApi: '这里设置发布版Api',
+          textStyle: TextThemeStyle(
+            small: const TStyle(color: Colors.red),
+            normal: const TStyle(color: Colors.blue),
+            large: const TStyle(color: Colors.yellow),
+            extraLarge: const TStyle(color: Colors.purpleAccent),
+            style: const TStyle(color: Colors.greenAccent),
+          ),
           toastOptions:
               const ToastOptions(alignment: Alignment.center, ignoring: false)),
       windowOptions: WindowOptions(
@@ -65,7 +73,7 @@ class _App extends StatelessWidget {
                       TStyle(fontSize: 24, fontWeight: FontWeight.bold))),
           initState: (context) async {
             ConnectivityPlus().addListener((status, result) async {
-              switch (result) {
+              switch (result.first) {
                 case ConnectivityResult.wifi:
                   showToast('use wifi');
                   break;
@@ -109,6 +117,7 @@ class HomePage extends StatelessWidget {
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
           const SwitchApiButton(),
+          Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
@@ -220,6 +229,24 @@ class Button extends Universal {
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: ElevatedButton(
                 onPressed: onTap, child: child ?? Text(text ?? '')));
+}
+
+class Partition extends StatelessWidget {
+  const Partition(this.title, {super.key, this.onTap});
+
+  final String title;
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => Universal(
+      onTap: onTap,
+      width: double.infinity,
+      color: Colors.grey.withOpacity(0.2),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      child: BText(title,
+          textAlign: TextAlign.center, fontWeight: FontWeight.bold));
 }
 
 class AppState with ChangeNotifier {}
