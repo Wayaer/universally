@@ -76,6 +76,7 @@ class BaseTextField extends StatefulWidget {
     this.cursorWidth = 2.0,
     this.cursorHeight,
     this.cursorRadius = const Radius.circular(2.0),
+    this.cursorOpacityAnimates = true,
     this.selectionHeightStyle = ui.BoxHeightStyle.tight,
     this.selectionWidthStyle = ui.BoxWidthStyle.tight,
     this.keyboardAppearance,
@@ -96,6 +97,9 @@ class BaseTextField extends StatefulWidget {
     this.magnifierConfiguration,
     this.onTapOutside,
     this.spellCheckConfiguration,
+    this.contentInsertionConfiguration,
+    this.clearButtonSemanticLabel,
+    this.undoController,
   });
 
   /// ***** 附加功能 *****
@@ -249,6 +253,7 @@ class BaseTextField extends StatefulWidget {
   final double cursorWidth;
   final double? cursorHeight;
   final Radius cursorRadius;
+  final bool cursorOpacityAnimates;
 
   final OverlayVisibilityMode clearButtonMode;
 
@@ -329,6 +334,9 @@ class BaseTextField extends StatefulWidget {
   final TextMagnifierConfiguration? magnifierConfiguration;
   final TapRegionCallback? onTapOutside;
   final SpellCheckConfiguration? spellCheckConfiguration;
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
+  final String? clearButtonSemanticLabel;
+  final UndoHistoryController? undoController;
 
   @override
   State<BaseTextField> createState() => _BaseTextFieldState();
@@ -478,9 +486,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
                     widget.onEditingComplete?.call(controller),
                 showCursor: widget.showCursor,
                 cursorColor: Universally().mainColor,
-                cursorHeight: widget.cursorHeight ?? (isAndroid ? 14 : 16),
+                cursorHeight: widget.cursorHeight,
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
+                cursorOpacityAnimates: widget.cursorOpacityAnimates,
                 clearButtonMode: widget.clearButtonMode,
                 clipBehavior: widget.clipBehavior,
                 autocorrect: widget.autocorrect,
@@ -512,6 +521,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 magnifierConfiguration: widget.magnifierConfiguration,
                 onTapOutside: widget.onTapOutside,
                 spellCheckConfiguration: widget.spellCheckConfiguration,
+                clearButtonSemanticLabel: widget.clearButtonSemanticLabel,
+                contentInsertionConfiguration:
+                    widget.contentInsertionConfiguration,
+                undoController: widget.undoController,
               ));
 
   Widget _defaultContextMenuBuilder(
