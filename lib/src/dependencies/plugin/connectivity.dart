@@ -58,7 +58,7 @@ class ConnectivityPlus {
     await checkConnectivity();
     _subscription = connectivity.onConnectivityChanged
         .listen((List<ConnectivityResult> connectivityResult) async {
-      if (_currentStatus == connectivityResult) return;
+      if (_currentStatus.toString() == connectivityResult.toString()) return;
       _currentStatus = connectivityResult;
       'Connectivity 网络状态变化 $_currentStatus'.log(crossLine: false);
       _callListenerList();

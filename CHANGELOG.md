@@ -1,6 +1,7 @@
 ## 8.0.1
 
 * `BaseTextField`新增三个参数
+* 修复`ConnectivityPlus`监听多次回调
 
 ## 8.0.0
 
