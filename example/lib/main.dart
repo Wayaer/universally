@@ -3,6 +3,7 @@ import 'package:app/page/component_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/spin_kit_page.dart';
+import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:app/page/text_page.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
@@ -68,9 +69,11 @@ class _App extends StatelessWidget {
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
           theme: ThemeData(
-              appBarTheme: const AppBarTheme(
-                  titleTextStyle:
-                      TStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+              appBarTheme: AppBarTheme(
+                  titleTextStyle: TStyle(
+                      fontSize: 24,
+                      color: context.theme.primaryColor,
+                      fontWeight: FontWeight.bold))),
           initState: (context) async {
             ConnectivityPlus().addListener((status, result) async {
               switch (result.first) {
@@ -122,6 +125,7 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
+          Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
           Button(
               onTap: () => push(const HivePreferencesPage()),
               text: 'BasePreferences'),

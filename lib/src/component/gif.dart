@@ -1,21 +1,10 @@
-import 'dart:io';
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:extended_image_library/extended_image_library.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-
-final HttpClient _sharedHttpClient = HttpClient()..autoUncompress = false;
-
-HttpClient get _httpClient {
-  HttpClient client = _sharedHttpClient;
-  assert(() {
-    if (debugNetworkImageHttpClientProvider != null) {
-      client = debugNetworkImageHttpClientProvider!();
-    }
-    return true;
-  }());
-  return client;
-}
+import 'package:flutter/widgets.dart' hide FileImage;
+import 'package:universally/universally.dart' hide FileImage;
 
 /// How to auto start the gif.
 enum Autostart {
@@ -57,7 +46,6 @@ class Gif extends StatefulWidget {
 
   /// Called when gif frames fetch is completed.
   final VoidCallback? onFetchCompleted;
-
   final double? width;
   final double? height;
   final Color? color;
@@ -116,9 +104,7 @@ class Gif extends StatefulWidget {
   State<Gif> createState() => _GifState();
 }
 
-///
 /// Works as a cache system for already fetched [GifInfo].
-///
 @immutable
 class GifCache {
   final Map<String, GifInfo> caches = {};
@@ -142,25 +128,37 @@ class GifInfo {
   });
 }
 
-class _GifState extends State<Gif> {
+class _GifState extends ExtendedState<Gif> {
   late AnimationController controller;
 
   /// List of [ImageInfo] of every frame of this gif.
-  List<ImageInfo> _frames = [];
+  List<ImageInfo> frames = [];
 
-  int _frameIndex = 0;
+  int frameIndex = 0;
 
   /// Current rendered frame.
-  ImageInfo? get _frame =>
-      _frames.length > _frameIndex ? _frames[_frameIndex] : null;
+  ImageInfo? get frame =>
+      frames.length > frameIndex ? frames[frameIndex] : null;
+
+  @override
+  void initState() {
+    super.initState();
+    initController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadFrames().then((value) => autostart());
+  }
 
   @override
   Widget build(BuildContext context) {
     final RawImage image = RawImage(
-        image: _frame?.image,
+        image: frame?.image,
         width: widget.width,
         height: widget.height,
-        scale: _frame?.scale ?? 1.0,
+        scale: frame?.scale ?? 1.0,
         color: widget.color,
         colorBlendMode: widget.colorBlendMode,
         fit: widget.fit,
@@ -168,7 +166,7 @@ class _GifState extends State<Gif> {
         repeat: widget.repeat,
         centerSlice: widget.centerSlice,
         matchTextDirection: widget.matchTextDirection);
-    return widget.placeholder != null && _frame == null
+    return widget.placeholder != null && frame == null
         ? widget.placeholder!(context)
         : widget.excludeFromSemantics
             ? image
@@ -180,45 +178,22 @@ class _GifState extends State<Gif> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _loadFrames().then((value) => _autostart());
-  }
-
-  @override
   void didUpdateWidget(Gif oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != controller) {
+    if (widget.controller != oldWidget.controller) {
       removeListener();
       initController();
+      loadFrames().then((value) => autostart());
     }
-    if ((widget.image != oldWidget.image) ||
-        (widget.fps != oldWidget.fps) ||
-        (widget.duration != oldWidget.duration)) {
-      _loadFrames().then((value) {
-        if (widget.image != oldWidget.image) {
-          _autostart();
-        }
-      });
-    }
-    if ((widget.autostart != oldWidget.autostart)) {
-      _autostart();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initController();
   }
 
   void initController() {
     controller = widget.controller;
-    controller.addListener(_listener);
+    controller.addListener(listener);
   }
 
   void removeListener() {
-    controller.removeListener(_listener);
+    controller.removeListener(listener);
   }
 
   @override
@@ -228,7 +203,7 @@ class _GifState extends State<Gif> {
   }
 
   /// Start this gif according to [widget.autostart] and [widget.loop].
-  void _autostart() {
+  void autostart() {
     if (mounted && widget.autostart != Autostart.no) {
       controller.reset();
       if (widget.autostart == Autostart.loop) {
@@ -240,7 +215,7 @@ class _GifState extends State<Gif> {
   }
 
   /// Get unique image string from [ImageProvider]
-  String _getImageKey(ImageProvider provider) {
+  String getImageKey(ImageProvider provider) {
     if (provider is NetworkImage) {
       return provider.url;
     } else if (provider is AssetImage) {
@@ -253,36 +228,37 @@ class _GifState extends State<Gif> {
     return '';
   }
 
-  /// Calculates the [_frameIndex] based on the [AnimationController] value.
+  /// Calculates the [frameIndex] based on the [AnimationController] value.
   ///
   /// The calculation is based on the frames of the gif
   /// and the [Duration] of [AnimationController].
-  void _listener() {
-    if (_frames.isNotEmpty && mounted) {
-      _frameIndex =
-          _frames.isEmpty ? 0 : (_frames.length * controller.value).floor();
-      if (_frameIndex >= _frames.length) _frameIndex = _frames.length - 1;
+  void listener() {
+    if (frames.isNotEmpty && mounted) {
+      frameIndex =
+          frames.isEmpty ? 0 : (frames.length * controller.value).floor();
+      if (frameIndex >= frames.length) frameIndex = frames.length - 1;
       setState(() {});
     }
   }
 
-  /// Fetches the frames with [_fetchFrames] and saves them into [_frames].
+  /// Fetches the frames with [_fetchFrames] and saves them into [frames].
   ///
-  /// When [_frames] is updated [onFetchCompleted] is called.
-  Future<void> _loadFrames() async {
+  /// When [frames] is updated [onFetchCompleted] is called.
+  Future<void> loadFrames() async {
     if (!mounted) return;
-    final useCache = Gif.cache.caches.containsKey(_getImageKey(widget.image)) &&
+    final useCache = Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
         widget.useCache;
 
-    GifInfo gif = useCache
-        ? Gif.cache.caches[_getImageKey(widget.image)]!
-        : await _fetchFrames(widget.image);
+    GifInfo? gif = useCache
+        ? Gif.cache.caches[getImageKey(widget.image)]!
+        : await fetchFrames(widget.image);
+    if (gif == null) return;
     if (useCache) {
-      Gif.cache.caches.putIfAbsent(_getImageKey(widget.image), () => gif);
+      Gif.cache.caches.putIfAbsent(getImageKey(widget.image), () => gif);
     }
-    _frames = gif.frames;
+    frames = gif.frames;
     controller.duration = widget.fps != null
-        ? Duration(milliseconds: (_frames.length / widget.fps! * 1000).round())
+        ? Duration(milliseconds: (frames.length / widget.fps! * 1000).round())
         : widget.duration ?? gif.duration;
     if (widget.onFetchCompleted != null) {
       widget.onFetchCompleted!();
@@ -291,16 +267,20 @@ class _GifState extends State<Gif> {
   }
 
   /// Fetches the single gif frames and saves them into the [GifCache] of [Gif]
-  static Future<GifInfo> _fetchFrames(ImageProvider provider) async {
-    late final Uint8List bytes;
-
+  Future<GifInfo?> fetchFrames(ImageProvider provider) async {
+    Uint8List? bytes;
     if (provider is NetworkImage) {
-      final Uri resolved = Uri.base.resolve(provider.url);
-      final HttpClientRequest request = await _httpClient.getUrl(resolved);
-      provider.headers?.forEach(
-          (String name, String value) => request.headers.add(name, value));
-      final HttpClientResponse response = await request.close();
-      bytes = await consolidateHttpClientResponseBytes(response);
+      try {
+        final options = Options(headers: {}, responseType: ResponseType.bytes);
+        provider.headers?.forEach((String name, String value) =>
+            options.headers?.addAll({name: value}));
+        final data = await Dio().get(provider.url, options: options);
+        if (data.statusCode == 200) {
+          bytes = Uint8List.fromList(data.data);
+        }
+      } catch (e) {
+        debugPrint('Gif network image error:$e');
+      }
     } else if (provider is AssetImage) {
       AssetBundleImageKey key =
           await provider.obtainKey(const ImageConfiguration());
@@ -310,7 +290,7 @@ class _GifState extends State<Gif> {
     } else if (provider is MemoryImage) {
       bytes = provider.bytes;
     }
-
+    if (bytes == null) return null;
     Codec codec = await instantiateImageCodec(bytes);
     List<ImageInfo> info = [];
     Duration duration = const Duration();
@@ -320,5 +300,17 @@ class _GifState extends State<Gif> {
       duration += frameInfo.duration;
     }
     return GifInfo(frames: info, duration: duration);
+  }
+
+  Future<Uint8List> loadGifImageData(NetworkImage provider) async {
+    Completer<Uint8List> completer = Completer();
+    provider.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, bool syncCall) {
+        info.image.toByteData(format: ImageByteFormat.rawRgba).then((byteData) {
+          completer.complete(Uint8List.view(byteData!.buffer));
+        });
+      }),
+    );
+    return await completer.future;
   }
 }

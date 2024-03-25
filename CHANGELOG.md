@@ -2,6 +2,9 @@
 
 * `BaseTextField`新增三个参数
 * 修复`ConnectivityPlus`监听多次回调
+* 添加 `CustomTabBar`,自定义tabs子组件选中效果
+* 修复 `Gif` web上 `NetworkImage` 无法加载的问题
+* 修复 `Gif` 多次build后动画不执行
 
 ## 8.0.0
 
