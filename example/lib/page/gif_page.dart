@@ -12,6 +12,9 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
   late AnimationController assetController;
   late AnimationController networkController;
 
+  String url =
+      'https://raw.githubusercontent.com/Wayaer/universally/3fb3808d9b275c60303d1ca09b1f14b8aa47b69d/example/assets/gif1.gif';
+
   @override
   void initState() {
     super.initState();
@@ -33,8 +36,7 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
               autostart: Autostart.loop,
               controller: networkController,
               useCache: false,
-              image: const NetworkImage(
-                  'https://img.zcool.cn/community/0190105c273b92a8012029ac7b58e4.gif')),
+              image: NetworkImage(url)),
           TextLarge('AssetImage'),
           Gif(
               autostart: Autostart.loop,
