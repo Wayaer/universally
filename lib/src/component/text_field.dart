@@ -100,6 +100,7 @@ class BaseTextField extends StatefulWidget {
     this.contentInsertionConfiguration,
     this.clearButtonSemanticLabel,
     this.undoController,
+    this.cursorColor,
   });
 
   /// ***** 附加功能 *****
@@ -197,6 +198,9 @@ class BaseTextField extends StatefulWidget {
 
   /// 输入框填充色
   final Color? fillColor;
+
+  /// 光标颜色
+  final Color? cursorColor;
 
   /// 默认为 1
   final int? maxLines;
@@ -485,7 +489,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 onEditingComplete: () =>
                     widget.onEditingComplete?.call(controller),
                 showCursor: widget.showCursor,
-                cursorColor: Universally().mainColor,
+                cursorColor: widget.cursorColor ?? Universally().mainColor,
                 cursorHeight: widget.cursorHeight,
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
