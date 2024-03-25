@@ -1,4 +1,6 @@
-import 'package:app/page/basic_list_page.dart';
+import 'package:app/page/alert_page.dart';
+import 'package:app/page/base_list_page.dart';
+import 'package:app/page/changed_builder_page.dart';
 import 'package:app/page/component_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
@@ -126,21 +128,13 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
+          Button(onTap: () => push(const AlertPage()), text: 'Alert'),
+          Button(
+              onTap: () => push(const ChangedBuilderWidgetPage()),
+              text: 'ChangedBuilder'),
           Button(
               onTap: () => push(const HivePreferencesPage()),
               text: 'BasePreferences'),
-          Button(
-              onTap: () {
-                showDoubleChooseAlert(
-                    title: 'title', left: 'left', right: 'right');
-              },
-              text: 'showDoubleChooseAlert'),
-          Button(onTap: showLoading, text: 'showLoading'),
-          Button(
-              onTap: () {
-                showToast('showToast');
-              },
-              text: 'showToast'),
           Button(
               onTap: () {
                 push(const SpinKitPage());

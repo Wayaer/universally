@@ -33,7 +33,7 @@ export 'src/app/cupertino_app.dart';
 export 'src/app/widgets_app.dart';
 
 /// component
-export 'src/component/switch_check_box.dart';
+export 'src/component/changed_builder.dart';
 export 'src/component/extension.dart';
 export 'src/component/component.dart';
 export 'src/component/gif.dart';
