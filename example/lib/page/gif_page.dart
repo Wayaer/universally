@@ -34,7 +34,7 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
               controller: networkController,
               useCache: false,
               image: const NetworkImage(
-                  'http://qiniu.sczhongda88.com/kger/xdgif.gif')),
+                  'https://img.zcool.cn/community/0190105c273b92a8012029ac7b58e4.gif')),
           TextLarge('AssetImage'),
           Gif(
               autostart: Autostart.loop,
