@@ -8,14 +8,14 @@ class UrlLauncher {
   static UrlLauncher? _singleton;
 
   /// 打开连接
-  /// Open the connection
+  /// Open the url
   Future<bool> openUrl(
     String url, {
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
     String? webOnlyWindowName,
   }) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
+    if (await canLaunch(Uri.parse(url))) {
       return await launchUrl(Uri.parse(url),
           mode: mode,
           webOnlyWindowName: webOnlyWindowName,
@@ -24,6 +24,45 @@ class UrlLauncher {
       return false;
     }
   }
+
+  /// 打开连接
+  /// Open the uri
+  Future<bool> openUri(
+    Uri uri, {
+    LaunchMode mode = LaunchMode.platformDefault,
+    WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    String? webOnlyWindowName,
+  }) async {
+    if (await canLaunch(uri)) {
+      return await launchUrl(uri,
+          mode: mode,
+          webOnlyWindowName: webOnlyWindowName,
+          webViewConfiguration: webViewConfiguration);
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> canLaunch(Uri url) => canLaunchUrl(url);
+
+  /// Closes the current in-app web view, if one was previously opened by
+  /// [launchUrl].
+  /// This works only if [supportsCloseForLaunchMode] returns true for the mode
+  /// that was used by [launchUrl].
+  Future<void> closeWebView() => closeInAppWebView();
+
+  /// Returns true if [mode] is supported by the current platform implementation.
+  /// Calling [launchUrl] with an unsupported mode will fall back to a supported
+  /// mode, so calling this method is only necessary for cases where the caller
+  /// needs to know which mode will be used.
+  Future<bool> supports(LaunchMode mode) => supportsLaunchMode(mode);
+
+  /// Returns true if [closeInAppWebView] is supported for [mode] in the current
+  /// platform implementation.
+  /// If this returns false, [closeInAppWebView] will not work when launching
+  /// URLs with [mode].
+  Future<bool> supportsClose(LaunchMode mode) =>
+      supportsCloseForLaunchMode(mode);
 
   /// 拨打电话
   /// Make a phone call
