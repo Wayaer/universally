@@ -168,6 +168,7 @@ class BaseDio {
   static BaseDio? _singleton;
 
   late ExtendedDio dio;
+  late ExtendedDio dioDownload;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
@@ -179,15 +180,8 @@ class BaseDio {
     List<InterceptorsWrapper> interceptors = const [],
   }) {
     if (options != null) baseDioOptions = options;
-    dio = ExtendedDio().initialize(
-        interceptors: [
-          ...interceptors,
-          if (isDebugger) DebuggerInterceptor(),
-        ],
-        options: baseDioOptions,
-        transformer: transformer,
-        httpClientAdapter: httpClientAdapter,
-        downloadOptions: downloadOptions);
+    dio = ExtendedDio(baseDioOptions);
+    dioDownload = ExtendedDio(downloadOptions);
     return this;
   }
 
@@ -207,8 +201,9 @@ class BaseDio {
         data: data,
         options: _mergeOptions(options, path),
         cancelToken: cancelToken,
-        params: baseDioOptions.extraParams?.call(path, params) ?? params);
-    return _response(res, tag);
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> getUri<T>(
@@ -227,7 +222,7 @@ class BaseDio {
         data: data,
         cancelToken: cancelToken,
         options: _mergeOptions(options, uri.path));
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> post<T>(
@@ -248,12 +243,13 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.post<T>(path,
         options: _mergeOptions(options, path),
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> postUri<T>(
@@ -278,7 +274,7 @@ class BaseDio {
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> put<T>(
@@ -299,12 +295,13 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.put<T>(path,
         options: _mergeOptions(options, path),
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> putUri<T>(
@@ -329,7 +326,7 @@ class BaseDio {
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> delete<T>(
@@ -348,10 +345,11 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.delete<T>(path,
         options: _mergeOptions(options, path),
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> deleteUri<T>(
@@ -372,7 +370,7 @@ class BaseDio {
         options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> patch<T>(
@@ -393,12 +391,13 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.patch<T>(path,
         options: _mergeOptions(options, path),
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> patchUri<T>(
@@ -423,7 +422,7 @@ class BaseDio {
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> head<T>(
@@ -442,10 +441,11 @@ class BaseDio {
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.head<T>(path,
         options: _mergeOptions(options, path),
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> headUri<T>(
@@ -466,7 +466,7 @@ class BaseDio {
         options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> request<T>(
@@ -490,10 +490,11 @@ class BaseDio {
         options: _mergeOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        params: baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters:
+            baseDioOptions.extraParams?.call(path, params) ?? params,
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> requestUri<T>(
@@ -518,7 +519,7 @@ class BaseDio {
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         data: dataToJson ? jsonEncode(data) : data);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   /// 文件上传
@@ -542,7 +543,7 @@ class BaseDio {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   /// 文件上传
@@ -567,7 +568,7 @@ class BaseDio {
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   /// 文件下载
@@ -597,7 +598,7 @@ class BaseDio {
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
         cancelToken: cancelToken);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   /// 文件下载
@@ -628,7 +629,7 @@ class BaseDio {
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
         cancelToken: cancelToken);
-    return _response(res, tag);
+    return _handleResponse(res, tag);
   }
 
   ExtendedOverlayEntry? loadingEntry;
@@ -688,7 +689,7 @@ class BaseDio {
     return null;
   }
 
-  BaseModel _response(ExtendedResponse res, dynamic tag) {
+  BaseModel _handleResponse(ExtendedResponse res, dynamic tag) {
     _removeLoading();
     _sendRefreshStatus();
     BaseModel baseModel = BaseModel(
