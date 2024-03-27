@@ -629,20 +629,21 @@ class _BaseTextFieldState extends State<BaseTextField> {
         child: current);
   }
 
-  Widget get buildEyeIcon {
-    final current = (widget.eyeIconBuilder ??
-                Universally().config.textField?.eyeIconBuilder)
-            ?.call(obscureText.value) ??
-        Icon(obscureText.value ? UIS.eyeClose : UIS.eyeOpen,
-            color: Universally().config.textStyle?.normal?.color, size: 20);
-    return Universal(
-        margin: const EdgeInsets.only(right: 10),
-        enabled: widget.enableEye,
-        onTap: () {
-          obscureText.value = !obscureText.value;
-        },
-        child: current);
-  }
+  Widget get buildEyeIcon => Universal(
+      margin: const EdgeInsets.only(right: 10),
+      onTap: () {
+        obscureText.value = !obscureText.value;
+      },
+      child: ValueListenableBuilder(
+          valueListenable: obscureText,
+          builder: (_, bool value, __) {
+            return (widget.eyeIconBuilder ??
+                        Universally().config.textField?.eyeIconBuilder)
+                    ?.call(value) ??
+                Icon(value ? UIS.eyeClose : UIS.eyeOpen,
+                    color: Universally().config.textStyle?.normal?.color,
+                    size: 20);
+          }));
 
   @override
   void didUpdateWidget(covariant BaseTextField oldWidget) {
