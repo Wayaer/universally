@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
@@ -158,6 +159,40 @@ class BaseSwitch extends ChangedBuilder<bool> {
                   onFocusChange: onFocusChange,
                   autofocus: autofocus,
                   applyCupertinoTheme: applyCupertinoTheme,
+                ));
+}
+
+class BaseCupertinoSwitch extends ChangedBuilder<bool> {
+  BaseCupertinoSwitch({
+    super.key,
+    required super.value,
+    super.onChanged,
+    super.onWaitChanged,
+    super.initState,
+    super.didUpdateWidget,
+    super.didChangeDependencies,
+    super.deactivate,
+    super.dispose,
+    Color? activeColor,
+    Color? trackColor,
+    Color? thumbColor,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    Color? focusColor,
+    FocusNode? focusNode,
+    ValueChanged<bool>? onFocusChange,
+    bool autofocus = false,
+  }) : super(
+            builder: (bool value, onChanged) => CupertinoSwitch(
+                  value: value,
+                  onChanged: onChanged,
+                  trackColor: trackColor,
+                  thumbColor: thumbColor,
+                  activeColor: activeColor ?? Universally().mainColor,
+                  dragStartBehavior: dragStartBehavior,
+                  focusColor: focusColor,
+                  focusNode: focusNode,
+                  onFocusChange: onFocusChange,
+                  autofocus: autofocus,
                 ));
 }
 

@@ -23,8 +23,7 @@ dependencies:
   flutter_curiosity: ^6.1.0
   flutter_waya: ^9.2.0
   fl_extended: ^0.3.2
-  fl_dio:
-    path: ../../fl_dio
+  fl_dio: ^1.0.0
   window_manager: ^0.3.8
 
   permission_handler: ^11.3.0
