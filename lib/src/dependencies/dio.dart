@@ -175,13 +175,12 @@ class BaseDio {
   BaseDio initialize({
     BaseDioOptions? options,
     BaseDioOptions? downloadOptions,
-    HttpClientAdapter? httpClientAdapter,
-    Transformer? transformer,
     List<InterceptorsWrapper> interceptors = const [],
   }) {
     if (options != null) baseDioOptions = options;
-    dio = ExtendedDio(baseDioOptions);
-    dioDownload = ExtendedDio(downloadOptions);
+    dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
+    dioDownload = ExtendedDio(downloadOptions)
+      ..interceptors.addAll(interceptors);
     return this;
   }
 
