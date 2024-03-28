@@ -20,11 +20,8 @@ Future<void> main() async {
       UConfig(
           isCloseOverlay: false,
           mainColor: Colors.purple.shade900,
-          loadingOptions: LoadingOptions(
-              onLoadingTap: () {},
-              onModalTap: () {
-                closeLoading();
-              }),
+          loadingOptions: const LoadingOptions(
+              onLoadingTap: closeLoading, onModalTap: closeLoading),
           loadingBuilder: (BaseLoading loading) => Container(
               width: loading.size * 2,
               height: loading.size * 2,

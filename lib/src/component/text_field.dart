@@ -117,7 +117,7 @@ class BaseTextField extends StatefulWidget {
   final DecoratorPositioned searchTextPositioned;
 
   /// 添加 发送验证码 点击事件
-  final SendSMSValueCallback? sendSMSTap;
+  final SendVerificationCodeValueCallback? sendSMSTap;
   final ValueTwoCallbackT<Widget, SendState, int>? sendSMSTextBuilder;
   final DecoratorPositioned sendSMSPositioned;
 
@@ -610,7 +610,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     bool isLeft = (Universally().config.textField?.sendSMSPositioned ??
             widget.sendSMSPositioned) !=
         DecoratorPositioned.inner;
-    return SendSMS(
+    return SendVerificationCode(
         margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
         duration: const Duration(seconds: 60),
         builder: (SendState state, int i) {

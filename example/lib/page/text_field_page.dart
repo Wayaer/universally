@@ -44,6 +44,7 @@ class TextFieldPage extends StatelessWidget {
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
+              sendSMSPositioned: DecoratorPositioned.inner,
               enableSearchIcon: true,
               searchTextTap: (String value) {},
               sendSMSTap: (send) async {
@@ -71,6 +72,7 @@ class TextFieldPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
               enableSearchIcon: true,
+              searchTextPositioned: DecoratorPositioned.inner,
               searchTextTap: (String value) {},
               sendSMSPositioned: DecoratorPositioned.inner,
               sendSMSTap: (send) async {

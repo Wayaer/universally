@@ -46,7 +46,7 @@ class UserPrivacyAlert extends StatelessWidget {
   Widget build(BuildContext context) => DoubleChooseWindows(
         options: FlExtended()
             .modalWindowsOptions
-            .copyWith(color: UCS.black50, addMaterial: true)
+            .copyWith(backgroundColor: UCS.black50, addMaterial: true)
             .merge(options),
         decoration: BoxDecoration(
             color: UCS.white, borderRadius: BorderRadius.circular(8)),
