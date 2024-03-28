@@ -1,3 +1,8 @@
+## 8.0.2
+
+* `BaseTextField`新增 `onEditingCompleteWith`、`onSubmittedWith`、`onTapWith`
+* 修复 `BaseTextField` 的 `eyeIconBuilder`不切换
+
 ## 8.0.1
 
 * `BaseTextField`新增三个参数

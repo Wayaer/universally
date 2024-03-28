@@ -70,7 +70,11 @@ class BaseTextField extends StatefulWidget {
     this.maxLengthEnforcement,
     this.onChanged,
     this.onEditingComplete,
+    this.onEditingCompleteWith,
     this.onSubmitted,
+    this.onSubmittedWith,
+    this.onTap,
+    this.onTapWith,
     this.inputFormatters,
     this.enabled = true,
     this.cursorWidth = 2.0,
@@ -84,7 +88,6 @@ class BaseTextField extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.enableInteractiveSelection,
     this.selectionControls,
-    this.onTap,
     this.scrollController,
     this.scrollPhysics,
     this.autofillHints = const [],
@@ -93,6 +96,7 @@ class BaseTextField extends StatefulWidget {
     this.scribbleEnabled = true,
     this.enableIMEPersonalizedLearning = true,
     this.textInputType = TextInputLimitFormatter.text,
+    this.keyboardType,
     this.contextMenuBuilder,
     this.magnifierConfiguration,
     this.onTapOutside,
@@ -190,8 +194,17 @@ class BaseTextField extends StatefulWidget {
   final String? hintText;
 
   /// 按回车时调用 先调用此方法  然后调用onSubmitted方法
-  final ValueCallback<TextEditingController>? onEditingComplete;
+  final Callback? onEditingComplete;
+  final ValueTwoCallback<TextEditingController, FocusNode>?
+      onEditingCompleteWith;
+
+  /// 提交
   final ValueChanged<String>? onSubmitted;
+  final ValueTwoCallback<TextEditingController, FocusNode>? onSubmittedWith;
+
+  /// 输入框点击数事件
+  final GestureTapCallback? onTap;
+  final ValueTwoCallback<TextEditingController, FocusNode>? onTapWith;
 
   /// 输入框变化监听
   final ValueChanged<String>? onChanged;
@@ -211,9 +224,6 @@ class BaseTextField extends StatefulWidget {
 
   /// 焦点管理
   final FocusNode? focusNode;
-
-  /// 输入框点击数事件
-  final GestureTapCallback? onTap;
 
   /// 输入框文字对齐方式
   final TextAlign textAlign;
@@ -240,8 +250,10 @@ class BaseTextField extends StatefulWidget {
   /// TextCapitalization.words,///  在输入每个单词的第一个字母时，键盘大写形式，输入其他字母时键盘小写形式
   final TextCapitalization textCapitalization;
 
-  final List<TextInputFormatter>? inputFormatters;
+  /// 设置[textInputType]可同时开启 [keyboardType]和[inputFormatters]
   final TextInputLimitFormatter textInputType;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
 
   final TextDirection? textDirection;
 
@@ -436,8 +448,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
   }
 
-  GlobalKey textFieldKey = GlobalKey();
-
   Widget buildTextField({
     List<DecoratorEntry> innerSuffixes = const [],
     List<DecoratorEntry> innerPrefixes = const [],
@@ -445,7 +455,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
       ValueListenableBuilder(
           valueListenable: obscureText,
           builder: (_, bool value, __) => CupertinoTextField(
-                key: textFieldKey,
                 controller: controller,
                 focusNode: focusNode,
                 suffixMode: OverlayVisibilityMode.editing,
@@ -469,7 +478,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 style: const TStyle().merge(widget.style ??
                     Universally().config.textField?.style ??
                     Universally().config.textStyle?.normal),
-                keyboardType: widget.textInputType.toKeyboardType(),
+                keyboardType: widget.keyboardType ??
+                    widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
                 keyboardAppearance: widget.keyboardAppearance,
                 textInputAction: widget.textInputAction,
@@ -484,10 +494,27 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 maxLength: widget.maxLength,
                 onChanged: widget.onChanged,
                 textAlign: _textAlign,
-                onTap: widget.onTap,
-                onSubmitted: widget.onSubmitted,
-                onEditingComplete: () =>
-                    widget.onEditingComplete?.call(controller),
+                onTap: widget.onTap == null && widget.onTapWith == null
+                    ? null
+                    : () {
+                        widget.onTap?.call();
+                        widget.onTapWith?.call(controller, focusNode);
+                      },
+                onSubmitted:
+                    widget.onSubmitted == null && widget.onSubmittedWith == null
+                        ? null
+                        : (String value) {
+                            widget.onSubmitted?.call(value);
+                            widget.onSubmittedWith?.call(controller, focusNode);
+                          },
+                onEditingComplete: widget.onEditingComplete == null &&
+                        widget.onEditingCompleteWith == null
+                    ? null
+                    : () {
+                        widget.onEditingComplete?.call();
+                        widget.onEditingCompleteWith
+                            ?.call(controller, focusNode);
+                      },
                 showCursor: widget.showCursor,
                 cursorColor: widget.cursorColor ?? Universally().mainColor,
                 cursorHeight: widget.cursorHeight,
