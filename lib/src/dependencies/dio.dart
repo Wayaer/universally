@@ -57,9 +57,6 @@ class BaseDioOptions extends BaseOptions {
 
     /// 发送超时时间
     super.sendTimeout = const Duration(seconds: 5),
-    this.downloadResponseType = ResponseType.bytes,
-    this.downloadContentType,
-    this.uploadContentType,
     this.extraHeader,
     this.extraData,
     this.extraUriData,
@@ -80,21 +77,18 @@ class BaseDioOptions extends BaseOptions {
     super.requestEncoder,
     super.responseDecoder,
     super.listFormat,
-    this.enableCheckNetwork = true,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
     this.extensionKeys = const ['extension'],
     this.hideMsg = const ['success', 'OK'],
-    this.hideCode = const [],
+    this.hideCode = const ['0'],
     this.successCode = const ['200'],
     this.enableLoading = true,
     this.enablePullHideLoading = true,
+    this.enableCheckNetwork = true,
     this.buildBaseModelState,
-  }) {
-    downloadContentType ??= kContentTypeWithFormData;
-    uploadContentType ??= kContentTypeWithFormData;
-  }
+  });
 
   /// header设置
   ValueCallbackHeader? extraHeader;
@@ -113,15 +107,6 @@ class BaseDioOptions extends BaseOptions {
 
   /// 错误拦截;
   BaseDioErrorIntercept? errorIntercept;
-
-  /// 下载的ContentType;
-  String? downloadContentType;
-
-  /// 下载文件时的请求类型
-  ResponseType downloadResponseType;
-
-  /// 上传的Type
-  String? uploadContentType;
 
   /// BaseModel 后台返回状态码
   List<String> codeKeys;
