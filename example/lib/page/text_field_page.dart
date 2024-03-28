@@ -19,6 +19,9 @@ class TextFieldPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
               enableSearchIcon: true,
+              onTap: () {
+                showToast('请输入');
+              },
               searchTextTap: (String value) {},
               sendSMSTap: (send) async {
                 await 1.seconds.delayed();

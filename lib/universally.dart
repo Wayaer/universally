@@ -11,7 +11,6 @@ export 'package:extended_image_library/extended_image_library.dart'
     hide MultipartFile;
 export 'package:flutter_curiosity/flutter_curiosity.dart';
 export 'package:flutter_waya/flutter_waya.dart';
-export 'package:fl_extended/fl_extended.dart';
 export 'package:fl_dio/fl_dio.dart';
 export 'package:window_manager/window_manager.dart';
 

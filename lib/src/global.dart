@@ -20,6 +20,7 @@ class UConfig {
     this.placeholder = const BasePlaceholder(),
     this.toastOptions = const ToastOptions(
         alignment: Alignment.center,
+        animationStyle: FlAnimationStyle.verticalHunting,
         duration: Duration(seconds: 2),
         ignoring: true),
     this.generalDialogOptions,

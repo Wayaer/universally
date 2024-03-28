@@ -38,8 +38,10 @@ Future<void> main() async {
             extraLarge: const TStyle(color: Colors.purpleAccent),
             style: const TStyle(color: Colors.greenAccent),
           ),
-          toastOptions:
-              const ToastOptions(alignment: Alignment.center, ignoring: false)),
+          toastOptions: const ToastOptions(
+              alignment: Alignment.center,
+              animationStyle: FlAnimationStyle.fade,
+              ignoring: false)),
       windowOptions: WindowOptions(
           size: WindowsSize.iPhone5P8.value,
           minimumSize: WindowsSize.iPhone4P7.value,
