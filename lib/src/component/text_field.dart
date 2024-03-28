@@ -14,9 +14,9 @@ class BaseTextField extends StatefulWidget {
     this.searchText,
     this.searchTextTap,
     this.searchTextPositioned = DecoratorPositioned.outer,
-    this.sendSMSTap,
-    this.sendSMSTextBuilder,
-    this.sendSMSPositioned = DecoratorPositioned.outer,
+    this.sendVerificationCodeTap,
+    this.sendVerificationCodeTextBuilder,
+    this.sendVerificationCodePositioned = DecoratorPositioned.outer,
     this.enableEye = false,
     this.eyeIconBuilder,
     this.enableClearIcon = false,
@@ -117,9 +117,10 @@ class BaseTextField extends StatefulWidget {
   final DecoratorPositioned searchTextPositioned;
 
   /// 添加 发送验证码 点击事件
-  final SendVerificationCodeValueCallback? sendSMSTap;
-  final ValueTwoCallbackT<Widget, SendState, int>? sendSMSTextBuilder;
-  final DecoratorPositioned sendSMSPositioned;
+  final SendVerificationCodeValueCallback? sendVerificationCodeTap;
+  final ValueTwoCallbackT<Widget, SendState, int>?
+      sendVerificationCodeTextBuilder;
+  final DecoratorPositioned sendVerificationCodePositioned;
 
   /// 开启 显示和隐藏 eye
   final bool enableEye;
@@ -388,9 +389,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
           positioned: DecoratorPositioned.inner,
           widget: buildEyeIcon));
     }
-    if (widget.sendSMSTap != null) {
+    if (widget.sendVerificationCodeTap != null) {
       suffixes.add(DecoratorEntry(
-          positioned: widget.sendSMSPositioned, widget: buildSendSMS));
+          positioned: widget.sendVerificationCodePositioned,
+          widget: buildSendSMS));
     }
     if (widget.searchTextTap != null) {
       suffixes.add(DecoratorEntry(
@@ -607,15 +609,19 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildSendSMS {
-    bool isLeft = (Universally().config.textField?.sendSMSPositioned ??
-            widget.sendSMSPositioned) !=
-        DecoratorPositioned.inner;
+    bool isLeft =
+        (Universally().config.textField?.sendVerificationCodePositioned ??
+                widget.sendVerificationCodePositioned) !=
+            DecoratorPositioned.inner;
     return SendVerificationCode(
         margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
         duration: const Duration(seconds: 60),
         builder: (SendState state, int i) {
-          final current = (widget.sendSMSTextBuilder ??
-                  Universally().config.textField?.sendSMSTextBuilder)
+          final current = (widget.sendVerificationCodeTextBuilder ??
+                  Universally()
+                      .config
+                      .textField
+                      ?.sendVerificationCodeTextBuilder)
               ?.call(state, i);
           if (current != null) return current;
           switch (state) {
@@ -629,7 +635,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
               return TextNormal('$i s', color: Universally().mainColor);
           }
         },
-        onTap: widget.sendSMSTap);
+        onTap: widget.sendVerificationCodeTap);
   }
 
   Widget get buildSearchIcon {
@@ -692,8 +698,8 @@ class TextFieldConfig {
       this.strutStyle,
       this.searchText,
       this.searchTextPositioned,
-      this.sendSMSTextBuilder,
-      this.sendSMSPositioned,
+      this.sendVerificationCodeTextBuilder,
+      this.sendVerificationCodePositioned,
       this.eyeIconBuilder,
       this.clearIcon,
       this.searchIcon});
@@ -703,8 +709,11 @@ class TextFieldConfig {
   final DecoratorPositioned? searchTextPositioned;
 
   ///  发送验证码
-  final ValueTwoCallbackT<Widget, SendState, int>? sendSMSTextBuilder;
-  final DecoratorPositioned? sendSMSPositioned;
+  final ValueTwoCallbackT<Widget, SendState, int>?
+      sendVerificationCodeTextBuilder;
+
+  /// 发送验证码位置
+  final DecoratorPositioned? sendVerificationCodePositioned;
 
   ///  显示和隐藏 eye
   final ValueCallbackTV<Widget, bool>? eyeIconBuilder;

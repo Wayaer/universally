@@ -1,6 +1,7 @@
-## 8.0.2
+## 8.0.3
 
 * `BaseTextField`新增 `onEditingCompleteWith`、`onSubmittedWith`、`onTapWith`
+* `BaseTextField`的 `sendSMS` 改为 `sendVerificationCode`
 * 修复 `BaseTextField` 的 `eyeIconBuilder`不切换
 * Update dependencies
 

@@ -23,7 +23,7 @@ class TextFieldPage extends StatelessWidget {
                 showToast('请输入');
               },
               searchTextTap: (String value) {},
-              sendSMSTap: (send) async {
+              sendVerificationCodeTap: (send) async {
                 await 1.seconds.delayed();
                 send(true);
               }),
@@ -31,7 +31,7 @@ class TextFieldPage extends StatelessWidget {
           BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
-              sendSMSTextBuilder: (SendState state, int i) {
+              sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
                     return TextNormal('发送验证码', color: Universally().mainColor);
@@ -47,10 +47,10 @@ class TextFieldPage extends StatelessWidget {
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
-              sendSMSPositioned: DecoratorPositioned.inner,
+              sendVerificationCodePositioned: DecoratorPositioned.inner,
               enableSearchIcon: true,
               searchTextTap: (String value) {},
-              sendSMSTap: (send) async {
+              sendVerificationCodeTap: (send) async {
                 await 1.seconds.delayed();
                 send(true);
               }),
@@ -58,7 +58,7 @@ class TextFieldPage extends StatelessWidget {
           BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
-              sendSMSTextBuilder: (SendState state, int i) {
+              sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
                     return TextNormal('发送验证码', color: Universally().mainColor);
@@ -77,8 +77,8 @@ class TextFieldPage extends StatelessWidget {
               enableSearchIcon: true,
               searchTextPositioned: DecoratorPositioned.inner,
               searchTextTap: (String value) {},
-              sendSMSPositioned: DecoratorPositioned.inner,
-              sendSMSTap: (send) async {
+              sendVerificationCodePositioned: DecoratorPositioned.inner,
+              sendVerificationCodeTap: (send) async {
                 await 1.seconds.delayed();
                 send(true);
               }),
