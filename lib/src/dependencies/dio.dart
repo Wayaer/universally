@@ -153,19 +153,14 @@ class BaseDio {
   static BaseDio? _singleton;
 
   late ExtendedDio dio;
-  late ExtendedDio dioDownload;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
-  BaseDio initialize({
-    BaseDioOptions? options,
-    BaseDioOptions? downloadOptions,
-    List<InterceptorsWrapper> interceptors = const [],
-  }) {
+  BaseDio initialize(
+      {BaseDioOptions? options,
+      List<InterceptorsWrapper> interceptors = const []}) {
     if (options != null) baseDioOptions = options;
     dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
-    dioDownload = ExtendedDio(downloadOptions)
-      ..interceptors.addAll(interceptors);
     return this;
   }
 
@@ -508,22 +503,22 @@ class BaseDio {
 
   /// 文件上传
   /// File upload
-  Future<BaseModel> upload<T>(String path, Object? data,
-      {ProgressCallback? onSendProgress,
-      ProgressCallback? onReceiveProgress,
-      bool? loading,
-      Options? options,
-      dynamic tag,
-      CancelToken? cancelToken,
-      Duration receiveTimeout = const Duration(seconds: 40),
-      Duration sendTimeout = const Duration(seconds: 40)}) async {
+  Future<BaseModel> upload<T>(
+    String path,
+    Object? data, {
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    bool? loading,
+    Options? options,
+    dynamic tag,
+    CancelToken? cancelToken,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.post<T>(path,
         data: baseDioOptions.extraData?.call(path, data) ?? data,
-        options: (_mergeOptions(options, path) ?? Options())
-            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
+        options: _mergeOptions(options, path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress);
@@ -557,27 +552,27 @@ class BaseDio {
 
   /// 文件下载
   /// File download
-  Future<BaseModel> download(String path, String savePath,
-      {bool? loading,
-      dynamic tag,
-      Options? options,
-      ProgressCallback? onReceiveProgress,
-      CancelToken? cancelToken,
-      Object? data,
-      bool dataToJson = true,
-      Map<String, dynamic>? params,
-      bool deleteOnError = true,
-      String lengthHeader = Headers.contentLengthHeader,
-      Duration receiveTimeout = const Duration(seconds: 40),
-      Duration sendTimeout = const Duration(seconds: 40)}) async {
+  Future<BaseModel> download(
+    String path,
+    String savePath, {
+    bool? loading,
+    dynamic tag,
+    Options? options,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    Object? data,
+    bool dataToJson = true,
+    Map<String, dynamic>? params,
+    bool deleteOnError = true,
+    String lengthHeader = Headers.contentLengthHeader,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = baseDioOptions.extraData?.call(path, data) ?? data;
     final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: (_mergeOptions(options, path) ?? Options())
-            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
+        options: _mergeOptions(options, path),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,
@@ -587,19 +582,20 @@ class BaseDio {
 
   /// 文件下载
   /// File download
-  Future<BaseModel> downloadUri(Uri uri, String savePath,
-      {bool? loading,
-      dynamic tag,
-      Options? options,
-      ProgressCallback? onReceiveProgress,
-      CancelToken? cancelToken,
-      Object? data,
-      bool dataToJson = true,
-      Map<String, dynamic>? params,
-      bool deleteOnError = true,
-      String lengthHeader = Headers.contentLengthHeader,
-      Duration receiveTimeout = const Duration(seconds: 40),
-      Duration sendTimeout = const Duration(seconds: 40)}) async {
+  Future<BaseModel> downloadUri(
+    Uri uri,
+    String savePath, {
+    bool? loading,
+    dynamic tag,
+    Options? options,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+    Object? data,
+    bool dataToJson = true,
+    Map<String, dynamic>? params,
+    bool deleteOnError = true,
+    String lengthHeader = Headers.contentLengthHeader,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
@@ -607,8 +603,7 @@ class BaseDio {
     uri = baseDioOptions.extraUri?.call(uri) ?? uri;
     final res = await dio.downloadUri(uri, savePath,
         onReceiveProgress: onReceiveProgress,
-        options: (_mergeOptions(options, uri.path) ?? Options())
-            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
+        options: _mergeOptions(options, uri.path),
         data: dataToJson ? jsonEncode(data) : data,
         deleteOnError: deleteOnError,
         lengthHeader: lengthHeader,

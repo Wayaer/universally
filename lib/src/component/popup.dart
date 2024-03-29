@@ -201,8 +201,8 @@ class AlertOnlyMessage extends StatelessWidget {
   final Widget? title;
 
   @override
-  Widget build(BuildContext context) => ModalWindows(
-      options: ModalWindowsOptions(onModalTap: () {}),
+  Widget build(BuildContext context) => ModalBox(
+      options: ModalBoxOptions(onModalTap: () {}),
       child: CupertinoAlertDialog(
           title: title ?? _Title(text: titleText ?? '提示'),
           content: content ??
@@ -221,7 +221,7 @@ Future<bool?> showDoubleChooseAlert({
   Widget? center,
 
   /// 底层modal配置
-  ModalWindowsOptions? options,
+  ModalBoxOptions? options,
   DialogOptions? dialogOptions,
 }) async {
   final content = Universal(

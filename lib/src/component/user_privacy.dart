@@ -32,7 +32,7 @@ class UserPrivacyAlert extends StatelessWidget {
   final GestureTapCallback? onUserAgreementTap;
   final GestureTapCallback? onPrivacyPolicyTap;
   final GestureTapCallback? onConsentTap;
-  final ModalWindowsOptions? options;
+  final ModalBoxOptions? options;
 
   final Color? textColor;
   final Color? highlightColor;
@@ -45,8 +45,8 @@ class UserPrivacyAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DoubleChooseWindows(
         options: FlExtended()
-            .modalWindowsOptions
-            .copyWith(backgroundColor: UCS.black50, addMaterial: true)
+            .modalOptions
+            .copyWith(backgroundColor: UCS.black50)
             .merge(options),
         decoration: BoxDecoration(
             color: UCS.white, borderRadius: BorderRadius.circular(8)),

@@ -24,15 +24,15 @@ class ConnectivityPlus {
 
   StreamSubscription<List<ConnectivityResult>>? _subscription;
 
-  List<ConnectivityResult> _currentStatus = [];
+  List<ConnectivityResult> _currentResult = [];
 
   /// 当前网络状态
-  List<ConnectivityResult> get current => _currentStatus;
+  List<ConnectivityResult> get current => _currentResult;
 
   /// 网络是否可用
   bool get networkAvailability {
     bool availability = false;
-    for (var element in _currentStatus) {
+    for (var element in _currentResult) {
       if (element != ConnectivityResult.none) {
         availability = true;
         continue;
@@ -58,9 +58,9 @@ class ConnectivityPlus {
     await checkConnectivity();
     _subscription = connectivity.onConnectivityChanged
         .listen((List<ConnectivityResult> connectivityResult) async {
-      if (_currentStatus.toString() == connectivityResult.toString()) return;
-      _currentStatus = connectivityResult;
-      'Connectivity 网络状态变化 $_currentStatus'.log(crossLine: false);
+      if (_currentResult.toString() == connectivityResult.toString()) return;
+      _currentResult = connectivityResult;
+      'Connectivity 网络状态变化 $_currentResult'.log(crossLine: false);
       _callListenerList();
     });
   }
@@ -68,15 +68,15 @@ class ConnectivityPlus {
   /// 重新检查是否链接网络
   Future<void> checkConnectivity() async {
     final connectivityResult = await connectivity.checkConnectivity();
-    if (_currentStatus == connectivityResult) return;
-    _currentStatus = connectivityResult;
-    'Connectivity Status $_currentStatus'.log(crossLine: false);
+    if (_currentResult.toString() == connectivityResult.toString()) return;
+    _currentResult = connectivityResult;
+    'Connectivity result $_currentResult'.log(crossLine: false);
     _callListenerList();
   }
 
   Future<void> _callListenerList() async {
     for (var element in _listenerList) {
-      final value = await element.call(networkAvailability, _currentStatus);
+      final value = await element.call(networkAvailability, _currentResult);
       if (!value) break;
     }
   }
@@ -102,7 +102,7 @@ class ConnectivityPlus {
       UnavailableNetworkAlertBuilder alertUnavailableNetwork) async {
     if (!networkAvailability) {
       _connectivityOverlay ??=
-          alertUnavailableNetwork(networkAvailability, _currentStatus);
+          alertUnavailableNetwork(networkAvailability, _currentResult);
     } else {
       _connectivityOverlay?.removeEntry();
       _connectivityOverlay = null;

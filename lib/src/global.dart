@@ -25,7 +25,7 @@ class UConfig {
         ignoring: true),
     this.generalDialogOptions,
     this.bottomSheetOptions,
-    this.modalWindowsOptions,
+    this.modalOptions,
     this.logCrossLine = true,
     this.isCloseOverlay,
     this.wheelOptions,
@@ -82,7 +82,7 @@ class UConfig {
   ToastOptions toastOptions;
 
   /// 全局 [ModalWindows] 组件配置信息
-  ModalWindowsOptions? modalWindowsOptions;
+  ModalBoxOptions? modalOptions;
 
   /// 全局 [BottomSheetOptions] 配置信息
   BottomSheetOptions? bottomSheetOptions;
@@ -191,9 +191,9 @@ class Universally {
     /// 设置全局log 是否显示 分割线
     FlExtended().logCrossLine = config.logCrossLine;
 
-    /// 设置全局 [ModalWindows] 组件配置信息
-    if (config.modalWindowsOptions != null) {
-      FlExtended().modalWindowsOptions = config.modalWindowsOptions!;
+    /// 设置全局 [ModalBox] 组件配置信息
+    if (config.modalOptions != null) {
+      FlExtended().modalOptions = config.modalOptions!;
     }
 
     /// 全局 [DialogOptions] 配置信息
@@ -215,7 +215,7 @@ class Universally {
     final loading = config.loadingBuilder?.call(const BaseLoading());
     FlExtended().loadingOptions = LoadingOptions(
             alignment: Alignment.center,
-            custom: loading,
+            builder: loading?.toLoadingBuilder,
             style: LoadingStyle.circular,
             absorbing: true)
         .merge(config.loadingOptions);
