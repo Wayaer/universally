@@ -34,7 +34,7 @@ class BaseStreamBuilder<T> extends CustomStreamBuilder<T> {
     super.didUpdateWidget,
     super.deactivate,
     super.dispose,
-    CustomBuilderContext? onNone,
+    ValueCallbackTV<Widget, BuildContext>? onNone,
   }) : super(
             onNone: onNone ?? (_) => const Center(child: BasePlaceholder()),
             onWaiting: (_) => const Center(child: BaseLoading()),

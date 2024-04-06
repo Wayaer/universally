@@ -341,16 +341,6 @@ class BaseScaffold extends StatelessWidget {
 
   Universal get universal => Universal(
       expand: true,
-      refreshConfig: refreshConfig ??
-          ((onRefresh != null || onLoading != null)
-              ? RefreshConfig(
-                  footer: Universally().config.pullUpFooter,
-                  header: Universally().config.pullDownHeader,
-                  onLoading:
-                      onLoading == null ? null : () async => onLoading!.call(),
-                  onRefresh:
-                      onRefresh == null ? null : () async => onRefresh!.call())
-              : null),
       margin: margin,
       systemOverlayStyle: systemOverlayStyle,
       useSingleChildScrollView: useSingleChildScrollView,
@@ -365,8 +355,23 @@ class BaseScaffold extends StatelessWidget {
       decoration: decoration,
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
-      children: children,
-      child: child);
+      children: refreshConfig != null ? null : children,
+      child: refreshConfig != null
+          ? RefreshScrollView(
+              refreshConfig: refreshConfig ??
+                  ((onRefresh != null || onLoading != null)
+                      ? RefreshConfig(
+                          footer: Universally().config.pullUpFooter,
+                          header: Universally().config.pullDownHeader,
+                          onLoading: onLoading == null
+                              ? null
+                              : () async => onLoading!.call(),
+                          onRefresh: onRefresh == null
+                              ? null
+                              : () async => onRefresh!.call())
+                      : null),
+              slivers: children?.builder((item) => item.toSliverBox) ?? [])
+          : child);
 }
 
 class MainBottomBar extends StatelessWidget {

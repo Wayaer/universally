@@ -208,7 +208,7 @@ class Universally {
 
     /// 全局 [WheelOptions] 配置信息
     if (config.wheelOptions != null) {
-      FlExtended().wheelOptions = config.wheelOptions!;
+      FlListWheel.wheelOptions = config.wheelOptions!;
     }
 
     /// 全局 [LoadingOptions] 配置信息
