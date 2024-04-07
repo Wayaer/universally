@@ -184,10 +184,6 @@ class Universally {
       _baseApi = config.releaseApi;
     }
 
-    /// list wheel
-    FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
-    FlListWheel.pop = (dynamic value) => pop(value);
-
     /// 设置toast
     /// Set the toast
     FlExtended().toastOptions = config.toastOptions;
@@ -227,5 +223,9 @@ class Universally {
     /// 设置页面转场样式
     /// Set the page transition style
     FlExtended().pushStyle = config.pushStyle;
+
+    /// list wheel
+    FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
+    FlListWheel.pop = (dynamic value) => pop(value);
   }
 }
