@@ -18,7 +18,7 @@ class UConfig {
     this.pullUpFooter,
     this.cachePath,
     this.placeholder = const BasePlaceholder(),
-    this.toastOptions = const ToastOptions(
+    this.toastOptions = const ToastOptions.extended(
         alignment: Alignment.center,
         animationStyle: FlAnimationStyle.verticalHunting,
         duration: Duration(seconds: 2),
@@ -183,6 +183,10 @@ class Universally {
       isBeta = false;
       _baseApi = config.releaseApi;
     }
+
+    /// list wheel
+    FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
+    FlListWheel.pop = (dynamic value) => pop(value);
 
     /// 设置toast
     /// Set the toast
