@@ -22,7 +22,7 @@ dependencies:
   extended_image_library: ^4.0.4
   window_manager: ^0.3.8
   flutter_curiosity: ^6.1.0
-  flutter_waya: ^9.5.0
+  flutter_waya: ^9.5.1
   fl_extended: ^1.0.0
   fl_list_wheel: ^0.0.1
   fl_scroll_view: ^0.0.1
