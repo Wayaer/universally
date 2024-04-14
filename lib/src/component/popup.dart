@@ -57,73 +57,6 @@ class AlertMessage extends StatelessWidget {
           ]));
 }
 
-extension ExtensionAlertConfirmCancel on AlertConfirmCancel {
-  Future<T?> show<T>({DialogOptions? options}) => popupCupertinoDialog<T>(
-      options: const DialogOptions(barrierLabel: '').merge(options));
-}
-
-/// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
-/// Pop up the button with OK and cancel click OK or cancel to automatically close
-class AlertConfirmCancel extends StatelessWidget {
-  const AlertConfirmCancel({
-    super.key,
-    this.text,
-    this.contentText,
-    this.confirmTap,
-    this.cancelTap,
-    this.cancel,
-    this.confirm,
-    this.title,
-    this.content,
-    this.autoClose = true,
-    this.confirmText,
-    this.cancelText,
-    this.titleText,
-  });
-
-  final String? text;
-  final String? confirmText;
-  final String? cancelText;
-  final String? titleText;
-  final Widget? contentText;
-  final Widget? title;
-  final Widget? content;
-  final GestureTapCallback? confirmTap;
-  final GestureTapCallback? cancelTap;
-  final Widget? cancel;
-  final Widget? confirm;
-
-  /// 是否自动关闭 默认为true
-  /// Auto disable The default value is true
-  final bool autoClose;
-
-  @override
-  Widget build(BuildContext context) => CupertinoAlertDialog(
-          title: title ?? _Title(text: titleText ?? '提示'),
-          content: content ??
-              Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  constraints: const BoxConstraints(maxHeight: 100),
-                  child: contentText ?? TextNormal(text ?? '', maxLines: 5)),
-          actions: [
-            Universal(
-                height: 45,
-                onTap: () {
-                  if (autoClose) pop();
-                  if (cancelTap != null) cancelTap!();
-                },
-                alignment: Alignment.center,
-                child: cancel ?? TextNormal(cancelText ?? '取消')),
-            Universal(
-                height: 45,
-                alignment: Alignment.center,
-                onTap: () {
-                  if (autoClose) pop();
-                  if (confirmTap != null) confirmTap!();
-                },
-                child: confirm ?? TextNormal(confirmText ?? '确定'))
-          ]);
-}
 
 extension ExtensionAlertCountSelect on AlertCountSelect {
   Future<T?> show<T>({BottomSheetOptions? options}) => popupBottomSheet<T>(
@@ -210,57 +143,6 @@ class AlertOnlyMessage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   constraints: const BoxConstraints(maxHeight: 100),
                   child: contentText ?? TextNormal(text ?? '', maxLines: 5))));
-}
-
-Future<bool?> showDoubleChooseAlert({
-  required String title,
-  required String left,
-  required String right,
-  GestureTapCallback? rightTap,
-  GestureTapCallback? leftTap,
-  Widget? center,
-
-  /// 底层modal配置
-  ModalBoxOptions? options,
-  DialogOptions? dialogOptions,
-}) async {
-  final content = Universal(
-      constraints: const BoxConstraints(minHeight: 60),
-      padding: const EdgeInsets.all(20),
-      children: [
-        TextLarge(title, maxLines: 10),
-        const SizedBox(height: 30),
-        if (center != null) center.marginOnly(bottom: 15)
-      ]);
-  final value = await DoubleChooseWindows(
-          content: content,
-          left: Universal(
-              height: 40,
-              decoration: const BoxDecoration(
-                  border: Border(
-                top: BorderSide(color: UCS.lineColor, width: 1),
-                right: BorderSide(color: UCS.lineColor, width: 0.5),
-              )),
-              alignment: Alignment.center,
-              onTap: leftTap ?? pop,
-              child: TextNormal(left, fontWeight: FontWeights.semiBold)),
-          right: Universal(
-              height: 40,
-              onTap: rightTap,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  border: Border(
-                top: BorderSide(color: UCS.lineColor, width: 1),
-                left: BorderSide(color: UCS.lineColor, width: 0.5),
-              )),
-              child: TextNormal(right,
-                  color: Universally().mainColor,
-                  fontWeight: FontWeights.semiBold)),
-          options: options,
-          decoration: BoxDecoration(
-              color: UCS.white, borderRadius: BorderRadius.circular(6)))
-      .show(options: dialogOptions);
-  return value ?? false;
 }
 
 /// showBottomPopup 移除背景色 关闭滑动手势

@@ -30,6 +30,7 @@ class BaseScaffold extends StatelessWidget {
     this.padding,
     this.decoration,
     this.useSingleChildScrollView = true,
+    this.useListView = false,
     this.margin,
     this.refreshConfig,
 
@@ -160,6 +161,7 @@ class BaseScaffold extends StatelessWidget {
   final RefreshConfig? refreshConfig;
 
   final bool useSingleChildScrollView;
+  final bool useListView;
 
   /// 在不设置AppBar的时候 修改状态栏颜色
   final SystemUiOverlayStyle? systemOverlayStyle;
@@ -344,6 +346,7 @@ class BaseScaffold extends StatelessWidget {
       margin: margin,
       systemOverlayStyle: systemOverlayStyle,
       useSingleChildScrollView: useSingleChildScrollView,
+      useListView: useListView,
       padding: padding,
       isScroll: isScroll,
       safeLeft: safeLeft,

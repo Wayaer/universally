@@ -1,7 +1,8 @@
-import 'package:app/page/alert_page.dart';
+import 'package:app/page/overlay_page.dart';
 import 'package:app/page/base_list_page.dart';
 import 'package:app/page/changed_builder_page.dart';
 import 'package:app/page/component_page.dart';
+import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/spin_kit_page.dart';
@@ -38,7 +39,7 @@ Future<void> main() async {
             extraLarge: const TStyle(color: Colors.purpleAccent),
             style: const TStyle(color: Colors.greenAccent),
           ),
-          toastOptions: const ToastOptions(
+          toastOptions: const ToastOptions.extended(
               alignment: Alignment.center,
               animationStyle: FlAnimationStyle.fade,
               ignoring: false)),
@@ -127,7 +128,8 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
-          Button(onTap: () => push(const AlertPage()), text: 'Alert'),
+          Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
+          Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
           Button(
               onTap: () => push(const ChangedBuilderWidgetPage()),
               text: 'ChangedBuilder'),
@@ -225,7 +227,8 @@ class Button extends Universal {
       : super(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: ElevatedButton(
-                onPressed: onTap, child: child ?? Text(text ?? '')));
+                onPressed: onTap,
+                child: child ?? Text(text ?? '', textAlign: TextAlign.center)));
 }
 
 class Partition extends StatelessWidget {

@@ -42,6 +42,7 @@ export 'src/component/gif.dart';
 export 'src/component/list.dart';
 export 'src/component/picker.dart';
 export 'src/component/popup.dart';
+export 'src/component/dialog.dart';
 export 'src/component/scaffold.dart';
 export 'src/component/text.dart';
 export 'src/component/text_field.dart';
