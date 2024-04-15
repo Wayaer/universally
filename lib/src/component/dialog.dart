@@ -121,7 +121,8 @@ class ConfirmActionDialog extends StatelessWidget {
         if (autoClose) pop();
         if (onConfirmTap != null) onConfirmTap!();
       },
-      child: confirm ?? TextNormal(confirmText));
+      child:
+          confirm ?? TextNormal(confirmText, color: Universally().mainColor));
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
