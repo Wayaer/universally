@@ -43,7 +43,7 @@ class UserPrivacyAlert extends StatelessWidget {
   final Widget? content;
 
   @override
-  Widget build(BuildContext context) => ConfirmAndCancelActionDialog(
+  Widget build(BuildContext context) => ConfirmCancelActionDialog(
           options: FlExtended().modalOptions.merge(options),
           hasDivider: false,
           title: TextLarge(title),

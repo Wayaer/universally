@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 8.1.1
+version: 8.2.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -23,8 +23,7 @@ dependencies:
   window_manager: ^0.3.8
   flutter_curiosity: ^6.1.0
   flutter_waya: ^9.5.2
-  fl_extended:
-    path: ../fl_extended
+  fl_extended: ^1.1.1
   fl_list_wheel: ^0.0.1
   fl_scroll_view: ^0.0.1
   fl_dio: ^1.0.0

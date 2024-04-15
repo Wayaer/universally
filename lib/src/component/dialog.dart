@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-extension ExtensionConfirmAndCancelActionDialog
-    on ConfirmAndCancelActionDialog {
+extension ExtensionConfirmActionDialog on ConfirmActionDialog {
   Future<T?> bottomSheet<T>({BottomSheetOptions? options}) =>
       popupBottomSheet<T>(
           options: const BottomSheetOptions(backgroundColor: Colors.transparent)
@@ -13,54 +12,45 @@ extension ExtensionConfirmAndCancelActionDialog
       options: const DialogOptions(barrierLabel: '').merge(options));
 }
 
-/// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
-/// Pop up the button with OK and cancel click OK or cancel to automatically close
-class ConfirmAndCancelActionDialog extends StatelessWidget {
-  const ConfirmAndCancelActionDialog({
+/// 弹出带确定的按钮 点击确定自动关闭
+/// Pop up the button with "OK" and click "OK" to automatically close
+class ConfirmActionDialog extends StatelessWidget {
+  const ConfirmActionDialog({
     super.key,
     this.confirm,
     this.confirmText = '确定',
     this.onConfirmTap,
-    this.cancel,
-    this.cancelText = '取消',
-    this.onCancelTap,
     this.contentText,
     this.content,
     this.titleText,
     this.title,
-    this.autoClose = true,
+    this.autoClose = false,
     this.hasDivider = true,
     this.options,
     this.actions,
-  }) : _isCupertino = false;
+    this.resizeToAvoidBottomInset = true,
+  }) : isCupertino = false;
 
-  const ConfirmAndCancelActionDialog.cupertino({
+  const ConfirmActionDialog.cupertino({
     super.key,
     this.confirm,
     this.confirmText = '确定',
     this.onConfirmTap,
-    this.cancel,
-    this.cancelText = '取消',
-    this.onCancelTap,
     this.contentText,
     this.content,
     this.titleText,
     this.title,
-    this.autoClose = true,
+    this.autoClose = false,
     this.actions,
-  })  : options = null,
-        hasDivider = false,
-        _isCupertino = true;
+  })  : hasDivider = false,
+        options = null,
+        resizeToAvoidBottomInset = true,
+        isCupertino = true;
 
   /// confirm
   final String? confirmText;
   final GestureTapCallback? onConfirmTap;
   final Widget? confirm;
-
-  /// cancel
-  final String? cancelText;
-  final Widget? cancel;
-  final GestureTapCallback? onCancelTap;
 
   /// title
   final String? titleText;
@@ -80,14 +70,24 @@ class ConfirmAndCancelActionDialog extends StatelessWidget {
   /// actions
   final List<Widget>? actions;
 
-  final bool _isCupertino;
-
   /// 是否显示线
   final bool hasDivider;
 
+  /// use cupertino style
+  final bool isCupertino;
+
+  /// resize ToAvoid Bottom Inset
+  final bool resizeToAvoidBottomInset;
+
+  Widget get buildContent => Universal(
+      margin: isCupertino
+          ? const EdgeInsets.only(top: 10)
+          : const EdgeInsets.fromLTRB(16, 2, 16, 20),
+      child: content ?? TextNormal(contentText, maxLines: 0));
+
   @override
   Widget build(BuildContext context) =>
-      _isCupertino ? buildCupertinoActionDialog : buildActionDialog;
+      isCupertino ? buildCupertinoActionDialog : buildActionDialog;
 
   Widget get buildActionDialog => ActionDialog(
       title: title != null || titleText != null
@@ -101,38 +101,181 @@ class ConfirmAndCancelActionDialog extends StatelessWidget {
       dividerThickness: 1,
       actions: buildActions,
       options: FlExtended().modalOptions.merge(options).copyWith(
-          borderRadius: BorderRadius.circular(6), foregroundColor: UCS.white),
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          borderRadius: BorderRadius.circular(6),
+          foregroundColor: UCS.white),
       actionsMaxHeight: 40);
-
-  Widget get buildContent => Container(
-      padding: const EdgeInsets.all(10),
-      child: content ?? TextNormal(contentText, maxLines: 0));
 
   Widget get buildCupertinoActionDialog => CupertinoAlertDialog(
       title: title ?? TextLarge(titleText, maxLines: 10),
       content: buildContent,
       actions: buildActions);
 
+  List<Widget> get buildActions => actions ?? [buildConfirm];
+
+  Widget get buildConfirm => Universal(
+      height: 40,
+      expanded: !isCupertino,
+      alignment: Alignment.center,
+      onTap: () {
+        if (autoClose) pop();
+        if (onConfirmTap != null) onConfirmTap!();
+      },
+      child: confirm ?? TextNormal(confirmText));
+}
+
+/// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
+/// Pop up the button with OK and cancel click OK or cancel to automatically close
+class ConfirmCancelActionDialog extends ConfirmActionDialog {
+  const ConfirmCancelActionDialog({
+    super.key,
+    this.cancel,
+    this.cancelText = '取消',
+    this.onCancelTap,
+    super.confirm,
+    super.confirmText = '确定',
+    super.onConfirmTap,
+    super.contentText,
+    super.content,
+    super.titleText,
+    super.title,
+    super.autoClose = true,
+    super.hasDivider = true,
+    super.options,
+    super.actions,
+    super.resizeToAvoidBottomInset,
+  });
+
+  const ConfirmCancelActionDialog.cupertino({
+    super.key,
+    this.cancel,
+    this.cancelText = '取消',
+    this.onCancelTap,
+    super.confirm,
+    super.confirmText = '确定',
+    super.onConfirmTap,
+    super.contentText,
+    super.content,
+    super.titleText,
+    super.title,
+    super.autoClose = true,
+    super.actions,
+  }) : super.cupertino();
+
+  /// cancel
+  final String? cancelText;
+  final Widget? cancel;
+  final GestureTapCallback? onCancelTap;
+
+  @override
   List<Widget> get buildActions =>
       actions ??
       [
         Universal(
             height: 40,
-            expanded: !_isCupertino,
+            expanded: !isCupertino,
             onTap: () {
               if (autoClose) pop();
               if (onCancelTap != null) onCancelTap!();
             },
             alignment: Alignment.center,
             child: cancel ?? TextNormal(cancelText)),
-        Universal(
-            height: 40,
-            expanded: !_isCupertino,
-            alignment: Alignment.center,
-            onTap: () {
-              if (autoClose) pop();
-              if (onConfirmTap != null) onConfirmTap!();
-            },
-            child: confirm ?? TextNormal(confirmText))
+        buildConfirm,
       ];
+}
+
+extension ExtensionTextFieldDialog on TextFieldDialog {
+  Future<dynamic> show() => popupDialog();
+}
+
+/// 弹出输入框组件  确定 和 取消
+class TextFieldDialog extends StatelessWidget {
+  TextFieldDialog({
+    super.key,
+    this.onConfirmTap,
+    this.titleText = '内容',
+    this.confirmText = '确定',
+    this.cancelText = '取消',
+    this.hintText = '请输入内容',
+    this.onCancelTap,
+    this.maxLength = 30,
+    this.textInputType = TextInputLimitFormatter.text,
+    this.value,
+    this.resizeToAvoidBottomInset = true,
+  }) : isCupertino = false;
+
+  TextFieldDialog.cupertino({
+    super.key,
+    this.onConfirmTap,
+    this.titleText = '内容',
+    this.confirmText = '确定',
+    this.cancelText = '取消',
+    this.hintText = '请输入内容',
+    this.onCancelTap,
+    this.maxLength = 30,
+    this.textInputType = TextInputLimitFormatter.text,
+    this.value,
+  })  : isCupertino = true,
+        resizeToAvoidBottomInset = true;
+
+  /// use cupertino style
+  final bool isCupertino;
+  final ValueCallback<String>? onConfirmTap;
+  final GestureTapCallback? onCancelTap;
+
+  /// resize ToAvoid Bottom Inset
+  final bool resizeToAvoidBottomInset;
+
+  final TextEditingController controller = TextEditingController();
+  final String titleText;
+  final String confirmText;
+  final String cancelText;
+  final String hintText;
+  final String? value;
+  final int maxLength;
+  final TextInputLimitFormatter textInputType;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isCupertino) {
+      return ConfirmCancelActionDialog.cupertino(
+          onConfirmTap: checkInput,
+          autoClose: false,
+          onCancelTap: onCancelTap ?? pop,
+          title: TextLarge(titleText),
+          confirmText: confirmText,
+          cancelText: cancelText,
+          content: buildTextField);
+    }
+    return ConfirmCancelActionDialog(
+        onConfirmTap: checkInput,
+        autoClose: false,
+        onCancelTap: onCancelTap ?? pop,
+        title: TextLarge(titleText),
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        confirmText: confirmText,
+        cancelText: cancelText,
+        content: buildTextField);
+  }
+
+  Widget get buildTextField => BaseTextField(
+      textInputType: textInputType,
+      value: value,
+      hintText: hintText,
+      borderType: BorderType.outline,
+      borderRadius: BorderRadius.circular(2),
+      controller: controller,
+      borderSide: const BorderSide(color: UCS.background),
+      width: double.infinity,
+      hasFocusChangeBorder: false,
+      maxLength: maxLength,
+      autoFocus: true);
+
+  void checkInput() {
+    if (controller.text.isEmpty) {
+      showToast(hintText);
+      return;
+    }
+    if (onConfirmTap != null) onConfirmTap!(controller.text);
+  }
 }

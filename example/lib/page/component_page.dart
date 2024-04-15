@@ -1,4 +1,3 @@
-import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -12,18 +11,6 @@ class ComponentPage extends StatelessWidget {
         isScroll: true,
         children: [
           UserPrivacyCheckbox(value: false),
-          10.heightBox,
-          Button(
-              text: 'showUserPrivacyAlert',
-              onTap: () {
-                BasePreferences().setBool(UConst.privacy, false);
-                UserPrivacyAlert(
-                        name: 'Universally',
-                        onUserAgreementTap: () {},
-                        onPrivacyPolicyTap: () {},
-                        onConsentTap: () {})
-                    .show();
-              }),
           10.heightBox,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             TextNormal('消息推送'),

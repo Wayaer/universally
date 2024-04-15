@@ -30,7 +30,6 @@ class UConfig {
     this.isCloseOverlay,
     this.wheelOptions,
     this.loadingOptions,
-    this.loadingBuilder,
     this.imageFailed,
     this.textStyle,
     this.textField,
@@ -105,7 +104,6 @@ class UConfig {
 
   /// loading 样式
   LoadingOptions? loadingOptions;
-  LoadingCoreBuilder? loadingBuilder;
 
   /// [BaseImage] 加载失败时显示的组件
   Widget? imageFailed;
@@ -212,12 +210,8 @@ class Universally {
     }
 
     /// 全局 [LoadingOptions] 配置信息
-    final loading = config.loadingBuilder?.call(const BaseLoading());
-    FlExtended().loadingOptions = LoadingOptions(
-            alignment: Alignment.center,
-            builder: loading?.toLoadingBuilder,
-            style: LoadingStyle.circular,
-            absorbing: true)
+    FlExtended().loadingOptions = const LoadingOptions(
+            style: LoadingStyle.circular, elevation: 2, absorbing: true)
         .merge(config.loadingOptions);
 
     /// 设置页面转场样式

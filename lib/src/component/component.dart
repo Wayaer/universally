@@ -74,6 +74,33 @@ class BasePlaceholder extends StatelessWidget {
           label: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
+/// loading
+class BaseLoading extends StatelessWidget {
+  const BaseLoading(
+      {super.key,
+      this.size = 50,
+      this.style = SpinKitStyle.fadingCircle,
+      this.color,
+      this.itemBuilder,
+      this.duration = const Duration(milliseconds: 1200),
+      this.controller});
+
+  final SpinKitStyle style;
+  final Color? color;
+  final double size;
+  final IndexedWidgetBuilder? itemBuilder;
+  final Duration duration;
+  final AnimationController? controller;
+
+  @override
+  Widget build(BuildContext context) => SpinKit(style,
+      size: size,
+      itemBuilder: itemBuilder,
+      controller: controller,
+      duration: duration,
+      color: color ?? Universally().mainColor);
+}
+
 class UButton extends Universal {
   UButton({
     super.key,

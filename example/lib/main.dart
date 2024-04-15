@@ -21,26 +21,31 @@ Future<void> main() async {
       UConfig(
           isCloseOverlay: false,
           mainColor: Colors.purple.shade900,
-          loadingOptions: const LoadingOptions(
-              onLoadingTap: closeLoading, onModalTap: closeLoading),
-          loadingBuilder: (BaseLoading loading) => Container(
-              width: loading.size * 2,
-              height: loading.size * 2,
-              decoration: BoxDecoration(
-                  color: UCS.black, borderRadius: BorderRadius.circular(10)),
-              child: const BaseLoading(
-                  color: Colors.white, style: SpinKitStyle.fadingCircle)),
+          loadingOptions: LoadingOptions(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              backgroundColor: UCS.black.withOpacity(0.1),
+              foregroundColor: UCS.black.withOpacity(0.8),
+              padding: const EdgeInsets.all(20),
+              builder: const SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: BaseLoading(
+                          color: Colors.white,
+                          style: SpinKitStyle.fadingCircle))
+                  .toLoadingBuilder,
+              onLoadingTap: closeLoading,
+              onModalTap: closeLoading),
           betaApi: '这是设置测试Api',
           releaseApi: '这里设置发布版Api',
           textStyle: TextThemeStyle(
-            small: const TStyle(color: Colors.red),
-            normal: const TStyle(color: Colors.blue),
-            large: const TStyle(color: Colors.yellow),
-            extraLarge: const TStyle(color: Colors.purpleAccent),
-            style: const TStyle(color: Colors.greenAccent),
-          ),
-          toastOptions: const ToastOptions.extended(
-              alignment: Alignment.center,
+              small: const TStyle(color: Colors.red),
+              normal: const TStyle(color: Colors.blue),
+              large: const TStyle(color: Colors.yellow),
+              extraLarge: const TStyle(color: Colors.purpleAccent),
+              style: const TStyle(color: Colors.greenAccent)),
+          toastOptions: ToastOptions.extended(
+              elevation: 2,
+              foregroundColor: UCS.black.withOpacity(0.8),
               animationStyle: FlAnimationStyle.fade,
               ignoring: false)),
       windowOptions: WindowOptions(
@@ -103,9 +108,6 @@ class _App extends StatelessWidget {
               }
               return true;
             });
-            ConnectivityPlus().subscription(
-                alertUnavailableNetwork: (status, result) =>
-                    alertOnlyMessage('Network Unavailable'));
           }),
     );
   }

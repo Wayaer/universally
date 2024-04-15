@@ -14,7 +14,7 @@ class DialogPage extends StatelessWidget {
         children: [
           Button(
               onTap: () {
-                const ConfirmAndCancelActionDialog(
+                const ConfirmCancelActionDialog(
                         titleText: 'Title',
                         contentText: 'Content',
                         cancelText: 'Cancel',
@@ -22,10 +22,10 @@ class DialogPage extends StatelessWidget {
                         onConfirmTap: pop)
                     .show();
               },
-              text: 'ConfirmAndCancelActionDialog'),
+              text: 'ConfirmCancelActionDialog'),
           Button(
               onTap: () {
-                const ConfirmAndCancelActionDialog.cupertino(
+                const ConfirmCancelActionDialog.cupertino(
                         titleText: 'Title',
                         contentText: 'Content',
                         cancelText: 'Cancel',
@@ -33,7 +33,72 @@ class DialogPage extends StatelessWidget {
                         onConfirmTap: pop)
                     .show();
               },
-              text: 'ConfirmAndCancelActionDialog.cupertino'),
+              text: 'ConfirmCancelActionDialog.cupertino'),
+          Button(
+              onTap: () {
+                const ConfirmActionDialog(
+                        titleText: 'Title',
+                        contentText: 'Content',
+                        confirmText: 'Confirm',
+                        onConfirmTap: pop)
+                    .show();
+              },
+              text: 'ConfirmActionDialog'),
+          Button(
+              onTap: () {
+                const ConfirmActionDialog.cupertino(
+                        titleText: 'Title',
+                        contentText: 'Content',
+                        confirmText: 'Confirm',
+                        onConfirmTap: pop)
+                    .show();
+              },
+              text: 'ConfirmActionDialog.cupertino'),
+          Button(
+              onTap: () {
+                TextFieldDialog(
+                        titleText: 'Title',
+                        hintText: 'HintText',
+                        confirmText: 'Confirm',
+                        cancelText: 'Cancel',
+                        onConfirmTap: pop)
+                    .show();
+              },
+              text: 'TextFieldDialog'),
+          Button(
+              onTap: () {
+                TextFieldDialog(
+                        titleText: 'Title',
+                        hintText: 'HintText',
+                        confirmText: 'Confirm',
+                        cancelText: 'Cancel',
+                        resizeToAvoidBottomInset: false,
+                        onConfirmTap: pop)
+                    .show();
+              },
+              text: 'TextFieldDialog resizeToAvoidBottomInset(false)'),
+          Button(
+              onTap: () {
+                TextFieldDialog.cupertino(
+                        titleText: 'Title',
+                        hintText: 'HintText',
+                        confirmText: 'Confirm',
+                        cancelText: 'Cancel',
+                        onConfirmTap: pop)
+                    .show();
+              },
+              text: 'TextFieldDialog.cupertino'),
+          Button(
+              text: 'showUserPrivacyAlert',
+              onTap: () {
+                BasePreferences().setBool(UConst.privacy, false);
+                UserPrivacyAlert(
+                        name: 'Universally',
+                        onUserAgreementTap: () {},
+                        onPrivacyPolicyTap: () {},
+                        onConsentTap: () {})
+                    .show();
+              }),
         ]);
   }
 }

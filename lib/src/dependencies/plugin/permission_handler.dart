@@ -15,7 +15,7 @@ Future<bool> getPermission(
     pop();
   }
   if (!(permissionStatus.isGranted || permissionStatus.isLimited)) {
-    final result = await ConfirmAndCancelActionDialog(
+    final result = await ConfirmCancelActionDialog(
         titleText: alert,
         autoClose: false,
         onConfirmTap: () {
@@ -47,7 +47,7 @@ Future<bool> getPermissions(List<Permission> permissions,
         .removeWhere((key, value) => value.isGranted || value.isLimited);
     pop();
     if (permissionsStatus.isNotEmpty) {
-      final result = await ConfirmAndCancelActionDialog(
+      final result = await ConfirmCancelActionDialog(
           contentText: alert,
           autoClose: false,
           onConfirmTap: () {
