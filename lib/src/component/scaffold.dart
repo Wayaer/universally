@@ -37,6 +37,9 @@ class BaseScaffold extends StatelessWidget {
     /// ****** [Refreshed] ****** ///
     this.onRefresh,
     this.onLoading,
+    this.clipBehavior,
+    this.scrollBehavior,
+    this.physics,
 
     /// ****** [PopScope] ****** ///
     this.onPopInvoked,
@@ -106,7 +109,7 @@ class BaseScaffold extends StatelessWidget {
     this.automaticallyImplyLeading = true,
     this.excludeHeaderSemantics = true,
     this.bottomOpacity = 1.0,
-    this.flexibleSpace,
+    this.appBarFlexibleSpace,
     this.notificationPredicate = defaultScrollNotificationPredicate,
     this.scrolledUnderElevation,
     this.shadowColor,
@@ -118,7 +121,6 @@ class BaseScaffold extends StatelessWidget {
     this.toolbarOpacity = 1.0,
     this.toolbarTextStyle,
     this.forceMaterialTransparency = false,
-    this.clipBehavior,
   });
 
   /// [body] > [child] > [children]
@@ -159,6 +161,8 @@ class BaseScaffold extends StatelessWidget {
 
   /// ****** 刷新组件相关 ******  ///
   final RefreshConfig? refreshConfig;
+  final ScrollBehavior? scrollBehavior;
+  final ScrollPhysics? physics;
 
   final bool useSingleChildScrollView;
   final bool useListView;
@@ -217,7 +221,7 @@ class BaseScaffold extends StatelessWidget {
   final bool automaticallyImplyLeading;
   final bool excludeHeaderSemantics;
   final double bottomOpacity;
-  final Widget? flexibleSpace;
+  final Widget? appBarFlexibleSpace;
   final ScrollNotificationPredicate notificationPredicate;
   final double? scrolledUnderElevation;
   final Color? shadowColor;
@@ -301,30 +305,30 @@ class BaseScaffold extends StatelessWidget {
             appBarTitle != null ||
             appBarBottom != null ||
             appBarActions != null ||
-            flexibleSpace != null ||
+            appBarFlexibleSpace != null ||
             appBarLeading != null
         ? AppBar(
             actions: appBarActions,
             bottom: appBarBottom,
             title: appBarTitle ??
                 (appBarTitleText == null ? null : Text(appBarTitleText!)),
-            elevation: elevation,
             leading: appBarLeading,
-            systemOverlayStyle: systemOverlayStyle,
-            backgroundColor: appBarBackgroundColor,
-            centerTitle: centerTitle,
             iconTheme: appBarIconTheme,
+            backgroundColor: appBarBackgroundColor,
+            primary: appBarPrimary,
+            foregroundColor: appBarForegroundColor,
+            flexibleSpace: appBarFlexibleSpace,
+            systemOverlayStyle: systemOverlayStyle,
+            elevation: elevation,
+            centerTitle: centerTitle,
             actionsIconTheme: actionsIconTheme,
             automaticallyImplyLeading: automaticallyImplyLeading,
             bottomOpacity: bottomOpacity,
             excludeHeaderSemantics: excludeHeaderSemantics,
-            flexibleSpace: flexibleSpace,
             leadingWidth: leadingWidth,
             notificationPredicate: notificationPredicate,
-            primary: appBarPrimary,
             scrolledUnderElevation: scrolledUnderElevation,
             shadowColor: shadowColor,
-            foregroundColor: appBarForegroundColor,
             shape: shape,
             surfaceTintColor: surfaceTintColor,
             titleSpacing: titleSpacing,
@@ -345,10 +349,11 @@ class BaseScaffold extends StatelessWidget {
       expand: true,
       margin: margin,
       systemOverlayStyle: systemOverlayStyle,
-      useSingleChildScrollView: useSingleChildScrollView,
-      useListView: useListView,
-      padding: padding,
-      isScroll: isScroll,
+      useSingleChildScrollView:
+          useSingleChildScrollView && refreshConfig == null,
+      useListView: useListView && refreshConfig == null,
+      padding: refreshConfig == null ? padding : null,
+      isScroll: isScroll && refreshConfig == null,
       safeLeft: safeLeft,
       safeTop: safeTop,
       safeRight: safeRight,
@@ -359,13 +364,17 @@ class BaseScaffold extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
       children: refreshConfig != null ? null : children,
+      physics: physics,
       child: refreshConfig != null
           ? RefreshScrollView(
+              padding: padding,
+              scrollDirection: direction,
+              physics: physics,
               refreshConfig: refreshConfig ??
                   ((onRefresh != null || onLoading != null)
                       ? RefreshConfig(
-                          footer: Universally().config.pullUpFooter,
-                          header: Universally().config.pullDownHeader,
+                          footer: Universally().config.pullUpFooter?.call(),
+                          header: Universally().config.pullDownHeader?.call(),
                           onLoading: onLoading == null
                               ? null
                               : () async => onLoading!.call(),

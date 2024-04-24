@@ -19,7 +19,6 @@ class UConfig {
     this.cachePath,
     this.placeholder = const BasePlaceholder(),
     this.toastOptions = const ToastOptions.extended(
-        alignment: Alignment.center,
         animationStyle: FlAnimationStyle.verticalHunting,
         duration: Duration(seconds: 2),
         ignoring: true),
@@ -34,24 +33,26 @@ class UConfig {
     this.textStyle,
     this.textField,
   }) {
-    pullDownHeader ??= const ClassicHeader(
-        dragText: '请尽情拉我',
-        armedText: '可以松开我了',
-        readyText: '我要开始刷新了',
-        processingText: '我在拼命刷新中',
-        processedText: '我已经刷新完成了',
-        failedText: '我刷新失败了唉',
-        noMoreText: '没有更多了',
-        showMessage: false);
-    pullUpFooter ??= const ClassicFooter(
-        dragText: '请尽情拉我',
-        armedText: '可以松开我了',
-        readyText: '我要准备加载了',
-        processingText: '我在拼命加载中',
-        processedText: '我已经加载完成了',
-        failedText: '我加载失败了唉',
-        noMoreText: '没有更多了哦',
-        showMessage: false);
+    pullDownHeader ??
+        () => const ClassicHeader(
+            dragText: '请尽情拉我',
+            armedText: '可以松开我了',
+            readyText: '我要开始刷新了',
+            processingText: '我在拼命刷新中',
+            processedText: '我已经刷新完成了',
+            failedText: '我刷新失败了唉',
+            noMoreText: '没有更多了',
+            showMessage: false);
+    pullUpFooter ??
+        () => const ClassicFooter(
+            dragText: '请尽情拉我',
+            armedText: '可以松开我了',
+            readyText: '我要准备加载了',
+            processingText: '我在拼命加载中',
+            processedText: '我已经加载完成了',
+            failedText: '我加载失败了唉',
+            noMoreText: '没有更多了哦',
+            showMessage: false);
   }
 
   /// alert 确认按钮颜色
@@ -67,12 +68,6 @@ class UConfig {
 
   /// 正式版 url
   String releaseApi;
-
-  /// 当前项目 全局使用的 刷新Header
-  Header? pullDownHeader;
-
-  /// 当前项目 全局使用的 刷新Footer
-  Footer? pullUpFooter;
 
   /// list 占位图
   Widget placeholder;
@@ -113,6 +108,12 @@ class UConfig {
 
   /// 全局设置 [BaseTextField] 部分配置
   TextFieldConfig? textField;
+
+  /// 当前项目 全局使用的 刷新Header
+  CallbackT<Header>? pullDownHeader;
+
+  /// 当前项目 全局使用的 刷新Footer
+  CallbackT<Footer>? pullUpFooter;
 }
 
 class Universally {
