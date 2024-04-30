@@ -297,8 +297,8 @@ class BaseText extends BText {
                 Universally().config.textStyle?.style, style)));
 }
 
-/// BaseTextStyle
-class TStyle extends BTextStyle {
+/// TStyle
+class TStyle extends TextStyle {
   /// 添加了基础颜色，不适合主题适配
   const TStyle({
     super.letterSpacing,
@@ -325,36 +325,6 @@ class TStyle extends BTextStyle {
     super.decorationStyle,
     super.decorationThickness,
     super.debugLabel,
-    super.leadingDistribution,
-    super.overflow,
-  });
-
-  /// 原始数据，不添加任何颜色
-  const TStyle.origin({
-    super.color,
-    super.fontSize = 14,
-    super.letterSpacing,
-    super.wordSpacing,
-    super.height,
-    super.fontFamily,
-    super.textBaseline = TextBaseline.ideographic,
-    super.fontWeight,
-    super.backgroundColor,
-    super.inherit = true,
-    super.fontFamilyFallback,
-    super.package,
-    super.locale,
-    super.fontStyle,
-    super.foreground,
-    super.background,
-    super.decoration = TextDecoration.none,
-    super.decorationColor,
-    super.decorationStyle,
-    super.decorationThickness,
-    super.debugLabel,
-    super.shadows,
-    super.fontFeatures,
-    super.fontVariations,
     super.leadingDistribution,
     super.overflow,
   });

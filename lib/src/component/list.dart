@@ -74,8 +74,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Universally().config.pullDownHeader?.call(),
-                        footer: Universally().config.pullUpFooter?.call(),
+                        header: Universally().pullDownHeader(),
+                        footer: Universally().pullUpFooter(),
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -145,8 +145,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Universally().config.pullDownHeader?.call(),
-                        footer: Universally().config.pullUpFooter?.call(),
+                        header: Universally().pullDownHeader(),
+                        footer: Universally().pullUpFooter(),
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -219,8 +219,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        header: Universally().config.pullDownHeader?.call(),
-                        footer: Universally().config.pullUpFooter?.call(),
+                        header: Universally().pullDownHeader(),
+                        footer: Universally().pullUpFooter(),
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),
@@ -258,8 +258,8 @@ class BaseList extends ScrollList {
                 ((onRefresh != null || onLoading != null)
                     ? RefreshConfig(
                         controller: refreshController,
-                        footer: Universally().config.pullUpFooter?.call(),
-                        header: Universally().config.pullDownHeader?.call(),
+                        footer: Universally().pullUpFooter(),
+                        header: Universally().pullDownHeader(),
                         onLoading: onLoading == null
                             ? null
                             : () async => onLoading.call(),

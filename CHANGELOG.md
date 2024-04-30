@@ -1,4 +1,4 @@
-## 8.2.0
+## 8.2.1
 
 * Update dependencies
 

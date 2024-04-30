@@ -14,8 +14,6 @@ class UConfig {
     this.betaApi = '',
     this.releaseApi = '',
     this.pushStyle = RoutePushStyle.material,
-    this.pullDownHeader,
-    this.pullUpFooter,
     this.cachePath,
     this.placeholder = const BasePlaceholder(),
     this.toastOptions = const ToastOptions.extended(
@@ -32,28 +30,7 @@ class UConfig {
     this.imageFailed,
     this.textStyle,
     this.textField,
-  }) {
-    pullDownHeader ??
-        () => const ClassicHeader(
-            dragText: '请尽情拉我',
-            armedText: '可以松开我了',
-            readyText: '我要开始刷新了',
-            processingText: '我在拼命刷新中',
-            processedText: '我已经刷新完成了',
-            failedText: '我刷新失败了唉',
-            noMoreText: '没有更多了',
-            showMessage: false);
-    pullUpFooter ??
-        () => const ClassicFooter(
-            dragText: '请尽情拉我',
-            armedText: '可以松开我了',
-            readyText: '我要准备加载了',
-            processingText: '我在拼命加载中',
-            processedText: '我已经加载完成了',
-            failedText: '我加载失败了唉',
-            noMoreText: '没有更多了哦',
-            showMessage: false);
-  }
+  });
 
   /// alert 确认按钮颜色
   /// [BaseLoading] loading 颜色
@@ -108,15 +85,11 @@ class UConfig {
 
   /// 全局设置 [BaseTextField] 部分配置
   TextFieldConfig? textField;
-
-  /// 当前项目 全局使用的 刷新Header
-  CallbackT<Header>? pullDownHeader;
-
-  /// 当前项目 全局使用的 刷新Footer
-  CallbackT<Footer>? pullUpFooter;
 }
 
 class Universally {
+  static Universally I = Universally();
+
   factory Universally() => _singleton ??= Universally._();
 
   Universally._();
@@ -223,4 +196,28 @@ class Universally {
     FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
     FlListWheel.pop = (dynamic value) => pop(value);
   }
+
+  /// 当前项目 全局使用的 刷新Header
+  CallbackT<Header> pullDownHeader = () => ClassicHeader(
+      dragText: '请尽情拉我',
+      armedText: '可以松开我了',
+      readyText: '我要开始刷新了',
+      processingText: '我在拼命刷新中',
+      processedText: '我已经刷新完成了',
+      failedText: '我刷新失败了唉',
+      noMoreText: '没有更多了',
+      showMessage: false,
+      textStyle: Universally().config.textStyle?.normal);
+
+  /// 当前项目 全局使用的 刷新Footer
+  CallbackT<Footer> pullUpFooter = () => ClassicFooter(
+      dragText: '请尽情拉我',
+      armedText: '可以松开我了',
+      readyText: '我要准备加载了',
+      processingText: '我在拼命加载中',
+      processedText: '我已经加载完成了',
+      failedText: '我加载失败了唉',
+      noMoreText: '没有更多了哦',
+      showMessage: false,
+      textStyle: Universally.I.config.textStyle?.normal);
 }

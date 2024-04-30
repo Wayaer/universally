@@ -373,8 +373,8 @@ class BaseScaffold extends StatelessWidget {
               refreshConfig: refreshConfig ??
                   ((onRefresh != null || onLoading != null)
                       ? RefreshConfig(
-                          footer: Universally().config.pullUpFooter?.call(),
-                          header: Universally().config.pullDownHeader?.call(),
+                          footer: Universally().pullUpFooter(),
+                          header: Universally().pullDownHeader(),
                           onLoading: onLoading == null
                               ? null
                               : () async => onLoading!.call(),
