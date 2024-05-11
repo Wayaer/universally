@@ -12,8 +12,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  json_annotation: ^4.8.1
   carousel_slider: ^4.2.1
   flutter_svg: ^2.0.10+1
   flutter_spinkit: ^5.2.1

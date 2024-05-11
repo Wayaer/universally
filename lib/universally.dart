@@ -1,7 +1,6 @@
 library universally;
 
 export 'package:flutter_localizations/flutter_localizations.dart';
-export 'package:json_annotation/json_annotation.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
