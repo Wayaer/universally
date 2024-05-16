@@ -30,7 +30,7 @@ class Gif extends StatefulWidget {
   final ImageProvider image;
 
   /// This playback controller.
-  final AnimationController controller;
+  final AnimationController? controller;
 
   /// Frames per second at which this runs.
   final int? fps;
@@ -78,7 +78,7 @@ class Gif extends StatefulWidget {
   const Gif({
     super.key,
     required this.image,
-    required this.controller,
+    this.controller,
     this.fps,
     this.duration,
     this.autostart = Autostart.no,
@@ -128,7 +128,7 @@ class GifInfo {
   });
 }
 
-class _GifState extends ExtendedState<Gif> {
+class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   /// List of [ImageInfo] of every frame of this gif.
@@ -182,13 +182,15 @@ class _GifState extends ExtendedState<Gif> {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       removeListener();
+      controller.dispose();
       initController();
       loadFrames().then((value) => autostart());
     }
   }
 
   void initController() {
-    controller = widget.controller;
+    controller = widget.controller ??
+        AnimationController(vsync: this, duration: widget.duration);
     controller.addListener(listener);
   }
 
@@ -200,6 +202,9 @@ class _GifState extends ExtendedState<Gif> {
   void dispose() {
     removeListener();
     super.dispose();
+    if (widget.controller == null) {
+      controller.dispose();
+    }
   }
 
   /// Start this gif according to [widget.autostart] and [widget.loop].
