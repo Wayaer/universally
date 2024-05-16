@@ -180,7 +180,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   @override
   void didUpdateWidget(Gif oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
+    if (widget.controller != controller) {
       removeListener();
       controller.dispose();
       initController();
