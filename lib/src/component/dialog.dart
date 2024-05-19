@@ -262,8 +262,10 @@ class TextFieldDialog extends StatelessWidget {
   Widget get buildTextField => BaseTextField(
       textInputType: textInputType,
       value: value,
+      margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
       hintText: hintText,
       borderType: BorderType.outline,
+      padding: const EdgeInsets.symmetric(vertical: 6),
       borderRadius: BorderRadius.circular(2),
       controller: controller,
       borderSide: const BorderSide(color: UCS.background),
