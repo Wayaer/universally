@@ -16,7 +16,8 @@ Future<bool> getPermission(
   }
   if (!(permissionStatus.isGranted || permissionStatus.isLimited)) {
     final result = await ConfirmCancelActionDialog(
-        titleText: alert,
+        titleText: '权限申请说明',
+        contentText: alert,
         autoClose: false,
         onConfirmTap: () {
           pop(true);
