@@ -66,6 +66,7 @@ class BaseList extends ScrollList {
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
     super.cacheExtent,
+    super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.builder(
             header: header?.toSliverBox,
@@ -137,6 +138,7 @@ class BaseList extends ScrollList {
 
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
+    super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.count(
             header: header?.toSliverBox,
@@ -211,6 +213,7 @@ class BaseList extends ScrollList {
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
     super.cacheExtent,
+    super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.builder(
             header: header?.toSliverBox,
