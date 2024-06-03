@@ -16,15 +16,15 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_spinkit: ^5.2.1
   keframe: ^3.0.0
-  extended_image: ^8.2.0
+  extended_image: ^8.2.1
   extended_image_library: ^4.0.4
-  window_manager: ^0.3.8
+  window_manager: ^0.3.9
   flutter_curiosity: ^6.1.0
   flutter_waya: ^9.5.2
   fl_extended: ^1.1.2
   fl_list_wheel: ^0.0.1
   fl_scroll_view: ^0.0.1
-  fl_dio: ^1.0.0
+  fl_dio: ^1.1.0
 
   permission_handler: ^11.3.1
   path_provider: ^2.1.3

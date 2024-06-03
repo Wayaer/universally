@@ -9,21 +9,55 @@ const String kContentTypeWithFormData = 'multipart/form-data';
 /// TextXml ContentType
 const String kContentTypeWithTextXml = 'text/xml';
 
-/// 扩展所有的 header
-typedef ValueCallbackHeader = Map<String, String>? Function(String url);
+/// 扩展 header
+typedef ValueCallbackExtraPathHeader = Map<String, dynamic>? Function(
+    String path, Map<String, dynamic> headers);
 
-/// 扩展所有的 params
-typedef ValueCallbackParams = Map<String, dynamic>? Function(
+/// 扩展 path params
+typedef ValueCallbackExtraPathParams = Map<String, dynamic>? Function(
     String path, Map<String, dynamic>? params);
 
-/// 扩展所有的 uri
-typedef ValueCallbackUri = Uri Function(Uri uri);
+/// 扩展 uri data
+typedef ValueCallbackExtraUriData = dynamic Function(Uri uri, dynamic data);
 
-/// 扩展所有的 data
-typedef ValueCallbackData<T> = T Function(String path, T params);
+/// 扩展 path data
+typedef ValueCallbackExtraPathData = dynamic Function(
+    String path, dynamic data);
 
-/// 扩展所有的 uri data
-typedef ValueCallbackUriData<T> = T Function(Uri uri, T params);
+/// 扩展 uri
+typedef ValueCallbackExtraUri = Uri Function(Uri uri);
+
+/// 扩展 path
+typedef ValueCallbackExtraStringPath = String Function(String path);
+
+class ExtraParamsOptions {
+  const ExtraParamsOptions({
+    this.onExtraHeader,
+    this.onExtraPath,
+    this.onExtraUri,
+    this.onExtraUriData,
+    this.onExtraPathData,
+    this.onExtraPathParams,
+  });
+
+  /// 扩展 header
+  final ValueCallbackExtraPathHeader? onExtraHeader;
+
+  /// 扩展 path
+  final ValueCallbackExtraStringPath? onExtraPath;
+
+  /// 扩展 uri
+  final ValueCallbackExtraUri? onExtraUri;
+
+  /// 扩展 uri data
+  final ValueCallbackExtraUriData? onExtraUriData;
+
+  /// 扩展 path data
+  final ValueCallbackExtraPathData? onExtraPathData;
+
+  /// 扩展 path params
+  final ValueCallbackExtraPathParams? onExtraPathParams;
+}
 
 typedef ValueCallbackError = bool Function();
 
@@ -57,12 +91,6 @@ class BaseDioOptions extends BaseOptions {
 
     /// 发送超时时间
     super.sendTimeout = const Duration(seconds: 5),
-    this.extraHeader,
-    this.extraData,
-    this.extraUriData,
-    this.extraParams,
-    this.extraUri,
-    this.errorIntercept,
     super.method,
     super.baseUrl = '',
     super.queryParameters,
@@ -77,6 +105,7 @@ class BaseDioOptions extends BaseOptions {
     super.requestEncoder,
     super.responseDecoder,
     super.listFormat,
+    this.errorIntercept,
     this.codeKeys = const ['code', 'status', 'statusCode', 'errcode'],
     this.msgKeys = const ['msg', 'errorMessage', 'statusMessage', 'errmsg'],
     this.dataKeys = const ['data', 'result'],
@@ -87,26 +116,15 @@ class BaseDioOptions extends BaseOptions {
     this.enableLoading = true,
     this.enablePullHideLoading = true,
     this.enableCheckNetwork = true,
+    this.onExtra,
     this.buildBaseModelState,
   });
 
-  /// header设置
-  ValueCallbackHeader? extraHeader;
-
-  /// 扩展所有的 data 参数
-  ValueCallbackData? extraData;
-
-  /// 扩展所有的 uri Data
-  ValueCallbackUriData? extraUriData;
-
-  /// 扩展所有的 params
-  ValueCallbackParams? extraParams;
-
-  /// 扩展所有的 uri
-  ValueCallbackUri? extraUri;
-
   /// 错误拦截;
   BaseDioErrorIntercept? errorIntercept;
+
+  /// 扩展额外额度参数
+  ExtraParamsOptions? onExtra;
 
   /// BaseModel 后台返回状态码
   List<String> codeKeys;
@@ -164,11 +182,28 @@ class BaseDio {
     return this;
   }
 
+  Map<String, dynamic>? _onExtraPathParams(
+          String path, Map<String, dynamic>? params) =>
+      baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
+
+  Map<String, dynamic>? _onExtraPathData(String path, Object? data) =>
+      baseDioOptions.onExtra?.onExtraPathData?.call(path, data) ?? data;
+
+  Map<String, dynamic>? _onExtraUriData(Uri uri, Object? data) =>
+      baseDioOptions.onExtra?.onExtraUriData?.call(uri, data) ?? data;
+
+  String _onExtraPath(String path) =>
+      baseDioOptions.onExtra?.onExtraPath?.call(path) ?? path;
+
+  Uri _onExtraUri(Uri uri) =>
+      baseDioOptions.onExtra?.onExtraUri?.call(uri) ?? uri;
+
   Future<BaseModel> get<T>(
     String path, {
     dynamic tag,
     Map<String, dynamic>? params,
     Object? data,
+    bool dataToJson = false,
     bool? loading,
     Options? options,
     CancelToken? cancelToken,
@@ -176,12 +211,12 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    final res = await dio.get<T>(path,
-        data: data,
+    data = _onExtraPathData(path, data);
+    final res = await dio.get<T>(_onExtraPath(path),
+        data: dataToJson ? jsonEncode(data) : data,
         options: _mergeOptions(options, path),
         cancelToken: cancelToken,
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params);
+        queryParameters: _onExtraPathParams(path, params));
     return _handleResponse(res, tag);
   }
 
@@ -189,6 +224,7 @@ class BaseDio {
     Uri uri, {
     dynamic tag,
     Object? data,
+    bool dataToJson = false,
     bool? loading,
     Options? options,
     CancelToken? cancelToken,
@@ -196,9 +232,9 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.getUri<T>(uri,
-        data: data,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.getUri<T>(_onExtraUri(uri),
+        data: dataToJson ? jsonEncode(data) : data,
         cancelToken: cancelToken,
         options: _mergeOptions(options, uri.path));
     return _handleResponse(res, tag);
@@ -219,11 +255,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.post<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.post<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -245,9 +280,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.postUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.postUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -271,11 +305,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.put<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.put<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -297,9 +330,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.putUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.putUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -321,11 +353,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.delete<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.delete<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _handleResponse(res, tag);
@@ -343,9 +374,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.deleteUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.deleteUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -367,11 +397,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.patch<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.patch<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
         cancelToken: cancelToken,
@@ -393,9 +422,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.patchUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.patchUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         onReceiveProgress: onReceiveProgress,
         onSendProgress: onSendProgress,
@@ -417,11 +445,10 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-    final res = await dio.head<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.head<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _handleResponse(res, tag);
@@ -439,9 +466,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.headUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.headUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
@@ -463,14 +489,12 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
-
-    final res = await dio.request<T>(path,
+    data = _onExtraPathData(path, data);
+    final res = await dio.request<T>(_onExtraPath(path),
         options: _mergeOptions(options, path),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        queryParameters:
-            baseDioOptions.extraParams?.call(path, params) ?? params,
+        queryParameters: _onExtraPathParams(path, params),
         cancelToken: cancelToken,
         data: dataToJson ? jsonEncode(data) : data);
     return _handleResponse(res, tag);
@@ -490,9 +514,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraUriData?.call(uri, data) ?? data;
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.requestUri<T>(uri,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.requestUri<T>(_onExtraUri(uri),
         options: _mergeOptions(options, uri.path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -516,8 +539,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    final res = await dio.post<T>(path,
-        data: baseDioOptions.extraData?.call(path, data) ?? data,
+    final res = await dio.post<T>(_onExtraPath(path),
+        data: _onExtraPathData(path, data),
         options: _mergeOptions(options, path),
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
@@ -539,9 +562,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.postUri<T>(uri,
-        data: baseDioOptions.extraUriData?.call(uri, data) ?? data,
+    final res = await dio.postUri<T>(_onExtraUri(uri),
+        data: _onExtraUriData(uri, data),
         options: (_mergeOptions(options, uri.path) ?? Options())
             .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
         onReceiveProgress: onReceiveProgress,
@@ -569,7 +591,7 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = baseDioOptions.extraData?.call(path, data) ?? data;
+    data = _onExtraPathData(path, data);
     final res = await dio.download(path, savePath,
         onReceiveProgress: onReceiveProgress,
         options: _mergeOptions(options, path),
@@ -599,9 +621,8 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    data = jsonEncode(baseDioOptions.extraUriData?.call(uri, data) ?? data);
-    uri = baseDioOptions.extraUri?.call(uri) ?? uri;
-    final res = await dio.downloadUri(uri, savePath,
+    data = _onExtraUriData(uri, data);
+    final res = await dio.downloadUri(_onExtraUri(uri), savePath,
         onReceiveProgress: onReceiveProgress,
         options: _mergeOptions(options, uri.path),
         data: dataToJson ? jsonEncode(data) : data,
@@ -657,15 +678,16 @@ class BaseDio {
   }
 
   Options? _mergeOptions(Options? options, String url) {
-    final extraHeader = baseDioOptions.extraHeader?.call(url);
-    if (options != null || extraHeader != null) {
-      options ??= Options();
-      final Map<String, dynamic> headers = {};
-      if (extraHeader != null) headers.addAll(extraHeader);
-      if (options.headers != null) headers.addAll(options.headers!);
-      return options.copyWith(headers: headers);
+    final Map<String, dynamic> headers = {};
+    final onExtraHeader = baseDioOptions.onExtra?.onExtraHeader
+        ?.call(url, baseDioOptions.headers);
+    if (onExtraHeader != null) {
+      headers.addAll(onExtraHeader);
     }
-    return null;
+    if (options != null && options.headers != null) {
+      headers.addAll(options.headers!);
+    }
+    return (options ?? Options()).copyWith(headers: headers);
   }
 
   BaseModel _handleResponse(ExtendedResponse res, dynamic tag) {
