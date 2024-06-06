@@ -28,9 +28,12 @@ extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {
 /// 底部有取消的单选
 /// 返回数组index
 class BaseCupertinoActionSheet extends StatelessWidget {
-  const BaseCupertinoActionSheet(this.list, {super.key});
+  const BaseCupertinoActionSheet(this.list,
+      {super.key, this.cancel, this.cancelText = '取消'});
 
   final List<String> list;
+  final Widget? cancel;
+  final String cancelText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class BaseCupertinoActionSheet extends StatelessWidget {
     actions.add(CupertinoActionSheetAction(
         onPressed: maybePop,
         isDefaultAction: true,
-        child: TextNormal('取消', color: Universally().mainColor)));
+        child: TextNormal(cancelText, color: Universally().mainColor)));
     return CupertinoActionSheet(actions: actions);
   }
 }
