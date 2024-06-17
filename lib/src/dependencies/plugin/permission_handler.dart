@@ -4,20 +4,27 @@ import 'package:universally/universally.dart';
 /// 单独获取一个权限
 Future<bool> getPermission(
   Permission permission, {
-  required String alert,
+  /// 请求前提示
+  String? promptBeforeRequest,
+
+  /// 请求失败跳转设置提示
+  String? jumpSettingsPrompt,
   GestureTapCallback? cancelTap,
 }) async {
   if (!isMobile) return true;
   PermissionStatus permissionStatus = await permission.status;
   if (permissionStatus.isDenied) {
-    PermissionPrompt.show(content: alert);
+    if (promptBeforeRequest != null) {
+      PermissionPrompt.show(content: promptBeforeRequest);
+    }
     permissionStatus = await permission.request();
     pop();
   }
-  if (!(permissionStatus.isGranted || permissionStatus.isLimited)) {
+  if (!(permissionStatus.isGranted || permissionStatus.isLimited) &&
+      jumpSettingsPrompt != null) {
     final result = await ConfirmCancelActionDialog(
         titleText: '权限申请说明',
-        contentText: alert,
+        contentText: jumpSettingsPrompt,
         autoClose: false,
         onConfirmTap: () {
           pop(true);
@@ -33,7 +40,9 @@ Future<bool> getPermission(
 
 /// 必须获取通过全部权限
 Future<bool> getPermissions(List<Permission> permissions,
-    {required String alert, GestureTapCallback? cancelTap}) async {
+    {String? promptBeforeRequest,
+    String? jumpSettingsPrompt,
+    GestureTapCallback? cancelTap}) async {
   if (!isMobile) return true;
   Map<Permission, bool> status = {};
   for (var element in permissions) {
@@ -42,14 +51,17 @@ Future<bool> getPermissions(List<Permission> permissions,
     if (!(isGranted || isLimited)) status.addAll({element: isGranted});
   }
   if (status.isNotEmpty) {
-    PermissionPrompt.show(content: alert);
+    if (promptBeforeRequest != null) {
+      PermissionPrompt.show(content: promptBeforeRequest);
+    }
     final permissionsStatus = await status.keys.toList().request();
     permissionsStatus
         .removeWhere((key, value) => value.isGranted || value.isLimited);
     pop();
     if (permissionsStatus.isNotEmpty) {
       final result = await ConfirmCancelActionDialog(
-          contentText: alert,
+          titleText: '权限申请说明',
+          contentText: jumpSettingsPrompt,
           autoClose: false,
           onConfirmTap: () {
             pop(true);
@@ -57,7 +69,7 @@ Future<bool> getPermissions(List<Permission> permissions,
           onCancelTap: () {
             pop(false);
             cancelTap?.call();
-          }).show();
+          }).popupBottomSheet();
       if (result == true) await openAppSettings();
     }
     return permissionsStatus.isEmpty;
@@ -73,12 +85,12 @@ class PermissionPrompt extends StatelessWidget {
   final String content;
 
   static show<T>({String title = "权限申请说明", required String content}) =>
-      PermissionPrompt(title: title, content: content).popupDialog<T>(
-          options: const DialogOptions(fromStyle: PopupFromStyle.fromTop));
+      PermissionPrompt(title: title, content: content)
+          .popupBottomSheet<T>(options: const BottomSheetOptions());
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Universal(
           margin: EdgeInsets.fromLTRB(16, context.statusBarHeight + 16, 16, 16),
           decoration: BoxDecoration(

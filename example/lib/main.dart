@@ -157,7 +157,7 @@ class HomePage extends StatelessWidget {
               onTap: () async {
                 final res = await getPermission(
                     Permission.requestInstallPackages,
-                    alert: '请求安装app权限');
+                    promptBeforeRequest: '请求安装app权限');
                 showToast(res.toString());
               },
               text: 'requestInstallPackages'),
@@ -167,14 +167,14 @@ class HomePage extends StatelessWidget {
                   Permission.camera,
                   Permission.storage,
                   if (isIOS) Permission.photos
-                ], alert: '本服务需要访问您的“相机”和“相册”，以修改头像或上传图片');
+                ], promptBeforeRequest: '本服务需要访问您的“相机”和“相册”，以修改头像或上传图片');
                 showToast(res.toString());
               },
               text: 'getPermissions'),
           Button(
               onTap: () async {
                 final res = await getPermission(Permission.camera,
-                    alert: '本服务需要访问您的“相机”，以修改头像或上传图片');
+                    promptBeforeRequest: '本服务需要访问您的“相机”，以修改头像或上传图片');
                 showToast(res.toString());
               },
               text: 'getPermission'),
