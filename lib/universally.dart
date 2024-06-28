@@ -34,6 +34,7 @@ export 'src/app/cupertino_app.dart';
 export 'src/app/widgets_app.dart';
 
 /// component
+export 'src/component/shape/arrow.dart';
 export 'src/component/changed_builder.dart';
 export 'src/component/extension.dart';
 export 'src/component/component.dart';
