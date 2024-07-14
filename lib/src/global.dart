@@ -2,39 +2,28 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:universally/src/app/theme.dart';
 import 'package:universally/universally.dart';
 
 typedef LoadingCoreBuilder = Widget? Function(BaseLoading loading);
 
 typedef ConsumerBuilder<T> = Widget Function(Widget child);
 
+typedef BrightnessBuilder<T> = T Function(Brightness brightness);
+
 class UConfig {
   UConfig({
-    required this.mainColor,
     this.betaApi = '',
     this.releaseApi = '',
     this.pushStyle = RoutePushStyle.material,
     this.cachePath,
-    this.placeholder = const BasePlaceholder(),
-    this.toastOptions = const ToastOptions.extended(
-        animationStyle: FlAnimationStyle.verticalHunting,
-        duration: Duration(seconds: 2),
-        ignoring: true),
-    this.generalDialogOptions,
-    this.bottomSheetOptions,
-    this.modalOptions,
     this.logCrossLine = true,
     this.isCloseOverlay,
-    this.wheelOptions,
-    this.loadingOptions,
+    this.placeholder,
     this.imageFailed,
-    this.textStyle,
-    this.textField,
+    this.theme,
+    this.darkTheme,
   });
-
-  /// alert 确认按钮颜色
-  /// [BaseLoading] loading 颜色
-  Color mainColor;
 
   /// 保存图片和视频的缓存地址
   /// 如不设置 默认通过 [Curiosity.native.appPath] 获取
@@ -46,24 +35,6 @@ class UConfig {
   /// 正式版 url
   String releaseApi;
 
-  /// list 占位图
-  Widget placeholder;
-
-  /// 全局 Toast 配置信息
-  ToastOptions toastOptions;
-
-  /// 全局 [ModalWindows] 组件配置信息
-  ModalBoxOptions? modalOptions;
-
-  /// 全局 [BottomSheetOptions] 配置信息
-  BottomSheetOptions? bottomSheetOptions;
-
-  /// 全局 [DialogOptions] 配置信息
-  DialogOptions? generalDialogOptions;
-
-  /// 全局 [WheelOptions] 配置信息
-  WheelOptions? wheelOptions;
-
   /// 全局log是否添加分割线
   bool logCrossLine;
 
@@ -74,21 +45,71 @@ class UConfig {
   /// 全局路由跳转样式
   RoutePushStyle pushStyle;
 
-  /// loading 样式
-  LoadingOptions? loadingOptions;
+  /// list 占位图
+  Widget? placeholder;
 
   /// [BaseImage] 加载失败时显示的组件
   Widget? imageFailed;
 
+  /// 默认主题
+  UThemeData? theme;
+
+  /// 默认暗黑主题
+  UThemeData? darkTheme;
+}
+
+class UBuilder {
+  UBuilder({
+    this.mainColor,
+    this.placeholder,
+    this.toastOptions,
+    this.generalDialogOptions,
+    this.bottomSheetOptions,
+    this.modalOptions,
+    this.wheelOptions,
+    this.loadingOptions,
+    this.imageFailed,
+    this.textStyle,
+    this.textField,
+  });
+
+  /// [BaseLoading] loading 颜色
+  /// [ActionDialog] action 颜色
+  BrightnessBuilder<Color>? mainColor;
+
+  /// list 占位图
+  BrightnessBuilder<Widget>? placeholder;
+
+  /// 全局 Toast 配置信息
+  BrightnessBuilder<ToastOptions>? toastOptions;
+
+  /// 全局 [ModalWindows] 组件配置信息
+  BrightnessBuilder<ModalBoxOptions>? modalOptions;
+
+  /// 全局 [BottomSheetOptions] 配置信息
+  BrightnessBuilder<BottomSheetOptions>? bottomSheetOptions;
+
+  /// 全局 [DialogOptions] 配置信息
+  BrightnessBuilder<DialogOptions>? generalDialogOptions;
+
+  /// 全局 [WheelOptions] 配置信息
+  BrightnessBuilder<WheelOptions>? wheelOptions;
+
+  /// loading 样式
+  BrightnessBuilder<LoadingOptions>? loadingOptions;
+
+  /// [BaseImage] 加载失败时显示的组件
+  BrightnessBuilder<Widget>? imageFailed;
+
   /// 全局设置 [TextNormal],[TextSmall], [TextLarge], [TextExtraLarge] 字体样式
-  TextThemeStyle? textStyle;
+  BrightnessBuilder<TextThemeStyle>? textStyle;
 
   /// 全局设置 [BaseTextField] 部分配置
-  TextFieldConfig? textField;
+  BrightnessBuilder<TextFieldConfig>? textField;
 }
 
 class Universally {
-  static Universally I = Universally();
+  static Universally to = Universally();
 
   factory Universally() => _singleton ??= Universally._();
 
@@ -96,10 +117,8 @@ class Universally {
 
   static Universally? _singleton;
 
-  /// alert 确认按钮颜色
-  /// [AssetSelect]  Badge 背景色
-  /// [BaseLoading] loading 颜色
-  late Color mainColor;
+  /// 全局 [navigatorKey]
+  late GlobalKey<NavigatorState> navigatorKey;
 
   /// 当前项目使用的 url
   late String _baseApi;
@@ -107,7 +126,7 @@ class Universally {
   String get baseApi => _baseApi;
 
   /// 项目配置信息
-  UConfig _config = UConfig(mainColor: UCS.mainBlack);
+  UConfig _config = UConfig();
 
   UConfig get config => _config;
 
@@ -144,7 +163,6 @@ class Universally {
     /// 初始化本地储存
     await BasePreferences().init();
 
-    mainColor = config.mainColor;
     final bool isRelease = BasePreferences().getBool(UConst.isRelease) ?? false;
     if (isBeta && !isRelease) {
       _baseApi = config.betaApi;
@@ -156,37 +174,8 @@ class Universally {
       _baseApi = config.releaseApi;
     }
 
-    /// 设置toast
-    /// Set the toast
-    FlExtended().toastOptions = config.toastOptions;
-
     /// 设置全局log 是否显示 分割线
     FlExtended().logCrossLine = config.logCrossLine;
-
-    /// 设置全局 [ModalBox] 组件配置信息
-    if (config.modalOptions != null) {
-      FlExtended().modalOptions = config.modalOptions!;
-    }
-
-    /// 全局 [DialogOptions] 配置信息
-    if (config.generalDialogOptions != null) {
-      FlExtended().dialogOptions = config.generalDialogOptions!;
-    }
-
-    /// 全局 [BottomSheetOptions] 配置信息
-    if (config.bottomSheetOptions != null) {
-      FlExtended().bottomSheetOptions = config.bottomSheetOptions!;
-    }
-
-    /// 全局 [WheelOptions] 配置信息
-    if (config.wheelOptions != null) {
-      FlListWheel.wheelOptions = config.wheelOptions!;
-    }
-
-    /// 全局 [LoadingOptions] 配置信息
-    FlExtended().loadingOptions = const LoadingOptions(
-            style: LoadingStyle.circular, elevation: 2, absorbing: true)
-        .merge(config.loadingOptions);
 
     /// 设置页面转场样式
     /// Set the page transition style
@@ -207,7 +196,7 @@ class Universally {
       failedText: '我刷新失败了唉',
       noMoreText: '没有更多了',
       showMessage: false,
-      textStyle: Universally().config.textStyle?.normal);
+      textStyle: Universally.to.getTheme()?.textStyle?.normal);
 
   /// 当前项目 全局使用的 刷新Footer
   CallbackT<Footer> pullUpFooter = () => ClassicFooter(
@@ -219,5 +208,57 @@ class Universally {
       failedText: '我加载失败了唉',
       noMoreText: '没有更多了哦',
       showMessage: false,
-      textStyle: Universally.I.config.textStyle?.normal);
+      textStyle: Universally.to.getTheme()?.textStyle?.normal);
+
+  /// 获取设置的主题
+  UThemeData? getTheme({BuildContext? context}) {
+    final mContext = context ?? Universally.to.navigatorKey.currentContext;
+    assert(mContext != null);
+    if (mContext!.theme.brightness == Brightness.light) {
+      return _config.theme;
+    } else {
+      return _config.darkTheme;
+    }
+  }
+
+  /// [BaseMaterialApp.initState]
+  /// [BaseCupertinoApp.initState]
+  /// [BaseWidgetsApp.initState]
+  /// [initState]之后回调中调用
+  void setTheme(BuildContext context) {
+    /// 设置toast
+    /// Set the toast
+    if (getTheme(context: context)?.toastOptions != null) {
+      FlExtended().toastOptions = getTheme(context: context)!.toastOptions!;
+    }
+
+    /// 设置全局 [ModalBox] 组件配置信息
+    if (getTheme(context: context)?.modalOptions != null) {
+      FlExtended().modalOptions = getTheme(context: context)!.modalOptions!;
+    }
+
+    /// 全局 [DialogOptions] 配置信息
+    if (getTheme(context: context)?.generalDialogOptions != null) {
+      FlExtended().dialogOptions =
+          getTheme(context: context)!.generalDialogOptions!;
+    }
+
+    /// 全局 [BottomSheetOptions] 配置信息
+    if (getTheme(context: context)?.bottomSheetOptions != null) {
+      FlExtended().bottomSheetOptions =
+          getTheme(context: context)!.bottomSheetOptions!;
+    }
+
+    /// 全局 [WheelOptions] 配置信息
+    if (getTheme(context: context)?.wheelOptions != null) {
+      FlListWheel.wheelOptions = getTheme(context: context)!.wheelOptions!;
+    }
+
+    /// 全局 [LoadingOptions] 配置信息
+    if (getTheme(context: context)?.loadingOptions != null) {
+      FlExtended().loadingOptions = const LoadingOptions(
+              style: LoadingStyle.circular, elevation: 2, absorbing: true)
+          .merge(getTheme(context: context)!.loadingOptions!);
+    }
+  }
 }

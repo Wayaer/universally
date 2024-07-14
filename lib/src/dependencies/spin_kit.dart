@@ -92,7 +92,10 @@ class SpinKit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = this.color ?? Universally().mainColor;
+    final color = this.color ??
+        Universally.to.getTheme(context: context)?.mainColor ??
+        context.theme.progressIndicatorTheme.color ??
+        Colors.transparent;
     switch (style) {
       case SpinKitStyle.rotatingPlain:
         return SpinKitRotatingPlain(

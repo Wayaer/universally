@@ -19,40 +19,14 @@ Future<void> main() async {
   isBeta = true;
   await Universally().setConfig(
       UConfig(
-          isCloseOverlay: false,
-          mainColor: Colors.purple.shade900,
-          loadingOptions: LoadingOptions(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              backgroundColor: UCS.black.withOpacity(0.1),
-              foregroundColor: UCS.black.withOpacity(0.8),
-              padding: const EdgeInsets.all(20),
-              builder: const SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: BaseLoading(
-                          color: Colors.white,
-                          style: SpinKitStyle.fadingCircle))
-                  .toLoadingBuilder,
-              onLoadingTap: closeLoading,
-              onModalTap: closeLoading),
-          betaApi: '这是设置测试Api',
-          releaseApi: '这里设置发布版Api',
-          textStyle: TextThemeStyle(
-              small: const TStyle(color: Colors.red),
-              normal: const TStyle(color: Colors.blue),
-              large: const TStyle(color: Colors.yellow),
-              extraLarge: const TStyle(color: Colors.purpleAccent),
-              style: const TStyle(color: Colors.greenAccent)),
-          toastOptions: ToastOptions.extended(
-              elevation: 2,
-              foregroundColor: UCS.black.withOpacity(0.8),
-              animationStyle: FlAnimationStyle.fade,
-              ignoring: false)),
+        isCloseOverlay: false,
+        betaApi: '这是设置测试Api',
+        releaseApi: '这里设置发布版Api',
+      ),
       windowOptions: WindowOptions(
           size: WindowsSize.iPhone5P8.value,
           minimumSize: WindowsSize.iPhone4P7.value,
           maximumSize: WindowsSize.iPhone6P1.value,
-          center: true,
           backgroundColor: Colors.transparent,
           skipTaskbar: false,
           title: 'Universally'));
@@ -69,47 +43,47 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppState())],
-      child: BaseMaterialApp(
-          title: 'Universally',
-          home: const HomePage(),
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          theme: ThemeData(
-              appBarTheme: AppBarTheme(
-                  titleTextStyle: TStyle(
-                      fontSize: 24,
-                      color: context.theme.primaryColor,
-                      fontWeight: FontWeight.bold))),
-          initState: (context) async {
-            ConnectivityPlus().addListener((status, result) async {
-              switch (result.first) {
-                case ConnectivityResult.wifi:
-                  showToast('use wifi');
-                  break;
-                case ConnectivityResult.ethernet:
-                  showToast('use ethernet');
-                  break;
-                case ConnectivityResult.mobile:
-                  showToast('use Cellular networks');
-                  break;
-                case ConnectivityResult.none:
-                  showToast('none networks');
-                  break;
-                case ConnectivityResult.bluetooth:
-                  showToast('use bluetooth');
-                  break;
-                case ConnectivityResult.vpn:
-                  showToast('use vpn');
-                  break;
-                case ConnectivityResult.other:
-                  showToast('use other');
-                  break;
-              }
-              return true;
-            });
-          }),
-    );
+        providers: [ChangeNotifierProvider(create: (_) => AppState())],
+        child: BaseMaterialApp(
+            title: 'Universally',
+            home: const HomePage(),
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            darkTheme: ThemeData.dark(),
+            theme: ThemeData.light(),
+            initState: (context) async {
+              setBuilder(context);
+              ConnectivityPlus().addListener((status, result) async {
+                switch (result.first) {
+                  case ConnectivityResult.wifi:
+                    showToast('use wifi');
+                    break;
+                  case ConnectivityResult.ethernet:
+                    showToast('use ethernet');
+                    break;
+                  case ConnectivityResult.mobile:
+                    showToast('use Cellular networks');
+                    break;
+                  case ConnectivityResult.none:
+                    showToast('none networks');
+                    break;
+                  case ConnectivityResult.bluetooth:
+                    showToast('use bluetooth');
+                    break;
+                  case ConnectivityResult.vpn:
+                    showToast('use vpn');
+                    break;
+                  case ConnectivityResult.other:
+                    showToast('use other');
+                    break;
+                }
+                return true;
+              });
+            }));
+  }
+
+  void setBuilder(BuildContext context) {
+    Universally().setTheme(context);
   }
 }
 
@@ -123,6 +97,10 @@ class HomePage extends StatelessWidget {
         safeBottom: true,
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
+          TextExtraLarge('TextExtraLarge'),
+          TextLarge('TextLarge'),
+          TextNormal('TextNormal'),
+          TextSmall('TextSmall'),
           const SwitchApiButton(),
           Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
@@ -252,3 +230,42 @@ class Partition extends StatelessWidget {
 }
 
 class AppState with ChangeNotifier {}
+
+//
+// mainColor: (_) => Colors.purple.shade900,
+// textStyle: (brightness) {
+// if (brightness == Brightness.dark) {
+// return TextThemeStyle(
+// small: const TStyle(color: Colors.white60),
+// normal: const TStyle(color: Colors.white),
+// large: const TStyle(color: Colors.white),
+// extraLarge: const TStyle(color: Colors.white),
+// style: const TStyle(color: Colors.white));
+// } else {
+// return TextThemeStyle(
+// small: const TStyle(color: Colors.black45),
+// normal: const TStyle(color: Colors.black),
+// large: const TStyle(color: Colors.black),
+// extraLarge: const TStyle(color: Colors.black),
+// style: const TStyle(color: Colors.black));
+// }
+// },
+// loadingOptions: (_) => LoadingOptions(
+// borderRadius: const BorderRadius.all(Radius.circular(8)),
+// backgroundColor: UCS.black.withOpacity(0.1),
+// foregroundColor: UCS.black.withOpacity(0.8),
+// padding: const EdgeInsets.all(20),
+// builder: const SizedBox(
+// width: 50,
+// height: 50,
+// child: BaseLoading(
+// color: Colors.white,
+// style: SpinKitStyle.fadingCircle))
+//     .toLoadingBuilder,
+// onLoadingTap: closeLoading,
+// onModalTap: closeLoading),
+// toastOptions: (_) => ToastOptions.extended(
+// elevation: 2,
+// foregroundColor: UCS.black.withOpacity(0.8),
+// animationStyle: FlAnimationStyle.fade,
+// ignoring: false)

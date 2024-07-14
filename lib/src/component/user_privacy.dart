@@ -14,7 +14,7 @@ extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
   }
 }
 
-class UserPrivacyAlert extends StatelessWidget {
+class UserPrivacyAlert extends StatefulWidget {
   const UserPrivacyAlert(
       {super.key,
       required this.name,
@@ -43,37 +43,49 @@ class UserPrivacyAlert extends StatelessWidget {
   final Widget? content;
 
   @override
+  State<UserPrivacyAlert> createState() => _UserPrivacyAlertState();
+}
+
+class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
+  final userAgreementTap = TapGestureRecognizer();
+  final privacyPolicyTap = TapGestureRecognizer();
+
+  @override
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
-          options: FlExtended().modalOptions.merge(options),
+          options: FlExtended().modalOptions.merge(widget.options),
           hasDivider: false,
-          title: TextLarge(title),
+          title: TextLarge(widget.title),
           content: Column(children: [
-            content ??
+            widget.content ??
                 RText(textAlign: TextAlign.start, texts: [
-                  '欢迎您使用$name客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过说读',
+                  '欢迎您使用${widget.name}客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过说读',
                   '《用户协议》',
                   '和',
                   '《隐私政策》',
-                  '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
+                  '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。${widget.name}客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
                 ], styles: [
                   const TStyle(height: 1.4)
-                      .merge(Universally().config.textStyle?.normal)
-                      .copyWith(color: textColor),
-                  TStyle(height: 1.4, color: Universally().mainColor)
-                      .copyWith(color: highlightColor),
+                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .copyWith(color: widget.textColor),
+                  TStyle(
+                          height: 1.4,
+                          color: Universally.to.getTheme()?.mainColor)
+                      .copyWith(color: widget.highlightColor),
                   const TStyle(height: 1.4)
-                      .merge(Universally().config.textStyle?.normal)
-                      .copyWith(color: textColor),
-                  TStyle(height: 1.4, color: Universally().mainColor)
-                      .copyWith(color: highlightColor),
+                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .copyWith(color: widget.textColor),
+                  TStyle(
+                          height: 1.4,
+                          color: Universally.to.getTheme()?.mainColor)
+                      .copyWith(color: widget.highlightColor),
                   const TStyle(height: 1.4)
-                      .merge(Universally().config.textStyle?.normal)
-                      .copyWith(color: textColor),
+                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .copyWith(color: widget.textColor),
                 ], recognizers: [
                   null,
-                  TapGestureRecognizer()..onTap = onUserAgreementTap,
+                  userAgreementTap..onTap = widget.onUserAgreementTap,
                   null,
-                  TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
+                  privacyPolicyTap..onTap = widget.onPrivacyPolicyTap,
                   null,
                 ]),
           ]),
@@ -89,23 +101,30 @@ class UserPrivacyAlert extends StatelessWidget {
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(8))),
                 onTap: Curiosity.native.exitApp,
-                child: TextNormal(exit, color: UCS.black70)),
+                child: TextNormal(widget.exit, color: UCS.black70)),
             Universal(
                 height: 40,
                 expanded: true,
                 margin: const EdgeInsets.only(left: 0.5),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: Universally().mainColor,
+                    color: Universally.to.getTheme()?.mainColor,
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(6))),
                 onTap: () {
                   pop();
                   BasePreferences().setBool(UConst.privacy, true);
-                  onConsentTap?.call();
+                  widget.onConsentTap?.call();
                 },
-                child: TextNormal(agree, color: UCS.white)),
+                child: TextNormal(widget.agree, color: UCS.white)),
           ]);
+
+  @override
+  void dispose() {
+    super.dispose();
+    userAgreementTap.dispose();
+    privacyPolicyTap.dispose();
+  }
 }
 
 class UserPrivacyCheckbox extends StatelessWidget {
@@ -143,14 +162,18 @@ class UserPrivacyCheckbox extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       BaseCheckbox(
           value: value,
-          activeColor: mainColor ?? Universally().mainColor,
+          activeColor: mainColor ?? Universally.to.getTheme()?.mainColor,
           shape: shape,
           onChanged: onChanged),
       RText(maxLines: 2, textAlign: TextAlign.start, texts: texts, styles: [
         TStyle(color: color, fontSize: fontSize),
-        TStyle(color: mainColor ?? Universally().mainColor, fontSize: fontSize),
+        TStyle(
+            color: mainColor ?? Universally.to.getTheme()?.mainColor,
+            fontSize: fontSize),
         TStyle(color: color, fontSize: fontSize),
-        TStyle(color: mainColor ?? Universally().mainColor, fontSize: fontSize),
+        TStyle(
+            color: mainColor ?? Universally.to.getTheme()?.mainColor,
+            fontSize: fontSize),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,

@@ -165,13 +165,6 @@ class BaseMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final current = MaterialApp(
         title: title,
-        builder: (BuildContext context, Widget? child) {
-          return MediaQuery(
-              data:
-                  context.mediaQuery.copyWith(textScaler: TextScaler.noScaling),
-              child:
-                  builder?.call(context, child) ?? child ?? const SizedBox());
-        },
         navigatorKey: FlExtended().navigatorKey,
         scaffoldMessengerKey: FlExtended().scaffoldMessengerKey,
         routes: routes,

@@ -149,13 +149,6 @@ class BaseCupertinoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final current = CupertinoApp(
         title: title,
-        builder: (BuildContext context, Widget? child) {
-          return MediaQuery(
-              data:
-                  context.mediaQuery.copyWith(textScaler: TextScaler.noScaling),
-              child:
-                  builder?.call(context, child) ?? child ?? const SizedBox());
-        },
         navigatorKey: FlExtended().navigatorKey,
         routes: routes,
         initialRoute: initialRoute,

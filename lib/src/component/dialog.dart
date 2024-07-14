@@ -102,8 +102,7 @@ class ConfirmActionDialog extends StatelessWidget {
       actions: buildActions,
       options: FlExtended().modalOptions.merge(options).copyWith(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          borderRadius: BorderRadius.circular(6),
-          foregroundColor: UCS.white),
+          borderRadius: BorderRadius.circular(6)),
       actionsMaxHeight: 40);
 
   Widget get buildCupertinoActionDialog => CupertinoAlertDialog(
@@ -122,7 +121,7 @@ class ConfirmActionDialog extends StatelessWidget {
         if (onConfirmTap != null) onConfirmTap!();
       },
       child:
-          confirm ?? TextNormal(confirmText, color: Universally().mainColor));
+          confirm ?? TextNormal(confirmText, color: Universally.to.getTheme()?.mainColor));
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭

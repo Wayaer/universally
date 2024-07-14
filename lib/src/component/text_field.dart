@@ -442,7 +442,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
             borderRadius: widget.borderRadius,
             focusBorderSide: widget.hasFocusChangeBorder
                 ? widget.focusBorderSide ??
-                    BorderSide(color: Universally().mainColor)
+                    (Universally.to.getTheme()?.mainColor != null
+                        ? BorderSide(
+                            color: Universally.to.getTheme()!.mainColor!)
+                        : null)
                 : null,
             borderSide: widget.borderSide,
             constraints: widget.constraints,
@@ -475,11 +478,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 placeholder: widget.hintText,
                 placeholderStyle: const TStyle(fontSize: 13).merge(
                     widget.hintStyle ??
-                        Universally().config.textField?.hintStyle ??
-                        Universally().config.textStyle?.small),
+                        Universally.to.getTheme()?.textField?.hintStyle ??
+                        Universally.to.getTheme()?.textStyle?.small),
                 style: const TStyle().merge(widget.style ??
-                    Universally().config.textField?.style ??
-                    Universally().config.textStyle?.normal),
+                    Universally.to.getTheme()?.textField?.style ??
+                    Universally.to.getTheme()?.textStyle?.normal),
                 keyboardType: widget.keyboardType ??
                     widget.textInputType.toKeyboardType(),
                 inputFormatters: inputFormatters,
@@ -518,7 +521,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
                             ?.call(controller, focusNode);
                       },
                 showCursor: widget.showCursor,
-                cursorColor: widget.cursorColor ?? Universally().mainColor,
+                cursorColor:
+                    widget.cursorColor ?? Universally.to.getTheme()?.mainColor,
                 cursorHeight: widget.cursorHeight,
                 cursorWidth: widget.cursorWidth,
                 cursorRadius: widget.cursorRadius,
@@ -545,7 +549,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 smartDashesType: widget.smartDashesType,
                 smartQuotesType: widget.smartQuotesType,
                 strutStyle: widget.strutStyle ??
-                    Universally().config.textField?.strutStyle,
+                    Universally.to.getTheme()?.textField?.strutStyle,
                 textAlignVertical: widget.textAlignVertical,
                 textDirection: widget.textDirection,
                 padding: widget.contentPadding,
@@ -595,11 +599,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildSearchText {
-    bool isLeft = (Universally().config.textField?.searchTextPositioned ??
+    bool isLeft = (Universally.to.getTheme()?.textField?.searchTextPositioned ??
             widget.searchTextPositioned) !=
         DecoratorPositioned.inner;
     final current = widget.searchText ??
-        Universally().config.textField?.searchText ??
+        Universally.to.getTheme()?.textField?.searchText ??
         TextNormal('搜索');
     return Universal(
         margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
@@ -610,7 +614,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   Widget get buildSendSMS {
     bool isLeft =
-        (Universally().config.textField?.sendVerificationCodePositioned ??
+        (Universally.to.getTheme()?.textField?.sendVerificationCodePositioned ??
                 widget.sendVerificationCodePositioned) !=
             DecoratorPositioned.inner;
     return SendVerificationCode(
@@ -618,21 +622,25 @@ class _BaseTextFieldState extends State<BaseTextField> {
         duration: const Duration(seconds: 60),
         builder: (SendState state, int i) {
           final current = (widget.sendVerificationCodeTextBuilder ??
-                  Universally()
-                      .config
-                      .textField
+                  Universally.to
+                      .getTheme()
+                      ?.textField
                       ?.sendVerificationCodeTextBuilder)
               ?.call(state, i);
           if (current != null) return current;
           switch (state) {
             case SendState.none:
-              return TextNormal('发送验证码', color: Universally().mainColor);
+              return TextNormal('发送验证码',
+                  color: Universally.to.getTheme()?.mainColor);
             case SendState.sending:
-              return TextNormal('发送中', color: Universally().mainColor);
+              return TextNormal('发送中',
+                  color: Universally.to.getTheme()?.mainColor);
             case SendState.resend:
-              return TextNormal('重新发送', color: Universally().mainColor);
+              return TextNormal('重新发送',
+                  color: Universally.to.getTheme()?.mainColor);
             case SendState.countDown:
-              return TextNormal('$i s', color: Universally().mainColor);
+              return TextNormal('$i s',
+                  color: Universally.to.getTheme()?.mainColor);
           }
         },
         onTap: widget.sendVerificationCodeTap);
@@ -640,19 +648,20 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   Widget get buildSearchIcon {
     final current = widget.searchIcon ??
-        Universally().config.textField?.searchIcon ??
+        Universally.to.getTheme()?.textField?.searchIcon ??
         Icon(UIS.search,
-            size: 20, color: Universally().config.textStyle?.normal?.color);
+            size: 20,
+            color: Universally.to.getTheme()?.textStyle?.normal?.color);
     return Padding(padding: const EdgeInsets.only(left: 10), child: current);
   }
 
   Widget get buildClearIcon {
     final current = widget.clearIcon ??
-        Universally().config.textField?.clearIcon ??
+        Universally.to.getTheme()?.textField?.clearIcon ??
         IconBox(
             size: 18,
             icon: UIS.clear,
-            color: Universally().config.textStyle?.normal?.color);
+            color: Universally.to.getTheme()?.textStyle?.normal?.color);
     return Universal(
         onTap: () {
           controller.clear();
@@ -671,10 +680,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
           valueListenable: obscureText,
           builder: (_, bool value, __) {
             return (widget.eyeIconBuilder ??
-                        Universally().config.textField?.eyeIconBuilder)
+                        Universally.to.getTheme()?.textField?.eyeIconBuilder)
                     ?.call(value) ??
                 Icon(value ? UIS.eyeClose : UIS.eyeOpen,
-                    color: Universally().config.textStyle?.normal?.color,
+                    color: Universally.to.getTheme()?.textStyle?.normal?.color,
                     size: 20);
           }));
 

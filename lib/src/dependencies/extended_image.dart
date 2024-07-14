@@ -613,7 +613,7 @@ class ImageFailed extends StatelessWidget {
         padding: failed == null ? const EdgeInsets.all(4) : EdgeInsets.zero,
         alignment: alignment,
         color: background,
-        child: failed ?? Universally().config.imageFailed);
+        child: failed ?? Universally.to.config.imageFailed);
   }
 }
 

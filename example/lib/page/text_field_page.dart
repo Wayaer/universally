@@ -34,13 +34,13 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码', color: Universally().mainColor);
+                    return TextNormal('发送验证码', color: Universally.to.getTheme()?.mainColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: Universally().mainColor);
+                    return TextNormal('发送中', color: Universally.to.getTheme()?.mainColor);
                   case SendState.resend:
-                    return TextNormal('重新发送', color: Universally().mainColor);
+                    return TextNormal('重新发送', color: Universally.to.getTheme()?.mainColor);
                   case SendState.countDown:
-                    return TextNormal('$i s', color: Universally().mainColor);
+                    return TextNormal('$i s', color: Universally.to.getTheme()?.mainColor);
                 }
               },
               enableEye: true,
@@ -61,13 +61,13 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码', color: Universally().mainColor);
+                    return TextNormal('发送验证码', color: Universally.to.getTheme()?.mainColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: Universally().mainColor);
+                    return TextNormal('发送中', color: Universally.to.getTheme()?.mainColor);
                   case SendState.resend:
-                    return TextNormal('重新发送', color: Universally().mainColor);
+                    return TextNormal('重新发送', color: Universally.to.getTheme()?.mainColor);
                   case SendState.countDown:
-                    return TextNormal('$i s', color: Universally().mainColor);
+                    return TextNormal('$i s', color: Universally.to.getTheme()?.mainColor);
                 }
               },
               enableEye: true,

@@ -50,7 +50,8 @@ class BaseError extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80, color: Universally().config.textStyle?.normal?.color),
+              size: 80,
+              color: Universally.to.getTheme()?.textStyle?.normal?.color),
           label: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
@@ -70,7 +71,8 @@ class BasePlaceholder extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80, color: Universally().config.textStyle?.small?.color),
+              size: 80,
+              color: Universally.to.getTheme()?.textStyle?.small?.color),
           label: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
@@ -98,7 +100,7 @@ class BaseLoading extends StatelessWidget {
       itemBuilder: itemBuilder,
       controller: controller,
       duration: duration,
-      color: color ?? Universally().mainColor);
+      color: color ?? Universally.to.getTheme()?.mainColor);
 }
 
 class UButton extends Universal {
@@ -120,8 +122,10 @@ class UButton extends Universal {
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
-                border: Border.all(color: Universally().mainColor),
-                color: color ?? Universally().mainColor,
+                border: Universally.to.getTheme()?.mainColor != null
+                    ? Border.all(color: Universally.to.getTheme()!.mainColor!)
+                    : null,
+                color: color ?? Universally.to.getTheme()?.mainColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 

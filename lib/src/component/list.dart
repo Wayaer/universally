@@ -5,8 +5,9 @@ import 'package:universally/universally.dart';
 class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
       : super(
-            valueColor:
-                AlwaysStoppedAnimation<Color>(color ?? Universally().mainColor),
+            valueColor: AlwaysStoppedAnimation<Color>(color ??
+                Universally.to.getTheme()?.mainColor ??
+                Colors.transparent),
             backgroundColor: UCS.transparent);
 }
 
@@ -84,7 +85,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Universally().config.placeholder);
+            placeholder: placeholder ?? Universally.to.config.placeholder);
 
   BaseList.count({
     super.key,
@@ -156,7 +157,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Universally().config.placeholder);
+            placeholder: placeholder ?? Universally.to.config.placeholder);
 
   BaseList.waterfall({
     super.key,
@@ -231,7 +232,7 @@ class BaseList extends ScrollList {
                             ? null
                             : () async => onRefresh.call())
                     : null),
-            placeholder: placeholder ?? Universally().config.placeholder);
+            placeholder: placeholder ?? Universally.to.config.placeholder);
 
   BaseList.custom({
     super.key,

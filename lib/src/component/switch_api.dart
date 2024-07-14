@@ -12,10 +12,10 @@ class SwitchApiButton extends StatelessWidget {
       : IconBox(
           icon: UIS.settingApi,
           unifiedButtonCategory: UnifiedButtonCategory.elevated,
-          color: color ?? Universally().mainColor,
+          color: color ?? Universally.to.getTheme()?.mainColor,
           size: 18,
           onTap: () => push(_SwitchApiPage()),
-          label: TextNormal('切换API', color: color ?? Universally().mainColor));
+          label: TextNormal('切换API', color: color ?? Universally.to.getTheme()?.mainColor));
 }
 
 class _SwitchApiPage extends StatefulWidget {
@@ -41,7 +41,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
         padding: const EdgeInsets.all(12),
         appBarTitleText: '切换服务器',
         children: [
-          TextExtraLarge('*本功能为测试版专用', color: Universally().mainColor),
+          TextExtraLarge('*本功能为测试版专用', color: Universally.to.getTheme()?.mainColor),
           const SizedBox(height: 6),
           Universal(crossAxisAlignment: CrossAxisAlignment.start, children: [
             TextNormal('默认服务器地址为：'),
@@ -52,7 +52,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               TextNormal('使用https：'),
               BaseXSwitch(
                   value: isHttps,
-                  activeColor: Universally().mainColor,
+                  activeColor: Universally.to.getTheme()?.mainColor,
                   onChanged: (bool? value) {
                     isHttps = !isHttps;
                     setState(() {});
@@ -116,19 +116,19 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             TextNormal('始终使用正式服务器').expanded,
             BaseXSwitch(
                 value: isRelease,
-                activeColor: Universally().mainColor,
+                activeColor: Universally.to.getTheme()?.mainColor,
                 onChanged: (bool? value) {
                   isRelease = !isRelease;
                   setState(() {});
                 })
           ]),
           TextNormal('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-              maxLines: 3, color: Universally().mainColor),
+              maxLines: 3, color: Universally.to.getTheme()?.mainColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextNormal('开启接口请求日志打印：'),
             BaseXSwitch(
                 value: isDebugger,
-                activeColor: Universally().mainColor,
+                activeColor: Universally.to.getTheme()?.mainColor,
                 onChanged: (bool? value) async {
                   isDebugger = !isDebugger;
                   setState(() {});

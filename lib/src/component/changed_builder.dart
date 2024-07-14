@@ -23,7 +23,8 @@ class BaseXSwitch extends ChangedBuilder<bool> {
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   }) : super(
             builder: (bool value, onChanged) => XSwitch(
-                activeColor: activeColor ?? Universally().mainColor,
+                activeColor:
+                    activeColor ?? Universally.to.getTheme()?.mainColor,
                 radius: radius,
                 size: size,
                 duration: duration,
@@ -73,7 +74,8 @@ class BaseSwitch extends ChangedBuilder<bool> {
                   trackColor: trackColor,
                   thumbColor: thumbColor,
                   activeTrackColor: activeTrackColor,
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   value: value,
                   onChanged: onChanged,
                   inactiveThumbColor: inactiveThumbColor,
@@ -136,7 +138,8 @@ class BaseSwitch extends ChangedBuilder<bool> {
                   trackColor: trackColor,
                   thumbColor: thumbColor,
                   activeTrackColor: activeTrackColor,
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   value: value,
                   onChanged: onChanged,
                   inactiveThumbColor: inactiveThumbColor,
@@ -187,7 +190,8 @@ class BaseCupertinoSwitch extends ChangedBuilder<bool> {
                   onChanged: onChanged,
                   trackColor: trackColor,
                   thumbColor: thumbColor,
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   dragStartBehavior: dragStartBehavior,
                   focusColor: focusColor,
                   focusNode: focusNode,
@@ -226,7 +230,8 @@ class BaseCheckbox extends ChangedBuilder<bool?> {
     String? semanticLabel,
   }) : super(
             builder: (bool? value, onChanged) => Checkbox(
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   value: value,
                   onChanged: onChanged,
                   mouseCursor: mouseCursor,
@@ -276,7 +281,8 @@ class BaseCheckbox extends ChangedBuilder<bool?> {
     String? semanticLabel,
   }) : super(
             builder: (bool? value, onChanged) => Checkbox.adaptive(
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   value: value,
                   onChanged: onChanged,
                   mouseCursor: mouseCursor,
@@ -338,7 +344,8 @@ class BaseSlider extends ChangedBuilder<double> {
                   divisions: divisions,
                   label: label,
                   mouseCursor: mouseCursor,
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   inactiveColor: inactiveColor,
                   secondaryActiveColor: secondaryActiveColor,
                   thumbColor: thumbColor,
@@ -388,7 +395,8 @@ class BaseSlider extends ChangedBuilder<double> {
                   divisions: divisions,
                   label: label,
                   mouseCursor: mouseCursor,
-                  activeColor: activeColor ?? Universally().mainColor,
+                  activeColor:
+                      activeColor ?? Universally.to.getTheme()?.mainColor,
                   inactiveColor: inactiveColor,
                   secondaryActiveColor: secondaryActiveColor,
                   thumbColor: thumbColor,
