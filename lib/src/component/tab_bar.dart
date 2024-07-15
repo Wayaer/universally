@@ -25,11 +25,11 @@ class BaseTabBar extends TabBar {
     super.splashBorderRadius,
     super.dividerHeight,
     super.unselectedLabelColor = UCS.black70,
+    super.labelColor,
+    super.indicatorColor,
     TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
-    Color? indicatorColor,
-    Color? labelColor,
     String? fontFamily,
     FontWeight? fontWeight,
     double fontSize = 16,
@@ -43,9 +43,6 @@ class BaseTabBar extends TabBar {
             tabs: tabs ??
                 list?.builder((value) => Tab(text: value, height: height)) ??
                 [],
-            labelColor: labelColor ?? Universally.to.getTheme()?.mainColor,
-            indicatorColor:
-                indicatorColor ?? labelColor ?? Universally.to.getTheme()?.mainColor,
             labelStyle: labelStyle ??
                 TStyle(
                     fontFamily: fontFamily,
@@ -73,10 +70,10 @@ class BaseTabBar extends TabBar {
     super.splashFactory,
     super.splashBorderRadius,
     super.dividerHeight,
+    super.indicatorColor,
     TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
-    Color? indicatorColor,
     Color labelColor = UCS.white,
     Color unselectedLabelColor = UCS.black70,
     String? fontFamily,
@@ -95,8 +92,7 @@ class BaseTabBar extends TabBar {
             indicatorWeight: 0,
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
-                color: indicatorColor ?? Universally.to.getTheme()?.mainColor,
-                borderRadius: BorderRadius.circular(4)),
+                color: indicatorColor, borderRadius: BorderRadius.circular(4)),
             labelColor: labelColor,
             dividerColor: UCS.transparent,
             unselectedLabelColor: unselectedLabelColor,

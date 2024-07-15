@@ -31,13 +31,13 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'GIF Image',
         children: [
-          TextLarge('NetworkImage'),
+          const TextLarge('NetworkImage'),
           Gif(
               autostart: Autostart.loop,
               controller: networkController,
               useCache: false,
               image: NetworkImage(url)),
-          TextLarge('AssetImage'),
+          const TextLarge('AssetImage'),
           Gif(
               autostart: Autostart.loop,
               controller: assetController,

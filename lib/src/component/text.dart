@@ -36,55 +36,7 @@ class TextThemeStyle {
   TextStyle? style;
 }
 
-enum TextSize { small, normal, large, extraLarge }
-
-/// extra large font
-class TextExtraLarge extends BaseText {
-  const TextExtraLarge(
-    super.text, {
-    super.key,
-    super.letterSpacing,
-    super.wordSpacing,
-    super.fontSize = 18,
-    super.fontFamily,
-    super.fontWeight,
-    super.fontFamilyFallback,
-    super.fontStyle,
-    super.color,
-    super.backgroundColor,
-    super.foreground,
-    super.background,
-    super.height,
-    super.textBaseline = TextBaseline.ideographic,
-    super.inherit = true,
-    super.package,
-    super.locale,
-    super.fontFeatures,
-    super.shadows,
-    super.textAlign,
-    super.decoration = TextDecoration.none,
-    super.decorationColor,
-    super.decorationStyle,
-    super.decorationThickness,
-    super.debugLabel,
-    super.useStyleFirst = false,
-    super.recognizer,
-    super.semanticsLabel,
-    super.strutStyle,
-    super.textDirection,
-    super.softWrap,
-    super.textScaleFactor,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
-    super.leadingDistribution,
-    super.fontVariations,
-    super.overflow,
-    super.maxLines,
-    super.style,
-  }) : super(textSize: TextSize.extraLarge);
-}
+enum TextSize { small, normal, large }
 
 /// Large font
 class TextLarge extends BaseText {
@@ -131,6 +83,7 @@ class TextLarge extends BaseText {
     super.overflow,
     super.maxLines,
     super.style,
+    super.usePrimaryColor = false,
   }) : super(textSize: TextSize.large);
 }
 
@@ -180,6 +133,7 @@ class TextNormal extends BaseText {
     super.overflow,
     super.maxLines,
     super.style,
+    super.usePrimaryColor = false,
   }) : super(textSize: TextSize.normal);
 }
 
@@ -229,6 +183,7 @@ class TextSmall extends BaseText {
     super.overflow,
     super.maxLines,
     super.style,
+    super.usePrimaryColor = false,
   }) : super(textSize: TextSize.small);
 }
 
@@ -282,8 +237,9 @@ class BaseText extends StatelessWidget {
     this.textScaler = TextScaler.noScaling,
     this.leadingDistribution,
     this.fontVariations,
-    this.useStyleFirst = true,
+    this.useStyleFirst = false,
     this.textSize,
+    this.usePrimaryColor = false,
   })  : isRich = false,
         texts = const [],
         styles = const [],
@@ -334,8 +290,9 @@ class BaseText extends StatelessWidget {
     this.textScaler = TextScaler.noScaling,
     this.leadingDistribution,
     this.fontVariations,
-    this.useStyleFirst = true,
+    this.useStyleFirst = false,
     this.textSize,
+    this.usePrimaryColor = false,
   })  : isRich = true,
         text = '',
         recognizer = null,
@@ -477,12 +434,20 @@ class BaseText extends StatelessWidget {
   /// 字体大小
   final TextSize? textSize;
 
+  /// 使用主色调设置字体颜色
+  final bool usePrimaryColor;
+
   @override
   Widget build(BuildContext context) {
+    TextStyle? textStyle = _mergeStyle(_getStyle(context), style);
+    if (usePrimaryColor) {
+      textStyle = (textStyle ?? const TStyle())
+          .copyWith(color: context.theme.primaryColor);
+    }
     if (isRich) {
       return BText.rich(
           key: key,
-          style: _mergeStyle(_getStyle(), style),
+          style: textStyle,
           inherit: inherit,
           color: color,
           foreground: foreground,
@@ -513,11 +478,11 @@ class BaseText extends StatelessWidget {
           semanticsLabels: semanticsLabels,
           textScaler: textScaler,
           leadingDistribution: leadingDistribution,
-          useStyleFirst: useStyleFirst);
+          useStyleFirst: usePrimaryColor ? true : useStyleFirst);
     }
     return BText(text ?? '',
         key: key,
-        style: _mergeStyle(_getStyle(), style),
+        style: textStyle,
         inherit: inherit,
         color: color,
         foreground: foreground,
@@ -544,84 +509,22 @@ class BaseText extends StatelessWidget {
         selectionColor: selectionColor,
         textScaler: textScaler,
         leadingDistribution: leadingDistribution,
-        useStyleFirst: useStyleFirst);
+        useStyleFirst: usePrimaryColor ? true : useStyleFirst);
   }
 
-  TextStyle? _getStyle() {
+  TextStyle? _getStyle(BuildContext context) {
     switch (textSize) {
       case null:
-        return Universally.to.getTheme()?.textStyle?.style;
+        return context.textTheme.bodyMedium;
       case TextSize.small:
-        return Universally.to.getTheme()?.textStyle?.small;
+        return context.textTheme.bodySmall;
       case TextSize.normal:
-        return Universally.to.getTheme()?.textStyle?.normal;
+        return context.textTheme.bodyMedium;
       case TextSize.large:
-        return Universally.to.getTheme()?.textStyle?.large;
-      case TextSize.extraLarge:
-        return Universally.to.getTheme()?.textStyle?.extraLarge;
+        return context.textTheme.bodyLarge;
     }
   }
 }
-
-/// BaseText
-// class BaseText extends BText {
-//   static TextStyle? _mergeStyle(TextStyle? firstStyle, TextStyle? secondStyle) {
-//     if (firstStyle != null) {
-//       return firstStyle.merge(secondStyle);
-//     }
-//     return secondStyle;
-//   }
-//
-//   BaseText(
-//     String? text, {
-//     super.key,
-//     super.letterSpacing,
-//     super.wordSpacing,
-//     super.fontSize,
-//     super.fontFamily,
-//     super.fontWeight,
-//     super.fontFamilyFallback,
-//     super.fontStyle,
-//     super.color,
-//     super.backgroundColor,
-//     super.foreground,
-//     super.background,
-//     super.height,
-//     super.textBaseline = TextBaseline.ideographic,
-//     super.inherit = true,
-//     super.package,
-//     super.locale,
-//     super.fontFeatures,
-//     super.shadows,
-//     super.textAlign,
-//     super.decoration = TextDecoration.none,
-//     super.decorationColor,
-//     super.decorationStyle,
-//     super.decorationThickness,
-//     super.debugLabel,
-//     super.useStyleFirst = false,
-//     super.recognizer,
-//     super.semanticsLabel,
-//     super.strutStyle,
-//     super.textDirection,
-//     super.softWrap,
-//     super.textScaleFactor,
-//     super.textWidthBasis,
-//     super.textHeightBehavior,
-//     super.selectionColor,
-//     super.textScaler = TextScaler.noScaling,
-//     super.leadingDistribution,
-//     super.fontVariations,
-//     TextOverflow? overflow,
-//     TextStyle? style,
-//     int? maxLines,
-//   }) : super(text ?? '',
-//             maxLines: maxLines == null ? 1 : (maxLines == 0 ? null : maxLines),
-//             overflow: overflow ??
-//                 (maxLines == 0 ? TextOverflow.clip : TextOverflow.ellipsis),
-//             style: (BaseText._mergeStyle(
-//                 Universally().config.textStyle?.style, style)));
-// }
 
 /// TStyle
 class TStyle extends TextStyle {

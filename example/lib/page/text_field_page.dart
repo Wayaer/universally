@@ -34,13 +34,16 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('发送验证码',
+                        color: context.theme.primaryColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('发送中', color: context.theme.primaryColor);
                   case SendState.resend:
-                    return TextNormal('重新发送', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('重新发送',
+                        color: context.theme.primaryColor);
                   case SendState.countDown:
-                    return TextNormal('$i s', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('$i s',
+                        color: context.theme.primaryColor);
                 }
               },
               enableEye: true,
@@ -61,13 +64,16 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('发送验证码',
+                        color: context.theme.primaryColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('发送中', color: context.theme.primaryColor);
                   case SendState.resend:
-                    return TextNormal('重新发送', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('重新发送',
+                        color: context.theme.primaryColor);
                   case SendState.countDown:
-                    return TextNormal('$i s', color: Universally.to.getTheme()?.mainColor);
+                    return TextNormal('$i s',
+                        color: context.theme.primaryColor);
                 }
               },
               enableEye: true,

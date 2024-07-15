@@ -6,7 +6,7 @@ class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
       : super(
             valueColor: AlwaysStoppedAnimation<Color>(color ??
-                Universally.to.getTheme()?.mainColor ??
+                Universally.to.getTheme()?.primaryColor ??
                 Colors.transparent),
             backgroundColor: UCS.transparent);
 }

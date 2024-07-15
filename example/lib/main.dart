@@ -52,7 +52,6 @@ class _App extends StatelessWidget {
             darkTheme: ThemeData.dark(),
             theme: ThemeData.light(),
             initState: (context) async {
-              setBuilder(context);
               ConnectivityPlus().addListener((status, result) async {
                 switch (result.first) {
                   case ConnectivityResult.wifi:
@@ -81,10 +80,6 @@ class _App extends StatelessWidget {
               });
             }));
   }
-
-  void setBuilder(BuildContext context) {
-    Universally().setTheme(context);
-  }
 }
 
 class HomePage extends StatelessWidget {
@@ -97,10 +92,9 @@ class HomePage extends StatelessWidget {
         safeBottom: true,
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
-          TextExtraLarge('TextExtraLarge'),
-          TextLarge('TextLarge'),
-          TextNormal('TextNormal'),
-          TextSmall('TextSmall'),
+          const TextLarge('TextLarge'),
+          const TextNormal('TextNormal'),
+          const TextSmall('TextSmall'),
           const SwitchApiButton(),
           Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),

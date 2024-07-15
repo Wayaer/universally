@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class BaseIndicator extends FlIndicator {
-  BaseIndicator(
+  const BaseIndicator(
       {super.key,
       required super.count,
       required super.position,
@@ -10,8 +10,7 @@ class BaseIndicator extends FlIndicator {
       super.layout = FlIndicatorType.scale,
       super.size = 8,
       super.color = UCS.background,
-      Color? activeColor})
-      : super(activeColor: activeColor ?? Universally.to.getTheme()?.mainColor);
+      super.activeColor});
 }
 
 class BaseCarouselSlider extends CarouselSlider {

@@ -65,21 +65,17 @@ class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
                   '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。${widget.name}客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
                 ], styles: [
                   const TStyle(height: 1.4)
-                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .merge(context.theme.textTheme.bodyMedium)
                       .copyWith(color: widget.textColor),
-                  TStyle(
-                          height: 1.4,
-                          color: Universally.to.getTheme()?.mainColor)
+                  TStyle(height: 1.4, color: context.theme.primaryColor)
                       .copyWith(color: widget.highlightColor),
                   const TStyle(height: 1.4)
-                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .merge(context.theme.textTheme.bodyMedium)
                       .copyWith(color: widget.textColor),
-                  TStyle(
-                          height: 1.4,
-                          color: Universally.to.getTheme()?.mainColor)
+                  TStyle(height: 1.4, color: context.theme.primaryColor)
                       .copyWith(color: widget.highlightColor),
                   const TStyle(height: 1.4)
-                      .merge(Universally.to.getTheme()?.textStyle?.normal)
+                      .merge(context.theme.textTheme.bodyMedium)
                       .copyWith(color: widget.textColor),
                 ], recognizers: [
                   null,
@@ -97,18 +93,17 @@ class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
                 alignment: Alignment.center,
                 expanded: true,
                 decoration: const BoxDecoration(
-                    color: UCS.background,
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(8))),
                 onTap: Curiosity.native.exitApp,
-                child: TextNormal(widget.exit, color: UCS.black70)),
+                child: TextNormal(widget.exit)),
             Universal(
                 height: 40,
                 expanded: true,
                 margin: const EdgeInsets.only(left: 0.5),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: Universally.to.getTheme()?.mainColor,
+                    color: context.theme.primaryColor,
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(6))),
                 onTap: () {
@@ -162,18 +157,16 @@ class UserPrivacyCheckbox extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       BaseCheckbox(
           value: value,
-          activeColor: mainColor ?? Universally.to.getTheme()?.mainColor,
+          activeColor: mainColor ?? context.theme.primaryColor,
           shape: shape,
           onChanged: onChanged),
       RText(maxLines: 2, textAlign: TextAlign.start, texts: texts, styles: [
         TStyle(color: color, fontSize: fontSize),
         TStyle(
-            color: mainColor ?? Universally.to.getTheme()?.mainColor,
-            fontSize: fontSize),
+            color: mainColor ?? context.theme.primaryColor, fontSize: fontSize),
         TStyle(color: color, fontSize: fontSize),
         TStyle(
-            color: mainColor ?? Universally.to.getTheme()?.mainColor,
-            fontSize: fontSize),
+            color: mainColor ?? context.theme.primaryColor, fontSize: fontSize),
       ], recognizers: [
         null,
         TapGestureRecognizer()..onTap = onUserAgreementTap,

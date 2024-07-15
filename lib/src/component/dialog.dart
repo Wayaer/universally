@@ -86,10 +86,11 @@ class ConfirmActionDialog extends StatelessWidget {
       child: content ?? TextNormal(contentText, maxLines: 0));
 
   @override
-  Widget build(BuildContext context) =>
-      isCupertino ? buildCupertinoActionDialog : buildActionDialog;
+  Widget build(BuildContext context) => isCupertino
+      ? buildCupertinoActionDialog(context)
+      : buildActionDialog(context);
 
-  Widget get buildActionDialog => ActionDialog(
+  Widget buildActionDialog(BuildContext context) => ActionDialog(
       title: title != null || titleText != null
           ? Container(
               alignment: Alignment.center,
@@ -99,20 +100,22 @@ class ConfirmActionDialog extends StatelessWidget {
       content: buildContent,
       dividerColor: hasDivider ? UCS.lineColor : null,
       dividerThickness: 1,
-      actions: buildActions,
+      actions: buildActions(context),
       options: FlExtended().modalOptions.merge(options).copyWith(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           borderRadius: BorderRadius.circular(6)),
       actionsMaxHeight: 40);
 
-  Widget get buildCupertinoActionDialog => CupertinoAlertDialog(
-      title: title ?? TextLarge(titleText, maxLines: 10),
-      content: buildContent,
-      actions: buildActions);
+  Widget buildCupertinoActionDialog(BuildContext context) =>
+      CupertinoAlertDialog(
+          title: title ?? TextLarge(titleText, maxLines: 10),
+          content: buildContent,
+          actions: buildActions(context));
 
-  List<Widget> get buildActions => actions ?? [buildConfirm];
+  List<Widget> buildActions(BuildContext context) =>
+      actions ?? [buildConfirm(context)];
 
-  Widget get buildConfirm => Universal(
+  Widget buildConfirm(BuildContext context) => Universal(
       height: 40,
       expanded: !isCupertino,
       alignment: Alignment.center,
@@ -120,8 +123,7 @@ class ConfirmActionDialog extends StatelessWidget {
         if (autoClose) pop();
         if (onConfirmTap != null) onConfirmTap!();
       },
-      child:
-          confirm ?? TextNormal(confirmText, color: Universally.to.getTheme()?.mainColor));
+      child: confirm ?? TextNormal(confirmText));
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
@@ -168,7 +170,7 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
   final GestureTapCallback? onCancelTap;
 
   @override
-  List<Widget> get buildActions =>
+  List<Widget> buildActions(BuildContext context) =>
       actions ??
       [
         Universal(
@@ -180,7 +182,7 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
             },
             alignment: Alignment.center,
             child: cancel ?? TextNormal(cancelText)),
-        buildConfirm,
+        buildConfirm(context),
       ];
 }
 

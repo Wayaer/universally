@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:universally/src/app/theme.dart';
 import 'package:universally/universally.dart';
 
 typedef LoadingCoreBuilder = Widget? Function(BaseLoading loading);
@@ -21,8 +20,13 @@ class UConfig {
     this.isCloseOverlay,
     this.placeholder,
     this.imageFailed,
-    this.theme,
-    this.darkTheme,
+    this.textField,
+    this.toastOptions,
+    this.generalDialogOptions,
+    this.bottomSheetOptions,
+    this.modalOptions,
+    this.wheelOptions,
+    this.loadingOptions,
   });
 
   /// 保存图片和视频的缓存地址
@@ -51,61 +55,26 @@ class UConfig {
   /// [BaseImage] 加载失败时显示的组件
   Widget? imageFailed;
 
-  /// 默认主题
-  UThemeData? theme;
-
-  /// 默认暗黑主题
-  UThemeData? darkTheme;
-}
-
-class UBuilder {
-  UBuilder({
-    this.mainColor,
-    this.placeholder,
-    this.toastOptions,
-    this.generalDialogOptions,
-    this.bottomSheetOptions,
-    this.modalOptions,
-    this.wheelOptions,
-    this.loadingOptions,
-    this.imageFailed,
-    this.textStyle,
-    this.textField,
-  });
-
-  /// [BaseLoading] loading 颜色
-  /// [ActionDialog] action 颜色
-  BrightnessBuilder<Color>? mainColor;
-
-  /// list 占位图
-  BrightnessBuilder<Widget>? placeholder;
+  /// 全局设置 [BaseTextField] 部分配置
+  TextFieldConfig? textField;
 
   /// 全局 Toast 配置信息
-  BrightnessBuilder<ToastOptions>? toastOptions;
+  ToastOptions? toastOptions;
 
   /// 全局 [ModalWindows] 组件配置信息
-  BrightnessBuilder<ModalBoxOptions>? modalOptions;
+  ModalBoxOptions? modalOptions;
 
   /// 全局 [BottomSheetOptions] 配置信息
-  BrightnessBuilder<BottomSheetOptions>? bottomSheetOptions;
+  BottomSheetOptions? bottomSheetOptions;
 
   /// 全局 [DialogOptions] 配置信息
-  BrightnessBuilder<DialogOptions>? generalDialogOptions;
+  DialogOptions? generalDialogOptions;
 
   /// 全局 [WheelOptions] 配置信息
-  BrightnessBuilder<WheelOptions>? wheelOptions;
+  WheelOptions? wheelOptions;
 
   /// loading 样式
-  BrightnessBuilder<LoadingOptions>? loadingOptions;
-
-  /// [BaseImage] 加载失败时显示的组件
-  BrightnessBuilder<Widget>? imageFailed;
-
-  /// 全局设置 [TextNormal],[TextSmall], [TextLarge], [TextExtraLarge] 字体样式
-  BrightnessBuilder<TextThemeStyle>? textStyle;
-
-  /// 全局设置 [BaseTextField] 部分配置
-  BrightnessBuilder<TextFieldConfig>? textField;
+  LoadingOptions? loadingOptions;
 }
 
 class Universally {
@@ -174,6 +143,39 @@ class Universally {
       _baseApi = config.releaseApi;
     }
 
+    /// 设置toast
+    /// Set the toast
+    if (_config.toastOptions != null) {
+      FlExtended().toastOptions = _config.toastOptions!;
+    }
+
+    /// 设置全局 [ModalBox] 组件配置信息
+    if (_config.modalOptions != null) {
+      FlExtended().modalOptions = _config.modalOptions!;
+    }
+
+    /// 全局 [DialogOptions] 配置信息
+    if (_config.generalDialogOptions != null) {
+      FlExtended().dialogOptions = _config.generalDialogOptions!;
+    }
+
+    /// 全局 [BottomSheetOptions] 配置信息
+    if (_config.bottomSheetOptions != null) {
+      FlExtended().bottomSheetOptions = _config.bottomSheetOptions!;
+    }
+
+    /// 全局 [WheelOptions] 配置信息
+    if (_config.wheelOptions != null) {
+      FlListWheel.wheelOptions = _config.wheelOptions!;
+    }
+
+    /// 全局 [LoadingOptions] 配置信息
+    if (_config.loadingOptions != null) {
+      FlExtended().loadingOptions = const LoadingOptions(
+              style: LoadingStyle.circular, elevation: 2, absorbing: true)
+          .merge(_config.loadingOptions!);
+    }
+
     /// 设置全局log 是否显示 分割线
     FlExtended().logCrossLine = config.logCrossLine;
 
@@ -187,7 +189,7 @@ class Universally {
   }
 
   /// 当前项目 全局使用的 刷新Header
-  CallbackT<Header> pullDownHeader = () => ClassicHeader(
+  CallbackT<Header> pullDownHeader = () => const ClassicHeader(
       dragText: '请尽情拉我',
       armedText: '可以松开我了',
       readyText: '我要开始刷新了',
@@ -195,11 +197,10 @@ class Universally {
       processedText: '我已经刷新完成了',
       failedText: '我刷新失败了唉',
       noMoreText: '没有更多了',
-      showMessage: false,
-      textStyle: Universally.to.getTheme()?.textStyle?.normal);
+      showMessage: false);
 
   /// 当前项目 全局使用的 刷新Footer
-  CallbackT<Footer> pullUpFooter = () => ClassicFooter(
+  CallbackT<Footer> pullUpFooter = () => const ClassicFooter(
       dragText: '请尽情拉我',
       armedText: '可以松开我了',
       readyText: '我要准备加载了',
@@ -207,58 +208,12 @@ class Universally {
       processedText: '我已经加载完成了',
       failedText: '我加载失败了唉',
       noMoreText: '没有更多了哦',
-      showMessage: false,
-      textStyle: Universally.to.getTheme()?.textStyle?.normal);
+      showMessage: false);
 
-  /// 获取设置的主题
-  UThemeData? getTheme({BuildContext? context}) {
+  /// 获取主题
+  ThemeData? getTheme({BuildContext? context}) {
     final mContext = context ?? Universally.to.navigatorKey.currentContext;
-    assert(mContext != null);
-    if (mContext!.theme.brightness == Brightness.light) {
-      return _config.theme;
-    } else {
-      return _config.darkTheme;
-    }
-  }
-
-  /// [BaseMaterialApp.initState]
-  /// [BaseCupertinoApp.initState]
-  /// [BaseWidgetsApp.initState]
-  /// [initState]之后回调中调用
-  void setTheme(BuildContext context) {
-    /// 设置toast
-    /// Set the toast
-    if (getTheme(context: context)?.toastOptions != null) {
-      FlExtended().toastOptions = getTheme(context: context)!.toastOptions!;
-    }
-
-    /// 设置全局 [ModalBox] 组件配置信息
-    if (getTheme(context: context)?.modalOptions != null) {
-      FlExtended().modalOptions = getTheme(context: context)!.modalOptions!;
-    }
-
-    /// 全局 [DialogOptions] 配置信息
-    if (getTheme(context: context)?.generalDialogOptions != null) {
-      FlExtended().dialogOptions =
-          getTheme(context: context)!.generalDialogOptions!;
-    }
-
-    /// 全局 [BottomSheetOptions] 配置信息
-    if (getTheme(context: context)?.bottomSheetOptions != null) {
-      FlExtended().bottomSheetOptions =
-          getTheme(context: context)!.bottomSheetOptions!;
-    }
-
-    /// 全局 [WheelOptions] 配置信息
-    if (getTheme(context: context)?.wheelOptions != null) {
-      FlListWheel.wheelOptions = getTheme(context: context)!.wheelOptions!;
-    }
-
-    /// 全局 [LoadingOptions] 配置信息
-    if (getTheme(context: context)?.loadingOptions != null) {
-      FlExtended().loadingOptions = const LoadingOptions(
-              style: LoadingStyle.circular, elevation: 2, absorbing: true)
-          .merge(getTheme(context: context)!.loadingOptions!);
-    }
+    if (mContext == null) return null;
+    return mContext.theme;
   }
 }

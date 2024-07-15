@@ -50,9 +50,9 @@ class BaseError extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80,
-              color: Universally.to.getTheme()?.textStyle?.normal?.color),
-          label: TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
+              size: 80, color: context.theme.textTheme.bodyMedium?.color),
+          label:
+              const TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
 class BasePlaceholder extends StatelessWidget {
@@ -71,9 +71,8 @@ class BasePlaceholder extends StatelessWidget {
           direction: Axis.vertical,
           spacing: 10,
           widget: Icon(UIS.empty,
-              size: 80,
-              color: Universally.to.getTheme()?.textStyle?.small?.color),
-          label: TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
+              size: 80, color: context.theme.textTheme.bodyMedium?.color),
+          label: const TextSmall('什么也没有哎~', fontWeight: FontWeights.medium)));
 }
 
 /// loading
@@ -100,7 +99,7 @@ class BaseLoading extends StatelessWidget {
       itemBuilder: itemBuilder,
       controller: controller,
       duration: duration,
-      color: color ?? Universally.to.getTheme()?.mainColor);
+      color: color ?? context.theme.primaryColor);
 }
 
 class UButton extends Universal {
@@ -110,22 +109,22 @@ class UButton extends Universal {
     super.margin,
     super.width = double.infinity,
     super.height = 45,
-    bool enabled = true,
     super.visible = true,
+    super.alignment = Alignment.center,
+    bool enabled = true,
     Widget? child,
     String? text,
     GestureTapCallback? onTap,
-    super.alignment = Alignment.center,
   }) : super(
             heroTag: text,
             child: child ??
                 BText(text ?? '', style: const TStyle(color: UCS.white)),
             onTap: enabled ? onTap : null,
             decoration: BoxDecoration(
-                border: Universally.to.getTheme()?.mainColor != null
-                    ? Border.all(color: Universally.to.getTheme()!.mainColor!)
+                border: Universally.to.getTheme() != null
+                    ? Border.all(color: Universally.to.getTheme()!.primaryColor)
                     : null,
-                color: color ?? Universally.to.getTheme()?.mainColor,
+                color: color ?? Universally.to.getTheme()?.primaryColor,
                 borderRadius: BorderRadius.circular(8)));
 }
 
