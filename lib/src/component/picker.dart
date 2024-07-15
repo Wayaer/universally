@@ -16,7 +16,7 @@ class BasePickerOptions<T> extends PickerOptions<T> {
       : super(
             title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
             confirm: const TextNormal('确定', usePrimaryColor: true),
-            cancel: const TextNormal('取消', color: UCS.black70));
+            cancel: const TextNormal('取消'));
 }
 
 extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {
@@ -40,11 +40,11 @@ class BaseCupertinoActionSheet extends StatelessWidget {
     final actions = list.builderEntry((entry) => CupertinoActionSheetAction(
         onPressed: () => closePopup(entry.key),
         isDefaultAction: true,
-        child: TextNormal(entry.value, height: 1, color: UCS.black70)));
+        child: TextNormal(entry.value, height: 1)));
     actions.add(CupertinoActionSheetAction(
         onPressed: maybePop,
         isDefaultAction: true,
-        child: TextNormal(cancelText, color: context.theme.primaryColor)));
+        child: TextNormal(cancelText)));
     return CupertinoActionSheet(actions: actions);
   }
 }

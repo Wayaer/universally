@@ -71,10 +71,10 @@ class BaseTabBar extends TabBar {
     super.splashBorderRadius,
     super.dividerHeight,
     super.indicatorColor,
+    super.labelColor,
     TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
-    Color labelColor = UCS.white,
     Color unselectedLabelColor = UCS.black70,
     String? fontFamily,
     FontWeight? fontWeight,
@@ -93,7 +93,6 @@ class BaseTabBar extends TabBar {
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
                 color: indicatorColor, borderRadius: BorderRadius.circular(4)),
-            labelColor: labelColor,
             dividerColor: UCS.transparent,
             unselectedLabelColor: unselectedLabelColor,
             labelStyle: labelStyle ??

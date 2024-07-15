@@ -5,10 +5,12 @@ import 'package:app/page/component_page.dart';
 import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
+import 'package:app/page/picker_page.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:app/page/text_page.dart';
+import 'package:app/theme.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,8 +51,8 @@ class _App extends StatelessWidget {
             home: const HomePage(),
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
-            darkTheme: ThemeData.dark(),
-            theme: ThemeData.light(),
+            darkTheme: darkTheme,
+            theme: lightTheme,
             initState: (context) async {
               ConnectivityPlus().addListener((status, result) async {
                 switch (result.first) {
@@ -92,9 +94,6 @@ class HomePage extends StatelessWidget {
         safeBottom: true,
         enableDoubleClickExit: true,
         child: Wrap(alignment: WrapAlignment.center, children: [
-          const TextLarge('TextLarge'),
-          const TextNormal('TextNormal'),
-          const TextSmall('TextSmall'),
           const SwitchApiButton(),
           Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
@@ -102,6 +101,7 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
           Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
           Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
+          Button(onTap: () => push(const PickerPage()), text: 'Picker'),
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
           Button(

@@ -9,6 +9,7 @@ class OverlayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
         isScroll: true,
+        isCloseOverlay: true,
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'Overlay',
         children: [

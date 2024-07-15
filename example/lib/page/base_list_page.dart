@@ -21,7 +21,7 @@ class _BaseListPageState extends State<BaseListPage> {
               pullDown = true;
               await 1.seconds.delayed();
               setRefreshStatus();
-              list = [];
+              list = Colors.accents;
               setState(() {});
             },
             onLoading: () async {

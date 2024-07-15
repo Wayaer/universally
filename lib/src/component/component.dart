@@ -28,7 +28,7 @@ class BottomPadding extends StatelessWidget {
 
 class BaseDivider extends Divider {
   const BaseDivider(
-      {super.color = UCS.background,
+      {super.color,
       super.key,
       super.endIndent,
       super.indent,
