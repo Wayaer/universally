@@ -1,3 +1,10 @@
+## 9.0.0
+
+* 全面替换使用官方`Theme.of(context)`
+* 移除所有的`mainColor`,切换使用`Theme.of(context).primaryColor`
+* 移除`UConfig`的`textStyle`属性,切换使用`Theme.of(context).textTheme`中的 `bodyXXX` 样式
+* 移除`TextExtraLarge`
+
 ## 8.3.1
 
 * Update dependencies

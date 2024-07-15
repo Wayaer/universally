@@ -394,8 +394,8 @@ class MainBottomBar extends StatelessWidget {
     this.spacing = 4,
     this.automaticKeepAlive = false,
     this.onChanged,
-    this.unifiedButtonCategory,
-    this.style,
+    this.borderSide,
+    this.clipper,
   });
 
   final ValueCallbackTV<List<Widget>, BuildContext> itemBuilder;
@@ -408,25 +408,25 @@ class MainBottomBar extends StatelessWidget {
   /// 保持子widget 状态
   final bool automaticKeepAlive;
 
-  /// 为组件添加水波纹效果
-  final UnifiedButtonCategory? unifiedButtonCategory;
-  final ButtonStyle? style;
+  /// top border side
+  final BorderSide? borderSide;
+
+  /// 用于裁剪 bar
+  final CustomClipper<dynamic>? clipper;
 
   @override
   Widget build(BuildContext context) => Universal(
       direction: Axis.horizontal,
       decoration: BoxDecoration(
           color: backgroundColor,
-          border:
-              Border(top: BorderSide(color: UCS.lineColor.withOpacity(0.2)))),
+          border: borderSide != null ? Border(top: borderSide!) : null),
+      clipper: clipper,
       height: context.padding.bottom + kToolbarHeight,
       padding: EdgeInsets.only(bottom: context.padding.bottom),
       children: itemBuilder(context).builderEntry((item) {
         final current = Universal(
             expanded: true,
-            style: style,
             onTap: () => onChanged?.call(item.key),
-            unifiedButtonCategory: unifiedButtonCategory,
             padding: EdgeInsets.all(spacing),
             height: double.infinity,
             child: item.value);
