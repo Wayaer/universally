@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
-  primaryColor: Colors.red,
+  primaryColor: Colors.deepPurpleAccent,
   bottomSheetTheme: BottomSheetThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
   tabBarTheme: const TabBarTheme(
-      labelColor: Colors.red,
+      labelColor: Colors.deepPurpleAccent,
       indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(color: Colors.red, width: 2.0))),
+          borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.0))),
 );
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-  primaryColor: Colors.red,
+  primaryColor: Colors.deepPurpleAccent,
   bottomSheetTheme: BottomSheetThemeData(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
   tabBarTheme: const TabBarTheme(
-      labelColor: Colors.red,
+      labelColor: Colors.deepPurpleAccent,
       indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(color: Colors.red, width: 2.0))),
+          borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.0))),
 );

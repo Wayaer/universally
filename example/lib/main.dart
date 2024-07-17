@@ -206,10 +206,12 @@ class Button extends Universal {
 }
 
 class Partition extends StatelessWidget {
-  const Partition(this.title, {super.key, this.onTap});
+  const Partition(this.title,
+      {super.key, this.onTap, this.textFontSize = TextFontSize.normal});
 
   final String title;
   final GestureTapCallback? onTap;
+  final TextFontSize textFontSize;
 
   @override
   Widget build(BuildContext context) => Universal(
@@ -219,47 +221,10 @@ class Partition extends StatelessWidget {
       alignment: Alignment.center,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(vertical: 20),
-      child: BText(title,
-          textAlign: TextAlign.center, fontWeight: FontWeight.bold));
+      child: BaseText(title,
+          textFontSize: textFontSize,
+          textAlign: TextAlign.center,
+          fontWeight: FontWeight.bold));
 }
 
 class AppState with ChangeNotifier {}
-
-//
-// mainColor: (_) => Colors.purple.shade900,
-// textStyle: (brightness) {
-// if (brightness == Brightness.dark) {
-// return TextThemeStyle(
-// small: const TStyle(color: Colors.white60),
-// normal: const TStyle(color: Colors.white),
-// large: const TStyle(color: Colors.white),
-// extraLarge: const TStyle(color: Colors.white),
-// style: const TStyle(color: Colors.white));
-// } else {
-// return TextThemeStyle(
-// small: const TStyle(color: Colors.black45),
-// normal: const TStyle(color: Colors.black),
-// large: const TStyle(color: Colors.black),
-// extraLarge: const TStyle(color: Colors.black),
-// style: const TStyle(color: Colors.black));
-// }
-// },
-// loadingOptions: (_) => LoadingOptions(
-// borderRadius: const BorderRadius.all(Radius.circular(8)),
-// backgroundColor: UCS.black.withOpacity(0.1),
-// foregroundColor: UCS.black.withOpacity(0.8),
-// padding: const EdgeInsets.all(20),
-// builder: const SizedBox(
-// width: 50,
-// height: 50,
-// child: BaseLoading(
-// color: Colors.white,
-// style: SpinKitStyle.fadingCircle))
-//     .toLoadingBuilder,
-// onLoadingTap: closeLoading,
-// onModalTap: closeLoading),
-// toastOptions: (_) => ToastOptions.extended(
-// elevation: 2,
-// foregroundColor: UCS.black.withOpacity(0.8),
-// animationStyle: FlAnimationStyle.fade,
-// ignoring: false)

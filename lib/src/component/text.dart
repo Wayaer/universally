@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 extension FontWeights on FontWeight {
@@ -16,75 +17,65 @@ extension FontWeights on FontWeight {
   static const FontWeight bold = FontWeight.bold;
 }
 
-class TextThemeStyle {
-  TextThemeStyle(
-      {this.extraLarge, this.large, this.normal, this.small, this.style});
-
-  /// 超大字体
-  TextStyle? extraLarge;
-
-  /// 大字体
-  TextStyle? large;
-
-  /// 默认字体
-  TextStyle? normal;
-
-  /// 小字体
-  TextStyle? small;
-
-  /// [TStyle] color
-  TextStyle? style;
-}
-
-enum TextSize { small, normal, large }
+enum TextFontSize { smallest, small, normal, large, extraLarge }
 
 /// Large font
 class TextLarge extends BaseText {
   const TextLarge(
     super.text, {
     super.key,
-    super.letterSpacing,
-    super.wordSpacing,
-    super.fontSize = 16,
-    super.fontFamily,
-    super.fontWeight,
-    super.fontFamilyFallback,
-    super.fontStyle,
+    super.usePrimaryColor = false,
+    super.useStyleFirst = false,
+
+    /// [TextSpan]
+    super.style,
+    super.recognizer,
+    super.semanticsLabel,
+    super.mouseCursor,
+    super.onEnter,
+    super.onExit,
+    super.spellOut,
+
+    /// [Text]
+    super.locale,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.softWrap,
+    super.overflow,
+    super.textScaleFactor,
+    super.maxLines,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+
+    /// [TextStyle]
+    super.inherit = true,
     super.color,
     super.backgroundColor,
+    super.fontFamily,
+    super.fontFamilyFallback,
+    super.package,
+    super.fontSize,
+    super.fontWeight,
+    super.fontStyle,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.textBaseline,
+    super.height,
     super.foreground,
     super.background,
-    super.height,
-    super.textBaseline = TextBaseline.ideographic,
-    super.inherit = true,
-    super.package,
-    super.locale,
-    super.fontFeatures,
-    super.shadows,
-    super.textAlign,
     super.decoration = TextDecoration.none,
     super.decorationColor,
     super.decorationStyle,
     super.decorationThickness,
     super.debugLabel,
-    super.useStyleFirst = false,
-    super.recognizer,
-    super.semanticsLabel,
-    super.strutStyle,
-    super.textDirection,
-    super.softWrap,
-    super.textScaleFactor,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.shadows,
+    super.fontFeatures,
     super.leadingDistribution,
     super.fontVariations,
-    super.overflow,
-    super.maxLines,
-    super.style,
-    super.usePrimaryColor = false,
-  }) : super(textSize: TextSize.large);
+  }) : super(textFontSize: TextFontSize.large);
 }
 
 /// 默认字体
@@ -93,48 +84,58 @@ class TextNormal extends BaseText {
   const TextNormal(
     super.text, {
     super.key,
-    super.letterSpacing,
-    super.wordSpacing,
-    super.fontSize = 14,
-    super.fontFamily,
-    super.fontWeight,
-    super.fontFamilyFallback,
-    super.fontStyle,
+    super.usePrimaryColor = false,
+    super.useStyleFirst = false,
+
+    /// [TextSpan]
+    super.style,
+    super.recognizer,
+    super.semanticsLabel,
+    super.mouseCursor,
+    super.onEnter,
+    super.onExit,
+    super.spellOut,
+
+    /// [Text]
+    super.locale,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.softWrap,
+    super.overflow,
+    super.textScaleFactor,
+    super.maxLines,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+
+    /// [TextStyle]
+    super.inherit = true,
     super.color,
     super.backgroundColor,
+    super.fontFamily,
+    super.fontFamilyFallback,
+    super.package,
+    super.fontSize,
+    super.fontWeight,
+    super.fontStyle,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.textBaseline,
+    super.height,
     super.foreground,
     super.background,
-    super.height,
-    super.textBaseline = TextBaseline.ideographic,
-    super.inherit = true,
-    super.package,
-    super.locale,
-    super.fontFeatures,
-    super.shadows,
-    super.textAlign,
     super.decoration = TextDecoration.none,
     super.decorationColor,
     super.decorationStyle,
     super.decorationThickness,
     super.debugLabel,
-    super.useStyleFirst = false,
-    super.recognizer,
-    super.semanticsLabel,
-    super.strutStyle,
-    super.textDirection,
-    super.softWrap,
-    super.textScaleFactor,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.shadows,
+    super.fontFeatures,
     super.leadingDistribution,
     super.fontVariations,
-    super.overflow,
-    super.maxLines,
-    super.style,
-    super.usePrimaryColor = false,
-  }) : super(textSize: TextSize.normal);
+  }) : super(textFontSize: TextFontSize.normal);
 }
 
 /// 小字体
@@ -143,48 +144,58 @@ class TextSmall extends BaseText {
   const TextSmall(
     super.text, {
     super.key,
-    super.letterSpacing,
-    super.wordSpacing,
-    super.fontSize = 12,
-    super.fontFamily,
-    super.fontWeight,
-    super.fontFamilyFallback,
-    super.fontStyle,
+    super.usePrimaryColor = false,
+    super.useStyleFirst = false,
+
+    /// [TextSpan]
+    super.style,
+    super.recognizer,
+    super.semanticsLabel,
+    super.mouseCursor,
+    super.onEnter,
+    super.onExit,
+    super.spellOut,
+
+    /// [Text]
+    super.locale,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.softWrap,
+    super.overflow,
+    super.textScaleFactor,
+    super.maxLines,
+    super.textWidthBasis,
+    super.textHeightBehavior,
+    super.selectionColor,
+    super.textScaler = TextScaler.noScaling,
+
+    /// [TextStyle]
+    super.inherit = true,
     super.color,
     super.backgroundColor,
+    super.fontFamily,
+    super.fontFamilyFallback,
+    super.package,
+    super.fontSize,
+    super.fontWeight,
+    super.fontStyle,
+    super.letterSpacing,
+    super.wordSpacing,
+    super.textBaseline,
+    super.height,
     super.foreground,
     super.background,
-    super.height,
-    super.textBaseline = TextBaseline.ideographic,
-    super.inherit = true,
-    super.package,
-    super.locale,
-    super.fontFeatures,
-    super.shadows,
-    super.textAlign,
     super.decoration = TextDecoration.none,
     super.decorationColor,
     super.decorationStyle,
     super.decorationThickness,
     super.debugLabel,
-    super.useStyleFirst = false,
-    super.recognizer,
-    super.semanticsLabel,
-    super.strutStyle,
-    super.textDirection,
-    super.softWrap,
-    super.textScaleFactor,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.shadows,
+    super.fontFeatures,
     super.leadingDistribution,
     super.fontVariations,
-    super.overflow,
-    super.maxLines,
-    super.style,
-    super.usePrimaryColor = false,
-  }) : super(textSize: TextSize.small);
+  }) : super(textFontSize: TextFontSize.small);
 }
 
 class BaseText extends StatelessWidget {
@@ -198,18 +209,34 @@ class BaseText extends StatelessWidget {
   const BaseText(
     this.text, {
     super.key,
+    this.usePrimaryColor = false,
+    this.textFontSize,
+    this.useStyleFirst = false,
+
+    /// [TextSpan]
+    this.style,
     this.recognizer,
     this.semanticsLabel,
+    this.mouseCursor,
+    this.onEnter,
+    this.onExit,
+    this.spellOut,
+
+    /// [Text]
+    this.locale,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
-    this.locale,
     this.softWrap,
     this.overflow,
     this.textScaleFactor,
     this.maxLines,
     this.textWidthBasis,
-    this.style,
+    this.textHeightBehavior,
+    this.selectionColor,
+    this.textScaler = TextScaler.noScaling,
+
+    /// [TextStyle]
     this.inherit = true,
     this.color,
     this.backgroundColor,
@@ -232,38 +259,59 @@ class BaseText extends StatelessWidget {
     this.debugLabel,
     this.shadows,
     this.fontFeatures,
-    this.textHeightBehavior,
-    this.selectionColor,
-    this.textScaler = TextScaler.noScaling,
     this.leadingDistribution,
     this.fontVariations,
-    this.useStyleFirst = false,
-    this.textSize,
-    this.usePrimaryColor = false,
-  })  : isRich = false,
-        texts = const [],
+  })  : texts = const [],
         styles = const [],
         recognizers = const [],
-        semanticsLabels = const [];
+        semanticsLabels = const [],
+        mouseCursors = const [],
+        onEnters = const [],
+        onExits = const [],
+        locales = const [],
+        spellOuts = const [];
 
   /// 与 [RText] 一致，仅增加 主题适配
   const BaseText.rich({
     super.key,
-    required this.texts,
+    this.usePrimaryColor = false,
+    this.textFontSize,
+    this.useStyleFirst = false,
+
+    /// [TextSpan]
+    this.text = '',
+    this.texts = const [],
     this.style,
     this.styles = const [],
+    this.recognizer,
     this.recognizers = const [],
+    this.semanticsLabel,
     this.semanticsLabels = const [],
+    this.mouseCursor,
+    this.mouseCursors = const [],
+    this.onEnter,
+    this.onEnters = const [],
+    this.onExit,
+    this.onExits = const [],
+    this.locale,
+    this.locales = const [],
+    this.spellOut,
+    this.spellOuts = const [],
+
+    /// [Text]
     this.strutStyle,
     this.textAlign,
     this.textDirection,
-    this.locale,
     this.softWrap,
     this.overflow,
     this.textScaleFactor,
     this.maxLines,
     this.textWidthBasis,
     this.textHeightBehavior,
+    this.selectionColor,
+    this.textScaler = TextScaler.noScaling,
+
+    /// [TextStyle]
     this.inherit = true,
     this.color,
     this.backgroundColor,
@@ -286,58 +334,22 @@ class BaseText extends StatelessWidget {
     this.debugLabel,
     this.shadows,
     this.fontFeatures,
-    this.selectionColor,
-    this.textScaler = TextScaler.noScaling,
     this.leadingDistribution,
     this.fontVariations,
-    this.useStyleFirst = false,
-    this.textSize,
-    this.usePrimaryColor = false,
-  })  : isRich = true,
-        text = '',
-        recognizer = null,
-        semanticsLabel = null;
+  });
 
-  final String? text;
+  /// 使用主色调设置字体颜色
+  final bool usePrimaryColor;
 
-  /// [text]手势
-  final GestureRecognizer? recognizer;
+  /// 字体大小
+  final TextFontSize? textFontSize;
 
-  /// [text]语义 - 语义描述标签，相当于此text的别名
-  final String? semanticsLabel;
+  /// 当 [color]和[style]中都有值
+  /// [useStyleFirst]=true 优先使用style,
+  /// [useStyleFirst]=false 优先使用外层,
+  final bool useStyleFirst;
 
-  /// StrutStyle,影响Text在垂直方向上的布局
-  final StrutStyle? strutStyle;
-
-  /// TextAlign,内容对齐方式
-  final TextAlign? textAlign;
-
-  /// TextDirection,内容的走向方式
-  final TextDirection? textDirection;
-
-  /// Locale，当相同的Unicode字符可以根据不同的地区以不同的方式呈现时，用于选择字体
-  final Locale? locale;
-
-  /// bool 文本是否应在软换行时断行
-  final bool? softWrap;
-
-  /// TextOverflow，内容溢出时的处理方式
-  final TextOverflow? overflow;
-
-  /// double 设置文字的放大缩小，例如，fontSize=10，this.textScaleFactor=2.0，最终得到的文字大小为10*2.0
-  final double? textScaleFactor;
-
-  /// int 设置文字的最大展示行数
-  final int? maxLines;
-
-  /// TextWidthBasis 测量一行或多行文本宽度
-  final TextWidthBasis? textWidthBasis;
-  final TextHeightBehavior? textHeightBehavior;
-
-  /// 使劲此参数 以下单独字体样式无效
-  final TextStyle? style;
-
-  /// TextStyle 以下是字体样式
+  /// ---------- [TextStyle] ----------
   /// 默认样式会继承层级最为接近的 DefaultTextStyle，为true 表示继承，false 表示完全重写
   final bool inherit;
 
@@ -405,9 +417,71 @@ class BaseText extends StatelessWidget {
   final List<Shadow>? shadows;
   final List<FontFeature>? fontFeatures;
 
+  final TextLeadingDistribution? leadingDistribution;
+
+  /// ---------- [TextSpan] ----------
+
+  final String? text;
+
+  /// 所有[texts]默认样式
+  final TextStyle? style;
+
+  /// [text]手势
+  final GestureRecognizer? recognizer;
+
+  /// [text]语义 - 语义描述标签，相当于此text的别名
+  final String? semanticsLabel;
+
+  /// [mouseCursor]
+  final MouseCursor? mouseCursor;
+
+  /// [onEnter]
+  final PointerEnterEventListener? onEnter;
+
+  /// [onExit]
+  final PointerExitEventListener? onExit;
+
+  /// [spellOut]
+  final bool? spellOut;
+
+  /// ---------- [Text] ----------
+  /// How the text should be aligned horizontally.
+  final TextAlign? textAlign;
+
+  /// StrutStyle,影响Text在垂直方向上的布局
+  final StrutStyle? strutStyle;
+
+  /// TextDirection,内容的走向方式
+  final TextDirection? textDirection;
+
+  /// Locale，当相同的Unicode字符可以根据不同的地区以不同的方式呈现时，用于选择字体
+  final Locale? locale;
+
+  /// bool 文本是否应在软换行时断行
+  final bool? softWrap;
+
+  /// TextOverflow，内容溢出时的处理方式
+  final TextOverflow? overflow;
+
+  /// double 设置文字的放大缩小，例如，fontSize=10，this.textScaleFactor=2.0，最终得到的文字大小为10*2.0
+  final double? textScaleFactor;
+
+  /// int 设置文字的最大展示行数
+  final int? maxLines;
+
+  /// {@macro flutter.painting.textPainter.textScaler}
+  final TextScaler? textScaler;
+
+  /// TextWidthBasis 测量一行或多行文本宽度
+  final TextWidthBasis? textWidthBasis;
+
+  /// {@macro dart.ui.textHeightBehavior}
+  final TextHeightBehavior? textHeightBehavior;
+
   /// The color to use when painting the selection.
   final Color? selectionColor;
 
+  /// ---------- [BText.rich] ----------
   /// 排在第一个[text]后面
   final List<String> texts;
 
@@ -420,71 +494,36 @@ class BaseText extends StatelessWidget {
   /// [texts]内语义 - 语义描述标签，相当于此text的别名
   final List<String> semanticsLabels;
 
-  final bool isRich;
+  /// [mouseCursors]
+  final List<MouseCursor?> mouseCursors;
 
-  final TextScaler textScaler;
+  /// [onEnters]
+  final List<PointerEnterEventListener?> onEnters;
 
-  final TextLeadingDistribution? leadingDistribution;
+  /// [onExits]
+  final List<PointerExitEventListener?> onExits;
 
-  /// 当 [color]和[style]中都有值
-  /// [useStyleFirst]=true 优先使用style,
-  /// [useStyleFirst]=false 优先使用外层,
-  final bool useStyleFirst;
+  /// [locales]
+  final List<Locale?> locales;
 
-  /// 字体大小
-  final TextSize? textSize;
-
-  /// 使用主色调设置字体颜色
-  final bool usePrimaryColor;
+  /// [spellOuts]
+  final List<bool?> spellOuts;
 
   @override
   Widget build(BuildContext context) {
     TextStyle? textStyle = _mergeStyle(_getStyle(context), style);
-    if (usePrimaryColor) {
-      textStyle = (textStyle ?? const TStyle())
-          .copyWith(color: context.theme.primaryColor);
-    }
-    if (isRich) {
-      return BText.rich(
-          key: key,
-          style: textStyle,
-          inherit: inherit,
-          color: color,
-          foreground: foreground,
-          background: background,
-          backgroundColor: backgroundColor,
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          fontFamilyFallback: fontFamilyFallback,
-          fontVariations: fontVariations,
-          package: package,
-          fontStyle: fontStyle,
-          letterSpacing: letterSpacing,
-          wordSpacing: wordSpacing,
-          textBaseline: textBaseline,
-          height: height,
-          decoration: decoration,
-          decorationColor: decorationColor,
-          decorationStyle: decorationStyle,
-          decorationThickness: decorationThickness,
-          debugLabel: debugLabel,
-          shadows: shadows,
-          fontFeatures: fontFeatures,
-          selectionColor: selectionColor,
-          texts: texts,
-          styles: styles,
-          recognizers: recognizers,
-          semanticsLabels: semanticsLabels,
-          textScaler: textScaler,
-          leadingDistribution: leadingDistribution,
-          useStyleFirst: usePrimaryColor ? true : useStyleFirst);
-    }
-    return BText(text ?? '',
-        key: key,
+    return BText.rich(
+        useStyleFirst: usePrimaryColor ? false : useStyleFirst,
+        text: text,
+        texts: texts,
         style: textStyle,
+        styles: styles,
+        recognizer: recognizer,
+        recognizers: recognizers,
+        semanticsLabel: semanticsLabel,
+        semanticsLabels: semanticsLabels,
         inherit: inherit,
-        color: color,
+        color: usePrimaryColor ? context.theme.primaryColor : color,
         foreground: foreground,
         background: background,
         backgroundColor: backgroundColor,
@@ -508,20 +547,25 @@ class BaseText extends StatelessWidget {
         fontFeatures: fontFeatures,
         selectionColor: selectionColor,
         textScaler: textScaler,
-        leadingDistribution: leadingDistribution,
-        useStyleFirst: usePrimaryColor ? true : useStyleFirst);
+        leadingDistribution: leadingDistribution);
   }
 
   TextStyle? _getStyle(BuildContext context) {
-    switch (textSize) {
+    switch (textFontSize) {
       case null:
         return context.textTheme.bodyMedium;
-      case TextSize.small:
+      case TextFontSize.smallest:
+        final style = context.textTheme.bodySmall;
+        return style?.copyWith(fontSize: (style.fontSize ?? 12) - 2);
+      case TextFontSize.small:
         return context.textTheme.bodySmall;
-      case TextSize.normal:
+      case TextFontSize.normal:
         return context.textTheme.bodyMedium;
-      case TextSize.large:
+      case TextFontSize.large:
         return context.textTheme.bodyLarge;
+      case TextFontSize.extraLarge:
+        final style = context.textTheme.bodyLarge;
+        return style?.copyWith(fontSize: (style.fontSize ?? 16) + 2);
     }
   }
 }
@@ -557,6 +601,34 @@ class TStyle extends TextStyle {
     super.leadingDistribution,
     super.overflow,
   });
+
+  /// smallest text style
+  /// 获取预先设置的 bodySmall
+  static TextStyle get smallest =>
+      TStyle.small.copyWith(fontSize: (TStyle.small.fontSize ?? 12) - 2);
+
+  /// small text style
+  /// 获取预先设置的 bodySmall
+  static TextStyle get small =>
+      Universally.to.getTheme()?.textTheme.bodySmall ??
+      const TStyle(fontSize: 12);
+
+  /// medium text style
+  /// 获取预先设置的 bodyMedium
+  static TextStyle get medium =>
+      Universally.to.getTheme()?.textTheme.bodyMedium ??
+      const TStyle(fontSize: 14);
+
+  /// large text style
+  /// 获取预先设置的 bodyLarge
+  static TextStyle get large =>
+      Universally.to.getTheme()?.textTheme.bodyLarge ??
+      const TStyle(fontSize: 16);
+
+  /// extra large text style
+  /// 获取预先设置的 large
+  static TextStyle get extraLarge =>
+      TStyle.large.copyWith(fontSize: (TStyle.large.fontSize ?? 16) + 2);
 }
 
 class TextBoxPage extends StatelessWidget {
@@ -567,10 +639,10 @@ class TextBoxPage extends StatelessWidget {
       this.appBarTitleText,
       this.toastText = '复制成功'});
 
-  final String text;
-  final Color? color;
   final String? appBarTitleText;
   final String toastText;
+  final String text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
@@ -581,5 +653,5 @@ class TextBoxPage extends StatelessWidget {
             text.toClipboard;
             showToast(toastText);
           },
-          child: TextNormal(text, maxLines: 0, color: color, fontSize: 15)));
+          child: TextNormal(text, color: color)));
 }
