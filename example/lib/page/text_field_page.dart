@@ -88,6 +88,13 @@ class TextFieldPage extends StatelessWidget {
                 await 1.seconds.delayed();
                 send(true);
               }),
+          const SizedBox(height: 20),
+          BaseTextField(
+              minLines: 8,
+              maxLines: 10,
+              fillColor: Colors.grey.withOpacity(0.2),
+              enableClearIcon: true,
+              hintText: '请输入内容'),
         ]);
   }
 }
