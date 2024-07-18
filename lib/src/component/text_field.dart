@@ -9,6 +9,7 @@ import 'package:universally/universally.dart';
 class BaseTextField extends StatefulWidget {
   const BaseTextField({
     super.key,
+    this.useTextField = false,
     this.value,
     this.controller,
     this.searchText,
@@ -47,7 +48,6 @@ class BaseTextField extends StatefulWidget {
     this.focusBorderSide,
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-    this.clearButtonMode = OverlayVisibilityMode.never,
     this.textInputAction = TextInputAction.done,
     this.textCapitalization = TextCapitalization.none,
     this.style,
@@ -102,10 +102,12 @@ class BaseTextField extends StatefulWidget {
     this.onTapOutside,
     this.spellCheckConfiguration,
     this.contentInsertionConfiguration,
-    this.clearButtonSemanticLabel,
     this.undoController,
     this.cursorColor,
   });
+
+  /// 使用 [TextField] 实现
+  final bool useTextField;
 
   /// ***** 附加功能 *****
   /// 初始化默认的文本
@@ -272,8 +274,6 @@ class BaseTextField extends StatefulWidget {
   final Radius cursorRadius;
   final bool cursorOpacityAnimates;
 
-  final OverlayVisibilityMode clearButtonMode;
-
   /// {@macro flutter.widgets.editableText.autofillHints}
   /// {@macro flutter.services.AutofillConfiguration.autofillHints}
   final Iterable<String>? autofillHints;
@@ -352,7 +352,6 @@ class BaseTextField extends StatefulWidget {
   final TapRegionCallback? onTapOutside;
   final SpellCheckConfiguration? spellCheckConfiguration;
   final ContentInsertionConfiguration? contentInsertionConfiguration;
-  final String? clearButtonSemanticLabel;
   final UndoHistoryController? undoController;
 
   @override
@@ -411,21 +410,17 @@ class _BaseTextFieldState extends State<BaseTextField> {
       prefixes.add(DecoratorEntry(
           positioned: DecoratorPositioned.inner, widget: buildSearchIcon));
     }
-    List<DecoratorEntry> innerSuffixes = [];
-    for (var element in suffixes) {
-      if (element.mode == OverlayVisibilityMode.editing ||
-          element.mode == OverlayVisibilityMode.notEditing) {
-        innerSuffixes.add(element);
-      }
-    }
+
+    /// 处理后缀
+    Iterable<DecoratorEntry> innerSuffixes = suffixes.where((e) =>
+        e.mode == OverlayVisibilityMode.editing ||
+        e.mode == OverlayVisibilityMode.notEditing);
     suffixes.removeWhere((element) => innerSuffixes.contains(element));
-    List<DecoratorEntry> innerPrefixes = [];
-    for (var element in suffixes) {
-      if (element.mode == OverlayVisibilityMode.editing ||
-          element.mode == OverlayVisibilityMode.notEditing) {
-        innerPrefixes.add(element);
-      }
-    }
+
+    /// 处理前缀
+    Iterable<DecoratorEntry> innerPrefixes = prefixes.where((e) =>
+        e.mode == OverlayVisibilityMode.editing ||
+        e.mode == OverlayVisibilityMode.notEditing);
     prefixes.removeWhere((element) => innerPrefixes.contains(element));
     return Universal(
         heroTag: widget.heroTag,
@@ -446,119 +441,217 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 : null,
             borderSide: widget.borderSide,
             constraints: widget.constraints,
-            child: buildTextField(
-                innerSuffixes: innerSuffixes, innerPrefixes: innerPrefixes)));
+            child: buildEditableText(
+                innerSuffix: buildInnerSuffixes(innerSuffixes),
+                innerPrefix: buildInnerPrefixes(innerPrefixes))));
   }
 
-  Widget buildTextField({
-    List<DecoratorEntry> innerSuffixes = const [],
-    List<DecoratorEntry> innerPrefixes = const [],
-  }) =>
+  Widget buildEditableText({Widget? innerSuffix, Widget? innerPrefix}) =>
       ValueListenableBuilder(
           valueListenable: obscureText,
-          builder: (_, bool value, __) => CupertinoTextField(
-                controller: controller,
-                focusNode: focusNode,
-                suffixMode: OverlayVisibilityMode.editing,
-                suffix: innerSuffixes.isEmpty
-                    ? null
-                    : Row(
-                        children:
-                            innerSuffixes.builder((entry) => entry.widget)),
-                prefixMode: OverlayVisibilityMode.editing,
-                prefix: innerPrefixes.isEmpty
-                    ? null
-                    : Row(
-                        children:
-                            innerPrefixes.builder((entry) => entry.widget)),
-                decoration: const BoxDecoration(color: Colors.transparent),
-                placeholder: widget.hintText,
-                placeholderStyle: const TStyle(fontSize: 13).merge(
-                    widget.hintStyle ??
-                        Universally.to.config.textField?.hintStyle ??
-                        context.theme.textTheme.bodySmall),
-                style: const TStyle().merge(widget.style ??
-                    Universally.to.config.textField?.style ??
-                    context.theme.textTheme.bodyMedium),
-                keyboardType: widget.keyboardType ??
-                    widget.textInputType.toKeyboardType(),
-                inputFormatters: inputFormatters,
-                keyboardAppearance: widget.keyboardAppearance,
-                textInputAction: widget.textInputAction,
-                textCapitalization: widget.textCapitalization,
-                enabled: widget.enabled,
-                autofocus: widget.autoFocus,
-                obscureText: widget.enableEye && value,
-                obscuringCharacter: widget.obscuringCharacter,
-                maxLines: (widget.enableEye && value) ? 1 : widget.maxLines,
-                minLines: widget.minLines,
-                maxLengthEnforcement: widget.maxLengthEnforcement,
-                maxLength: widget.maxLength,
-                onChanged: widget.onChanged,
-                textAlign: _textAlign,
-                onTap: widget.onTap == null && widget.onTapWith == null
-                    ? null
-                    : () {
-                        widget.onTap?.call();
-                        widget.onTapWith?.call(controller, focusNode);
-                      },
-                onSubmitted:
-                    widget.onSubmitted == null && widget.onSubmittedWith == null
-                        ? null
-                        : (String value) {
-                            widget.onSubmitted?.call(value);
-                            widget.onSubmittedWith?.call(controller, focusNode);
-                          },
-                onEditingComplete: widget.onEditingComplete == null &&
-                        widget.onEditingCompleteWith == null
-                    ? null
-                    : () {
-                        widget.onEditingComplete?.call();
-                        widget.onEditingCompleteWith
-                            ?.call(controller, focusNode);
-                      },
-                showCursor: widget.showCursor,
-                cursorColor: widget.cursorColor ?? context.theme.primaryColor,
-                cursorHeight: widget.cursorHeight,
-                cursorWidth: widget.cursorWidth,
-                cursorRadius: widget.cursorRadius,
-                cursorOpacityAnimates: widget.cursorOpacityAnimates,
-                clearButtonMode: widget.clearButtonMode,
-                clipBehavior: widget.clipBehavior,
-                autocorrect: widget.autocorrect,
-                autofillHints: widget.autofillHints,
-                dragStartBehavior: widget.dragStartBehavior,
-                enableIMEPersonalizedLearning:
-                    widget.enableIMEPersonalizedLearning,
-                enableInteractiveSelection: widget.enableInteractiveSelection,
-                enableSuggestions: widget.enableSuggestions,
-                expands: widget.expands,
-                readOnly: widget.readOnly,
-                restorationId: widget.restorationId,
-                scribbleEnabled: widget.scribbleEnabled,
-                scrollController: widget.scrollController,
-                scrollPadding: widget.scrollPadding,
-                scrollPhysics: widget.scrollPhysics,
-                selectionControls: widget.selectionControls,
-                selectionHeightStyle: widget.selectionHeightStyle,
-                selectionWidthStyle: widget.selectionWidthStyle,
-                smartDashesType: widget.smartDashesType,
-                smartQuotesType: widget.smartQuotesType,
-                strutStyle: widget.strutStyle ??
-                    Universally.to.config.textField?.strutStyle,
-                textAlignVertical: widget.textAlignVertical,
-                textDirection: widget.textDirection,
-                padding: widget.contentPadding,
-                contextMenuBuilder:
-                    widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
-                magnifierConfiguration: widget.magnifierConfiguration,
-                onTapOutside: widget.onTapOutside,
-                spellCheckConfiguration: widget.spellCheckConfiguration,
-                clearButtonSemanticLabel: widget.clearButtonSemanticLabel,
-                contentInsertionConfiguration:
-                    widget.contentInsertionConfiguration,
-                undoController: widget.undoController,
-              ));
+          builder: (_, bool value, __) => widget.useTextField
+              ? buildTextField(value,
+                  innerSuffix: innerSuffix, innerPrefix: innerPrefix)
+              : buildCupertinoTextField(value,
+                  innerSuffix: innerSuffix, innerPrefix: innerPrefix));
+
+  Widget? buildInnerSuffixes(Iterable<DecoratorEntry> innerSuffixes) =>
+      innerSuffixes.isEmpty
+          ? null
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: innerSuffixes.builder((entry) => entry.widget));
+
+  Widget? buildInnerPrefixes(Iterable<DecoratorEntry> innerPrefixes) =>
+      innerPrefixes.isEmpty
+          ? null
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: innerPrefixes.builder((entry) => entry.widget));
+
+  Widget buildTextField(bool obscureText,
+          {Widget? innerSuffix, Widget? innerPrefix}) =>
+      TextField(
+        controller: controller,
+        focusNode: focusNode,
+        decoration: InputDecoration(
+            contentPadding: widget.contentPadding,
+            isDense: true,
+            suffix: innerSuffix,
+            prefix: innerPrefix,
+            hintText: widget.hintText,
+            border: InputBorder.none,
+            hintStyle: const TStyle(fontSize: 13).merge(widget.hintStyle ??
+                Universally.to.config.textField?.hintStyle ??
+                context.theme.textTheme.bodySmall)),
+        style: const TStyle().merge(widget.style ??
+            Universally.to.config.textField?.style ??
+            context.theme.textTheme.bodyMedium),
+        keyboardType:
+            widget.keyboardType ?? widget.textInputType.toKeyboardType(),
+        inputFormatters: inputFormatters,
+        keyboardAppearance: widget.keyboardAppearance,
+        textInputAction: widget.textInputAction,
+        textCapitalization: widget.textCapitalization,
+        enabled: widget.enabled,
+        autofocus: widget.autoFocus,
+        obscureText: widget.enableEye && obscureText,
+        obscuringCharacter: widget.obscuringCharacter,
+        maxLines: (widget.enableEye && obscureText) ? 1 : widget.maxLines,
+        minLines: widget.minLines,
+        maxLengthEnforcement: widget.maxLengthEnforcement,
+        maxLength: widget.maxLength,
+        onChanged: widget.onChanged,
+        textAlign: _textAlign,
+        onTap: widget.onTap == null && widget.onTapWith == null
+            ? null
+            : () {
+                widget.onTap?.call();
+                widget.onTapWith?.call(controller, focusNode);
+              },
+        onSubmitted:
+            widget.onSubmitted == null && widget.onSubmittedWith == null
+                ? null
+                : (String value) {
+                    widget.onSubmitted?.call(value);
+                    widget.onSubmittedWith?.call(controller, focusNode);
+                  },
+        onEditingComplete: widget.onEditingComplete == null &&
+                widget.onEditingCompleteWith == null
+            ? null
+            : () {
+                widget.onEditingComplete?.call();
+                widget.onEditingCompleteWith?.call(controller, focusNode);
+              },
+        showCursor: widget.showCursor,
+        cursorColor: widget.cursorColor ?? context.theme.primaryColor,
+        cursorHeight: widget.cursorHeight,
+        cursorWidth: widget.cursorWidth,
+        cursorRadius: widget.cursorRadius,
+        cursorOpacityAnimates: widget.cursorOpacityAnimates,
+        clipBehavior: widget.clipBehavior,
+        autocorrect: widget.autocorrect,
+        autofillHints: widget.autofillHints,
+        dragStartBehavior: widget.dragStartBehavior,
+        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        enableSuggestions: widget.enableSuggestions,
+        expands: widget.expands,
+        readOnly: widget.readOnly,
+        restorationId: widget.restorationId,
+        scribbleEnabled: widget.scribbleEnabled,
+        scrollController: widget.scrollController,
+        scrollPadding: widget.scrollPadding,
+        scrollPhysics: widget.scrollPhysics,
+        selectionControls: widget.selectionControls,
+        selectionHeightStyle: widget.selectionHeightStyle,
+        selectionWidthStyle: widget.selectionWidthStyle,
+        smartDashesType: widget.smartDashesType,
+        smartQuotesType: widget.smartQuotesType,
+        strutStyle:
+            widget.strutStyle ?? Universally.to.config.textField?.strutStyle,
+        textAlignVertical: widget.textAlignVertical,
+        textDirection: widget.textDirection,
+        contextMenuBuilder:
+            widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+        magnifierConfiguration: widget.magnifierConfiguration,
+        onTapOutside: widget.onTapOutside,
+        spellCheckConfiguration: widget.spellCheckConfiguration,
+        contentInsertionConfiguration: widget.contentInsertionConfiguration,
+        undoController: widget.undoController,
+      );
+
+  Widget buildCupertinoTextField(bool obscureText,
+          {Widget? innerSuffix, Widget? innerPrefix}) =>
+      CupertinoTextField.borderless(
+        controller: controller,
+        focusNode: focusNode,
+        suffixMode: OverlayVisibilityMode.editing,
+        suffix: innerSuffix,
+        prefixMode: OverlayVisibilityMode.editing,
+        prefix: innerPrefix,
+        decoration: const BoxDecoration(color: Colors.transparent),
+        placeholder: widget.hintText,
+        placeholderStyle: const TStyle(fontSize: 13).merge(widget.hintStyle ??
+            Universally.to.config.textField?.hintStyle ??
+            context.theme.textTheme.bodySmall),
+        style: const TStyle().merge(widget.style ??
+            Universally.to.config.textField?.style ??
+            context.theme.textTheme.bodyMedium),
+        keyboardType:
+            widget.keyboardType ?? widget.textInputType.toKeyboardType(),
+        inputFormatters: inputFormatters,
+        keyboardAppearance: widget.keyboardAppearance,
+        textInputAction: widget.textInputAction,
+        textCapitalization: widget.textCapitalization,
+        enabled: widget.enabled,
+        autofocus: widget.autoFocus,
+        obscureText: widget.enableEye && obscureText,
+        obscuringCharacter: widget.obscuringCharacter,
+        maxLines: (widget.enableEye && obscureText) ? 1 : widget.maxLines,
+        minLines: widget.minLines,
+        maxLengthEnforcement: widget.maxLengthEnforcement,
+        maxLength: widget.maxLength,
+        onChanged: widget.onChanged,
+        textAlign: _textAlign,
+        onTap: widget.onTap == null && widget.onTapWith == null
+            ? null
+            : () {
+                widget.onTap?.call();
+                widget.onTapWith?.call(controller, focusNode);
+              },
+        onSubmitted:
+            widget.onSubmitted == null && widget.onSubmittedWith == null
+                ? null
+                : (String value) {
+                    widget.onSubmitted?.call(value);
+                    widget.onSubmittedWith?.call(controller, focusNode);
+                  },
+        onEditingComplete: widget.onEditingComplete == null &&
+                widget.onEditingCompleteWith == null
+            ? null
+            : () {
+                widget.onEditingComplete?.call();
+                widget.onEditingCompleteWith?.call(controller, focusNode);
+              },
+        showCursor: widget.showCursor,
+        cursorColor: widget.cursorColor ?? context.theme.primaryColor,
+        cursorHeight: widget.cursorHeight,
+        cursorWidth: widget.cursorWidth,
+        cursorRadius: widget.cursorRadius,
+        cursorOpacityAnimates: widget.cursorOpacityAnimates,
+        clipBehavior: widget.clipBehavior,
+        autocorrect: widget.autocorrect,
+        autofillHints: widget.autofillHints,
+        dragStartBehavior: widget.dragStartBehavior,
+        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        enableSuggestions: widget.enableSuggestions,
+        expands: widget.expands,
+        readOnly: widget.readOnly,
+        restorationId: widget.restorationId,
+        scribbleEnabled: widget.scribbleEnabled,
+        scrollController: widget.scrollController,
+        scrollPadding: widget.scrollPadding,
+        scrollPhysics: widget.scrollPhysics,
+        selectionControls: widget.selectionControls,
+        selectionHeightStyle: widget.selectionHeightStyle,
+        selectionWidthStyle: widget.selectionWidthStyle,
+        smartDashesType: widget.smartDashesType,
+        smartQuotesType: widget.smartQuotesType,
+        strutStyle:
+            widget.strutStyle ?? Universally.to.config.textField?.strutStyle,
+        textAlignVertical: widget.textAlignVertical,
+        textDirection: widget.textDirection,
+        padding: widget.contentPadding,
+        contextMenuBuilder:
+            widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
+        magnifierConfiguration: widget.magnifierConfiguration,
+        onTapOutside: widget.onTapOutside,
+        spellCheckConfiguration: widget.spellCheckConfiguration,
+        contentInsertionConfiguration: widget.contentInsertionConfiguration,
+        undoController: widget.undoController,
+      );
 
   Widget _defaultContextMenuBuilder(
           BuildContext context, EditableTextState editableTextState) =>
@@ -683,6 +776,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   @override
   void dispose() {
+    obscureText.dispose();
     super.dispose();
     if (widget.disposeController) controller.dispose();
   }

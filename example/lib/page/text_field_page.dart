@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -9,19 +10,28 @@ class TextFieldPage extends StatelessWidget {
     return BaseScaffold(
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'TextField',
+        isScroll: true,
         children: [
           const SizedBox(height: 20),
           BaseTextField(
               hintText: '请输入',
               enableClearIcon: true,
               enableEye: true,
-              borderType: BorderType.underline,
+              borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
               enableSearchIcon: true,
               onTap: () {
                 showToast('请输入');
               },
+              prefix: [
+                const BText('prefix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              suffix: [
+                const BText('suffix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
               searchTextTap: (String value) {},
               sendVerificationCodeTap: (send) async {
                 await 1.seconds.delayed();
@@ -47,6 +57,14 @@ class TextFieldPage extends StatelessWidget {
                 }
               },
               enableEye: true,
+              prefix: [
+                const BText('prefix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              suffix: [
+                const BText('suffix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
@@ -77,6 +95,14 @@ class TextFieldPage extends StatelessWidget {
                 }
               },
               enableEye: true,
+              prefix: [
+                const BText('prefix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              suffix: [
+                const BText('suffix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
@@ -90,11 +116,35 @@ class TextFieldPage extends StatelessWidget {
               }),
           const SizedBox(height: 20),
           BaseTextField(
-              minLines: 8,
-              maxLines: 10,
+              minLines: 3,
+              maxLines: 6,
+              useTextField: true,
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
-              hintText: '请输入内容'),
+              prefix: [
+                const BText('prefix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              suffix: [
+                const BText('suffix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              hintText: '请输入内容   useTextField=true'),
+          const SizedBox(height: 20),
+          BaseTextField(
+              minLines: 3,
+              maxLines: 6,
+              prefix: [
+                const BText('prefix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              suffix: [
+                const BText('suffix')
+                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+              ],
+              fillColor: Colors.grey.withOpacity(0.2),
+              enableClearIcon: true,
+              hintText: '请输入内容   useTextField=false'),
         ]);
   }
 }
