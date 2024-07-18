@@ -618,7 +618,7 @@ class TStyle extends TextStyle {
     super.decorationThickness,
     super.debugLabel,
     super.leadingDistribution,
-    super.overflow,
+    super.overflow = TextOverflow.ellipsis,
   });
 
   /// smallest text style
