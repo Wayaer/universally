@@ -1,4 +1,4 @@
-## 9.0.1
+## 9.0.2
 
 * 全面替换使用官方`Theme.of(context)`
 * 移除所有的`mainColor`,切换使用`Theme.of(context).primaryColor`

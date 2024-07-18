@@ -547,7 +547,26 @@ class BaseText extends StatelessWidget {
         fontFeatures: fontFeatures,
         selectionColor: selectionColor,
         textScaler: textScaler,
-        leadingDistribution: leadingDistribution);
+        leadingDistribution: leadingDistribution,
+        locale: locale,
+        softWrap: softWrap,
+        overflow: overflow,
+        textDirection: textDirection,
+        textHeightBehavior: textHeightBehavior,
+        textWidthBasis: textWidthBasis,
+        textScaleFactor: textScaleFactor,
+        maxLines: maxLines,
+        mouseCursor: mouseCursor,
+        onEnter: onEnter,
+        onExit: onExit,
+        mouseCursors: mouseCursors,
+        onEnters: onEnters,
+        onExits: onExits,
+        locales: locales,
+        spellOut: spellOut,
+        spellOuts: spellOuts,
+        textAlign: textAlign,
+        strutStyle: strutStyle);
   }
 
   TextStyle? _getStyle(BuildContext context) {
