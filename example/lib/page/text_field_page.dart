@@ -25,12 +25,12 @@ class TextFieldPage extends StatelessWidget {
                 showToast('请输入');
               },
               prefix: [
-                const BText('prefix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('prefix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               suffix: [
-                const BText('suffix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('suffix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               searchTextTap: (String value) {},
               sendVerificationCodeTap: (send) async {
@@ -58,17 +58,17 @@ class TextFieldPage extends StatelessWidget {
               },
               enableEye: true,
               prefix: [
-                const BText('prefix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('prefix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               suffix: [
-                const BText('suffix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('suffix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
-              sendVerificationCodePositioned: DecoratorPositioned.inner,
+              sendVerificationCodePosition: DecoratedPendantPosition.inner,
               enableSearchIcon: true,
               searchTextTap: (String value) {},
               sendVerificationCodeTap: (send) async {
@@ -96,20 +96,20 @@ class TextFieldPage extends StatelessWidget {
               },
               enableEye: true,
               prefix: [
-                const BText('prefix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('prefix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               suffix: [
-                const BText('suffix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('suffix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
               fillColor: Colors.red.withOpacity(0.2),
               enableSearchIcon: true,
-              searchTextPositioned: DecoratorPositioned.inner,
+              searchTextPosition: DecoratedPendantPosition.inner,
               searchTextTap: (String value) {},
-              sendVerificationCodePositioned: DecoratorPositioned.inner,
+              sendVerificationCodePosition: DecoratedPendantPosition.inner,
               sendVerificationCodeTap: (send) async {
                 await 1.seconds.delayed();
                 send(true);
@@ -122,12 +122,12 @@ class TextFieldPage extends StatelessWidget {
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
               prefix: [
-                const BText('prefix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('prefix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               suffix: [
-                const BText('suffix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('suffix').toDecoratedPendant(
+                    positioned: DecoratedPendantPosition.outer),
               ],
               hintText: '请输入内容   useTextField=true'),
           const SizedBox(height: 20),
@@ -135,15 +135,26 @@ class TextFieldPage extends StatelessWidget {
               minLines: 3,
               maxLines: 6,
               prefix: [
-                const BText('prefix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('inner').toDecoratedPendant(
+                    mode: OverlayVisibilityMode.notEditing,
+                    positioned: DecoratedPendantPosition.inner),
+                const BText('prefix').toDecoratedPendant(
+                    mode: OverlayVisibilityMode.editing,
+                    maintainSize: true,
+                    positioned: DecoratedPendantPosition.outer),
               ],
               suffix: [
-                const BText('suffix')
-                    .toDecoratorEntry(positioned: DecoratorPositioned.outer),
+                const BText('editing').toDecoratedPendant(
+                    mode: OverlayVisibilityMode.editing,
+                    positioned: DecoratedPendantPosition.inner),
+                const BText('suffix').toDecoratedPendant(
+                    mode: OverlayVisibilityMode.editing,
+                    maintainSize: true,
+                    positioned: DecoratedPendantPosition.outer),
               ],
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
+              enableEye: true,
               hintText: '请输入内容   useTextField=false'),
         ]);
   }

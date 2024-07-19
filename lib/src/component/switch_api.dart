@@ -69,7 +69,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                       alignment: Alignment.centerLeft,
                       width: 50,
                       child: TextNormal(httpStr))
-                  .toDecoratorEntry()
+                  .toDecoratedPendant()
                   .toList,
               maxLength: 30,
               controller: ip,
@@ -83,7 +83,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
                       alignment: Alignment.centerLeft,
                       width: 50,
                       child: const TextNormal('端口: '))
-                  .toDecoratorEntry()
+                  .toDecoratedPendant()
                   .toList,
               maxLength: 10,
               controller: port,
