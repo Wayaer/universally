@@ -536,7 +536,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       CupertinoTextField.borderless(
           controller: controller,
           focusNode: focusNode,
-          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.4)),
+          // decoration: BoxDecoration(color: Colors.grey.withOpacity(0.4)),
           suffixMode: OverlayVisibilityMode.editing,
           suffix: innerSuffix,
           prefixMode: OverlayVisibilityMode.editing,
