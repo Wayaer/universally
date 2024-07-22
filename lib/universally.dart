@@ -49,7 +49,6 @@ export 'src/component/tab_bar.dart';
 export 'src/component/user_privacy.dart';
 export 'src/component/switch_api.dart';
 export 'src/component/cache.dart';
-export 'src/component/keep_alive_wrapper.dart';
 
 /// dependencies
 export 'src/dependencies/dio.dart';

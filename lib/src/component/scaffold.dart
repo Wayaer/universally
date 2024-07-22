@@ -431,7 +431,7 @@ class MainBottomBar extends StatelessWidget {
             height: double.infinity,
             child: item.value);
         return automaticKeepAlive
-            ? AutomaticKeepAliveWrapper(current)
+            ? FlAutomaticKeepAliveWrapper(current)
             : current;
       }));
 }
