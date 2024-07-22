@@ -440,13 +440,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
         height: widget.height,
         child: FlDecoratedBoxState(
             decoration: FlBoxDecoration(
-                borderType: widget.borderType,
-                fillColor: widget.fillColor,
-                borderRadius: widget.borderRadius,
-                margin: widget.margin,
-                padding: widget.padding,
-                borderSide: borderSide,
-                constraints: widget.constraints),
+              borderType: widget.borderType,
+              fillColor: widget.fillColor,
+              borderRadius: widget.borderRadius,
+              margin: widget.margin,
+              padding: widget.padding,
+              borderSide: borderSide,
+              constraints: widget.constraints,
+            ),
             suffixes: suffixes,
             prefixes: prefixes,
             focusNode: focusNode,
@@ -562,7 +563,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           undoController: widget.undoController);
 
   Widget buildCupertinoTextField({Widget? innerSuffix, Widget? innerPrefix}) =>
-      EditableText(
+      CupertinoTextField.borderless(
           controller: controller,
           focusNode: focusNode,
           // decoration: BoxDecoration(color: Colors.grey.withOpacity(0.4)),
