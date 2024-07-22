@@ -68,6 +68,7 @@ class BaseTextField extends StatefulWidget {
     this.minLines,
     this.expands = false,
     this.maxLength,
+    this.maxLengthUseInputFormatters = false,
     this.maxLengthEnforcement,
     this.onChanged,
     this.onEditingComplete,
@@ -191,6 +192,11 @@ class BaseTextField extends StatefulWidget {
   /// 最长输入的字符串
   final int? maxLength;
 
+  /// 是否使用 [InputFormatters] 限制输入长度
+  final bool maxLengthUseInputFormatters;
+
+  final MaxLengthEnforcement? maxLengthEnforcement;
+
   /// 输入文字样式
   final TextStyle? style;
 
@@ -269,7 +275,6 @@ class BaseTextField extends StatefulWidget {
 
   /// 隐藏输入内容时显示的字符串
   final String obscuringCharacter;
-  final MaxLengthEnforcement? maxLengthEnforcement;
 
   /// {@macro flutter.widgets.editableText.showCursor}
   final bool? showCursor;
@@ -491,7 +496,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           maxLines: widget.maxLines,
           minLines: widget.minLines,
           maxLengthEnforcement: widget.maxLengthEnforcement,
-          maxLength: widget.maxLength,
+          maxLength: maxLength,
           onChanged: widget.onChanged,
           textAlign: textAlign,
           onTap: onTap,
@@ -555,8 +560,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
           obscuringCharacter: widget.obscuringCharacter,
           maxLines: maxLines,
           minLines: minLines,
+          maxLength: maxLength,
           maxLengthEnforcement: widget.maxLengthEnforcement,
-          maxLength: widget.maxLength,
           onChanged: widget.onChanged,
           textAlign: textAlign,
           onTap: onTap,
@@ -641,10 +646,18 @@ class _BaseTextFieldState extends State<BaseTextField> {
       Universally.to.config.textField?.style ??
       context.theme.textTheme.bodyMedium);
 
+  int? get maxLength {
+    if (widget.useTextField && widget.maxLengthUseInputFormatters) return null;
+    return widget.maxLength;
+  }
+
   List<TextInputFormatter> get inputFormatters {
     final list = widget.textInputType.toTextInputFormatter();
     if (widget.inputFormatters != null) {
       list.addAll(widget.inputFormatters!);
+    }
+    if (widget.useTextField && widget.maxLengthUseInputFormatters) {
+      list.add(LengthLimitingTextInputFormatter(widget.maxLength));
     }
     return list;
   }

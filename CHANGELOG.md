@@ -1,4 +1,4 @@
-## 9.0.2
+## 9.0.3
 
 * 全面替换使用官方`Theme.of(context)`
 * 移除所有的`mainColor`,切换使用`Theme.of(context).primaryColor`
@@ -6,6 +6,7 @@
 * 移除`TextExtraLarge`
 * 新增 `TextFontSize` 枚举
 * 新增 `TStyle.smallest` `TStyle.small` `TStyle.medium` `TStyle.large` `TStyle.extraLarge`
+* `BaseTextField`新增`maxLengthUseInputFormatters` 参数
 
 ## 8.3.1
 

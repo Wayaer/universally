@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
 class TextFieldPage extends StatelessWidget {
@@ -119,6 +120,8 @@ class TextFieldPage extends StatelessWidget {
               minLines: 3,
               maxLines: 6,
               useTextField: true,
+              maxLengthUseInputFormatters: true,
+              maxLength: 10,
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
               prefix: [
@@ -134,6 +137,8 @@ class TextFieldPage extends StatelessWidget {
           BaseTextField(
               minLines: 3,
               maxLines: 6,
+              maxLength: 10,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
               prefix: [
                 const BText('inner').toDecoratedPendant(
                     mode: OverlayVisibilityMode.notEditing,
@@ -154,7 +159,6 @@ class TextFieldPage extends StatelessWidget {
               ],
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
-              enableEye: true,
               hintText: '请输入内容   useTextField=false'),
         ]);
   }
