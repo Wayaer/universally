@@ -269,7 +269,6 @@ class TextFieldDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       borderRadius: BorderRadius.circular(2),
       controller: controller,
-      borderSide: const BorderSide(color: UCS.background),
       width: double.infinity,
       hasFocusChangeBorder: false,
       maxLength: maxLength,

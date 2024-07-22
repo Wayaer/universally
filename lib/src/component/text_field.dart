@@ -45,7 +45,7 @@ class BaseTextField extends StatefulWidget {
     this.constraints,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.borderType = BorderType.outline,
-    this.borderSide = const BorderSide(color: UCS.lineColor, width: 1),
+    this.borderSide,
     this.focusBorderSide,
     this.contentPadding =
         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -160,7 +160,7 @@ class BaseTextField extends StatefulWidget {
   final BorderRadius? borderRadius;
   final BorderType borderType;
   final bool hasFocusChangeBorder;
-  final BorderSide borderSide;
+  final BorderSide? borderSide;
   final BorderSide? focusBorderSide;
 
   /// 整个组件的padding 包含[header]、[footer]
@@ -317,9 +317,7 @@ class BaseTextField extends StatefulWidget {
   final bool expands;
 
   /// The appearance of the keyboard.
-  ///
   /// This setting is only honored on iOS devices.
-  ///
   /// If null, defaults to [Brightness.light].
   final Brightness? keyboardAppearance;
 
@@ -425,6 +423,17 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
     prefixes.removeWhere(innerPendant);
 
+    /// 未获取焦点后的 borderSide
+    final borderSide = widget.borderSide ??
+        context.theme.inputDecorationTheme.border?.borderSide ??
+        const BorderSide();
+
+    /// 获取焦点后的 borderSide
+    final focusedBorderSide = widget.borderSide ??
+        context.theme.inputDecorationTheme.focusedBorder?.borderSide ??
+        BorderSide(color: context.theme.primaryColor);
+
+    log(focusedBorderSide.color);
     return Universal(
         heroTag: widget.heroTag,
         width: widget.width,
@@ -436,18 +445,28 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 borderRadius: widget.borderRadius,
                 margin: widget.margin,
                 padding: widget.padding,
-                borderSide: widget.borderSide,
+                borderSide: borderSide,
                 constraints: widget.constraints),
             suffixes: suffixes,
             prefixes: prefixes,
             focusNode: focusNode,
             focusBorderSide: widget.hasFocusChangeBorder
-                ? widget.focusBorderSide ??
-                    BorderSide(color: context.theme.primaryColor)
+                ? widget.focusBorderSide ?? focusedBorderSide
                 : null,
             child: buildEditableText(
                 innerSuffix: buildInner(innerEditSuffixes),
                 innerPrefix: buildInner(innerEditPrefixes))));
+  }
+
+  (BorderSide, BorderRadius) getBorderSideAndBorderRadius(InputBorder border) {
+    if (widget.hasFocusChangeBorder) {
+      return (
+        widget.focusBorderSide ?? widget.borderSide!,
+        widget.borderRadius!
+      );
+    } else {
+      return (widget.borderSide!, widget.borderRadius!);
+    }
   }
 
   bool innerPendant(DecoratedPendant pendant) =>
@@ -482,6 +501,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
               prefix: innerPrefix,
               hintText: widget.hintText,
               border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
               hintStyle: hintStyle),
           style: style,
           keyboardType: keyboardType,
@@ -538,7 +562,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
           undoController: widget.undoController);
 
   Widget buildCupertinoTextField({Widget? innerSuffix, Widget? innerPrefix}) =>
-      CupertinoTextField.borderless(
+      EditableText(
           controller: controller,
           focusNode: focusNode,
           // decoration: BoxDecoration(color: Colors.grey.withOpacity(0.4)),
@@ -594,11 +618,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
           smartQuotesType: widget.smartQuotesType,
           strutStyle: strutStyle,
           textAlignVertical: widget.textAlignVertical,
-          textDirection: widget.textDirection,
           padding: widget.contentPadding,
+          magnifierConfiguration: widget.magnifierConfiguration,
+          textDirection: widget.textDirection,
           contextMenuBuilder:
               widget.contextMenuBuilder ?? _defaultContextMenuBuilder,
-          magnifierConfiguration: widget.magnifierConfiguration,
           onTapOutside: widget.onTapOutside,
           spellCheckConfiguration: widget.spellCheckConfiguration,
           contentInsertionConfiguration: widget.contentInsertionConfiguration,
@@ -639,7 +663,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   TextStyle get hintStyle =>
       const TStyle(fontSize: 13).merge(widget.hintStyle ??
-          Universally.to.config.textField?.hintStyle ??
+          context.theme.inputDecorationTheme.hintStyle ??
           context.theme.textTheme.bodySmall);
 
   TextStyle get style => const TStyle().merge(widget.style ??
@@ -789,7 +813,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
 class TextFieldConfig {
   const TextFieldConfig(
       {this.style,
-      this.hintStyle,
       this.strutStyle,
       this.searchText,
       this.searchTextPosition,
@@ -821,9 +844,6 @@ class TextFieldConfig {
 
   /// 输入文字样式
   final TextStyle? style;
-
-  /// 提示文字样式
-  final TextStyle? hintStyle;
 
   /// strutStyle
   final StrutStyle? strutStyle;
