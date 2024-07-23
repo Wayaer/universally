@@ -54,7 +54,7 @@ class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
           options: FlExtended().modalOptions.merge(widget.options),
           hasDivider: false,
-          title: TextLarge(widget.title),
+          titleText: widget.title,
           content: Column(children: [
             widget.content ??
                 RText(textAlign: TextAlign.start, texts: [
@@ -96,7 +96,8 @@ class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(8))),
                 onTap: Curiosity.native.exitApp,
-                child: TextNormal(widget.exit)),
+                child: TextNormal(widget.exit,
+                    style: context.theme.textTheme.titleSmall)),
             Universal(
                 height: 40,
                 expanded: true,
@@ -111,7 +112,9 @@ class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
                   BasePreferences().setBool(UConst.privacy, true);
                   widget.onConsentTap?.call();
                 },
-                child: TextNormal(widget.agree, color: UCS.white)),
+                child: TextNormal(widget.agree,
+                    color: UCS.white,
+                    style: context.theme.textTheme.titleSmall)),
           ]);
 
   @override

@@ -65,11 +65,8 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               width: double.infinity,
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
-              prefix: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 50,
-                      child: TextNormal(httpStr))
-                  .toDecoratedPendant()
+              prefixes: SizedBox(width: 50, child: TextNormal(httpStr))
+                  .toDecoratorPendant()
                   .toList,
               maxLength: 30,
               controller: ip,
@@ -79,11 +76,8 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               enableClearIcon: true,
               margin: const EdgeInsets.only(top: 10),
               borderType: BorderType.outline,
-              prefix: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 50,
-                      child: const TextNormal('端口: '))
-                  .toDecoratedPendant()
+              prefixes: const SizedBox(width: 50, child: TextNormal('端口: '))
+                  .toDecoratorPendant()
                   .toList,
               maxLength: 10,
               controller: port,

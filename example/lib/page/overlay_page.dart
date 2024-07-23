@@ -13,7 +13,7 @@ class OverlayPage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'Overlay',
         children: [
-          Button(onTap: showLoading, text: 'showLoading'),
+          const Button(onTap: showLoading, text: 'showLoading'),
           Button(
               onTap: () {
                 showToast('showToast');

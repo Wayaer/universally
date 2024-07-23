@@ -191,18 +191,21 @@ class HomePage extends StatelessWidget {
   List<Widget> get buildDesktop => !isWeb && isDesktop ? [] : [];
 }
 
-class Button extends Universal {
-  Button(
-      {super.key,
-      Widget? child,
-      String? text,
-      final VoidCallback? onTap,
-      super.unifiedButtonCategory = UnifiedButtonCategory.elevated})
-      : super(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: ElevatedButton(
-                onPressed: onTap,
-                child: child ?? Text(text ?? '', textAlign: TextAlign.center)));
+class Button extends StatelessWidget {
+  const Button({super.key, this.child, this.text, this.onTap});
+
+  final Widget? child;
+  final String? text;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Universal(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        onPressed: onTap,
+        unifiedButtonCategory: UnifiedButtonCategory.elevated,
+        child: child ?? Text(text ?? '', textAlign: TextAlign.center));
+  }
 }
 
 class Partition extends StatelessWidget {

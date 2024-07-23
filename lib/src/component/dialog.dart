@@ -83,7 +83,7 @@ class ConfirmActionDialog extends StatelessWidget {
       margin: isCupertino
           ? const EdgeInsets.only(top: 10)
           : const EdgeInsets.fromLTRB(16, 2, 16, 20),
-      child: content ?? TextNormal(contentText, maxLines: 0));
+      child: content ?? TextNormal(contentText));
 
   @override
   Widget build(BuildContext context) => isCupertino
@@ -95,7 +95,9 @@ class ConfirmActionDialog extends StatelessWidget {
           ? Container(
               alignment: Alignment.center,
               height: 45,
-              child: title ?? TextLarge(titleText, maxLines: 10))
+              child: title ??
+                  TextLarge(titleText,
+                      maxLines: 10, style: context.theme.textTheme.titleMedium))
           : null,
       content: buildContent,
       dividerColor: hasDivider ? UCS.lineColor : null,
@@ -108,7 +110,9 @@ class ConfirmActionDialog extends StatelessWidget {
 
   Widget buildCupertinoActionDialog(BuildContext context) =>
       CupertinoAlertDialog(
-          title: title ?? TextLarge(titleText, maxLines: 10),
+          title: title ??
+              TextLarge(titleText,
+                  maxLines: 10, style: context.theme.textTheme.titleMedium),
           content: buildContent,
           actions: buildActions(context));
 
@@ -123,7 +127,12 @@ class ConfirmActionDialog extends StatelessWidget {
         if (autoClose) pop();
         if (onConfirmTap != null) onConfirmTap!();
       },
-      child: confirm ?? TextNormal(confirmText));
+      child: confirm ??
+          TextNormal(
+            confirmText,
+            style: context.theme.textTheme.titleSmall,
+            color: context.theme.primaryColor,
+          ));
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
@@ -181,7 +190,9 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
               if (onCancelTap != null) onCancelTap!();
             },
             alignment: Alignment.center,
-            child: cancel ?? TextNormal(cancelText)),
+            child: cancel ??
+                TextNormal(cancelText,
+                    style: context.theme.textTheme.titleSmall)),
         buildConfirm(context),
       ];
 }
@@ -244,7 +255,7 @@ class TextFieldDialog extends StatelessWidget {
           onConfirmTap: checkInput,
           autoClose: false,
           onCancelTap: onCancelTap ?? pop,
-          title: TextLarge(titleText),
+          titleText: titleText,
           confirmText: confirmText,
           cancelText: cancelText,
           content: buildTextField);
@@ -253,26 +264,28 @@ class TextFieldDialog extends StatelessWidget {
         onConfirmTap: checkInput,
         autoClose: false,
         onCancelTap: onCancelTap ?? pop,
-        title: TextLarge(titleText),
+        titleText: titleText,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         confirmText: confirmText,
         cancelText: cancelText,
         content: buildTextField);
   }
 
-  Widget get buildTextField => BaseTextField(
-      textInputType: textInputType,
-      value: value,
-      margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
-      hintText: hintText,
-      borderType: BorderType.outline,
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      borderRadius: BorderRadius.circular(2),
-      controller: controller,
-      width: double.infinity,
-      hasFocusChangeBorder: false,
-      maxLength: maxLength,
-      autoFocus: true);
+  Widget get buildTextField => Material(
+      color: Colors.transparent,
+      child: BaseTextField(
+          textInputType: textInputType,
+          value: value,
+          margin: const EdgeInsets.all(16),
+          hintText: hintText,
+          borderType: BorderType.outline,
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          borderRadius: BorderRadius.circular(2),
+          controller: controller,
+          width: double.infinity,
+          hasFocusChangeBorder: false,
+          maxLength: maxLength,
+          autoFocus: true));
 
   void checkInput() {
     if (controller.text.isEmpty) {

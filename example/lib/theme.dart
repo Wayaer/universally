@@ -6,7 +6,8 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+    enabledBorder:
+        OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
     focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.deepPurpleAccent)),
   ),
@@ -22,9 +23,8 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   ),
   inputDecorationTheme: const InputDecorationTheme(
-
-
-    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+    enabledBorder:
+        OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
     focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.deepPurpleAccent)),
   ),
