@@ -32,7 +32,7 @@ class BaseTextField extends StatefulWidget {
     this.focusNode,
     this.heroTag,
     this.disposeController = true,
-    this.hasFocusChangeBorder = true,
+    this.hasFocusedChangeBorder = true,
     this.fillColor,
     this.headers = const [],
     this.footers = const [],
@@ -165,7 +165,7 @@ class BaseTextField extends StatefulWidget {
   /// 边框样式
   final BorderRadius? borderRadius;
   final BorderType borderType;
-  final bool hasFocusChangeBorder;
+  final bool hasFocusedChangeBorder;
   final BorderSide? borderSide;
   final BorderSide? focusedBorderSide;
 
@@ -444,18 +444,37 @@ class _BaseTextFieldState extends State<BaseTextField> {
     final focusedBorderSide = widget.focusedBorderSide ??
         context.theme.inputDecorationTheme.focusedBorder?.borderSide ??
         context.theme.inputDecorationTheme.border?.borderSide;
-
-    return widget.hasFocusChangeBorder && widget.borderType != BorderType.none
+    bool useDecoratorBoxState = widget.hasFocusedChangeBorder ||
+        suffixes
+            .where((e) =>
+                e.mode != DecoratorPendantVisibilityMode.never &&
+                e.mode != DecoratorPendantVisibilityMode.always)
+            .isNotEmpty ||
+        prefixes
+            .where((e) =>
+                e.mode != DecoratorPendantVisibilityMode.never &&
+                e.mode != DecoratorPendantVisibilityMode.always)
+            .isNotEmpty ||
+        widget.headers
+            .where((e) =>
+                e.mode != DecoratorPendantVisibilityMode.never &&
+                e.mode != DecoratorPendantVisibilityMode.always)
+            .isNotEmpty ||
+        widget.footers
+            .where((e) =>
+                e.mode != DecoratorPendantVisibilityMode.never &&
+                e.mode != DecoratorPendantVisibilityMode.always)
+            .isNotEmpty;
+    return useDecoratorBoxState
         ? DecoratorBoxState(
             listenable: Listenable.merge([focusNode, controller]),
-            expand: true,
             decoration: BoxDecorative(
                 borderType: widget.borderType,
                 fillColor: widget.fillColor,
                 borderRadius: widget.borderRadius,
                 borderSide: borderSide,
-                focusedBorderSide: widget.hasFocusChangeBorder
-                    ? focusedBorderSide
+                focusedBorderSide: widget.hasFocusedChangeBorder
+                    ? focusedBorderSide ?? borderSide
                     : borderSide,
                 constraints: widget.constraints),
             headers: widget.headers,
@@ -470,14 +489,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
                     builder: (_, bool value, __) => buildTextField)
                 : buildTextField)
         : DecoratorBox(
-            expand: true,
             decoration: BoxDecorative(
                 borderType: widget.borderType,
                 fillColor: widget.fillColor,
                 borderRadius: widget.borderRadius,
                 borderSide: borderSide,
-                focusedBorderSide: widget.hasFocusChangeBorder
-                    ? focusedBorderSide
+                focusedBorderSide: widget.hasFocusedChangeBorder
+                    ? focusedBorderSide ?? borderSide
                     : borderSide,
                 constraints: widget.constraints),
             headers: widget.headers,

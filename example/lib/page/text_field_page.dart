@@ -153,6 +153,22 @@ class TextFieldPage extends StatelessWidget {
               fillColor: Colors.grey.withOpacity(0.2),
               enableClearIcon: true,
               hintText: '请输入内容   useTextField=false'),
+          const SizedBox(height: 20),
+          BaseTextField(
+              hasFocusedChangeBorder: false,
+              enableSearchIcon: true,
+              enableSuggestions: true,
+              headers: const [
+                DecoratorPendant(
+                    widget: Row(children: [
+                      BText('header'),
+                    ]),
+                    maintainSize: true,
+                    positioned: DecoratorPendantPosition.outer),
+              ],
+              searchTextPosition: DecoratorPendantPosition.inner,
+              searchTextTap: (String value) {},
+              hintText: '请输入内容'),
         ]);
   }
 }

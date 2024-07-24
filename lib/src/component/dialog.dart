@@ -283,7 +283,7 @@ class TextFieldDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(2),
           controller: controller,
           width: double.infinity,
-          hasFocusChangeBorder: false,
+          hasFocusedChangeBorder: false,
           maxLength: maxLength,
           autoFocus: true));
 
