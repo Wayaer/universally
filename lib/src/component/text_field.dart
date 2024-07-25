@@ -395,7 +395,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
         width: widget.width,
         height: widget.height,
         margin: widget.margin,
-        padding: widget.padding,
         child: buildDecoratorBox(widget.enableEye
             ? ValueListenableBuilder(
                 valueListenable: obscureText,
@@ -465,18 +464,20 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 e.mode != DecoratorPendantVisibilityMode.never &&
                 e.mode != DecoratorPendantVisibilityMode.always)
             .isNotEmpty;
+    final decoration = BoxDecorative(
+        padding: widget.padding,
+        borderType: widget.borderType,
+        fillColor: widget.fillColor,
+        borderRadius: widget.borderRadius,
+        borderSide: borderSide,
+        focusedBorderSide: widget.hasFocusedChangeBorder
+            ? focusedBorderSide ?? borderSide
+            : borderSide,
+        constraints: widget.constraints);
     return useDecoratorBoxState
         ? DecoratorBoxState(
             listenable: Listenable.merge([focusNode, controller]),
-            decoration: BoxDecorative(
-                borderType: widget.borderType,
-                fillColor: widget.fillColor,
-                borderRadius: widget.borderRadius,
-                borderSide: borderSide,
-                focusedBorderSide: widget.hasFocusedChangeBorder
-                    ? focusedBorderSide ?? borderSide
-                    : borderSide,
-                constraints: widget.constraints),
+            decoration: decoration,
             headers: widget.headers,
             footers: widget.footers,
             suffixes: suffixes,
@@ -489,15 +490,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
                     builder: (_, bool value, __) => buildTextField)
                 : buildTextField)
         : DecoratorBox(
-            decoration: BoxDecorative(
-                borderType: widget.borderType,
-                fillColor: widget.fillColor,
-                borderRadius: widget.borderRadius,
-                borderSide: borderSide,
-                focusedBorderSide: widget.hasFocusedChangeBorder
-                    ? focusedBorderSide ?? borderSide
-                    : borderSide,
-                constraints: widget.constraints),
+            decoration: decoration,
             headers: widget.headers,
             footers: widget.footers,
             suffixes: suffixes,
