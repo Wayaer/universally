@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+/// 扩展组件
 class BaseExpansionTiles extends StatelessWidget {
   const BaseExpansionTiles(
       {super.key,
