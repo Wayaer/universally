@@ -2,21 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:universally/universally.dart';
 
 class BasePickerOptions<T> extends PickerOptions<T> {
-  BasePickerOptions(
-      {String? title,
-      super.verifyConfirm,
-      super.verifyCancel,
-      super.backgroundColor,
-      super.contentPadding,
-      super.decoration,
-      super.padding,
-      super.top,
-      super.bottom = const BaseDivider(),
-      double height = 250})
-      : super(
-            title: Center(child: TextLarge(title ?? '', color: UCS.mainBlack)),
-            confirm: const TextNormal('确定', usePrimaryColor: true),
-            cancel: const TextNormal('取消'));
+  BasePickerOptions({
+    String? titleText,
+    super.verifyConfirm,
+    super.verifyCancel,
+    super.backgroundColor,
+    super.background,
+    super.contentPadding,
+    super.titlePadding,
+    super.decoration,
+    super.top,
+    super.bottom = const BaseDivider(),
+    super.bottomNavigationBar,
+    super.confirm = const TextNormal('确定', usePrimaryColor: true),
+    super.cancel = const TextNormal('取消'),
+    Widget? title,
+  }) : super(
+            title: title ??
+                (titleText == null
+                    ? null
+                    : Center(child: TextLarge(titleText))));
 }
 
 extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {

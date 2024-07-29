@@ -1,3 +1,7 @@
+## 9.1.1
+
+* 更新适配 `fl_list_wheel`
+
 ## 9.1.0
 
 * 全面替换使用官方`Theme.of(context)`
