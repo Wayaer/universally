@@ -179,6 +179,11 @@ class BaseDio {
       List<InterceptorsWrapper> interceptors = const []}) {
     if (options != null) baseDioOptions = options;
     dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
+    if (isDebugger || isDebug) {
+      JsonParse.toastBuilder = (String content) {
+        showToast('已复制');
+      };
+    }
     return this;
   }
 
