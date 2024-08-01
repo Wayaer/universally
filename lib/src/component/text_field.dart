@@ -685,7 +685,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
               return TextNormal('$i s', color: context.theme.primaryColor);
           }
         },
-        onTap: widget.sendVerificationCodeTap);
+        onSendTap: widget.sendVerificationCodeTap);
   }
 
   /// 搜索文字

@@ -31,9 +31,9 @@ class TextFieldPage extends StatelessWidget {
                     positioned: DecoratorPendantPosition.outer),
               ],
               searchTextTap: (String value) {},
-              sendVerificationCodeTap: (send) async {
+              sendVerificationCodeTap: () async {
                 await 1.seconds.delayed();
-                send(true);
+                return true;
               }),
           const SizedBox(height: 20),
           BaseTextField(
@@ -69,9 +69,9 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodePosition: DecoratorPendantPosition.inner,
               enableSearchIcon: true,
               searchTextTap: (String value) {},
-              sendVerificationCodeTap: (send) async {
+              sendVerificationCodeTap: () async {
                 await 1.seconds.delayed();
-                send(true);
+                return true;
               }),
           const SizedBox(height: 20),
           BaseTextField(
@@ -107,9 +107,9 @@ class TextFieldPage extends StatelessWidget {
               searchTextPosition: DecoratorPendantPosition.inner,
               searchTextTap: (String value) {},
               sendVerificationCodePosition: DecoratorPendantPosition.inner,
-              sendVerificationCodeTap: (send) async {
+              sendVerificationCodeTap: () async {
                 await 1.seconds.delayed();
-                send(true);
+                return true;
               }),
           const SizedBox(height: 20),
           BaseTextField(
