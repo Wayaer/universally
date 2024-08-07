@@ -121,6 +121,7 @@ class BaseScaffold extends StatelessWidget {
     this.toolbarOpacity = 1.0,
     this.toolbarTextStyle,
     this.forceMaterialTransparency = false,
+    this.onPopInvokedWithResult,
   });
 
   /// [body] > [child] > [children]
@@ -156,6 +157,7 @@ class BaseScaffold extends StatelessWidget {
   /// false 点击android实体返回按键先关闭Overlay【toast loading ...】并pop 当前页面
   final bool isCloseOverlay;
   final PopInvokedWithOverlayCallback? onPopInvoked;
+  final PopInvokedWithResultAndOverlayCallback<dynamic>? onPopInvokedWithResult;
   final bool enableDoubleClickExit;
   final String doubleClickExitPrompt;
 
@@ -274,11 +276,13 @@ class BaseScaffold extends StatelessWidget {
         enableDoubleClickExit ||
         (Universally().config.isCloseOverlay == true);
     return hasPopScope
-        ? ExtendedPopScope(
+        ? ExtendedPopScope<dynamic>(
             canPop: !hasPopScope,
             isCloseOverlay: isCloseOverlay,
-            onPopInvoked: (bool didPop, didCloseOverlay) {
+            onPopInvokedWithResult:
+                (bool didPop, dynamic result, bool didCloseOverlay) {
               onPopInvoked?.call(didPop, didCloseOverlay);
+              onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
               if (didCloseOverlay || didPop) return;
               if (enableDoubleClickExit) {
                 final now = DateTime.now();
