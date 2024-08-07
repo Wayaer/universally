@@ -1,11 +1,11 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 9.1.1
+version: 9.2.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '>=3.16.0'
+  flutter: '>=3.24.0'
 
 dependencies:
   flutter:
@@ -19,7 +19,7 @@ dependencies:
   extended_image_library: ^4.0.4
   window_manager: ^0.3.9
   flutter_curiosity: ^6.1.0
-  flutter_waya: ^9.8.1
+  flutter_waya: ^9.8.2
   fl_extended: ^1.4.0
   fl_list_wheel: ^0.0.2
   fl_scroll_view: ^0.0.2

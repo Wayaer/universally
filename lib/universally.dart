@@ -50,12 +50,13 @@ export 'src/component/tab_bar.dart';
 export 'src/component/user_privacy.dart';
 export 'src/component/switch_api.dart';
 export 'src/component/cache.dart';
+export 'src/component/tab_page.dart';
 
 /// dependencies
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/hive.dart';
 export 'src/dependencies/svg.dart';
-export 'src/dependencies/carousel_slider.dart';
+export 'src/component/carousel_slider.dart';
 export 'src/dependencies/extended_image.dart';
 export 'src/dependencies/spin_kit.dart';
 

@@ -1,3 +1,4 @@
+import 'package:app/page/carousel_slider_page.dart';
 import 'package:app/page/overlay_page.dart';
 import 'package:app/page/base_list_page.dart';
 import 'package:app/page/changed_builder_page.dart';
@@ -104,6 +105,9 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const PickerPage()), text: 'Picker'),
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
+          Button(
+              onTap: () => push(const CarouselSliderPage()),
+              text: 'CarouselSlider'),
           Button(
               onTap: () => push(const ChangedBuilderWidgetPage()),
               text: 'ChangedBuilder'),
