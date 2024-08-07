@@ -54,6 +54,7 @@ class BaseMaterialApp extends StatelessWidget {
     this.onDetached,
     this.onResumed,
     this.onHidden,
+    this.onNavigationNotification,
   });
 
   /// 组件初始化
@@ -151,51 +152,69 @@ class BaseMaterialApp extends StatelessWidget {
   /// 显示语义调试器
   final bool showSemanticsDebugger;
 
+  /// debugShowCheckedModeBanner
   final bool debugShowCheckedModeBanner;
 
+  /// debugShowMaterialGrid
   final bool debugShowMaterialGrid;
 
+  /// scrollBehavior
   final ScrollBehavior? scrollBehavior;
+
+  /// shortcuts
   final Map<LogicalKeySet, Intent>? shortcuts;
+
+  /// actions
   final Map<Type, Action<Intent>>? actions;
+
+  /// onGenerateInitialRoutes
   final InitialRouteListFactory? onGenerateInitialRoutes;
+
+  /// restorationScopeId
   final String? restorationScopeId;
+
+  /// onNavigationNotification
+  final NotificationListenerCallback<NavigationNotification>?
+      onNavigationNotification;
 
   @override
   Widget build(BuildContext context) {
     final current = MaterialApp(
-        title: title,
-        navigatorKey: FlExtended().navigatorKey,
-        scaffoldMessengerKey: FlExtended().scaffoldMessengerKey,
-        routes: routes,
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-        onGenerateInitialRoutes: onGenerateInitialRoutes,
-        onUnknownRoute: onUnknownRoute,
-        navigatorObservers: navigatorObservers,
-        onGenerateTitle: onGenerateTitle,
-        color: color,
-        theme: theme,
-        darkTheme: darkTheme,
-        highContrastTheme: highContrastTheme,
-        highContrastDarkTheme: highContrastDarkTheme,
-        themeMode: themeMode,
-        locale: locale,
-        localizationsDelegates: localizationsDelegates,
-        localeListResolutionCallback: localeListResolutionCallback,
-        localeResolutionCallback: localeResolutionCallback,
-        supportedLocales: supportedLocales,
-        debugShowMaterialGrid: debugShowMaterialGrid,
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        showPerformanceOverlay: showPerformanceOverlay,
-        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-        showSemanticsDebugger: showSemanticsDebugger,
-        shortcuts: shortcuts,
-        actions: actions,
-        restorationScopeId: restorationScopeId,
-        scrollBehavior: scrollBehavior,
-        home: home);
+      title: title,
+      navigatorKey: FlExtended().navigatorKey,
+      scaffoldMessengerKey: FlExtended().scaffoldMessengerKey,
+      routes: routes,
+      initialRoute: initialRoute,
+      onGenerateRoute: onGenerateRoute,
+      onGenerateInitialRoutes: onGenerateInitialRoutes,
+      onUnknownRoute: onUnknownRoute,
+      navigatorObservers: navigatorObservers,
+      onGenerateTitle: onGenerateTitle,
+      color: color,
+      theme: theme,
+      darkTheme: darkTheme,
+      highContrastTheme: highContrastTheme,
+      highContrastDarkTheme: highContrastDarkTheme,
+      themeMode: themeMode,
+      locale: locale,
+      localizationsDelegates: localizationsDelegates,
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      supportedLocales: supportedLocales,
+      debugShowMaterialGrid: debugShowMaterialGrid,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      showPerformanceOverlay: showPerformanceOverlay,
+      checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+      checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+      showSemanticsDebugger: showSemanticsDebugger,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      scrollBehavior: scrollBehavior,
+      home: home,
+      builder: builder,
+      onNavigationNotification: onNavigationNotification,
+    );
     return BaseApp(
         scaffoldMessengerKey: scaffoldMessengerKey,
         navigatorKey: navigatorKey,

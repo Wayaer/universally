@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class BaseIndicator extends FlIndicator {
@@ -38,14 +37,14 @@ class BaseCarouselSlider extends CarouselSlider {
       ValueChanged<double?>? onScrolled,
       Curve autoPlayCurve = Curves.linear,
       ScrollPhysics? scrollPhysics,
-      CarouselController? controller,
+      // CarouselController? controller,
 
       /// 滚动间隔时间
       Duration autoPlayAnimationDuration = const Duration(milliseconds: 600),
       Function(int? index, CarouselPageChangedReason reason)? onPageChanged})
       : super.builder(
             itemCount: itemCount,
-            carouselController: controller,
+            // carouselController: controller,
             options: CarouselOptions(
                 height: height,
                 pageSnapping: pageSnapping,

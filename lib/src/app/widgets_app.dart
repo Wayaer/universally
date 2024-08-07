@@ -19,8 +19,6 @@ class BaseWidgetsApp extends StatelessWidget {
     required this.color,
     this.debugShowCheckedModeBanner = false,
     this.showPerformanceOverlay = false,
-    this.checkerboardRasterCacheImages = false,
-    this.checkerboardOffscreenLayers = false,
     this.showSemanticsDebugger = false,
     this.routes = const <String, WidgetBuilder>{},
     this.navigatorObservers = const <NavigatorObserver>[],
@@ -45,6 +43,11 @@ class BaseWidgetsApp extends StatelessWidget {
     this.onDetached,
     this.onResumed,
     this.onHidden,
+    this.textStyle,
+    this.debugShowWidgetInspector = false,
+    this.pageRouteBuilder,
+    this.inspectorSelectButtonBuilder,
+    this.onNavigationNotification,
   });
 
   /// 组件初始化
@@ -124,48 +127,72 @@ class BaseWidgetsApp extends StatelessWidget {
   /// 显示性能叠加
   final bool showPerformanceOverlay;
 
-  /// 棋盘格光栅缓存图像
-  final bool checkerboardRasterCacheImages;
+  /// textStyle
+  final TextStyle? textStyle;
 
-  final bool checkerboardOffscreenLayers;
+  /// debugShowWidgetInspector
+  final bool debugShowWidgetInspector;
+
+  /// pageRouteBuilder
+  final PageRouteFactory? pageRouteBuilder;
 
   /// 显示语义调试器
   final bool showSemanticsDebugger;
 
+  /// debugShowCheckedModeBanner
   final bool debugShowCheckedModeBanner;
 
+  /// inspectorSelectButtonBuilder
+  final InspectorSelectButtonBuilder? inspectorSelectButtonBuilder;
+
+  /// onNavigationNotification
+  final NotificationListenerCallback<NavigationNotification>?
+      onNavigationNotification;
+
+  /// shortcuts
   final Map<LogicalKeySet, Intent>? shortcuts;
+
+  /// actions
   final Map<Type, Action<Intent>>? actions;
+
+  /// onGenerateInitialRoutes
   final InitialRouteListFactory? onGenerateInitialRoutes;
+
+  /// restorationScopeId
   final String? restorationScopeId;
 
   @override
   Widget build(BuildContext context) {
     final current = WidgetsApp(
-        title: title,
-        navigatorKey: FlExtended().navigatorKey,
-        routes: routes,
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-        onGenerateInitialRoutes: onGenerateInitialRoutes,
-        onUnknownRoute: onUnknownRoute,
-        navigatorObservers: navigatorObservers,
-        onGenerateTitle: onGenerateTitle,
-        color: color,
-        locale: locale,
-        localizationsDelegates: localizationsDelegates,
-        localeListResolutionCallback: localeListResolutionCallback,
-        localeResolutionCallback: localeResolutionCallback,
-        supportedLocales: supportedLocales,
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        showPerformanceOverlay: showPerformanceOverlay,
-        checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-        checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-        showSemanticsDebugger: showSemanticsDebugger,
-        shortcuts: shortcuts,
-        actions: actions,
-        restorationScopeId: restorationScopeId,
-        home: home);
+      title: title,
+      navigatorKey: FlExtended().navigatorKey,
+      routes: routes,
+      initialRoute: initialRoute,
+      onGenerateRoute: onGenerateRoute,
+      onGenerateInitialRoutes: onGenerateInitialRoutes,
+      onUnknownRoute: onUnknownRoute,
+      navigatorObservers: navigatorObservers,
+      onGenerateTitle: onGenerateTitle,
+      color: color,
+      locale: locale,
+      localizationsDelegates: localizationsDelegates,
+      localeListResolutionCallback: localeListResolutionCallback,
+      localeResolutionCallback: localeResolutionCallback,
+      supportedLocales: supportedLocales,
+      debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+      showPerformanceOverlay: showPerformanceOverlay,
+      showSemanticsDebugger: showSemanticsDebugger,
+      shortcuts: shortcuts,
+      actions: actions,
+      restorationScopeId: restorationScopeId,
+      home: home,
+      builder: builder,
+      debugShowWidgetInspector: debugShowWidgetInspector,
+      inspectorSelectButtonBuilder: inspectorSelectButtonBuilder,
+      onNavigationNotification: onNavigationNotification,
+      pageRouteBuilder: pageRouteBuilder,
+      textStyle: textStyle,
+    );
     return BaseApp(
         navigatorKey: navigatorKey,
         onInactive: onInactive,
