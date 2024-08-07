@@ -17,6 +17,7 @@ class _BaseListPageState extends State<BaseListPage> {
         appBarTitleText: 'BaseList',
         child: BaseList(
             itemCount: list.length,
+            placeholder: const Center(child: Text('请先下拉刷新')),
             onRefresh: () async {
               pullDown = true;
               await 1.seconds.delayed();

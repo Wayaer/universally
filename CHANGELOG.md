@@ -1,6 +1,7 @@
-## 9.2.0
+## 9.2.1
 
 * 迁移至 Flutter 3.24
+* 修改 `BaseTabBar.indicator` 为 `BaseTabBar.fill`
 
 ## 9.1.1
 

@@ -54,7 +54,7 @@ class BaseTabBar extends TabBar {
                     fontSize: fontSize,
                     fontWeight: fontWeight));
 
-  BaseTabBar.indicator({
+  BaseTabBar.fill({
     super.key,
     super.controller,
     super.isScrollable = false,

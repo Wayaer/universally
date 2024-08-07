@@ -33,8 +33,8 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
               isScrollable: true,
               tabs: tabs.builder((index) => Tab(text: '$index'))),
           20.heightBox,
-          const Partition('BaseTabBar.indicator'),
-          BaseTabBar.indicator(
+          const Partition('BaseTabBar.fill'),
+          BaseTabBar.fill(
               isScrollable: true,
               controller: controller,
               list: tabs.builder((index) => '$index')),
@@ -55,7 +55,7 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
                   tabs: tabs),
               controller: controller),
           20.heightBox,
-          const Partition('CustomTabBar BaseTabBar.indicator'),
+          const Partition('CustomTabBar BaseTabBar.fill'),
           CustomTabBar(
               itemBuilder: (int selected, int index) {
                 return Universal(
@@ -65,7 +65,7 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
                       if (selected == index) const Icon(Icons.arrow_drop_down),
                     ]);
               },
-              builder: (List<Widget> tabs) => BaseTabBar.indicator(
+              builder: (List<Widget> tabs) => BaseTabBar.fill(
                   isScrollable: true, controller: controller, tabs: tabs),
               controller: controller)
         ]);
