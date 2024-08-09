@@ -1,3 +1,8 @@
+## 9.2.2
+
+* 新增 `BaseProgressIndicator`
+* 更新依赖
+
 ## 9.2.1
 
 * 迁移至 Flutter 3.24

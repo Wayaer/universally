@@ -18,7 +18,7 @@ class CarouselSliderPage extends StatelessWidget {
         isScroll: true,
         appBarTitleText: 'CarouselSlider',
         children: [
-          const Partition('CarouselSliderController'),
+          const Partition('CarouselSliderController', marginTop: 0),
           Wrap(children: [
             Button(
                 text: 'nextPage',

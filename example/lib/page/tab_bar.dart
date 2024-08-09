@@ -27,7 +27,7 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'BaseTabBar',
         children: [
-          const Partition('BaseTabBar'),
+          const Partition('BaseTabBar', marginTop: 0),
           BaseTabBar(
               controller: controller,
               isScrollable: true,

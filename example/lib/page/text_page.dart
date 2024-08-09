@@ -14,7 +14,7 @@ class TextPage extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 20),
         children: [
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Partition('默认不加属性'),
+            const Partition('默认不加属性', marginTop: 0),
             const BaseText('BaseText'),
             const BaseText.rich(text: 'Base', texts: ['Text', '*', 'rich']),
             const TextSmall('TextSmall'),
@@ -31,7 +31,7 @@ class TextPage extends StatelessWidget {
               color: context.theme.dividerColor,
               width: 1),
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Partition('外层覆盖默认'),
+            const Partition('外层覆盖默认', marginTop: 0),
             const BaseText('BaseText', color: Colors.blue),
             const BaseText.rich(text: 'Base', color: Colors.blue, texts: [
               'Text',
@@ -56,7 +56,7 @@ class TextPage extends StatelessWidget {
               color: context.theme.dividerColor,
               width: 1),
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Partition('style覆盖外层'),
+            const Partition('style覆盖外层', marginTop: 0),
             const BaseText('BaseText',
                 useStyleFirst: true,
                 color: Colors.blue,

@@ -51,6 +51,7 @@ export 'src/component/user_privacy.dart';
 export 'src/component/switch_api.dart';
 export 'src/component/cache.dart';
 export 'src/component/tab_page.dart';
+export 'src/component/progress_indicator.dart';
 
 /// dependencies
 export 'src/dependencies/dio.dart';

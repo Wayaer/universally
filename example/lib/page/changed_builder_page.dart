@@ -12,7 +12,7 @@ class ChangedBuilderWidgetPage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         appBarTitleText: 'Changed builder widget',
         children: [
-          const Partition('Switch'),
+          const Partition('Switch', marginTop: 0),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             BaseXSwitch(value: false),
             BaseSwitch(value: false),
@@ -21,6 +21,10 @@ class ChangedBuilderWidgetPage extends StatelessWidget {
           const Partition('Checkbox'),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             BaseCheckbox(value: false),
+            BaseCheckbox(
+                value: false,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
             BaseCheckbox.adaptive(value: false),
           ]),
           const Partition('Slider'),

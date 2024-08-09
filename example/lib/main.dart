@@ -7,6 +7,7 @@ import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/picker_page.dart';
+import 'package:app/page/progress_indicator_page.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
@@ -105,6 +106,9 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const PickerPage()), text: 'Picker'),
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
+          Button(
+              onTap: () => push(const ProgressIndicatorPage()),
+              text: 'ProgressIndicator'),
           Button(
               onTap: () => push(const CarouselSliderPage()),
               text: 'CarouselSlider'),
@@ -214,11 +218,15 @@ class Button extends StatelessWidget {
 
 class Partition extends StatelessWidget {
   const Partition(this.title,
-      {super.key, this.onTap, this.textFontSize = TextFontSize.normal});
+      {super.key,
+      this.onTap,
+      this.textFontSize = TextFontSize.normal,
+      this.marginTop = 20});
 
   final String title;
   final GestureTapCallback? onTap;
   final TextFontSize textFontSize;
+  final double marginTop;
 
   @override
   Widget build(BuildContext context) => Universal(
@@ -227,7 +235,7 @@ class Partition extends StatelessWidget {
       color: Colors.grey.withOpacity(0.2),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: EdgeInsets.only(top: marginTop, bottom: 20),
       child: BaseText(title,
           textFontSize: textFontSize,
           textAlign: TextAlign.center,
