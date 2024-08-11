@@ -33,16 +33,36 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage>
           BaseProgressIndicator.linear(
               height: 10,
               borderRadius: BorderRadius.circular(10),
-              listenable: controller,
+              value: 0.4,
               backgroundColor: Colors.amber),
           const Partition('BaseProgressIndicator.circular'),
-          BaseProgressIndicator.circular(
+          const BaseProgressIndicator.circular(
+              strokeWidth: 4,
+              strokeCap: StrokeCap.round,
+              value: 0.5,
+              backgroundColor: Colors.amber),
+          const Partition('BaseProgressIndicator.refresh'),
+          const BaseProgressIndicator.refresh(
+              elevation: 0,
+              indicatorMargin: EdgeInsets.zero,
+              indicatorPadding: EdgeInsets.zero,
+              value: 0.6,
+              backgroundColor: Colors.amber),
+          const Partition('BaseProgressIndicatorListenable.linear',
+              marginTop: 0),
+          BaseProgressIndicatorListenable.linear(
+              height: 10,
+              borderRadius: BorderRadius.circular(10),
+              listenable: controller,
+              backgroundColor: Colors.amber),
+          const Partition('BaseProgressIndicatorListenable.circular'),
+          BaseProgressIndicatorListenable.circular(
               strokeWidth: 4,
               strokeCap: StrokeCap.round,
               listenable: controller,
               backgroundColor: Colors.amber),
-          const Partition('BaseProgressIndicator.refresh'),
-          BaseProgressIndicator.refresh(
+          const Partition('BaseProgressIndicatorListenable.refresh'),
+          BaseProgressIndicatorListenable.refresh(
               elevation: 0,
               indicatorMargin: EdgeInsets.zero,
               indicatorPadding: EdgeInsets.zero,

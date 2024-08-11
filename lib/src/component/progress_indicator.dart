@@ -5,8 +5,7 @@ import 'package:universally/universally.dart';
 class BaseProgressIndicator extends StatelessWidget {
   const BaseProgressIndicator.linear(
       {super.key,
-      required this.listenable,
-      this.disposeNotifier = true,
+      this.value,
       this.width = double.infinity,
       this.height = 4,
       this.borderRadius = BorderRadius.zero,
@@ -26,8 +25,7 @@ class BaseProgressIndicator extends StatelessWidget {
 
   const BaseProgressIndicator.circular({
     super.key,
-    required this.listenable,
-    this.disposeNotifier = true,
+    this.value,
     this.width = 100,
     this.height = 100,
     this.valueColor,
@@ -47,8 +45,7 @@ class BaseProgressIndicator extends StatelessWidget {
 
   const BaseProgressIndicator.refresh({
     super.key,
-    required this.listenable,
-    this.disposeNotifier = true,
+    this.value,
     this.width = 100,
     this.height = 100,
     this.color,
@@ -65,10 +62,12 @@ class BaseProgressIndicator extends StatelessWidget {
   })  : style = ProgressIndicatorStyle.refresh,
         minHeight = null,
         borderRadius = BorderRadius.zero;
+
   final double width;
   final double height;
 
   /// ProgressIndicator
+  final double? value;
   final Color? backgroundColor;
   final Color? color;
   final Animation<Color?>? valueColor;
@@ -92,6 +91,84 @@ class BaseProgressIndicator extends StatelessWidget {
   /// [ProgressIndicatorStyle]
   final ProgressIndicatorStyle style;
 
+  @override
+  Widget build(BuildContext context) {
+    return FlProgressIndicator(ProgressIndicatorOptions(
+      width: width,
+      height: height,
+      style: style,
+      value: value,
+      color: color,
+      valueColor: valueColor,
+      backgroundColor: backgroundColor,
+      semanticsLabel: semanticsLabel,
+      semanticsValue: semanticsValue,
+      borderRadius: borderRadius,
+      minHeight: minHeight,
+      strokeWidth: strokeWidth,
+      strokeAlign: strokeAlign,
+      strokeCap: strokeCap,
+      elevation: elevation,
+      indicatorMargin: indicatorMargin,
+      indicatorPadding: indicatorPadding,
+    ));
+  }
+}
+
+class BaseProgressIndicatorListenable extends BaseProgressIndicator {
+  const BaseProgressIndicatorListenable.linear(
+      {super.key,
+      required this.listenable,
+      this.disposeNotifier = true,
+      super.value,
+      super.width = double.infinity,
+      super.height = 4,
+      super.borderRadius = BorderRadius.zero,
+      super.valueColor,
+      super.color,
+      super.backgroundColor,
+      super.minHeight,
+      super.semanticsLabel,
+      super.semanticsValue})
+      : super.linear();
+
+  const BaseProgressIndicatorListenable.circular({
+    super.key,
+    required this.listenable,
+    this.disposeNotifier = true,
+    super.value,
+    super.width = 100,
+    super.height = 100,
+    super.valueColor,
+    super.color,
+    super.backgroundColor,
+    super.strokeWidth = 4,
+    super.strokeAlign = 0.5,
+    super.strokeCap,
+    super.semanticsLabel,
+    super.semanticsValue,
+  }) : super.circular();
+
+  const BaseProgressIndicatorListenable.refresh({
+    super.key,
+    required this.listenable,
+    this.disposeNotifier = true,
+    super.value,
+    super.width = 100,
+    super.height = 100,
+    super.color,
+    super.valueColor,
+    super.backgroundColor,
+    super.semanticsLabel,
+    super.semanticsValue,
+    super.strokeWidth = 4,
+    super.strokeAlign = 0,
+    super.strokeCap,
+    super.elevation = 2.0,
+    super.indicatorMargin = const EdgeInsets.all(4.0),
+    super.indicatorPadding = const EdgeInsets.all(12.0),
+  }) : super.refresh();
+
   ///  [ValueListenable]
   final ValueListenable listenable;
 
@@ -108,25 +185,25 @@ class BaseProgressIndicator extends StatelessWidget {
           }
         },
         builder: (_, ValueListenable value) {
-          return FlProgressIndicator(ProgressIndicatorOptions(
-            width: width,
-            height: height,
-            style: style,
-            value: value.value,
-            color: color,
-            valueColor: valueColor,
-            backgroundColor: backgroundColor,
-            semanticsLabel: semanticsLabel,
-            semanticsValue: semanticsValue,
-            borderRadius: borderRadius,
-            minHeight: minHeight,
-            strokeWidth: strokeWidth,
-            strokeAlign: strokeAlign,
-            strokeCap: strokeCap,
-            elevation: elevation,
-            indicatorMargin: indicatorMargin,
-            indicatorPadding: indicatorPadding,
-          ));
+          return ProgressIndicatorOptions(
+                  width: width,
+                  height: height,
+                  style: style,
+                  value: value.value,
+                  color: color,
+                  valueColor: valueColor,
+                  backgroundColor: backgroundColor,
+                  semanticsLabel: semanticsLabel,
+                  semanticsValue: semanticsValue,
+                  borderRadius: borderRadius,
+                  minHeight: minHeight,
+                  strokeWidth: strokeWidth,
+                  strokeAlign: strokeAlign,
+                  strokeCap: strokeCap,
+                  elevation: elevation,
+                  indicatorMargin: indicatorMargin,
+                  indicatorPadding: indicatorPadding)
+              .widget;
         });
   }
 }
