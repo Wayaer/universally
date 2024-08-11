@@ -96,6 +96,9 @@ class BaseExpansionTiles extends StatelessWidget {
   }
 }
 
+typedef BasePopupMenuButtonBuilder<T> = Widget Function(T? value, Widget icon);
+typedef BasePopupMenuButtonItemBuilder<T> = Widget Function(T value);
+
 /// 下拉菜单
 class BasePopupMenuButton<T> extends StatelessWidget {
   const BasePopupMenuButton({
@@ -131,10 +134,10 @@ class BasePopupMenuButton<T> extends StatelessWidget {
   final List<T> list;
 
   /// [PopupMenuButton.child] 构建
-  final ValueTwoCallbackT<Widget, T?, Widget> builder;
+  final BasePopupMenuButtonBuilder<T> builder;
 
   /// [PopupMenuButton.itemBuilder] 构建
-  final ValueCallbackTV<Widget, T> itemBuilder;
+  final BasePopupMenuButtonItemBuilder<T> itemBuilder;
 
   /// 旋转的图标
   final IconData iconData;
