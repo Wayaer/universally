@@ -32,7 +32,7 @@ abstract class HiveBox {
 
   Future<LazyBox> openLazyBox() async {
     assert(_name != null && isInitialize, '请先初始化');
-    final box = Hive.openLazyBox(_name!);
+    final box = await Hive.openLazyBox(_name!);
     _isOpen = true;
     return box;
   }
@@ -103,7 +103,7 @@ abstract class HiveBox {
   /// remove
   Future<bool> remove(dynamic key) async {
     if (containsKey(key)) {
-      box().delete(key);
+      await box().delete(key);
       return !containsKey(key);
     } else {
       return true;

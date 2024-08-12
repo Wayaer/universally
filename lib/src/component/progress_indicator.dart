@@ -93,12 +93,12 @@ class BaseProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlProgressIndicator(ProgressIndicatorOptions(
+    return ProgressIndicatorOptions(
       width: width,
       height: height,
       style: style,
       value: value,
-      color: color,
+      color: color ?? context.theme.primaryColor,
       valueColor: valueColor,
       backgroundColor: backgroundColor,
       semanticsLabel: semanticsLabel,
@@ -111,7 +111,7 @@ class BaseProgressIndicator extends StatelessWidget {
       elevation: elevation,
       indicatorMargin: indicatorMargin,
       indicatorPadding: indicatorPadding,
-    ));
+    ).widget;
   }
 }
 
@@ -190,7 +190,7 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
                   height: height,
                   style: style,
                   value: value.value,
-                  color: color,
+                  color: color ?? context.theme.primaryColor,
                   valueColor: valueColor,
                   backgroundColor: backgroundColor,
                   semanticsLabel: semanticsLabel,
