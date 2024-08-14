@@ -7,7 +7,7 @@ class SwitchApiButton extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) => !isBeta
+  Widget build(BuildContext context) => !(isBeta || isDebug)
       ? const SizedBox()
       : IconBox(
           icon: UIS.settingApi,
