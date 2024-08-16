@@ -18,7 +18,10 @@ dependencies:
   extended_image: ^8.2.1
   extended_image_library: ^4.0.4
   window_manager: ^0.4.0
-  flutter_curiosity: ^6.1.0
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
+
+  flutter_curiosity: ^6.2.0
   flutter_waya: ^9.9.0
   fl_extended: ^1.5.0
   fl_list_wheel: ^0.0.2
@@ -32,9 +35,6 @@ dependencies:
   connectivity_plus: ^6.0.5
   android_intent_plus: ^5.1.0
   device_info_plus: ^10.1.2
-
-  hive_flutter: ^1.1.0
-  hive: ^2.2.3
 
 dev_dependencies:
   flutter_lints: ^4.0.0
