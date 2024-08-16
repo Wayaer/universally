@@ -44,5 +44,5 @@ class PathProvider {
 
   /// iOS	Linux	macOS	Windows
   Future<Directory?> getDownloadsDirectory() async =>
-      isWeb || isAndroid ? null : await path.getDownloadsDirectory();
+      isWeb ? null : await path.getDownloadsDirectory();
 }
