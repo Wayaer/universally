@@ -95,12 +95,13 @@ class ConfirmActionDialog extends StatelessWidget {
           ? Container(
               alignment: Alignment.center,
               height: 45,
+              margin: const EdgeInsets.symmetric(vertical: 8),
               child: title ??
                   TextLarge(titleText,
                       maxLines: 10, style: context.theme.textTheme.titleMedium))
           : null,
       content: buildContent,
-      dividerColor: hasDivider ? UCS.lineColor : null,
+      dividerColor: hasDivider ? context.theme.dividerColor : null,
       dividerThickness: 1,
       actions: buildActions(context),
       options: FlExtended().modalOptions.merge(options).copyWith(
@@ -192,7 +193,7 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
             alignment: Alignment.center,
             child: cancel ??
                 TextNormal(cancelText,
-                    style: context.theme.textTheme.titleSmall)),
+                    style: context.theme.textTheme.titleMedium)),
         buildConfirm(context),
       ];
 }
