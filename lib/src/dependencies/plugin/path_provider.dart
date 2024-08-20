@@ -42,7 +42,7 @@ class PathProvider {
   Future<List<Directory>?> getExternalStorageDirectories() async =>
       isWeb || !isAndroid ? null : await path.getExternalStorageDirectories();
 
-  /// iOS	Linux	macOS	Windows
+  /// Android iOS	Linux	macOS	Windows
   Future<Directory?> getDownloadsDirectory() async =>
       isWeb ? null : await path.getDownloadsDirectory();
 }
