@@ -106,3 +106,45 @@ class PermissionPrompt extends StatelessWidget {
     ]);
   }
 }
+
+Future<List<Permission>> photosPermission({
+  /// 是否包含 videos 权限  android sdkInt >= 33
+  bool includeVideos = true,
+
+  /// 是否包含 videos 权限  android sdkInt >= 33
+  bool includePhotos = true,
+
+  /// 是否包含 audio 权限  android sdkInt >= 33
+  bool includeAudio = false,
+}) async {
+  if (!isMobile) return [];
+  if (isAndroid) {
+    final android = await DeviceInfoPlus().android;
+    if (android != null && android.version.sdkInt >= 33) {
+      return [
+        Permission.photos,
+        Permission.audio,
+        Permission.videos,
+      ];
+    } else {
+      return [Permission.storage];
+    }
+  } else if (isIOS) {
+    return [Permission.photos];
+  }
+  return [];
+}
+
+Future<Permission?> storagePermission() async {
+  if (!isMobile) return null;
+  if (isAndroid) {
+    final android = await DeviceInfoPlus().android;
+    if (android != null && android.version.sdkInt >= 33) {
+      return Permission.manageExternalStorage;
+    } else {
+      return Permission.storage;
+    }
+  }
+
+  return null;
+}
