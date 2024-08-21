@@ -145,6 +145,5 @@ Future<Permission?> storagePermission() async {
       return Permission.storage;
     }
   }
-
   return null;
 }
