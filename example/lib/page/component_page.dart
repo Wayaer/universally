@@ -13,13 +13,13 @@ class ComponentPage extends StatelessWidget {
           UserPrivacyCheckbox(value: false),
           10.heightBox,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const TextNormal('消息推送'),
+            const TextMedium('消息推送'),
             10.widthBox,
             const PushSwitchState(),
           ]),
           10.heightBox,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const TextNormal('清理缓存'),
+            const TextMedium('清理缓存'),
             10.widthBox,
             const CleanCache()
           ]),

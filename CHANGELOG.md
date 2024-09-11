@@ -1,3 +1,7 @@
+## 9.3.0
+
+* `TextNormal` 修改为 `TextMedium`
+
 ## 9.2.2
 
 * 新增 `BaseProgressIndicator`

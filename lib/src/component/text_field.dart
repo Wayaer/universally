@@ -651,7 +651,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
         DecoratorPendantPosition.inner;
     final current = widget.searchText ??
         Universally.to.config.textField?.searchText ??
-        const TextNormal('搜索');
+        const TextMedium('搜索');
     return Universal(
         margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
         onTap: () => widget.searchTextTap?.call(controller.text),
@@ -676,13 +676,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
           if (current != null) return current;
           switch (state) {
             case SendState.none:
-              return TextNormal('发送验证码', color: context.theme.primaryColor);
+              return TextMedium('发送验证码', color: context.theme.primaryColor);
             case SendState.sending:
-              return TextNormal('发送中', color: context.theme.primaryColor);
+              return TextMedium('发送中', color: context.theme.primaryColor);
             case SendState.resend:
-              return TextNormal('重新发送', color: context.theme.primaryColor);
+              return TextMedium('重新发送', color: context.theme.primaryColor);
             case SendState.countDown:
-              return TextNormal('$i s', color: context.theme.primaryColor);
+              return TextMedium('$i s', color: context.theme.primaryColor);
           }
         },
         onSendTap: widget.sendVerificationCodeTap);

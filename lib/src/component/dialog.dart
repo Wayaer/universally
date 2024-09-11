@@ -83,7 +83,7 @@ class ConfirmActionDialog extends StatelessWidget {
       margin: isCupertino
           ? const EdgeInsets.only(top: 10)
           : const EdgeInsets.fromLTRB(16, 2, 16, 20),
-      child: content ?? TextNormal(contentText));
+      child: content ?? TextMedium(contentText));
 
   @override
   Widget build(BuildContext context) => isCupertino
@@ -129,7 +129,7 @@ class ConfirmActionDialog extends StatelessWidget {
         if (onConfirmTap != null) onConfirmTap!();
       },
       child: confirm ??
-          TextNormal(
+          TextMedium(
             confirmText,
             style: context.theme.textTheme.titleSmall,
             color: context.theme.primaryColor,
@@ -192,7 +192,7 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
             },
             alignment: Alignment.center,
             child: cancel ??
-                TextNormal(cancelText,
+                TextMedium(cancelText,
                     style: context.theme.textTheme.titleMedium)),
         buildConfirm(context),
       ];

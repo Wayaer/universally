@@ -80,8 +80,8 @@ class TextLarge extends BaseText {
 
 /// 默认字体
 /// The formal font
-class TextNormal extends BaseText {
-  const TextNormal(
+class TextMedium extends BaseText {
+  const TextMedium(
     super.text, {
     super.key,
     super.usePrimaryColor = false,
@@ -672,5 +672,5 @@ class TextBoxPage extends StatelessWidget {
             text.toClipboard;
             showToast(toastText);
           },
-          child: TextNormal(text, color: color)));
+          child: TextMedium(text, color: color)));
 }

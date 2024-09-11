@@ -42,15 +42,15 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码',
+                    return TextMedium('发送验证码',
                         color: context.theme.primaryColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: context.theme.primaryColor);
+                    return TextMedium('发送中', color: context.theme.primaryColor);
                   case SendState.resend:
-                    return TextNormal('重新发送',
+                    return TextMedium('重新发送',
                         color: context.theme.primaryColor);
                   case SendState.countDown:
-                    return TextNormal('$i s',
+                    return TextMedium('$i s',
                         color: context.theme.primaryColor);
                 }
               },
@@ -80,15 +80,15 @@ class TextFieldPage extends StatelessWidget {
               sendVerificationCodeTextBuilder: (SendState state, int i) {
                 switch (state) {
                   case SendState.none:
-                    return TextNormal('发送验证码',
+                    return TextMedium('发送验证码',
                         color: context.theme.primaryColor);
                   case SendState.sending:
-                    return TextNormal('发送中', color: context.theme.primaryColor);
+                    return TextMedium('发送中', color: context.theme.primaryColor);
                   case SendState.resend:
-                    return TextNormal('重新发送',
+                    return TextMedium('重新发送',
                         color: context.theme.primaryColor);
                   case SendState.countDown:
-                    return TextNormal('$i s',
+                    return TextMedium('$i s',
                         color: context.theme.primaryColor);
                 }
               },

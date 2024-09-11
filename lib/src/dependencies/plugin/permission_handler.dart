@@ -101,7 +101,7 @@ class PermissionPrompt extends StatelessWidget {
           children: [
             TextLarge(title).setWidth(double.infinity),
             10.heightBox,
-            TextNormal(content, maxLines: 10)
+            TextMedium(content, maxLines: 10)
           ]),
     ]);
   }

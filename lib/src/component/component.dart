@@ -52,7 +52,7 @@ class BaseError extends StatelessWidget {
           widget: Icon(UIS.empty,
               size: 80, color: context.theme.textTheme.bodyMedium?.color),
           label:
-              const TextNormal('加载失败，点击刷新', fontWeight: FontWeights.medium)));
+              const TextMedium('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
 
 class BasePlaceholder extends StatelessWidget {

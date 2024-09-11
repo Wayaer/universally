@@ -14,8 +14,8 @@ class BasePickerOptions<T> extends PickerOptions<T> {
     super.top,
     super.bottom = const BaseDivider(),
     super.bottomNavigationBar,
-    super.confirm = const TextNormal('确定', usePrimaryColor: true),
-    super.cancel = const TextNormal('取消'),
+    super.confirm = const TextMedium('确定', usePrimaryColor: true),
+    super.cancel = const TextMedium('取消'),
     Widget? title,
   }) : super(
             title: title ??
@@ -45,11 +45,11 @@ class BaseCupertinoActionSheet extends StatelessWidget {
     final actions = list.builderEntry((entry) => CupertinoActionSheetAction(
         onPressed: () => closePopup(entry.key),
         isDefaultAction: true,
-        child: TextNormal(entry.value, height: 1)));
+        child: TextMedium(entry.value, height: 1)));
     actions.add(CupertinoActionSheetAction(
         onPressed: maybePop,
         isDefaultAction: true,
-        child: TextNormal(cancelText)));
+        child: TextMedium(cancelText)));
     return CupertinoActionSheet(actions: actions);
   }
 }
