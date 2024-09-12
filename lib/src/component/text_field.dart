@@ -760,7 +760,7 @@ class TextFieldConfig {
   final Widget? searchText;
   final DecoratorPendantPosition? searchTextPosition;
 
-  ///  发送验证码
+  /// 发送验证码
   final ValueTwoCallbackT<Widget, SendState, int>?
       sendVerificationCodeTextBuilder;
 

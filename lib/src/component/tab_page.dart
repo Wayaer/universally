@@ -11,6 +11,18 @@ class TabPageController extends PageController {
   });
 
   int get currentPage => page?.round() ?? initialPage;
+
+  Future<void> animateToOffset(double offset,
+      {Duration duration = const Duration(milliseconds: 250),
+      Curve curve = Curves.linear}) {
+    return super.animateTo(offset, duration: duration, curve: curve);
+  }
+
+  Future<void> animateToPageIndex(int page,
+      {Duration duration = const Duration(milliseconds: 250),
+      Curve curve = Curves.linear}) {
+    return super.animateToPage(page, duration: duration, curve: curve);
+  }
 }
 
 class TabPageBar extends StatelessWidget {
