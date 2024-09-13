@@ -44,15 +44,15 @@ class ConnectivityPlus {
   /// 订阅网络监听
   Future<void> subscription({
     /// 网络不可用 时 弹出 Overlay 禁止操作
-    UnavailableNetworkAlertBuilder? alertUnavailableNetwork,
+    UnavailableNetworkAlertBuilder? popupUnavailableNetwork,
   }) async {
     if (_subscription != null) return;
     'Connectivity 初始化'.log(crossLine: false);
 
     /// 添加模态框
-    if (alertUnavailableNetwork != null) {
+    if (popupUnavailableNetwork != null) {
       _overlayCallback ??=
-          (_, __) => showOverlayWhenUnavailableNetwork(alertUnavailableNetwork);
+          (_, __) => showOverlayWhenUnavailableNetwork(popupUnavailableNetwork);
       _listenerList.add(_overlayCallback!);
     }
     await checkConnectivity();
@@ -99,10 +99,10 @@ class ConnectivityPlus {
 
   /// 网络不可用 时 弹出 Overlay 禁止操作
   Future<bool> showOverlayWhenUnavailableNetwork(
-      UnavailableNetworkAlertBuilder alertUnavailableNetwork) async {
+      UnavailableNetworkAlertBuilder popupUnavailableNetwork) async {
     if (!networkAvailability) {
       _connectivityOverlay ??=
-          alertUnavailableNetwork(networkAvailability, _currentResult);
+          popupUnavailableNetwork(networkAvailability, _currentResult);
     } else {
       _connectivityOverlay?.removeEntry();
       _connectivityOverlay = null;

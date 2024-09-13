@@ -1,6 +1,10 @@
 ## 9.3.0
 
 * `TextNormal` 修改为 `TextMedium`
+* `getPermission` 修改为 `checkRequestPermission`
+* `getPermissions` 修改为 `checkRequestPermissions`
+* `PermissionPrompt` 修改为 `PermissionDialog`
+* `UserPrivacyAlert` 修改为 `UserPrivacyDialog`
 
 ## 9.2.2
 
@@ -58,7 +62,7 @@
 
 ## 7.1.3
 
-* `UserPrivacyAlert`新增`textColor`和`highlightColor`
+* `UserPrivacyDialog`新增`textColor`和`highlightColor`
 * `BaseDioOptions` 添加 `buildBaseModelState`,用于构建默认的 `BaseModel`
 * 修改 `GifController` 为 `AnimationController`
 
@@ -326,7 +330,7 @@
 
 ## 0.9.1+3
 
-* Add `showUserPrivacyAlert()`
+* Add `showUserPrivacyDialog()`
 * Remove `alertLoading()`,use `showLoading()`
 
 ## 0.9.0

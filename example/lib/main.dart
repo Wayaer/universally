@@ -135,7 +135,7 @@ class HomePage extends StatelessWidget {
               text: 'Call Phone'),
           Button(
               onTap: () async {
-                final res = await getPermission(
+                final res = await checkRequestPermission(
                     Permission.requestInstallPackages,
                     promptBeforeRequest: '请求安装app权限');
                 showToast(res.toString());
@@ -143,21 +143,21 @@ class HomePage extends StatelessWidget {
               text: 'requestInstallPackages'),
           Button(
               onTap: () async {
-                final res = await getPermissions([
+                final res = await checkRequestPermissions([
                   Permission.camera,
                   Permission.storage,
                   if (isIOS) Permission.photos
                 ], promptBeforeRequest: '本服务需要访问您的“相机”和“相册”，以修改头像或上传图片');
                 showToast(res.toString());
               },
-              text: 'getPermissions'),
+              text: 'checkRequestPermissions'),
           Button(
               onTap: () async {
-                final res = await getPermission(Permission.camera,
+                final res = await checkRequestPermission(Permission.camera,
                     promptBeforeRequest: '本服务需要访问您的“相机”，以修改头像或上传图片');
                 showToast(res.toString());
               },
-              text: 'getPermission'),
+              text: 'checkRequestPermission'),
           Button(
               onTap: () {
                 UrlLauncher().openAppStore(

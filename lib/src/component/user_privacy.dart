@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
+extension ExtensionAlertWithUserPrivacy on UserPrivacyDialog {
   Future<void> show() async {
     final result = BasePreferences().getBool(UConst.privacy);
     if (result ?? false) {
@@ -14,8 +14,8 @@ extension ExtensionAlertWithUserPrivacy on UserPrivacyAlert {
   }
 }
 
-class UserPrivacyAlert extends StatefulWidget {
-  const UserPrivacyAlert(
+class UserPrivacyDialog extends StatefulWidget {
+  const UserPrivacyDialog(
       {super.key,
       required this.name,
       this.onUserAgreementTap,
@@ -43,10 +43,10 @@ class UserPrivacyAlert extends StatefulWidget {
   final Widget? content;
 
   @override
-  State<UserPrivacyAlert> createState() => _UserPrivacyAlertState();
+  State<UserPrivacyDialog> createState() => _UserPrivacyDialogState();
 }
 
-class _UserPrivacyAlertState extends State<UserPrivacyAlert> {
+class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
   final userAgreementTap = TapGestureRecognizer();
   final privacyPolicyTap = TapGestureRecognizer();
 

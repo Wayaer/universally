@@ -89,10 +89,10 @@ class DialogPage extends StatelessWidget {
               },
               text: 'TextFieldDialog.cupertino'),
           Button(
-              text: 'showUserPrivacyAlert',
+              text: 'showUserPrivacyDialog',
               onTap: () {
                 BasePreferences().setBool(UConst.privacy, false);
-                UserPrivacyAlert(
+                UserPrivacyDialog(
                         name: 'Universally',
                         onUserAgreementTap: () {},
                         onPrivacyPolicyTap: () {},

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 /// 单独获取一个权限
-Future<bool> getPermission(
+Future<bool> checkRequestPermission(
   Permission permission, {
   /// 请求前提示
   String? promptBeforeRequest,
@@ -15,7 +15,7 @@ Future<bool> getPermission(
   PermissionStatus permissionStatus = await permission.status;
   if (permissionStatus.isDenied) {
     if (promptBeforeRequest != null) {
-      PermissionPrompt.show(content: promptBeforeRequest);
+      PermissionDialog.show(content: promptBeforeRequest);
     }
     permissionStatus = await permission.request();
     pop();
@@ -39,7 +39,7 @@ Future<bool> getPermission(
 }
 
 /// 必须获取通过全部权限
-Future<bool> getPermissions(List<Permission> permissions,
+Future<bool> checkRequestPermissions(List<Permission> permissions,
     {String? promptBeforeRequest,
     String? jumpSettingsPrompt,
     GestureTapCallback? cancelTap}) async {
@@ -52,7 +52,7 @@ Future<bool> getPermissions(List<Permission> permissions,
   }
   if (status.isNotEmpty) {
     if (promptBeforeRequest != null) {
-      PermissionPrompt.show(content: promptBeforeRequest);
+      PermissionDialog.show(content: promptBeforeRequest);
     }
     final permissionsStatus = await status.keys.toList().request();
     permissionsStatus
@@ -77,15 +77,15 @@ Future<bool> getPermissions(List<Permission> permissions,
   return true;
 }
 
-class PermissionPrompt extends StatelessWidget {
-  const PermissionPrompt(
+class PermissionDialog extends StatelessWidget {
+  const PermissionDialog(
       {super.key, required this.title, required this.content});
 
   final String title;
   final String content;
 
   static show<T>({String title = "权限申请说明", required String content}) =>
-      PermissionPrompt(title: title, content: content)
+      PermissionDialog(title: title, content: content)
           .popupBottomSheet<T>(options: const BottomSheetOptions());
 
   @override
