@@ -16,7 +16,7 @@ class UConst {
   /// Page back refresh
   static const String refresh = 'refresh';
 
-  static const String privacy = 'isPrivacy';
+  static const String isPrivacy = 'isPrivacy';
 
   /// localApi
   static const String localApi = 'localApi';

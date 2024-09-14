@@ -91,7 +91,7 @@ class DialogPage extends StatelessWidget {
           Button(
               text: 'showUserPrivacyDialog',
               onTap: () {
-                BasePreferences().setBool(UConst.privacy, false);
+                BasePreferences().setBool(UConst.isPrivacy, false);
                 UserPrivacyDialog(
                         name: 'Universally',
                         onUserAgreementTap: () {},

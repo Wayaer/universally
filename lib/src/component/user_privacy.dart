@@ -4,7 +4,7 @@ import 'package:universally/universally.dart';
 
 extension ExtensionAlertWithUserPrivacy on UserPrivacyDialog {
   Future<void> show() async {
-    final result = BasePreferences().getBool(UConst.privacy);
+    final result = BasePreferences().getBool(UConst.isPrivacy);
     if (result ?? false) {
       onConsentTap?.call();
     } else {
@@ -58,7 +58,7 @@ class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
           content: Column(children: [
             widget.content ??
                 RText(textAlign: TextAlign.start, texts: [
-                  '欢迎您使用${widget.name}客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过说读',
+                  '欢迎您使用${widget.name}客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过阅读',
                   '《用户协议》',
                   '和',
                   '《隐私政策》',
@@ -109,7 +109,7 @@ class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
                         bottomRight: Radius.circular(6))),
                 onTap: () {
                   pop();
-                  BasePreferences().setBool(UConst.privacy, true);
+                  BasePreferences().setBool(UConst.isPrivacy, true);
                   widget.onConsentTap?.call();
                 },
                 child: TextMedium(widget.agree,
