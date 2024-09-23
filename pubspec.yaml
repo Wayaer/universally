@@ -15,7 +15,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_spinkit: ^5.2.1
   keframe: ^3.0.0
-  extended_image: ^8.2.3
+  extended_image: ^8.2.4
   extended_image_library: ^4.0.4
   window_manager: ^0.4.2
   hive_flutter: ^1.1.0
