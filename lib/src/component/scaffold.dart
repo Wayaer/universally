@@ -48,10 +48,14 @@ class BaseScaffold extends StatelessWidget {
     this.doubleClickExitPrompt = '再次点击返回键退出',
 
     /// ****** [Scaffold] ****** ///
+    ///	默认 false，为 true 时，body 延伸到底部控件
     this.extendBody = false,
+
+    /// 默认 false，为 true 时，body 会置顶到 appbar 后，如appbar 为半透明色，可以有毛玻璃效果
     this.extendBodyBehindAppBar = false,
+
+    /// 是否在屏幕顶部显示Appbar, 默认为 true，Appbar 是否向上延伸到状态栏，如电池电量，时间那一栏
     this.primary = true,
-    this.restorationId,
     this.floatingActionButton,
 
     /// 悬浮按钮
@@ -60,34 +64,43 @@ class BaseScaffold extends StatelessWidget {
     /// 悬浮按钮位置
     this.floatingActionButtonAnimator,
 
-    /// 悬浮按钮动画
+    /// 显示在底部导航条上方的一组按钮
     this.persistentFooterButtons,
 
-    /// 固定在下方显示的按钮，比如对话框下方的确定、取消按钮
+    /// 左侧菜单
     this.drawer,
 
-    /// 侧滑菜单左
+    /// 左侧侧滑栏是否可以滑动
+    this.drawerEnableOpenDragGesture = true,
+    this.onDrawerChanged,
+
+    /// 右侧菜单
     this.endDrawer,
 
-    /// 侧滑菜单右
+    /// 右侧侧滑栏是否可以滑动
+    this.endDrawerEnableOpenDragGesture = true,
+    this.onEndDrawerChanged,
+
+    /// 底部导航条
     this.bottomNavigationBar,
 
-    /// 底部导航
+    /// 一个持久停留在body下方，底部控件上方的控件
     this.bottomSheet,
 
     /// 类似于 Android 中的 android:windowSoftInputMode=”adjustResize”，
     /// 控制界面内容 body 是否重新布局来避免底部被覆盖了，比如当键盘显示的时候，
     /// 重新布局避免被键盘盖住内容。默认值为 true。
     this.resizeToAvoidBottomInset,
-    this.onDrawerChanged,
-    this.onEndDrawerChanged,
+
+    /// 侧滑栏拉出来时，用来遮盖主页面的颜色
     this.drawerScrimColor,
     this.drawerDragStartBehavior = DragStartBehavior.start,
+
+    /// 侧滑栏拉出来的宽度
     this.drawerEdgeDragWidth,
-    this.drawerEnableOpenDragGesture = true,
-    this.endDrawerEnableOpenDragGesture = true,
     this.backgroundColor,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
+    this.restorationId,
 
     /// ****** [AppBar] ****** ///
     this.appBar,
@@ -172,30 +185,66 @@ class BaseScaffold extends StatelessWidget {
   /// 在不设置AppBar的时候 修改状态栏颜色
   final SystemUiOverlayStyle? systemOverlayStyle;
 
+  /// appBar
+  final PreferredSizeWidget? appBar;
+
   /// 限制 [appBar] 高度
   final double? appBarHeight;
 
   /// Scaffold相关属性
   final Color? backgroundColor;
+
+  ///	默认 false，为 true 时， body 延伸到底部控件
   final bool extendBody;
+
+  /// 默认 false，为 true 时，body 会置顶到 appbar 后，如appbar 为半透明色，可以有毛玻璃效果
   final bool extendBodyBehindAppBar;
-  final PreferredSizeWidget? appBar;
+
+  /// 悬浮按钮
   final Widget? floatingActionButton;
+
+  /// 悬浮按钮位置
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
+
+  /// 悬浮按钮
   final FloatingActionButtonLocation? floatingActionButtonLocation;
+
+  /// 一个持久停留在body下方，底部控件上方的控件
   final Widget? bottomSheet;
+
+  /// 底部导航条
   final Widget? bottomNavigationBar;
+
+  /// 控制 drawer 的一些特性
   final DragStartBehavior drawerDragStartBehavior;
+
+  /// 左侧菜单
   final Widget? drawer;
   final DrawerCallback? onDrawerChanged;
+
+  /// 左侧侧滑栏是否可以滑动
+  final bool drawerEnableOpenDragGesture;
+
+  /// 右侧菜单
   final Widget? endDrawer;
   final DrawerCallback? onEndDrawerChanged;
-  final double? drawerEdgeDragWidth;
-  final Color? drawerScrimColor;
-  final bool drawerEnableOpenDragGesture;
+
+  /// 右侧侧滑栏是否可以滑动
   final bool endDrawerEnableOpenDragGesture;
+
+  /// 侧滑栏拉出来的宽度
+  final double? drawerEdgeDragWidth;
+
+  /// 侧滑栏拉出来时，用来遮盖主页面的颜色
+  final Color? drawerScrimColor;
+
+  /// 显示在底部导航条上方的一组按钮
   final List<Widget>? persistentFooterButtons;
+
+  /// 默认为 true，防止一些小组件重复
   final bool? resizeToAvoidBottomInset;
+
+  /// 是否在屏幕顶部显示Appbar, 默认为 true，Appbar 是否向上延伸到状态栏，如电池电量，时间那一栏
   final bool primary;
   final String? restorationId;
   final AlignmentDirectional persistentFooterAlignment;

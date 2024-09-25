@@ -24,15 +24,15 @@ class BaseTabBar extends TabBar {
     super.splashFactory,
     super.splashBorderRadius,
     super.dividerHeight,
-    super.unselectedLabelColor = UCS.black70,
     super.labelColor,
+    super.unselectedLabelColor,
     super.indicatorColor,
     TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
     String? fontFamily,
     FontWeight? fontWeight,
-    double fontSize = 16,
+    double? fontSize,
     double height = 38,
     List<Widget>? tabs,
     List<String>? list,
@@ -43,16 +43,14 @@ class BaseTabBar extends TabBar {
             tabs: tabs ??
                 list?.builder((value) => Tab(text: value, height: height)) ??
                 [],
-            labelStyle: labelStyle ??
-                TStyle(
-                    fontFamily: fontFamily,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight),
-            unselectedLabelStyle: unselectedLabelStyle ??
-                TStyle(
-                    fontFamily: fontFamily,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight));
+            labelStyle: labelStyle?.copyWith(
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fontWeight: fontWeight),
+            unselectedLabelStyle: unselectedLabelStyle?.copyWith(
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fontWeight: fontWeight));
 
   BaseTabBar.fill({
     super.key,
@@ -72,14 +70,15 @@ class BaseTabBar extends TabBar {
     super.dividerHeight,
     super.indicatorColor,
     super.labelColor,
+    super.unselectedLabelColor,
     TabAlignment? tabAlignment,
     TextStyle? labelStyle,
     TextStyle? unselectedLabelStyle,
-    Color unselectedLabelColor = UCS.black70,
     String? fontFamily,
     FontWeight? fontWeight,
-    double fontSize = 16,
+    double? fontSize,
     double height = 38,
+    BorderRadius indicatorRadius = const BorderRadius.all(Radius.circular(4)),
     List<Widget>? tabs,
     List<String>? list,
   })  : assert(tabs != null || list != null),
@@ -92,19 +91,16 @@ class BaseTabBar extends TabBar {
             indicatorWeight: 0,
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
-                color: indicatorColor, borderRadius: BorderRadius.circular(4)),
+                color: indicatorColor, borderRadius: indicatorRadius),
             dividerColor: UCS.transparent,
-            unselectedLabelColor: unselectedLabelColor,
-            labelStyle: labelStyle ??
-                TStyle(
-                    fontFamily: fontFamily,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight),
-            unselectedLabelStyle: unselectedLabelStyle ??
-                TStyle(
-                    fontFamily: fontFamily,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight));
+            labelStyle: labelStyle?.copyWith(
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fontWeight: fontWeight),
+            unselectedLabelStyle: unselectedLabelStyle?.copyWith(
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fontWeight: fontWeight));
 }
 
 typedef CustomTabBarItemBuilder = Widget Function(int selected, int index);
