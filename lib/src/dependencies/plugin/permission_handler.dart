@@ -119,8 +119,7 @@ Future<List<Permission>> photosPermission({
 }) async {
   if (!isMobile) return [];
   if (isAndroid) {
-    final android = await DeviceInfoPlus().android;
-    if (android != null && android.version.sdkInt >= 33) {
+    if (await DeviceInfoPlus().androidAbove(33)) {
       return [
         Permission.photos,
         Permission.audio,
@@ -138,8 +137,7 @@ Future<List<Permission>> photosPermission({
 Future<Permission?> storagePermission() async {
   if (!isMobile) return null;
   if (isAndroid) {
-    final android = await DeviceInfoPlus().android;
-    if (android != null && android.version.sdkInt >= 33) {
+    if (await DeviceInfoPlus().androidAbove(33)) {
       return Permission.manageExternalStorage;
     } else {
       return Permission.storage;

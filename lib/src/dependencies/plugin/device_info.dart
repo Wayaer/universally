@@ -35,6 +35,14 @@ class DeviceInfoPlus {
     return null;
   }
 
+  Future<bool> androidAbove(int version) async {
+    if (isAndroid) {
+      final android = await this.android;
+      return android != null && android.version.sdkInt >= version;
+    }
+    return false;
+  }
+
   Future<IosDeviceInfo?> get ios async {
     if (isIOS && !isWeb) {
       return await _deviceInfoPlugin.iosInfo;
