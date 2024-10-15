@@ -43,13 +43,13 @@ if [ "" == "$channel" ]; then
 fi
 
 echo "
- -------------------------------------------------------------
+ ┌---------------------------------------------------------------
  |    macos: $version,
  |    outputName: $outputName,
  |    channel: $channel,
  |    buildType: $buildType,
  |    mainPath: $mainPath
- --------------------------------------------------------------"
+ └---------------------------------------------------------------"
 
 echo "flutter build macos --$buildType --analyze-size$dartDefine -t $mainPath"
 # shellcheck disable=SC2086

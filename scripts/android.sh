@@ -65,7 +65,7 @@ version=$(grep 'version:' pubspec.yaml)
 version=${version#version: }
 
 echo "
- -------------------------------------------------------------
+ ┌---------------------------------------------------------------
  |    android: $version,
  |    outputName: $outputName,
  |    channel: $channel,
@@ -74,7 +74,7 @@ echo "
  |    buildType: $buildType,
  |    targetPlatform: $targetPlatformStr,
  |    mainPath: $mainPath
- --------------------------------------------------------------"
+ └---------------------------------------------------------------"
 
 dartDefine=" --dart-define channel=$channel"
 androidProjectArg=" --android-project-arg channel=$channel"

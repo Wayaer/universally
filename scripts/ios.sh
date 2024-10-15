@@ -49,14 +49,14 @@ fi
 exportMethod=" --export-method $exportMethodName"
 
 echo "
- -------------------------------------------------------------
+ ┌---------------------------------------------------------------
  |    ios: $version,
  |    outputName: $outputName,
  |    channel: $channel,
  |    exportMethod: $exportMethod,
  |    buildType: $buildType,
  |    mainPath: $mainPath
- --------------------------------------------------------------"
+ └---------------------------------------------------------------"
 
 echo "flutter build ipa --$buildType --analyze-size$exportMethod$dartDefine -t $mainPath"
 # shellcheck disable=SC2086

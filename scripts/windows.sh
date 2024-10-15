@@ -43,13 +43,13 @@ if [ "" == "$channel" ]; then
 fi
 
 echo "
- -------------------------------------------------------------
+ ┌---------------------------------------------------------------
  |    windows: $version,
  |    outputName: $outputName,
  |    channel: $channel,
  |    buildType: $buildType,
  |    mainPath: $mainPath
- --------------------------------------------------------------"
+ └---------------------------------------------------------------"
 
 echo "flutter build windows --$buildType --analyze-size$dartDefine -t $mainPath"
 # shellcheck disable=SC2086
