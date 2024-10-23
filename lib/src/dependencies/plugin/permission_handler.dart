@@ -1,6 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+extension ExtensionPermissionStatus on PermissionStatus {
+  bool get authorized => isGranted || isLimited || isProvisional;
+}
+
+/// check permission
+Future<bool> checkPermission(Permission permission) async {
+  final permissionStatus = await permission.status;
+  return permissionStatus.isGranted ||
+      permissionStatus.isLimited ||
+      permissionStatus.isProvisional;
+}
+
+/// check permissions
+Future<List<Permission>> checkPermissions(List<Permission> permissions) async {
+  List<Permission> unauthorized = [];
+  for (var element in permissions) {
+    if (await checkPermission(element)) {
+      continue;
+    }
+    unauthorized.add(element);
+  }
+  return unauthorized;
+}
+
 /// 单独获取一个权限
 Future<bool> checkRequestPermission(
   Permission permission, {
@@ -11,17 +35,15 @@ Future<bool> checkRequestPermission(
   String? jumpSettingsPrompt,
   GestureTapCallback? cancelTap,
 }) async {
-  if (!isMobile) return true;
-  PermissionStatus permissionStatus = await permission.status;
-  if (permissionStatus.isDenied) {
+  PermissionStatus status = await permission.status;
+  if (!status.authorized) {
     if (promptBeforeRequest != null) {
       PermissionDialog.show(content: promptBeforeRequest);
     }
-    permissionStatus = await permission.request();
-    pop();
+    status = await permission.request();
+    if (promptBeforeRequest != null) pop();
   }
-  if (!(permissionStatus.isGranted || permissionStatus.isLimited) &&
-      jumpSettingsPrompt != null) {
+  if (!(status.authorized) && jumpSettingsPrompt != null) {
     final result = await ConfirmCancelActionDialog(
         titleText: '权限申请说明',
         contentText: jumpSettingsPrompt,
@@ -35,7 +57,7 @@ Future<bool> checkRequestPermission(
         }).show();
     if (result == true) await openAppSettings();
   }
-  return permissionStatus.isGranted || permissionStatus.isLimited;
+  return status.authorized;
 }
 
 /// 必须获取通过全部权限
@@ -43,22 +65,15 @@ Future<bool> checkRequestPermissions(List<Permission> permissions,
     {String? promptBeforeRequest,
     String? jumpSettingsPrompt,
     GestureTapCallback? cancelTap}) async {
-  if (!isMobile) return true;
-  Map<Permission, bool> status = {};
-  for (var element in permissions) {
-    final isGranted = await element.isGranted;
-    final isLimited = await element.isLimited;
-    if (!(isGranted || isLimited)) status.addAll({element: isGranted});
-  }
-  if (status.isNotEmpty) {
+  final unauthorized = await checkPermissions(permissions);
+  if (unauthorized.isNotEmpty) {
     if (promptBeforeRequest != null) {
       PermissionDialog.show(content: promptBeforeRequest);
     }
-    final permissionsStatus = await status.keys.toList().request();
-    permissionsStatus
-        .removeWhere((key, value) => value.isGranted || value.isLimited);
-    pop();
-    if (permissionsStatus.isNotEmpty) {
+    final permissionsStatus = await unauthorized.request();
+    permissionsStatus.removeWhere((key, value) => value.authorized);
+    if (promptBeforeRequest != null) pop();
+    if (permissionsStatus.isNotEmpty && jumpSettingsPrompt != null) {
       final result = await ConfirmCancelActionDialog(
           titleText: '权限申请说明',
           contentText: jumpSettingsPrompt,
@@ -84,26 +99,31 @@ class PermissionDialog extends StatelessWidget {
   final String title;
   final String content;
 
-  static show<T>({String title = "权限申请说明", required String content}) =>
+  static Future<void> show(
+          {String title = '权限申请说明', required String content}) =>
       PermissionDialog(title: title, content: content)
-          .popupBottomSheet<T>(options: const BottomSheetOptions());
+          .popupBottomSheet(options: const BottomSheetOptions());
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      Universal(
-          margin: EdgeInsets.fromLTRB(16, context.statusBarHeight + 16, 16, 16),
-          decoration: BoxDecoration(
-              color: context.theme.scaffoldBackgroundColor,
-              borderRadius: BorderRadius.circular(12)),
-          padding: const EdgeInsets.all(16),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextLarge(title).setWidth(double.infinity),
-            10.heightBox,
-            TextMedium(content, maxLines: 10)
-          ]),
-    ]);
+    return Universal(
+        safeTop: true,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Universal(
+              margin:
+                  EdgeInsets.fromLTRB(16, context.statusBarHeight + 16, 16, 16),
+              decoration: BoxDecoration(
+                  color: context.theme.scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.all(16),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextLarge(title).setWidth(double.infinity),
+                10.heightBox,
+                TextMedium(content, maxLines: 10)
+              ]),
+        ]);
   }
 }
 
