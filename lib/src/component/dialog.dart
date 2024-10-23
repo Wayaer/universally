@@ -102,7 +102,7 @@ class ConfirmActionDialog extends StatelessWidget {
           : null,
       content: buildContent,
       dividerColor: hasDivider ? context.theme.dividerColor : null,
-      dividerThickness: 1,
+      dividerThickness: 0.5,
       actions: buildActions(context),
       options: FlExtended().modalOptions.merge(options).copyWith(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,

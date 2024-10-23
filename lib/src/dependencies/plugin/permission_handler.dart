@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+const _defaultBottomSheetOptions =
+    BottomSheetOptions(backgroundColor: Colors.transparent);
+
 extension ExtensionPermissionStatus on PermissionStatus {
   bool get authorized => isGranted || isLimited || isProvisional;
 }
@@ -33,7 +36,7 @@ Future<bool> checkRequestPermission(
 
   /// 请求失败跳转设置提示
   String? jumpSettingsPrompt,
-  GestureTapCallback? cancelTap,
+  GestureTapCallback? onCancelTap,
 }) async {
   PermissionStatus status = await permission.status;
   if (!status.authorized) {
@@ -53,7 +56,7 @@ Future<bool> checkRequestPermission(
         },
         onCancelTap: () {
           pop(false);
-          cancelTap?.call();
+          onCancelTap?.call();
         }).show();
     if (result == true) await openAppSettings();
   }
@@ -64,7 +67,7 @@ Future<bool> checkRequestPermission(
 Future<bool> checkRequestPermissions(List<Permission> permissions,
     {String? promptBeforeRequest,
     String? jumpSettingsPrompt,
-    GestureTapCallback? cancelTap}) async {
+    GestureTapCallback? onCancelTap}) async {
   final unauthorized = await checkPermissions(permissions);
   if (unauthorized.isNotEmpty) {
     if (promptBeforeRequest != null) {
@@ -83,8 +86,8 @@ Future<bool> checkRequestPermissions(List<Permission> permissions,
           },
           onCancelTap: () {
             pop(false);
-            cancelTap?.call();
-          }).popupBottomSheet();
+            onCancelTap?.call();
+          }).popupBottomSheet(options: _defaultBottomSheetOptions);
       if (result == true) await openAppSettings();
     }
     return permissionsStatus.isEmpty;
@@ -102,28 +105,24 @@ class PermissionDialog extends StatelessWidget {
   static Future<void> show(
           {String title = '权限申请说明', required String content}) =>
       PermissionDialog(title: title, content: content)
-          .popupBottomSheet(options: const BottomSheetOptions());
+          .popupBottomSheet(options: _defaultBottomSheetOptions);
 
   @override
   Widget build(BuildContext context) {
-    return Universal(
-        safeTop: true,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Universal(
-              margin:
-                  EdgeInsets.fromLTRB(16, context.statusBarHeight + 16, 16, 16),
-              decoration: BoxDecoration(
-                  color: context.theme.scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(12)),
-              padding: const EdgeInsets.all(16),
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextLarge(title).setWidth(double.infinity),
-                10.heightBox,
-                TextMedium(content, maxLines: 10)
-              ]),
-        ]);
+    return Column(children: [
+      Universal(
+          margin: EdgeInsets.fromLTRB(16, context.statusBarHeight + 40, 16, 16),
+          decoration: BoxDecoration(
+              color: context.theme.scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(12)),
+          padding: const EdgeInsets.all(16),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextLarge(title).setWidth(double.infinity),
+            10.heightBox,
+            TextMedium(content, maxLines: 10)
+          ]),
+    ]);
   }
 }
 

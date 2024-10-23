@@ -6,18 +6,19 @@ import 'package:app/page/component_page.dart';
 import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
 import 'package:app/page/hive_preferences.dart';
+import 'package:app/page/permission_page.dart';
 import 'package:app/page/picker_page.dart';
 import 'package:app/page/progress_indicator_page.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:app/page/text_page.dart';
+import 'package:app/page/url_lanuncher_page.dart';
 import 'package:app/theme.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:universally/universally.dart';
-import 'page/android_system_setting.dart';
 
 Future<void> main() async {
   isBeta = true;
@@ -106,6 +107,9 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const PickerPage()), text: 'Picker'),
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
+          Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
+          Button(
+              onTap: () => push(const UrlLauncherPage()), text: 'UrlLauncher'),
           Button(
               onTap: () => push(const ProgressIndicatorPage()),
               text: 'ProgressIndicator'),
@@ -125,78 +129,6 @@ class HomePage extends StatelessWidget {
               text: 'SpinKit'),
         ]));
   }
-
-  List<Widget> get buildMobile => !isWeb && isMobile
-      ? [
-          Button(
-              onTap: () {
-                UrlLauncher().openUrl('tel:10086');
-              },
-              text: 'Call Phone'),
-          Button(
-              onTap: () async {
-                final res = await checkRequestPermission(
-                    Permission.requestInstallPackages,
-                    promptBeforeRequest: '请求安装app权限');
-                showToast(res.toString());
-              },
-              text: 'requestInstallPackages'),
-          Button(
-              onTap: () async {
-                final res = await checkRequestPermissions([
-                  Permission.camera,
-                  Permission.storage,
-                  if (isIOS) Permission.photos
-                ], promptBeforeRequest: '本服务需要访问您的“相机”和“相册”，以修改头像或上传图片');
-                showToast(res.toString());
-              },
-              text: 'checkRequestPermissions'),
-          Button(
-              onTap: () async {
-                final res = await checkRequestPermission(Permission.camera,
-                    promptBeforeRequest: '本服务需要访问您的“相机”，以修改头像或上传图片');
-                showToast(res.toString());
-              },
-              text: 'checkRequestPermission'),
-          Button(
-              onTap: () {
-                UrlLauncher().openAppStore(
-                    packageName: 'com.tencent.mobileqq',
-                    appId: isIOS ? '444934666' : '451108668');
-              },
-              text: 'openAppStore'),
-        ]
-      : [];
-
-  List<Widget> get buildAndroid => !isWeb && isAndroid
-      ? [
-          Button(
-              onTap: () async {
-                final result = await UrlLauncher().isInstalledApp(
-                    packageName: 'com.tencent.mobileqq',
-                    appId: isIOS ? '444934666' : '451108668');
-                showToast(result.toString());
-              },
-              text: 'isInstalledApp'),
-          Button(
-              onTap: () {
-                push(const AndroidSystemSettingPage());
-              },
-              text: 'AndroidSystemSetting'),
-        ]
-      : [];
-
-  List<Widget> get buildIOS => !isWeb && isIOS
-      ? [
-          Button(
-              onTap: () {
-                UrlLauncher().openUrl(IOSSettingUrl.notifications.value);
-              },
-              text: 'IOSSystemSetting'),
-        ]
-      : [];
-
-  List<Widget> get buildDesktop => !isWeb && isDesktop ? [] : [];
 }
 
 class Button extends StatelessWidget {
