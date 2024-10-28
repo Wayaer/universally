@@ -5,6 +5,8 @@ import 'package:universally/universally.dart';
 class DialogPage extends StatelessWidget {
   const DialogPage({super.key});
 
+  static bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -98,6 +100,20 @@ class DialogPage extends StatelessWidget {
                         onPrivacyPolicyTap: () {},
                         onConsentTap: () {})
                     .show();
+              }),
+          Button(
+              text: 'showUserPrivacyCheckDialog',
+              onTap: () {
+                DialogPage.isChecked = false;
+                UserPrivacyCheckDialog(
+                        onUserAgreementTap: () {},
+                        onPrivacyPolicyTap: () {},
+                        onConsentTap: () {})
+                    .show(DialogPage.isChecked)
+                    .then((value) {
+                  DialogPage.isChecked = value;
+                  showToast(value.toString());
+                });
               }),
         ]);
   }

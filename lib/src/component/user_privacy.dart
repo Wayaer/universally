@@ -2,29 +2,31 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-extension ExtensionAlertWithUserPrivacy on UserPrivacyDialog {
-  Future<void> show() async {
+extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
+  Future<bool> show() async {
     final result = BasePreferences().getBool(UConst.isPrivacy);
-    if (result ?? false) {
+    if (result == true) {
       onConsentTap?.call();
+      return true;
     } else {
-      await popupDialog(
+      final result = await popupDialog(
           options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter));
+      return result == true;
     }
   }
 }
 
-class UserPrivacyDialog extends StatefulWidget {
+class UserPrivacyDialog extends StatelessWidget {
   const UserPrivacyDialog(
       {super.key,
       required this.name,
+      this.onConsentTap,
       this.onUserAgreementTap,
       this.onPrivacyPolicyTap,
-      required this.onConsentTap,
       this.options,
-      this.agree = '同意',
-      this.exit = '暂不使用',
-      this.title = '个人隐私保护指引',
+      this.confirmText = '同意',
+      this.cancelText = '暂不使用',
+      this.titleText = '个人隐私保护指引',
       this.content,
       this.textColor,
       this.highlightColor});
@@ -36,54 +38,57 @@ class UserPrivacyDialog extends StatefulWidget {
 
   final Color? textColor;
   final Color? highlightColor;
+
+  /// name
   final String name;
-  final String agree;
-  final String exit;
-  final String title;
+
+  /// confirmText
+  final String confirmText;
+
+  /// cancelText
+  final String cancelText;
+
+  /// title
+  final String titleText;
+
+  /// content
   final Widget? content;
 
   @override
-  State<UserPrivacyDialog> createState() => _UserPrivacyDialogState();
-}
-
-class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
-  final userAgreementTap = TapGestureRecognizer();
-  final privacyPolicyTap = TapGestureRecognizer();
-
-  @override
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
-          options: FlExtended().modalOptions.merge(widget.options),
-          hasDivider: false,
-          titleText: widget.title,
+          options: FlExtended().modalOptions.merge(options),
+          dividerThickness: 0,
+          titleText: titleText,
           content: Column(children: [
-            widget.content ??
-                RText(textAlign: TextAlign.start, texts: [
-                  '欢迎您使用${widget.name}客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过阅读',
-                  '《用户协议》',
-                  '和',
-                  '《隐私政策》',
-                  '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。${widget.name}客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
-                ], styles: [
-                  const TStyle(height: 1.4)
-                      .merge(context.theme.textTheme.bodyMedium)
-                      .copyWith(color: widget.textColor),
-                  TStyle(height: 1.4, color: context.theme.primaryColor)
-                      .copyWith(color: widget.highlightColor),
-                  const TStyle(height: 1.4)
-                      .merge(context.theme.textTheme.bodyMedium)
-                      .copyWith(color: widget.textColor),
-                  TStyle(height: 1.4, color: context.theme.primaryColor)
-                      .copyWith(color: widget.highlightColor),
-                  const TStyle(height: 1.4)
-                      .merge(context.theme.textTheme.bodyMedium)
-                      .copyWith(color: widget.textColor),
-                ], recognizers: [
-                  null,
-                  userAgreementTap..onTap = widget.onUserAgreementTap,
-                  null,
-                  privacyPolicyTap..onTap = widget.onPrivacyPolicyTap,
-                  null,
-                ]),
+            content ??
+                RText(
+                    textAlign: TextAlign.start,
+                    texts: [
+                      '欢迎您使用$name客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过阅读',
+                      '《用户协议》',
+                      '和',
+                      '《隐私政策》',
+                      '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受'
+                    ],
+                    style: const TStyle(height: 1.4)
+                        .merge(context.theme.textTheme.bodyMedium)
+                        .copyWith(color: textColor),
+                    styles: [
+                      null,
+                      TStyle(height: 1.4, color: context.theme.primaryColor)
+                          .copyWith(color: highlightColor),
+                      null,
+                      TStyle(height: 1.4, color: context.theme.primaryColor)
+                          .copyWith(color: highlightColor),
+                      null,
+                    ],
+                    recognizers: [
+                      null,
+                      _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+                      null,
+                      _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+                      null,
+                    ]),
           ]),
           autoClose: false,
           actions: [
@@ -96,7 +101,7 @@ class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(8))),
                 onTap: Curiosity.native.exitApp,
-                child: TextMedium(widget.exit,
+                child: TextMedium(cancelText,
                     style: context.theme.textTheme.titleSmall)),
             Universal(
                 height: 40,
@@ -108,21 +113,102 @@ class _UserPrivacyDialogState extends State<UserPrivacyDialog> {
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(6))),
                 onTap: () {
-                  pop();
                   BasePreferences().setBool(UConst.isPrivacy, true);
-                  widget.onConsentTap?.call();
+                  onConsentTap?.call();
+                  pop(true);
                 },
-                child: TextMedium(widget.agree,
+                child: TextMedium(confirmText,
                     color: UCS.white,
                     style: context.theme.textTheme.titleSmall)),
           ]);
+}
+
+extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
+  Future<bool> show(bool isCheck) async {
+    if (isCheck) {
+      return true;
+    } else {
+      final result = await popupDialog(
+          options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter));
+      if (result == true) return true;
+    }
+    return false;
+  }
+}
+
+class UserPrivacyCheckDialog extends StatelessWidget {
+  const UserPrivacyCheckDialog(
+      {super.key,
+      this.onConsentTap,
+      this.onUserAgreementTap,
+      this.onPrivacyPolicyTap,
+      this.options,
+      this.confirmText = '同意并继续',
+      this.cancelText = '放弃登录',
+      this.titleText = '温馨提示',
+      this.contentTexts = const ['请阅读并同意\n', '《用户协议》', '和', '《隐私政策》'],
+      this.textColor,
+      this.highlightColor,
+      this.dividerColor});
+
+  final GestureTapCallback? onUserAgreementTap;
+  final GestureTapCallback? onPrivacyPolicyTap;
+  final GestureTapCallback? onConsentTap;
+  final ModalBoxOptions? options;
+
+  /// color
+  final Color? textColor;
+  final Color? highlightColor;
+
+  /// confirmText
+  final String confirmText;
+
+  /// cancelText
+  final String cancelText;
+
+  /// title
+  final String titleText;
+
+  /// content text
+  final List<String> contentTexts;
+
+  /// divider color
+  final Color? dividerColor;
 
   @override
-  void dispose() {
-    super.dispose();
-    userAgreementTap.dispose();
-    privacyPolicyTap.dispose();
-  }
+  Widget build(BuildContext context) => ConfirmCancelActionDialog(
+      options: options,
+      titleText: titleText,
+      confirm: TextMedium(confirmText,
+          color: highlightColor ?? context.theme.primaryColor),
+      cancel: TextMedium(cancelText),
+      autoClose: false,
+      onCancelTap: pop,
+      dividerColor: dividerColor,
+      onConfirmTap: () {
+        onConsentTap?.call();
+        pop(true);
+      },
+      constraints: BoxConstraints(maxWidth: 280),
+      content: RText(
+          texts: contentTexts,
+          style: const TStyle(height: 1.4)
+              .merge(context.theme.textTheme.bodyMedium)
+              .copyWith(color: textColor),
+          styles: [
+            null,
+            TStyle(height: 1.4, color: context.theme.primaryColor)
+                .copyWith(color: highlightColor),
+            null,
+            TStyle(height: 1.4, color: context.theme.primaryColor)
+                .copyWith(color: highlightColor),
+          ],
+          recognizers: [
+            null,
+            _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+            null,
+            _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+          ]));
 }
 
 class UserPrivacyCheckbox extends StatelessWidget {
@@ -133,10 +219,10 @@ class UserPrivacyCheckbox extends StatelessWidget {
       this.onUserAgreementTap,
       this.onPrivacyPolicyTap,
       this.shape,
-      this.color = UCS.mainBlack,
+      this.textColor,
       this.fontSize = 12,
       this.texts = const ['我已阅读并同意', '《用户协议》', '和', '《隐私政策》'],
-      this.mainColor})
+      this.highlightColor})
       : assert(texts.length == 4);
 
   final bool value;
@@ -146,10 +232,10 @@ class UserPrivacyCheckbox extends StatelessWidget {
   final OutlinedBorder? shape;
 
   /// 其他文字颜色
-  final Color? color;
+  final Color? textColor;
 
   /// 高亮显示的颜色
-  final Color? mainColor;
+  final Color? highlightColor;
   final double fontSize;
 
   /// 文字内容
@@ -160,22 +246,40 @@ class UserPrivacyCheckbox extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       BaseCheckbox(
           value: value,
-          activeColor: mainColor ?? context.theme.primaryColor,
+          activeColor: highlightColor ?? context.theme.primaryColor,
           shape: shape,
           onChanged: onChanged),
-      RText(maxLines: 2, textAlign: TextAlign.start, texts: texts, styles: [
-        TStyle(color: color, fontSize: fontSize),
-        TStyle(
-            color: mainColor ?? context.theme.primaryColor, fontSize: fontSize),
-        TStyle(color: color, fontSize: fontSize),
-        TStyle(
-            color: mainColor ?? context.theme.primaryColor, fontSize: fontSize),
-      ], recognizers: [
-        null,
-        TapGestureRecognizer()..onTap = onUserAgreementTap,
-        null,
-        TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
-      ]).expanded
+      RText(
+          maxLines: 2,
+          textAlign: TextAlign.start,
+          texts: texts,
+          style: TStyle(height: 1.4, fontSize: fontSize)
+              .merge(context.theme.textTheme.bodyMedium)
+              .copyWith(color: textColor),
+          styles: [
+            null,
+            TStyle(height: 1.4, color: context.theme.primaryColor)
+                .copyWith(color: highlightColor),
+            null,
+            TStyle(height: 1.4, color: context.theme.primaryColor)
+                .copyWith(color: highlightColor),
+            null,
+          ],
+          recognizers: [
+            null,
+            _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+            null,
+            _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+          ]).expanded
     ]);
   }
+}
+
+TapGestureRecognizer _buildTapGestureRecognizer({GestureTapCallback? onTap}) {
+  final tapGestureRecognizer = TapGestureRecognizer();
+  GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
+      () => tapGestureRecognizer, (TapGestureRecognizer instance) {
+    instance.onTap = onTap;
+  });
+  return tapGestureRecognizer;
 }

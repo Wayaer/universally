@@ -25,10 +25,12 @@ class ConfirmActionDialog extends StatelessWidget {
     this.titleText,
     this.title,
     this.autoClose = false,
-    this.hasDivider = true,
+    this.dividerThickness = 0.4,
+    this.dividerColor,
     this.options,
     this.actions,
     this.resizeToAvoidBottomInset = true,
+    this.constraints,
   }) : isCupertino = false;
 
   const ConfirmActionDialog.cupertino({
@@ -42,9 +44,11 @@ class ConfirmActionDialog extends StatelessWidget {
     this.title,
     this.autoClose = false,
     this.actions,
-  })  : hasDivider = false,
-        options = null,
+  })  : options = null,
+        dividerColor = null,
+        constraints = null,
         resizeToAvoidBottomInset = true,
+        dividerThickness = 1,
         isCupertino = true;
 
   /// confirm
@@ -70,14 +74,20 @@ class ConfirmActionDialog extends StatelessWidget {
   /// actions
   final List<Widget>? actions;
 
-  /// 是否显示线
-  final bool hasDivider;
+  /// divider color
+  final Color? dividerColor;
+
+  /// dividerThickness
+  final double dividerThickness;
 
   /// use cupertino style
   final bool isCupertino;
 
   /// resize ToAvoid Bottom Inset
   final bool resizeToAvoidBottomInset;
+
+  /// BoxConstraints
+  final BoxConstraints? constraints;
 
   Widget get buildContent => Universal(
       margin: isCupertino
@@ -98,12 +108,13 @@ class ConfirmActionDialog extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 8),
               child: title ??
                   TextLarge(titleText,
-                      maxLines: 10, style: context.theme.textTheme.titleMedium))
+                      maxLines: 10, style: context.theme.textTheme.titleLarge))
           : null,
       content: buildContent,
-      dividerColor: hasDivider ? context.theme.dividerColor : null,
-      dividerThickness: 0.5,
+      dividerColor: dividerColor ?? context.theme.dividerColor,
+      dividerThickness: dividerThickness,
       actions: buildActions(context),
+      constraints: constraints,
       options: FlExtended().modalOptions.merge(options).copyWith(
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,
           borderRadius: BorderRadius.circular(6)),
@@ -152,10 +163,12 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
     super.titleText,
     super.title,
     super.autoClose = true,
-    super.hasDivider = true,
+    super.dividerThickness,
+    super.dividerColor,
     super.options,
     super.actions,
     super.resizeToAvoidBottomInset,
+    super.constraints,
   });
 
   const ConfirmCancelActionDialog.cupertino({
