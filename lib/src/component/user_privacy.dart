@@ -61,7 +61,7 @@ class UserPrivacyDialog extends StatelessWidget {
           titleText: titleText,
           content: Column(children: [
             content ??
-                RText(
+                _RTextWithRecognizers(
                     textAlign: TextAlign.start,
                     texts: [
                       '欢迎您使用$name客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过阅读',
@@ -84,9 +84,9 @@ class UserPrivacyDialog extends StatelessWidget {
                     ],
                     recognizers: [
                       null,
-                      _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+                      TapGestureRecognizer()..onTap = onUserAgreementTap,
                       null,
-                      _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+                      TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
                       null,
                     ]),
           ]),
@@ -190,7 +190,7 @@ class UserPrivacyCheckDialog extends StatelessWidget {
         pop(true);
       },
       constraints: BoxConstraints(maxWidth: 280),
-      content: RText(
+      content: _RTextWithRecognizers(
           texts: contentTexts,
           style: const TStyle(height: 1.4)
               .merge(context.theme.textTheme.bodyMedium)
@@ -205,9 +205,9 @@ class UserPrivacyCheckDialog extends StatelessWidget {
           ],
           recognizers: [
             null,
-            _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+            TapGestureRecognizer()..onTap = onUserAgreementTap,
             null,
-            _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+            TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
           ]));
 }
 
@@ -249,7 +249,7 @@ class UserPrivacyCheckbox extends StatelessWidget {
           activeColor: highlightColor ?? context.theme.primaryColor,
           shape: shape,
           onChanged: onChanged),
-      RText(
+      _RTextWithRecognizers(
           maxLines: 2,
           textAlign: TextAlign.start,
           texts: texts,
@@ -267,19 +267,49 @@ class UserPrivacyCheckbox extends StatelessWidget {
           ],
           recognizers: [
             null,
-            _buildTapGestureRecognizer(onTap: onUserAgreementTap),
+            TapGestureRecognizer()..onTap = onUserAgreementTap,
             null,
-            _buildTapGestureRecognizer(onTap: onPrivacyPolicyTap),
+            TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
           ]).expanded
     ]);
   }
 }
 
-TapGestureRecognizer _buildTapGestureRecognizer({GestureTapCallback? onTap}) {
-  final tapGestureRecognizer = TapGestureRecognizer();
-  GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-      () => tapGestureRecognizer, (TapGestureRecognizer instance) {
-    instance.onTap = onTap;
-  });
-  return tapGestureRecognizer;
+class _RTextWithRecognizers extends StatefulWidget {
+  const _RTextWithRecognizers(
+      {this.maxLines,
+      this.textAlign = TextAlign.center,
+      required this.texts,
+      this.style,
+      this.styles = const [],
+      this.recognizers = const []});
+
+  final int? maxLines;
+  final TextAlign textAlign;
+  final List<String> texts;
+  final TextStyle? style;
+  final List<TextStyle?> styles;
+  final List<GestureRecognizer?> recognizers;
+
+  @override
+  State<_RTextWithRecognizers> createState() => _RTextWithRecognizersState();
+}
+
+class _RTextWithRecognizersState extends State<_RTextWithRecognizers> {
+  @override
+  Widget build(BuildContext context) => RText(
+      maxLines: widget.maxLines,
+      textAlign: widget.textAlign,
+      texts: widget.texts,
+      style: widget.style,
+      styles: widget.styles,
+      recognizers: widget.recognizers);
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (var e in widget.recognizers) {
+      e?.dispose();
+    }
+  }
 }
