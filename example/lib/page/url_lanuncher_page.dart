@@ -58,9 +58,14 @@ class UrlLauncherPage extends StatelessWidget {
       ? [
           Button(
               onTap: () {
-                UrlLauncher().openUrl(IOSSettingUrl.notifications.value);
+                UrlLauncher().openUrl(IOSSettingUrl.app.url);
               },
-              text: 'IOSSystemSetting'),
+              text: 'IOSSystemSetting for current'),
+          Button(
+              onTap: () {
+                UrlLauncher().openUrl(IOSSettingUrl.notifications.url);
+              },
+              text: 'IOSSystemSetting - notifications'),
         ]
       : [];
 }

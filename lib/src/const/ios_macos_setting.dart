@@ -114,14 +114,16 @@ enum MacOSSettingUrl {
 
 enum IOSSettingUrl {
   /// setting
-  setting(''),
+  app(''),
 
   /// notifications ios16+
-  notifications('notifications');
+  notifications('notifications'),
+  ;
 
   const IOSSettingUrl(this._value);
 
   final String _value;
 
-  String get value => 'app-settings:$_value';
+  /// 跳转至设置
+  String get url => 'app-settings:$_value';
 }
