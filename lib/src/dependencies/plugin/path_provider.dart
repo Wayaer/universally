@@ -18,6 +18,14 @@ class PathProvider {
   Future<Directory?> getApplicationSupportDirectory() async =>
       isWeb ? null : await path.getApplicationSupportDirectory();
 
+  /// Android	iOS	Linux	macOS	Windows
+  /// Android for [getExternalStorageDirectory()]
+  Future<Directory?> getExternalApplicationSupportDirectory() async {
+    if (isWeb) return null;
+    if (isAndroid) return await getExternalStorageDirectory();
+    return await path.getApplicationSupportDirectory();
+  }
+
   ///	iOS	macOS
   Future<Directory?> getLibraryDirectory() async =>
       isWeb ? null : await path.getLibraryDirectory();
@@ -30,6 +38,18 @@ class PathProvider {
   Future<Directory?> getApplicationCacheDirectory() async =>
       isWeb ? null : await path.getApplicationCacheDirectory();
 
+  /// Android	iOS	Linux	macOS	Windows
+  /// Android for [getExternalCacheDirectories()]
+  Future<Directory?> getExternalApplicationCacheDirectory() async {
+    if (isWeb) return null;
+    if (isAndroid) return (await getExternalCacheDirectories())?.firstOrNull;
+    return await path.getApplicationCacheDirectory();
+  }
+
+  /// Android iOS	Linux	macOS	Windows
+  Future<Directory?> getDownloadsDirectory() async =>
+      isWeb ? null : await path.getDownloadsDirectory();
+
   /// Android
   Future<Directory?> getExternalStorageDirectory() async =>
       isWeb || !isAndroid ? null : await path.getExternalStorageDirectory();
@@ -39,10 +59,9 @@ class PathProvider {
       isWeb || !isAndroid ? null : await path.getExternalCacheDirectories();
 
   /// Android
-  Future<List<Directory>?> getExternalStorageDirectories() async =>
-      isWeb || !isAndroid ? null : await path.getExternalStorageDirectories();
-
-  /// Android iOS	Linux	macOS	Windows
-  Future<Directory?> getDownloadsDirectory() async =>
-      isWeb ? null : await path.getDownloadsDirectory();
+  Future<List<Directory>?> getExternalStorageDirectories(
+          {StorageDirectory? type}) async =>
+      isWeb || !isAndroid
+          ? null
+          : await path.getExternalStorageDirectories(type: type);
 }
