@@ -1,3 +1,8 @@
+## 9.3.1
+
+* 更新依赖
+* 新增部分方法
+
 ## 9.3.0
 
 * `TextNormal` 修改为 `TextMedium`
@@ -48,7 +53,8 @@
 ## 8.0.0
 
 * Update dependencies
-* `extended_image_library`、`package_info_plus`、`connectivity_plus`、`device_info_plus`、`android_intent_plus`
+* `extended_image_library`、`package_info_plus`、`connectivity_plus`、`device_info_plus`、
+  `android_intent_plus`
 * 修复 `connectivity_plus` 新版回调状态
 * `TextExtraLarge`、`TextLarge`、`TextNormal`、`TextSmall`添加全部样式属性
 
