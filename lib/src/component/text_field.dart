@@ -667,7 +667,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
             DecoratorPendantPosition.inner;
     return SendVerificationCode(
         margin: EdgeInsets.only(left: isLeft ? 10 : 0, right: isLeft ? 0 : 10),
-        duration: widget.sendVerificationCodeDuration,
+        value: widget.sendVerificationCodeDuration,
         builder: (SendState state, int i) {
           final current = (widget.sendVerificationCodeTextBuilder ??
                   Universally
