@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class SwitchApiButton extends StatelessWidget {
-  const SwitchApiButton({super.key, this.color});
+  const SwitchApiButton({super.key, this.color = Colors.white});
 
-  final Color? color;
+  final Color color;
 
   @override
   Widget build(BuildContext context) => !(isBeta || isDebug)
