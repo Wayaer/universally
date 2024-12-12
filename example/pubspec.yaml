@@ -4,8 +4,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: '>=3.24.0'
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: '>=3.27.0'
 
 dependencies:
   universally:
@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   crypto: ^3.0.3
-  device_preview_minus: ^1.0.9
+  device_preview_minus: ^1.1.0
   provider: ^6.1.2
 
 dev_dependencies:

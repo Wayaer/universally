@@ -584,7 +584,7 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-      color: UCS.black.withOpacity(0.9),
+      color: UCS.black.withValues(alpha:0.9),
       child: Column(children: <Widget>[
         Universal(
             alignment: Alignment.centerRight,
