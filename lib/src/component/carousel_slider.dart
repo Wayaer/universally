@@ -26,7 +26,7 @@ class BaseCarouselSlider extends CarouselSlider {
       double aspectRatio = 16 / 9,
 
       /// [height]
-      double? height = 40,
+      double? height,
 
       /// [initialPage]
       int initialPage = 0,
