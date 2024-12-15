@@ -17,7 +17,7 @@ class TextFieldPage extends StatelessWidget {
               enableClearIcon: true,
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
-              fillColor: Colors.red.withValues(alpha:0.2),
+              fillColor: Colors.red.withValues(alpha: 0.2),
               enableSearchIcon: true,
               onTap: () {
                 showToast('请输入');
@@ -65,7 +65,7 @@ class TextFieldPage extends StatelessWidget {
               ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
-              fillColor: Colors.red.withValues(alpha:0.2),
+              fillColor: Colors.red.withValues(alpha: 0.2),
               sendVerificationCodePosition: DecoratorPendantPosition.inner,
               enableSearchIcon: true,
               searchTextTap: (String value) {},
@@ -102,7 +102,7 @@ class TextFieldPage extends StatelessWidget {
               ],
               borderType: BorderType.outline,
               borderRadius: BorderRadius.circular(4),
-              fillColor: Colors.red.withValues(alpha:0.2),
+              fillColor: Colors.red.withValues(alpha: 0.2),
               enableSearchIcon: true,
               searchTextPosition: DecoratorPendantPosition.inner,
               searchTextTap: (String value) {},
@@ -116,7 +116,7 @@ class TextFieldPage extends StatelessWidget {
               minLines: 3,
               maxLines: 6,
               maxLength: 10,
-              fillColor: Colors.grey.withValues(alpha:0.2),
+              fillColor: Colors.grey.withValues(alpha: 0.2),
               enableClearIcon: true,
               prefixes: [
                 const BText('prefix').toDecoratorPendant(
@@ -150,7 +150,7 @@ class TextFieldPage extends StatelessWidget {
                     maintainSize: true,
                     positioned: DecoratorPendantPosition.outer),
               ],
-              fillColor: Colors.grey.withValues(alpha:0.2),
+              fillColor: Colors.grey.withValues(alpha: 0.2),
               enableClearIcon: true,
               hintText: '请输入内容   useTextField=false'),
           const SizedBox(height: 20),

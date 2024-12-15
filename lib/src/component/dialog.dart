@@ -229,6 +229,11 @@ class TextFieldDialog extends StatelessWidget {
     this.textInputType = TextInputLimitFormatter.text,
     this.value,
     this.resizeToAvoidBottomInset = true,
+    this.hasFocusedChangeBorder = false,
+    this.maxLines,
+    this.minLines,
+    this.borderSide,
+    this.fillColor,
   }) : isCupertino = false;
 
   TextFieldDialog.cupertino({
@@ -242,6 +247,11 @@ class TextFieldDialog extends StatelessWidget {
     this.maxLength = 30,
     this.textInputType = TextInputLimitFormatter.text,
     this.value,
+    this.hasFocusedChangeBorder = false,
+    this.maxLines,
+    this.minLines,
+    this.borderSide,
+    this.fillColor,
   })  : isCupertino = true,
         resizeToAvoidBottomInset = true;
 
@@ -261,6 +271,17 @@ class TextFieldDialog extends StatelessWidget {
   final String? value;
   final int maxLength;
   final TextInputLimitFormatter textInputType;
+
+  /// 输入框 边框
+  final bool hasFocusedChangeBorder;
+  final BorderSide? borderSide;
+
+  /// 输入框填充色
+  final Color? fillColor;
+
+  /// 默认为 1
+  final int? maxLines;
+  final int? minLines;
 
   @override
   Widget build(BuildContext context) {
@@ -293,12 +314,15 @@ class TextFieldDialog extends StatelessWidget {
           margin: const EdgeInsets.all(16),
           hintText: hintText,
           borderType: BorderType.outline,
+          borderSide: borderSide,
           padding: const EdgeInsets.symmetric(vertical: 6),
-          borderRadius: BorderRadius.circular(2),
           controller: controller,
           width: double.infinity,
-          hasFocusedChangeBorder: false,
+          hasFocusedChangeBorder: hasFocusedChangeBorder,
+          maxLines: maxLines,
+          minLines: minLines,
           maxLength: maxLength,
+          fillColor: fillColor,
           autoFocus: true));
 
   void checkInput() {
