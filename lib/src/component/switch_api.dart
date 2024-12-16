@@ -52,7 +52,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             showApi(Universally().baseApi),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               const TextMedium('使用https：'),
-              BaseXSwitch(
+              XSwitch(
                   value: isHttps,
                   activeColor: context.theme.primaryColor,
                   onChanged: (bool? value) {
@@ -110,7 +110,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           const USpacing(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             const TextMedium('始终使用正式服务器').expanded,
-            BaseXSwitch(
+            XSwitch(
                 value: isRelease,
                 activeColor: context.theme.primaryColor,
                 onChanged: (bool? value) {
@@ -122,7 +122,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               maxLines: 3, color: context.theme.primaryColor),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             const TextMedium('开启接口请求日志打印：'),
-            BaseXSwitch(
+            XSwitch(
                 value: isDebugger,
                 activeColor: context.theme.primaryColor,
                 onChanged: (bool? value) async {

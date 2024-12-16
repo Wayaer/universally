@@ -90,13 +90,13 @@ class _PushStateState extends State<PushSwitchState> {
   void initState() {
     super.initState();
     addPostFrameCallback((_) {
-      push = BasePreferences().getBool(UConst.isPush) ?? true;
+      push = BasePreferences().getBool(UConst.isPush) ?? false;
       setState(() {});
     });
   }
 
   @override
-  Widget build(BuildContext context) => BaseXSwitch(
+  Widget build(BuildContext context) => XSwitch(
       value: push,
       onChanged: (value) {
         if (value == push) return;
