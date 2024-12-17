@@ -819,14 +819,16 @@ class BaseModel {
 }
 
 /// nullPass = true   data 为null  返回true
-bool resultSuccessFail(BaseModel data, {String? text, bool nullPass = false}) {
+bool resultSuccessFail(BaseModel data,
+    {String? text, bool nullPass = false, bool showErrorToast = true}) {
   if (BaseDio().baseDioOptions.successCode.contains(data.code) &&
       (nullPass || data.data != null)) {
     if (text != null) showToast(text);
     return true;
   } else {
-    if (!(BaseDio().baseDioOptions.hideMsg.contains(data.msg) ||
-        BaseDio().baseDioOptions.hideCode.contains(data.code))) {
+    if (showErrorToast &&
+        (!(BaseDio().baseDioOptions.hideMsg.contains(data.msg) ||
+            BaseDio().baseDioOptions.hideCode.contains(data.code)))) {
       showToast(data.msg);
     }
     return false;
