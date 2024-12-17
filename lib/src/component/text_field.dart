@@ -108,11 +108,15 @@ class BaseTextField extends StatefulWidget {
     this.onAppPrivateCommand,
     this.onTapAlwaysCalled = false,
     this.statesController,
+    this.interval = 8,
   });
 
   /// ***** 附加功能 *****
   /// 初始化默认的文本
   final String? value;
+
+  /// [searchText] [searchIcon] [clearIcon] [enableEye]
+  final double interval;
 
   /// **** 搜索文字 ****
   /// 添加 搜索文字 点击事件
@@ -653,7 +657,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
         Universally.to.config.textField?.searchText ??
         const TextMedium('搜索');
     return Universal(
-        margin: EdgeInsets.only(left: isLeft ? 12 : 0, right: isLeft ? 0 : 10),
+        padding: EdgeInsets.only(
+            left: isLeft ? widget.interval : 0,
+            right: isLeft ? 0 : widget.interval),
         onTap: () => widget.searchTextTap?.call(controller.text),
         alignment: Alignment.center,
         child: current);
@@ -666,7 +672,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
                 widget.sendVerificationCodePosition) !=
             DecoratorPendantPosition.inner;
     return SendVerificationCode(
-        margin: EdgeInsets.only(left: isLeft ? 10 : 0, right: isLeft ? 0 : 10),
+        margin: EdgeInsets.only(
+            left: isLeft ? widget.interval : 0,
+            right: isLeft ? 0 : widget.interval),
         value: widget.sendVerificationCodeDuration,
         builder: (SendState state, int i) {
           final current = (widget.sendVerificationCodeTextBuilder ??
@@ -694,7 +702,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
         Universally.to.config.textField?.searchIcon ??
         Icon(UIS.search,
             size: 20, color: context.theme.textTheme.bodyMedium?.color);
-    return Padding(padding: const EdgeInsets.only(left: 10), child: current);
+    return Padding(
+        padding: EdgeInsets.only(left: widget.interval), child: current);
   }
 
   /// 清除
@@ -710,13 +719,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
           controller.clear();
           if (widget.onChanged != null) widget.onChanged!('');
         },
-        padding: const EdgeInsets.only(right: 10),
+        padding: EdgeInsets.only(right: widget.interval),
         child: current);
   }
 
   /// 眼睛
   Widget get buildEyeIcon => Universal(
-      margin: const EdgeInsets.only(right: 10),
+      padding: EdgeInsets.only(right: widget.interval),
       onTap: () {
         obscureText.value = !obscureText.value;
       },
