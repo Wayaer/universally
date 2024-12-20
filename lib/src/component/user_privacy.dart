@@ -115,11 +115,11 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
       cancel: (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: context.theme.textTheme.titleSmall?.color
+              color: context.theme.textTheme.bodyMedium?.color
                   ?.withValues(alpha: 0.05),
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))),
           child: TextMedium(cancelText,
-              style: context.theme.textTheme.titleSmall)),
+              style: context.theme.textTheme.bodyMedium)),
       confirm: (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
