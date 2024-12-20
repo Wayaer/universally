@@ -2,6 +2,38 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
+abstract class _UserPrivacyStatelessWidget extends StatelessWidget {
+  const _UserPrivacyStatelessWidget({
+    super.key,
+    this.onUserAgreementTap,
+    this.onPrivacyPolicyTap,
+    this.onConsentTap,
+    this.options,
+    this.textColor,
+    this.highlightColor,
+    this.confirmText = '同意并继续',
+    required this.cancelText,
+    required this.titleText,
+  });
+
+  final GestureTapCallback? onUserAgreementTap;
+  final GestureTapCallback? onPrivacyPolicyTap;
+  final GestureTapCallback? onConsentTap;
+  final ModalBoxOptions? options;
+
+  final Color? textColor;
+  final Color? highlightColor;
+
+  /// confirmText
+  final String confirmText;
+
+  /// cancelText
+  final String cancelText;
+
+  /// title
+  final String titleText;
+}
+
 extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
   Future<bool> show() async {
     final result = BasePreferences().getBool(UConst.isPrivacy);
@@ -16,50 +48,34 @@ extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
   }
 }
 
-class UserPrivacyDialog extends StatelessWidget {
-  const UserPrivacyDialog(
-      {super.key,
-      required this.name,
-      this.onConsentTap,
-      this.onUserAgreementTap,
-      this.onPrivacyPolicyTap,
-      this.options,
-      this.confirmText = '同意',
-      this.cancelText = '暂不使用',
-      this.titleText = '个人隐私保护指引',
-      this.content,
-      this.textColor,
-      this.highlightColor});
-
-  final GestureTapCallback? onUserAgreementTap;
-  final GestureTapCallback? onPrivacyPolicyTap;
-  final GestureTapCallback? onConsentTap;
-  final ModalBoxOptions? options;
-
-  final Color? textColor;
-  final Color? highlightColor;
+class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
+  const UserPrivacyDialog({
+    super.key,
+    super.options,
+    super.onConsentTap,
+    super.onUserAgreementTap,
+    super.onPrivacyPolicyTap,
+    super.confirmText,
+    super.cancelText = '暂不使用',
+    super.titleText = '个人隐私保护指引',
+    super.textColor,
+    super.highlightColor,
+    required this.name,
+    this.content,
+  });
 
   /// name
   final String name;
-
-  /// confirmText
-  final String confirmText;
-
-  /// cancelText
-  final String cancelText;
-
-  /// title
-  final String titleText;
 
   /// content
   final Widget? content;
 
   @override
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
-          options: FlExtended().modalOptions.merge(options),
-          dividerThickness: 0,
-          titleText: titleText,
-          content: Column(children: [
+      options: FlExtended().modalOptions.merge(options),
+      dividerThickness: 0,
+      titleText: titleText,
+      content: (_) => Column(children: [
             content ??
                 _RTextWithRecognizers(
                     textAlign: TextAlign.start,
@@ -90,37 +106,27 @@ class UserPrivacyDialog extends StatelessWidget {
                       null,
                     ]),
           ]),
-          autoClose: false,
-          actions: [
-            Universal(
-                height: 40,
-                margin: const EdgeInsets.only(right: 0.5),
-                alignment: Alignment.center,
-                expanded: true,
-                decoration: const BoxDecoration(
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(8))),
-                onTap: Curiosity.native.exitApp,
-                child: TextMedium(cancelText,
-                    style: context.theme.textTheme.titleSmall)),
-            Universal(
-                height: 40,
-                expanded: true,
-                margin: const EdgeInsets.only(left: 0.5),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: context.theme.primaryColor,
-                    borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(6))),
-                onTap: () {
-                  BasePreferences().setBool(UConst.isPrivacy, true);
-                  onConsentTap?.call();
-                  pop(true);
-                },
-                child: TextMedium(confirmText,
-                    color: UCS.white,
-                    style: context.theme.textTheme.titleSmall)),
-          ]);
+      onCancelTap: Curiosity.native.exitApp,
+      onConfirmTap: () {
+        BasePreferences().setBool(UConst.isPrivacy, true);
+        onConsentTap?.call();
+        return true;
+      },
+      cancel: (_) => Universal(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: context.theme.textTheme.titleSmall?.color
+                  ?.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))),
+          child: TextMedium(cancelText,
+              style: context.theme.textTheme.titleSmall)),
+      confirm: (_) => Universal(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: context.theme.primaryColor,
+              borderRadius:
+                  const BorderRadius.only(bottomRight: Radius.circular(6))),
+          child: TextMedium(confirmText, color: UCS.white)));
 }
 
 extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
@@ -136,38 +142,21 @@ extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
   }
 }
 
-class UserPrivacyCheckDialog extends StatelessWidget {
-  const UserPrivacyCheckDialog(
-      {super.key,
-      this.onConsentTap,
-      this.onUserAgreementTap,
-      this.onPrivacyPolicyTap,
-      this.options,
-      this.confirmText = '同意并继续',
-      this.cancelText = '放弃登录',
-      this.titleText = '温馨提示',
-      this.contentTexts = const ['请阅读并同意\n', '《用户协议》', '和', '《隐私政策》'],
-      this.textColor,
-      this.highlightColor,
-      this.dividerColor});
-
-  final GestureTapCallback? onUserAgreementTap;
-  final GestureTapCallback? onPrivacyPolicyTap;
-  final GestureTapCallback? onConsentTap;
-  final ModalBoxOptions? options;
-
-  /// color
-  final Color? textColor;
-  final Color? highlightColor;
-
-  /// confirmText
-  final String confirmText;
-
-  /// cancelText
-  final String cancelText;
-
-  /// title
-  final String titleText;
+class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
+  const UserPrivacyCheckDialog({
+    super.key,
+    super.options,
+    super.onConsentTap,
+    super.onUserAgreementTap,
+    super.onPrivacyPolicyTap,
+    super.confirmText,
+    super.cancelText = '放弃登录',
+    super.titleText = '温馨提示',
+    super.textColor,
+    super.highlightColor,
+    this.contentTexts = const ['请阅读并同意\n', '《用户协议》', '和', '《隐私政策》'],
+    this.dividerColor,
+  });
 
   /// content text
   final List<String> contentTexts;
@@ -179,36 +168,34 @@ class UserPrivacyCheckDialog extends StatelessWidget {
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
       options: options,
       titleText: titleText,
-      confirm: TextMedium(confirmText,
+      cancelText: cancelText,
+      confirm: (_) => TextMedium(confirmText,
           color: highlightColor ?? context.theme.primaryColor),
-      cancel: TextMedium(cancelText),
-      autoClose: false,
-      onCancelTap: pop,
       dividerColor: dividerColor,
       onConfirmTap: () {
         onConsentTap?.call();
-        pop(true);
+        return true;
       },
       constraints: BoxConstraints(maxWidth: 280),
-      content: _RTextWithRecognizers(
-          texts: contentTexts,
-          style: const TStyle(height: 1.4)
-              .merge(context.theme.textTheme.bodyMedium)
-              .copyWith(color: textColor),
-          styles: [
-            null,
-            TStyle(height: 1.4, color: context.theme.primaryColor)
-                .copyWith(color: highlightColor),
-            null,
-            TStyle(height: 1.4, color: context.theme.primaryColor)
-                .copyWith(color: highlightColor),
-          ],
-          recognizers: [
-            null,
-            TapGestureRecognizer()..onTap = onUserAgreementTap,
-            null,
-            TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
-          ]));
+      content: (_) => _RTextWithRecognizers(
+              texts: contentTexts,
+              style: const TStyle(height: 1.4)
+                  .merge(context.theme.textTheme.bodyMedium)
+                  .copyWith(color: textColor),
+              styles: [
+                null,
+                TStyle(height: 1.4, color: context.theme.primaryColor)
+                    .copyWith(color: highlightColor),
+                null,
+                TStyle(height: 1.4, color: context.theme.primaryColor)
+                    .copyWith(color: highlightColor),
+              ],
+              recognizers: [
+                null,
+                TapGestureRecognizer()..onTap = onUserAgreementTap,
+                null,
+                TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
+              ]));
 }
 
 class UserPrivacyCheckbox extends StatelessWidget {

@@ -18,11 +18,11 @@
             android:exported="true"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
-            android:theme="@style/LaunchThemeFullscreenIcon"
+            android:theme="@style/LaunchIconTheme"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme" />
+                android:resource="@style/BaseNormalTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,7 +36,6 @@
     </application>
     <queries>
         <package android:name="com.tencent.mobileqq" />
-
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />

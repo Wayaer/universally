@@ -12,6 +12,18 @@ extension ExtensionConfirmActionDialog on ConfirmActionDialog {
       options: const DialogOptions(barrierLabel: '').merge(options));
 }
 
+/// text builder
+typedef WidgetTextBuilder = Widget Function(Widget? text);
+
+/// actions builder
+typedef WidgetActionsBuilder = List<Widget> Function(List<Widget> actions);
+
+/// tap result
+typedef ConfirmTapResult = dynamic Function();
+
+/// tap value callback result
+typedef ConfirmTapValueCallbackResult<T> = dynamic Function(T value);
+
 /// 弹出带确定的按钮 点击确定自动关闭
 /// Pop up the button with "OK" and click "OK" to automatically close
 class ConfirmActionDialog extends StatelessWidget {
@@ -20,11 +32,12 @@ class ConfirmActionDialog extends StatelessWidget {
     this.confirm,
     this.confirmText = '确定',
     this.onConfirmTap,
+    this.confirmTapPop = true,
+    this.confirmTapPopResult,
     this.contentText,
     this.content,
     this.titleText,
     this.title,
-    this.autoClose = false,
     this.dividerThickness = 0.4,
     this.dividerColor,
     this.options,
@@ -38,11 +51,12 @@ class ConfirmActionDialog extends StatelessWidget {
     this.confirm,
     this.confirmText = '确定',
     this.onConfirmTap,
+    this.confirmTapPop = true,
+    this.confirmTapPopResult,
     this.contentText,
     this.content,
     this.titleText,
     this.title,
-    this.autoClose = false,
     this.actions,
   })  : options = null,
         dividerColor = null,
@@ -53,26 +67,28 @@ class ConfirmActionDialog extends StatelessWidget {
 
   /// confirm
   final String? confirmText;
-  final GestureTapCallback? onConfirmTap;
-  final Widget? confirm;
+  final ConfirmTapResult? onConfirmTap;
+  final WidgetTextBuilder? confirm;
+
+  ///  [onConfirmTap] 没有返回值的时候 返回的 result
+  final dynamic confirmTapPopResult;
+
+  /// [onConfirmTap] 是否 pop
+  final bool confirmTapPop;
 
   /// title
   final String? titleText;
-  final Widget? title;
+  final WidgetTextBuilder? title;
 
   /// content
   final String? contentText;
-  final Widget? content;
-
-  /// 是否自动关闭 默认为true
-  /// Auto disable The default value is true
-  final bool autoClose;
+  final WidgetTextBuilder? content;
 
   /// 底层modal配置
   final ModalBoxOptions? options;
 
   /// actions
-  final List<Widget>? actions;
+  final WidgetActionsBuilder? actions;
 
   /// divider color
   final Color? dividerColor;
@@ -89,62 +105,82 @@ class ConfirmActionDialog extends StatelessWidget {
   /// BoxConstraints
   final BoxConstraints? constraints;
 
-  Widget get buildContent => Universal(
-      margin: isCupertino
-          ? const EdgeInsets.only(top: 10)
-          : const EdgeInsets.fromLTRB(16, 2, 16, 20),
-      child: content ?? TextMedium(contentText));
+  Widget get buildContent {
+    Widget? current;
+    if (contentText != null) current = TextMedium(contentText);
+    if (content != null) current = content!(current);
+    return Universal(
+        margin: isCupertino
+            ? const EdgeInsets.only(top: 10)
+            : const EdgeInsets.fromLTRB(16, 2, 16, 20),
+        child: current);
+  }
 
   @override
   Widget build(BuildContext context) => isCupertino
       ? buildCupertinoActionDialog(context)
       : buildActionDialog(context);
 
-  Widget buildActionDialog(BuildContext context) => ActionDialog(
-      title: title != null || titleText != null
-          ? Container(
-              alignment: Alignment.center,
-              height: 45,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: title ??
-                  TextLarge(titleText,
-                      maxLines: 10, style: context.theme.textTheme.titleLarge))
-          : null,
-      content: buildContent,
-      dividerColor: dividerColor ?? context.theme.dividerColor,
-      dividerThickness: dividerThickness,
-      actions: buildActions(context),
-      constraints: constraints,
-      options: FlExtended().modalOptions.merge(options).copyWith(
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          borderRadius: BorderRadius.circular(6)),
-      actionsMaxHeight: 40);
+  Widget buildActionDialog(BuildContext context) {
+    Widget? current;
+    if (titleText != null) {
+      current = TextLarge(titleText,
+          maxLines: 10, style: context.theme.textTheme.titleLarge);
+    }
+    if (title != null) current = title!(current);
+    if (current != null) {
+      current = Container(
+          alignment: Alignment.center,
+          height: 45,
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: current);
+    }
+    return ActionDialog(
+        title: current,
+        content: buildContent,
+        dividerColor: dividerColor ?? CupertinoColors.separator,
+        dividerThickness: dividerThickness,
+        actions: buildActions(context),
+        constraints:
+            constraints ?? BoxConstraints(maxWidth: context.width - 60),
+        options: FlExtended().modalOptions.merge(options).copyWith(
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+            borderRadius: BorderRadius.circular(6)),
+        actionsMaxHeight: 40);
+  }
 
-  Widget buildCupertinoActionDialog(BuildContext context) =>
-      CupertinoAlertDialog(
-          title: title ??
-              TextLarge(titleText,
-                  maxLines: 10, style: context.theme.textTheme.titleMedium),
-          content: buildContent,
-          actions: buildActions(context));
+  Widget buildCupertinoActionDialog(BuildContext context) {
+    Widget? current;
+    if (titleText != null) {
+      current = TextLarge(titleText,
+          maxLines: 10, style: context.theme.textTheme.titleLarge);
+    }
+    if (title != null) current = title!(current);
+    return CupertinoAlertDialog(
+        title: current, content: buildContent, actions: buildActions(context));
+  }
 
-  List<Widget> buildActions(BuildContext context) =>
-      actions ?? [buildConfirm(context)];
+  List<Widget> buildActions(BuildContext context) {
+    final actions = [buildConfirm(context)];
+    return this.actions?.call(actions) ?? actions;
+  }
 
-  Widget buildConfirm(BuildContext context) => Universal(
-      height: 40,
-      expanded: !isCupertino,
-      alignment: Alignment.center,
-      onTap: () {
-        if (autoClose) pop();
-        if (onConfirmTap != null) onConfirmTap!();
-      },
-      child: confirm ??
-          TextMedium(
-            confirmText,
-            style: context.theme.textTheme.titleSmall,
-            color: context.theme.primaryColor,
-          ));
+  Widget buildConfirm(BuildContext context) {
+    Widget? current;
+    if (confirmText != null) {
+      current = TextMedium(confirmText, color: context.theme.primaryColor);
+    }
+    if (confirm != null) current = confirm!(current);
+    return Universal(
+        height: 40,
+        expanded: !isCupertino,
+        alignment: Alignment.center,
+        onTap: () {
+          final result = onConfirmTap?.call();
+          if (confirmTapPop) pop(result ?? confirmTapPopResult);
+        },
+        child: current);
+  }
 }
 
 /// 弹出带 确定 和 取消 的按钮 点击 确定 或 取消 自动关闭
@@ -155,14 +191,17 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
     this.cancel,
     this.cancelText = '取消',
     this.onCancelTap,
+    this.cancelTapPop = true,
+    this.cancelTapPopResult,
     super.confirm,
     super.confirmText = '确定',
     super.onConfirmTap,
+    super.confirmTapPop = true,
+    super.confirmTapPopResult,
     super.contentText,
     super.content,
     super.titleText,
     super.title,
-    super.autoClose = true,
     super.dividerThickness,
     super.dividerColor,
     super.options,
@@ -176,39 +215,53 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
     this.cancel,
     this.cancelText = '取消',
     this.onCancelTap,
+    this.cancelTapPop = true,
+    this.cancelTapPopResult,
     super.confirm,
     super.confirmText = '确定',
     super.onConfirmTap,
+    super.confirmTapPop = true,
+    super.confirmTapPopResult,
     super.contentText,
     super.content,
     super.titleText,
     super.title,
-    super.autoClose = true,
     super.actions,
   }) : super.cupertino();
 
   /// cancel
   final String? cancelText;
-  final Widget? cancel;
-  final GestureTapCallback? onCancelTap;
+  final WidgetTextBuilder? cancel;
+  final ConfirmTapResult? onCancelTap;
+
+  ///  [onCancelTap] 没有返回值的时候 返回的 result
+  final dynamic cancelTapPopResult;
+
+  /// [onCancelTap] 是否 pop
+  final bool cancelTapPop;
 
   @override
-  List<Widget> buildActions(BuildContext context) =>
-      actions ??
-      [
-        Universal(
-            height: 40,
-            expanded: !isCupertino,
-            onTap: () {
-              if (autoClose) pop();
-              if (onCancelTap != null) onCancelTap!();
-            },
-            alignment: Alignment.center,
-            child: cancel ??
-                TextMedium(cancelText,
-                    style: context.theme.textTheme.titleMedium)),
-        buildConfirm(context),
-      ];
+  List<Widget> buildActions(BuildContext context) {
+    final actions = [buildCancel(context), buildConfirm(context)];
+    return this.actions?.call(actions) ?? actions;
+  }
+
+  Widget buildCancel(BuildContext context) {
+    Widget? current;
+    if (cancelText != null) {
+      current = TextMedium(cancelText);
+    }
+    if (cancel != null) current = cancel!(current);
+    return Universal(
+        height: 40,
+        expanded: !isCupertino,
+        onTap: () {
+          final result = onCancelTap?.call();
+          if (cancelTapPop) pop(result ?? cancelTapPopResult);
+        },
+        alignment: Alignment.center,
+        child: current);
+  }
 }
 
 extension ExtensionTextFieldDialog on TextFieldDialog {
@@ -257,7 +310,9 @@ class TextFieldDialog extends StatelessWidget {
 
   /// use cupertino style
   final bool isCupertino;
-  final ValueCallback<String>? onConfirmTap;
+  final ConfirmTapValueCallbackResult<String>? onConfirmTap;
+
+  /// cancel
   final GestureTapCallback? onCancelTap;
 
   /// resize ToAvoid Bottom Inset
@@ -287,23 +342,21 @@ class TextFieldDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isCupertino) {
       return ConfirmCancelActionDialog.cupertino(
-          onConfirmTap: checkInput,
-          autoClose: false,
-          onCancelTap: onCancelTap ?? pop,
-          titleText: titleText,
           confirmText: confirmText,
+          onConfirmTap: checkInput,
           cancelText: cancelText,
-          content: buildTextField);
+          onCancelTap: onCancelTap,
+          titleText: titleText,
+          content: (_) => buildTextField);
     }
     return ConfirmCancelActionDialog(
+        confirmText: confirmText,
         onConfirmTap: checkInput,
-        autoClose: false,
-        onCancelTap: onCancelTap ?? pop,
+        cancelText: cancelText,
+        onCancelTap: onCancelTap,
         titleText: titleText,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        confirmText: confirmText,
-        cancelText: cancelText,
-        content: buildTextField);
+        content: (_) => buildTextField);
   }
 
   Widget get buildTextField => Material(
@@ -325,11 +378,11 @@ class TextFieldDialog extends StatelessWidget {
           fillColor: fillColor,
           autoFocus: true));
 
-  void checkInput() {
+  dynamic checkInput() {
     if (controller.text.isEmpty) {
       showToast(hintText);
       return;
     }
-    if (onConfirmTap != null) onConfirmTap!(controller.text);
+    return onConfirmTap?.call(controller.text) ?? controller.text;
   }
 }

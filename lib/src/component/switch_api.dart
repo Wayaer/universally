@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class SwitchApiButton extends StatelessWidget {
-  const SwitchApiButton({super.key, this.color = Colors.white});
+  const SwitchApiButton({super.key, this.color});
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => !(isBeta || isDebug)
@@ -12,10 +12,10 @@ class SwitchApiButton extends StatelessWidget {
       : IconBox(
           icon: UIS.settingApi,
           unifiedButtonCategory: UnifiedButtonCategory.elevated,
-          color: color,
+          color: color ?? context.theme.primaryColor,
           size: 18,
           onTap: () => push(const _SwitchApiPage()),
-          label: Text('切换API', style: TextStyle(color: color)));
+          label: TextMedium('切换API', color: color, usePrimaryColor: true));
 }
 
 class _SwitchApiPage extends StatefulWidget {

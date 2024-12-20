@@ -20,8 +20,7 @@ class DialogPage extends StatelessWidget {
                         titleText: 'Title',
                         contentText: 'Content',
                         cancelText: 'Cancel',
-                        confirmText: 'Confirm',
-                        onConfirmTap: pop)
+                        confirmText: 'Confirm')
                     .show();
               },
               text: 'ConfirmCancelActionDialog'),
@@ -31,8 +30,7 @@ class DialogPage extends StatelessWidget {
                         titleText: 'Title',
                         contentText: 'Content',
                         cancelText: 'Cancel',
-                        confirmText: 'Confirm',
-                        onConfirmTap: pop)
+                        confirmText: 'Confirm')
                     .show();
               },
               text: 'ConfirmCancelActionDialog.cupertino'),
@@ -41,8 +39,7 @@ class DialogPage extends StatelessWidget {
                 const ConfirmActionDialog(
                         titleText: 'Title',
                         contentText: 'Content',
-                        confirmText: 'Confirm',
-                        onConfirmTap: pop)
+                        confirmText: 'Confirm')
                     .show();
               },
               text: 'ConfirmActionDialog'),
@@ -51,8 +48,7 @@ class DialogPage extends StatelessWidget {
                 const ConfirmActionDialog.cupertino(
                         titleText: 'Title',
                         contentText: 'Content',
-                        confirmText: 'Confirm',
-                        onConfirmTap: pop)
+                        confirmText: 'Confirm')
                     .show();
               },
               text: 'ConfirmActionDialog.cupertino'),
@@ -62,8 +58,7 @@ class DialogPage extends StatelessWidget {
                         titleText: 'Title',
                         hintText: 'HintText',
                         confirmText: 'Confirm',
-                        cancelText: 'Cancel',
-                        onConfirmTap: pop)
+                        cancelText: 'Cancel')
                     .show();
               },
               text: 'TextFieldDialog'),
@@ -74,8 +69,7 @@ class DialogPage extends StatelessWidget {
                         hintText: 'HintText',
                         confirmText: 'Confirm',
                         cancelText: 'Cancel',
-                        resizeToAvoidBottomInset: false,
-                        onConfirmTap: pop)
+                        resizeToAvoidBottomInset: false)
                     .show();
               },
               text: 'TextFieldDialog resizeToAvoidBottomInset(false)'),
@@ -85,8 +79,7 @@ class DialogPage extends StatelessWidget {
                         titleText: 'Title',
                         hintText: 'HintText',
                         confirmText: 'Confirm',
-                        cancelText: 'Cancel',
-                        onConfirmTap: pop)
+                        cancelText: 'Cancel')
                     .show();
               },
               text: 'TextFieldDialog.cupertino'),

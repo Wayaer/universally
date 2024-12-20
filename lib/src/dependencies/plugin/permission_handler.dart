@@ -48,16 +48,11 @@ Future<bool> checkRequestPermission(
   }
   if (!(status.authorized) && jumpSettingsPrompt != null) {
     final result = await ConfirmCancelActionDialog(
-        titleText: '权限申请说明',
-        contentText: jumpSettingsPrompt,
-        autoClose: false,
-        onConfirmTap: () {
-          pop(true);
-        },
-        onCancelTap: () {
-          pop(false);
-          onCancelTap?.call();
-        }).show();
+            titleText: '权限申请说明',
+            contentText: jumpSettingsPrompt,
+            onConfirmTap: () => true,
+            onCancelTap: onCancelTap)
+        .show();
     if (result == true) await openAppSettings();
   }
   return status.authorized;
@@ -78,16 +73,11 @@ Future<bool> checkRequestPermissions(List<Permission> permissions,
     if (promptBeforeRequest != null) pop();
     if (permissionsStatus.isNotEmpty && jumpSettingsPrompt != null) {
       final result = await ConfirmCancelActionDialog(
-          titleText: '权限申请说明',
-          contentText: jumpSettingsPrompt,
-          autoClose: false,
-          onConfirmTap: () {
-            pop(true);
-          },
-          onCancelTap: () {
-            pop(false);
-            onCancelTap?.call();
-          }).popupBottomSheet(options: _defaultBottomSheetOptions);
+              titleText: '权限申请说明',
+              contentText: jumpSettingsPrompt,
+              onConfirmTap: () => true,
+              onCancelTap: onCancelTap)
+          .popupBottomSheet(options: _defaultBottomSheetOptions);
       if (result == true) await openAppSettings();
     }
     return permissionsStatus.isEmpty;

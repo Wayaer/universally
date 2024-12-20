@@ -24,22 +24,6 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-    signingConfigs {
-        release {
-            storeFile file("universally.jks")
-            storePassword 'universally123'
-            keyAlias 'universally'
-            keyPassword 'universally123'
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-        debug {
-            signingConfig signingConfigs.release
-        }
-    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
