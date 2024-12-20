@@ -26,8 +26,9 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage>
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        appBarTitleText: 'BaseProgressIndicator',
+        appBarTitleText: 'ProgressIndicator',
         padding: const EdgeInsets.all(20),
+        isScroll: true,
         children: [
           const Partition('BaseProgressIndicator.linear', marginTop: 0),
           BaseProgressIndicator.linear(
@@ -48,6 +49,7 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage>
               indicatorPadding: EdgeInsets.zero,
               value: 0.6,
               backgroundColor: Colors.amber),
+          12.heightBox,
           const Partition('BaseProgressIndicatorListenable.linear',
               marginTop: 0),
           BaseProgressIndicatorListenable.linear(

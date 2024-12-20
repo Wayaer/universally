@@ -96,38 +96,53 @@ class HomePage extends StatelessWidget {
         appBarTitleText: 'Universally',
         safeBottom: true,
         enableDoubleClickExit: true,
-        child: Wrap(alignment: WrapAlignment.center, children: [
-          const SwitchApiButton(),
-          Button(onTap: () => push(const TextPage()), text: 'Text'),
-          Button(onTap: () => push(const ComponentPage()), text: 'Component'),
-          Button(onTap: () => push(const GifPage()), text: 'Gif'),
-          Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
-          Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
-          Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
-          Button(onTap: () => push(const PickerPage()), text: 'Picker'),
-          Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
-          Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
-          Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
-          Button(
-              onTap: () => push(const UrlLauncherPage()), text: 'UrlLauncher'),
-          Button(
-              onTap: () => push(const ProgressIndicatorPage()),
-              text: 'ProgressIndicator'),
-          Button(
-              onTap: () => push(const CarouselSliderPage()),
-              text: 'CarouselSlider'),
-          Button(
-              onTap: () => push(const ChangedBuilderWidgetPage()),
-              text: 'ChangedBuilder'),
-          Button(
-              onTap: () => push(const HivePreferencesPage()),
-              text: 'BasePreferences'),
-          Button(
-              onTap: () {
-                push(const SpinKitPage());
-              },
-              text: 'SpinKit'),
-        ]));
+        isScroll: true,
+        padding: EdgeInsets.all(10),
+        child: Wrap(
+            alignment: WrapAlignment.center,
+            runSpacing: 12,
+            spacing: 12,
+            children: [
+              ...UnifiedButtonCategory.values
+                  .builder((e) => SwitchApiButton(unifiedButtonCategory: e)),
+              SizedBox(width: double.infinity),
+              Button(onTap: () => push(const TextPage()), text: 'Text'),
+              Button(
+                  onTap: () => push(const ComponentPage()), text: 'Component'),
+              Button(onTap: () => push(const GifPage()), text: 'Gif'),
+              Button(
+                  onTap: () => push(const TextFieldPage()), text: 'TextField'),
+              Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
+              Button(
+                  onTap: () => push(const BaseTabBarPage()),
+                  text: 'BaseTabBar'),
+              Button(onTap: () => push(const PickerPage()), text: 'Picker'),
+              Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
+              Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
+              Button(
+                  onTap: () => push(const PermissionPage()),
+                  text: 'Permission'),
+              Button(
+                  onTap: () => push(const UrlLauncherPage()),
+                  text: 'UrlLauncher'),
+              Button(
+                  onTap: () => push(const ProgressIndicatorPage()),
+                  text: 'ProgressIndicator'),
+              Button(
+                  onTap: () => push(const CarouselSliderPage()),
+                  text: 'CarouselSlider'),
+              Button(
+                  onTap: () => push(const ChangedBuilderWidgetPage()),
+                  text: 'ChangedBuilder'),
+              Button(
+                  onTap: () => push(const HivePreferencesPage()),
+                  text: 'BasePreferences'),
+              Button(
+                  onTap: () {
+                    push(const SpinKitPage());
+                  },
+                  text: 'SpinKit'),
+            ]));
   }
 }
 
@@ -141,7 +156,6 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Universal(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         onPressed: onTap,
         unifiedButtonCategory: UnifiedButtonCategory.elevated,
         child: child ?? Text(text ?? '', textAlign: TextAlign.center));

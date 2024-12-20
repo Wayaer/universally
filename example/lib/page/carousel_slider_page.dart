@@ -19,7 +19,7 @@ class CarouselSliderPage extends StatelessWidget {
         appBarTitleText: 'CarouselSlider',
         children: [
           const Partition('CarouselSliderController', marginTop: 0),
-          Wrap(children: [
+          Wrap(spacing: 12, runSpacing: 6, children: [
             Button(
                 text: 'nextPage',
                 onTap: () {

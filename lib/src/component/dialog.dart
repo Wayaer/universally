@@ -282,10 +282,8 @@ class TextFieldDialog extends StatelessWidget {
     this.textInputType = TextInputLimitFormatter.text,
     this.value,
     this.resizeToAvoidBottomInset = true,
-    this.hasFocusedChangeBorder = false,
     this.maxLines,
     this.minLines,
-    this.borderSide,
     this.fillColor,
   }) : isCupertino = false;
 
@@ -300,10 +298,8 @@ class TextFieldDialog extends StatelessWidget {
     this.maxLength = 30,
     this.textInputType = TextInputLimitFormatter.text,
     this.value,
-    this.hasFocusedChangeBorder = false,
     this.maxLines,
     this.minLines,
-    this.borderSide,
     this.fillColor,
   })  : isCupertino = true,
         resizeToAvoidBottomInset = true;
@@ -327,10 +323,6 @@ class TextFieldDialog extends StatelessWidget {
   final int maxLength;
   final TextInputLimitFormatter textInputType;
 
-  /// 输入框 边框
-  final bool hasFocusedChangeBorder;
-  final BorderSide? borderSide;
-
   /// 输入框填充色
   final Color? fillColor;
 
@@ -347,7 +339,7 @@ class TextFieldDialog extends StatelessWidget {
           cancelText: cancelText,
           onCancelTap: onCancelTap,
           titleText: titleText,
-          content: (_) => buildTextField);
+          content: (_) => buildTextField(context));
     }
     return ConfirmCancelActionDialog(
         confirmText: confirmText,
@@ -356,26 +348,24 @@ class TextFieldDialog extends StatelessWidget {
         onCancelTap: onCancelTap,
         titleText: titleText,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        content: (_) => buildTextField);
+        content: (_) => buildTextField(context));
   }
 
-  Widget get buildTextField => Material(
+  Widget buildTextField(BuildContext context) => Material(
       color: Colors.transparent,
       child: BaseTextField(
           textInputType: textInputType,
           value: value,
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.all(12),
           hintText: hintText,
           borderType: BorderType.outline,
-          borderSide: borderSide,
-          padding: const EdgeInsets.symmetric(vertical: 6),
+          borderSide: BorderSide(color: context.theme.dividerColor, width: 0.5),
           controller: controller,
           width: double.infinity,
-          hasFocusedChangeBorder: hasFocusedChangeBorder,
           maxLines: maxLines,
           minLines: minLines,
           maxLength: maxLength,
-          fillColor: fillColor,
+          fillColor: fillColor ?? context.theme.cardColor,
           autoFocus: true));
 
   dynamic checkInput() {
