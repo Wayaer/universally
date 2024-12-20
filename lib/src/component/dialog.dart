@@ -285,6 +285,8 @@ class TextFieldDialog extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.fillColor,
+    this.borderSide,
+    this.contentPadding = const EdgeInsets.all(8),
   }) : isCupertino = false;
 
   TextFieldDialog.cupertino({
@@ -301,6 +303,8 @@ class TextFieldDialog extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.fillColor,
+    this.borderSide,
+    this.contentPadding = const EdgeInsets.all(8),
   })  : isCupertino = true,
         resizeToAvoidBottomInset = true;
 
@@ -325,6 +329,10 @@ class TextFieldDialog extends StatelessWidget {
 
   /// 输入框填充色
   final Color? fillColor;
+  final BorderSide? borderSide;
+
+  /// ***** [TextField] *****
+  final EdgeInsetsGeometry contentPadding;
 
   /// 默认为 1
   final int? maxLines;
@@ -358,14 +366,17 @@ class TextFieldDialog extends StatelessWidget {
           value: value,
           margin: const EdgeInsets.all(12),
           hintText: hintText,
+          hasFocusedChangeBorder: false,
           borderType: BorderType.outline,
-          borderSide: BorderSide(color: context.theme.dividerColor, width: 0.5),
+          contentPadding: contentPadding,
+          borderSide: borderSide ??
+              BorderSide(color: CupertinoColors.separator, width: 0.8),
           controller: controller,
           width: double.infinity,
           maxLines: maxLines,
           minLines: minLines,
           maxLength: maxLength,
-          fillColor: fillColor ?? context.theme.cardColor,
+          fillColor: fillColor,
           autoFocus: true));
 
   dynamic checkInput() {
