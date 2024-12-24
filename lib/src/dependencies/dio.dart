@@ -191,10 +191,10 @@ class BaseDio {
           String path, Map<String, dynamic>? params) =>
       baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
 
-  Map<String, dynamic>? _onExtraPathData(String path, Object? data) =>
+  dynamic _onExtraPathData(String path, Object? data) =>
       baseDioOptions.onExtra?.onExtraPathData?.call(path, data) ?? data;
 
-  Map<String, dynamic>? _onExtraUriData(Uri uri, Object? data) =>
+  dynamic _onExtraUriData(Uri uri, Object? data) =>
       baseDioOptions.onExtra?.onExtraUriData?.call(uri, data) ?? data;
 
   String _onExtraPath(String path) =>
