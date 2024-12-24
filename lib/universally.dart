@@ -58,6 +58,7 @@ export 'src/dependencies/svg.dart';
 export 'src/component/carousel_slider.dart';
 export 'src/dependencies/extended_image.dart';
 export 'src/dependencies/spin_kit.dart';
+export 'src/dependencies/path.dart';
 
 /// dependencies/plugin
 export 'src/dependencies/plugin/permission_handler.dart';
