@@ -36,6 +36,7 @@
     </application>
     <queries>
         <package android:name="com.tencent.mobileqq" />
+        <package android:name="com.tencent.tim" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />

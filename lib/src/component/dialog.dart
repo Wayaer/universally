@@ -107,7 +107,7 @@ class ConfirmActionDialog extends StatelessWidget {
 
   Widget get buildContent {
     Widget? current;
-    if (contentText != null) current = TextMedium(contentText);
+    if (contentText != null) current = TextMedium(contentText, maxLines: 20);
     if (content != null) current = content!(current);
     return Universal(
         margin: isCupertino

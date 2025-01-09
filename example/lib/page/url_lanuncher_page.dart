@@ -25,7 +25,7 @@ class UrlLauncherPage extends StatelessWidget {
               onTap: () {
                 UrlLauncher().openUrl('tel:10086');
               },
-              text: 'Call Phone'),
+              text: 'Call 10086'),
           Button(
               onTap: () {
                 UrlLauncher().openAppStore(
@@ -33,6 +33,17 @@ class UrlLauncherPage extends StatelessWidget {
                     appId: isIOS ? '444934666' : '451108668');
               },
               text: 'openAppStore'),
+          Button(
+              onTap: () {
+                UrlLauncher().launchOtherApp(
+                    androidPackageName: 'com.tencent.mobileqq',
+                    androidSchemes: 'mqq://',
+                    extraAndroidPackageName: 'com.tencent.tim',
+                    iosAppId: '444934666',
+                    iosSchemes: 'mqq://',
+                    name: 'QQ');
+              },
+              text: 'openQQ'),
         ]
       : [];
 
@@ -40,12 +51,11 @@ class UrlLauncherPage extends StatelessWidget {
       ? [
           Button(
               onTap: () async {
-                final result = await UrlLauncher().isInstalledApp(
-                    packageName: 'com.tencent.mobileqq',
-                    appId: isIOS ? '444934666' : '451108668');
+                final result = await UrlLauncher()
+                    .isInstalledApp(packageName: 'com.tencent.mobileqq');
                 showToast(result.toString());
               },
-              text: 'isInstalledApp'),
+              text: 'isInstalledApp (QQ)'),
           Button(
               onTap: () {
                 push(const AndroidSystemSettingPage());

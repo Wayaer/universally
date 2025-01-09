@@ -13,12 +13,14 @@ class UrlLauncher {
     String url, {
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
+    BrowserConfiguration browserConfiguration = const BrowserConfiguration(),
     String? webOnlyWindowName,
   }) async {
     if (await canLaunch(Uri.parse(url))) {
       return await launchUrl(Uri.parse(url),
           mode: mode,
           webOnlyWindowName: webOnlyWindowName,
+          browserConfiguration: browserConfiguration,
           webViewConfiguration: webViewConfiguration);
     } else {
       return false;
@@ -133,5 +135,71 @@ class UrlLauncher {
       return installed;
     }
     return false;
+  }
+
+  Future<bool> launchOtherApp({
+    String? uri,
+
+    /// android
+    String? androidSchemes,
+    String? androidPackageName,
+    String? extraAndroidSchemes,
+    String? extraAndroidPackageName,
+
+    /// ios
+    String? iosAppId,
+    String? iosSchemes,
+    String? extraIOSSchemes,
+
+    /// app 名称
+    required String name,
+  }) async {
+    bool result = false;
+    Future<bool> openStoreDialog(String url) async {
+      final data = await ConfirmCancelActionDialog.cupertino(
+          titleText: '温馨提示',
+          contentText: '您还未安装$name，是否跳转应用商店安装？',
+          onConfirmTap: () async {
+            return await UrlLauncher()
+                .openAppStore(packageName: androidPackageName, appId: iosAppId);
+          }).show();
+      return data ?? false;
+    }
+
+    if (isAndroid) {
+      if (!result && androidSchemes != null) {
+        result = await UrlLauncher().openUrl(androidSchemes,
+            mode: LaunchMode.externalNonBrowserApplication);
+      }
+      if (!result && androidPackageName != null) {
+        result = await UrlLauncher().openUrl(androidPackageName);
+      }
+      if (!result && extraAndroidSchemes != null) {
+        result = await UrlLauncher().openUrl(extraAndroidSchemes);
+      }
+      if (!result && extraAndroidPackageName != null) {
+        result = await UrlLauncher().openUrl(extraAndroidPackageName);
+      }
+      if (!result && uri != null) {
+        result = await UrlLauncher()
+            .openUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      if (!result && androidPackageName != null) {
+        result = await openStoreDialog(androidPackageName);
+      }
+    } else if (isIOS) {
+      if (!result && iosSchemes != null) {
+        result = await UrlLauncher().openUrl(iosSchemes);
+      }
+      if (!result && extraIOSSchemes != null) {
+        result = await UrlLauncher().openUrl(extraIOSSchemes);
+      }
+      if (!result && uri != null) {
+        result = await UrlLauncher()
+            .openUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      if (!result && iosAppId != null) result = await openStoreDialog(iosAppId);
+    }
+    return result;
   }
 }
