@@ -10,7 +10,7 @@ class SwitchApiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!(isBeta || isDebug)) return const SizedBox();
-    return IconBox(
+    return IconLabel(
         icon: UIS.settingApi,
         unifiedButtonCategory: unifiedButtonCategory,
         size: 14,

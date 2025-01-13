@@ -44,13 +44,13 @@ class BaseError extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Universal(
       onTap: onTap,
-      child: IconBox(
-          onTap: onTap,
+      child: IconLabel(
           mainAxisAlignment: MainAxisAlignment.center,
           direction: Axis.vertical,
           spacing: 10,
-          widget: Icon(UIS.empty,
-              size: 80, color: context.theme.textTheme.bodyMedium?.color),
+          icon: UIS.empty,
+          size: 80,
+          color: context.theme.textTheme.bodyMedium?.color,
           label:
               const TextMedium('加载失败，点击刷新', fontWeight: FontWeights.medium)));
 }
@@ -65,7 +65,7 @@ class BasePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
       padding: padding,
-      child: IconBox(
+      child: IconLabel(
           onTap: onTap,
           mainAxisAlignment: MainAxisAlignment.center,
           direction: Axis.vertical,

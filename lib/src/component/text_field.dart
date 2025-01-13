@@ -710,10 +710,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildClearIcon {
     final current = widget.clearIcon ??
         Universally.to.config.textField?.clearIcon ??
-        IconBox(
-            size: 18,
-            icon: UIS.clear,
-            color: context.theme.textTheme.bodyMedium?.color);
+        Icon(UIS.clear,
+            size: 18, color: context.theme.textTheme.bodyMedium?.color);
     return Universal(
         onTap: () {
           controller.clear();
