@@ -116,6 +116,7 @@ class FlIcon extends StatelessWidget {
     } else if (icon is String) {
       if (icon.endsWith('.svg')) {
         return SVGAsset(icon,
+            size: size,
             height: height,
             color: color,
             width: width,
@@ -133,8 +134,8 @@ class FlIcon extends StatelessWidget {
             package: package);
       } else if (isImage) {
         return Image.asset(icon,
-            height: height,
-            width: width,
+            height: size ?? height,
+            width: size ?? width,
             color: color,
             fit: fit,
             alignment: alignment,
