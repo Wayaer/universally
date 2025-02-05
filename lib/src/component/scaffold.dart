@@ -27,6 +27,9 @@ class BaseScaffold extends StatelessWidget {
     this.safeBottom = false,
     this.isScroll = false,
     this.isStack = false,
+
+    /// [Column]、[Row] 的间距
+    this.spacing = 0.0,
     this.padding,
     this.decoration,
     this.useSingleChildScrollView = true,
@@ -162,6 +165,8 @@ class BaseScaffold extends StatelessWidget {
   /// 是否添加滚动组件
   final bool isScroll;
 
+  /// [Column]、[Row] 的间距
+  final double spacing;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final Decoration? decoration;
@@ -401,6 +406,7 @@ class BaseScaffold extends StatelessWidget {
   Universal get universal => Universal(
       expand: true,
       margin: margin,
+      spacing: spacing,
       systemOverlayStyle: systemOverlayStyle,
       useSingleChildScrollView:
           useSingleChildScrollView && refreshConfig == null,
