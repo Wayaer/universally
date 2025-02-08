@@ -592,12 +592,14 @@ class BaseDio {
     Map<String, dynamic>? params,
     bool deleteOnError = true,
     String lengthHeader = Headers.contentLengthHeader,
+    FileAccessMode fileAccessMode = FileAccessMode.write,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
     final res = await dio.download(path, savePath,
+        fileAccessMode: fileAccessMode,
         onReceiveProgress: onReceiveProgress,
         options: _mergeOptions(options, path),
         data: dataToJson ? jsonEncode(data) : data,
@@ -622,12 +624,14 @@ class BaseDio {
     Map<String, dynamic>? params,
     bool deleteOnError = true,
     String lengthHeader = Headers.contentLengthHeader,
+    FileAccessMode fileAccessMode = FileAccessMode.write,
   }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
     final res = await dio.downloadUri(_onExtraUri(uri), savePath,
+        fileAccessMode: fileAccessMode,
         onReceiveProgress: onReceiveProgress,
         options: _mergeOptions(options, uri.path),
         data: dataToJson ? jsonEncode(data) : data,
