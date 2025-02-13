@@ -90,7 +90,8 @@ class BaseTextField extends StatefulWidget {
     this.autofillHints = const [],
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
-    this.scribbleEnabled = true,
+    this.stylusHandwritingEnabled =
+        EditableText.defaultStylusHandwritingEnabled,
     this.enableIMEPersonalizedLearning = true,
     this.textInputType = TextInputLimitFormatter.text,
     this.keyboardType,
@@ -109,6 +110,9 @@ class BaseTextField extends StatefulWidget {
     this.onTapAlwaysCalled = false,
     this.statesController,
     this.interval = 8,
+    this.cursorErrorColor,
+    this.groupId = EditableText,
+    this.onTapUpOutside,
   });
 
   /// ***** 附加功能 *****
@@ -291,6 +295,13 @@ class BaseTextField extends StatefulWidget {
   final Radius cursorRadius;
   final bool cursorOpacityAnimates;
 
+  /// The color of the cursor when the [InputDecorator] is showing an error.
+  ///
+  /// If this is null it will default to [TextStyle.color] of
+  /// [InputDecoration.errorStyle]. If that is null, it will use
+  /// [ColorScheme.error] of [ThemeData.colorScheme].
+  final Color? cursorErrorColor;
+
   /// {@macro flutter.widgets.editableText.autofillHints}
   /// {@macro flutter.services.AutofillConfiguration.autofillHints}
   final Iterable<String>? autofillHints;
@@ -303,8 +314,8 @@ class BaseTextField extends StatefulWidget {
   /// {@macro flutter.material.textfield.restorationId}
   final String? restorationId;
 
-  /// {@macro flutter.widgets.editableText.scribbleEnabled}
-  final bool scribbleEnabled;
+  /// {@macro flutter.widgets.editableText.stylusHandwritingEnabled}
+  final bool stylusHandwritingEnabled;
 
   /// {@macro flutter.services.TextInputConfiguration.enableIMEPersonalizedLearning}
   final bool enableIMEPersonalizedLearning;
@@ -374,6 +385,12 @@ class BaseTextField extends StatefulWidget {
   final AppPrivateCommandCallback? onAppPrivateCommand;
   final bool onTapAlwaysCalled;
   final WidgetStatesController? statesController;
+
+  /// {@macro flutter.widgets.editableText.groupId}
+  final Object groupId;
+
+  /// {@macro flutter.widgets.editableText.onTapUpOutside}
+  final TapRegionUpCallback? onTapUpOutside;
 
   @override
   State<BaseTextField> createState() => _BaseTextFieldState();
@@ -503,80 +520,82 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   Widget get buildTextField => TextField(
-        controller: controller,
-        focusNode: focusNode,
-        decoration: InputDecoration(
-            contentPadding: widget.contentPadding,
-            isDense: true,
-            hintText: widget.hintText,
-            hintStyle: hintStyle,
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            focusedErrorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none),
-        style: style,
-        keyboardType: keyboardType,
-        inputFormatters: inputFormatters,
-        keyboardAppearance: widget.keyboardAppearance,
-        textInputAction: widget.textInputAction,
-        textCapitalization: widget.textCapitalization,
-        enabled: widget.enabled,
-        autofocus: widget.autoFocus,
-        obscureText: widget.enableEye && obscureText.value,
-        obscuringCharacter: widget.obscuringCharacter,
-        maxLines: maxLines,
-        minLines: minLines,
-        maxLengthEnforcement: widget.maxLengthEnforcement,
-        maxLength: maxLength,
-        onChanged: widget.onChanged,
-        textAlign: textAlign,
-        onTap: onTap,
-        onSubmitted: onSubmitted,
-        onEditingComplete: onEditingComplete,
-        showCursor: widget.showCursor,
-        cursorColor: widget.cursorColor ?? context.theme.primaryColor,
-        mouseCursor: widget.mouseCursor,
-        cursorHeight: widget.cursorHeight,
-        cursorWidth: widget.cursorWidth,
-        cursorRadius: widget.cursorRadius,
-        cursorOpacityAnimates: widget.cursorOpacityAnimates,
-        clipBehavior: widget.clipBehavior,
-        autocorrect: widget.autocorrect,
-        autofillHints: widget.autofillHints,
-        dragStartBehavior: widget.dragStartBehavior,
-        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-        enableInteractiveSelection: widget.enableInteractiveSelection,
-        enableSuggestions: widget.enableSuggestions,
-        expands: widget.expands,
-        readOnly: widget.readOnly,
-        restorationId: widget.restorationId,
-        scribbleEnabled: widget.scribbleEnabled,
-        scrollController: widget.scrollController,
-        scrollPadding: widget.scrollPadding,
-        scrollPhysics: widget.scrollPhysics,
-        selectionControls: widget.selectionControls,
-        selectionHeightStyle: widget.selectionHeightStyle,
-        selectionWidthStyle: widget.selectionWidthStyle,
-        smartDashesType: widget.smartDashesType,
-        smartQuotesType: widget.smartQuotesType,
-        strutStyle: strutStyle,
-        textAlignVertical: widget.textAlignVertical,
-        textDirection: widget.textDirection,
-        contextMenuBuilder: widget.contextMenuBuilder,
-        magnifierConfiguration: widget.magnifierConfiguration,
-        onTapOutside: widget.onTapOutside,
-        spellCheckConfiguration: widget.spellCheckConfiguration,
-        contentInsertionConfiguration: widget.contentInsertionConfiguration,
-        undoController: widget.undoController,
-        buildCounter: widget.buildCounter,
-        canRequestFocus: widget.canRequestFocus,
-        ignorePointers: widget.ignorePointers,
-        onAppPrivateCommand: widget.onAppPrivateCommand,
-        onTapAlwaysCalled: widget.onTapAlwaysCalled,
-        statesController: widget.statesController,
-      );
+      controller: controller,
+      focusNode: focusNode,
+      decoration: InputDecoration(
+          contentPadding: widget.contentPadding,
+          isDense: true,
+          hintText: widget.hintText,
+          hintStyle: hintStyle,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none),
+      style: style,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      keyboardAppearance: widget.keyboardAppearance,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      enabled: widget.enabled,
+      autofocus: widget.autoFocus,
+      obscureText: widget.enableEye && obscureText.value,
+      obscuringCharacter: widget.obscuringCharacter,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLengthEnforcement: widget.maxLengthEnforcement,
+      maxLength: maxLength,
+      onChanged: widget.onChanged,
+      textAlign: textAlign,
+      onTap: onTap,
+      onSubmitted: onSubmitted,
+      onEditingComplete: onEditingComplete,
+      showCursor: widget.showCursor,
+      cursorColor: widget.cursorColor ?? context.theme.primaryColor,
+      mouseCursor: widget.mouseCursor,
+      cursorHeight: widget.cursorHeight,
+      cursorWidth: widget.cursorWidth,
+      cursorRadius: widget.cursorRadius,
+      cursorOpacityAnimates: widget.cursorOpacityAnimates,
+      clipBehavior: widget.clipBehavior,
+      autocorrect: widget.autocorrect,
+      autofillHints: widget.autofillHints,
+      dragStartBehavior: widget.dragStartBehavior,
+      enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      enableSuggestions: widget.enableSuggestions,
+      expands: widget.expands,
+      readOnly: widget.readOnly,
+      restorationId: widget.restorationId,
+      stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
+      scrollController: widget.scrollController,
+      scrollPadding: widget.scrollPadding,
+      scrollPhysics: widget.scrollPhysics,
+      selectionControls: widget.selectionControls,
+      selectionHeightStyle: widget.selectionHeightStyle,
+      selectionWidthStyle: widget.selectionWidthStyle,
+      smartDashesType: widget.smartDashesType,
+      smartQuotesType: widget.smartQuotesType,
+      strutStyle: strutStyle,
+      textAlignVertical: widget.textAlignVertical,
+      textDirection: widget.textDirection,
+      contextMenuBuilder: widget.contextMenuBuilder,
+      magnifierConfiguration: widget.magnifierConfiguration,
+      onTapOutside: widget.onTapOutside,
+      spellCheckConfiguration: widget.spellCheckConfiguration,
+      contentInsertionConfiguration: widget.contentInsertionConfiguration,
+      undoController: widget.undoController,
+      buildCounter: widget.buildCounter,
+      canRequestFocus: widget.canRequestFocus,
+      ignorePointers: widget.ignorePointers,
+      onAppPrivateCommand: widget.onAppPrivateCommand,
+      onTapAlwaysCalled: widget.onTapAlwaysCalled,
+      statesController: widget.statesController,
+      cursorErrorColor: widget.cursorErrorColor,
+      groupId: widget.groupId,
+      onTapUpOutside: widget.onTapUpOutside);
 
   ValueChanged<String>? get onSubmitted =>
       widget.onSubmitted == null && widget.onSubmittedWith == null

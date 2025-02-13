@@ -46,7 +46,6 @@ class BaseWidgetsApp extends StatelessWidget {
     this.textStyle,
     this.debugShowWidgetInspector = false,
     this.pageRouteBuilder,
-    this.inspectorSelectButtonBuilder,
     this.onNavigationNotification,
   });
 
@@ -142,9 +141,6 @@ class BaseWidgetsApp extends StatelessWidget {
   /// debugShowCheckedModeBanner
   final bool debugShowCheckedModeBanner;
 
-  /// inspectorSelectButtonBuilder
-  final InspectorSelectButtonBuilder? inspectorSelectButtonBuilder;
-
   /// onNavigationNotification
   final NotificationListenerCallback<NavigationNotification>?
       onNavigationNotification;
@@ -188,7 +184,6 @@ class BaseWidgetsApp extends StatelessWidget {
       home: home,
       builder: builder,
       debugShowWidgetInspector: debugShowWidgetInspector,
-      inspectorSelectButtonBuilder: inspectorSelectButtonBuilder,
       onNavigationNotification: onNavigationNotification,
       pageRouteBuilder: pageRouteBuilder,
       textStyle: textStyle,
