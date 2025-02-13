@@ -4,7 +4,7 @@ version: 9.5.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
-  sdk: '>=3.7.0 <5.0.0'
+  sdk: '>=3.7.0 <4.0.0'
   flutter: '>=3.29.0'
 
 dependencies:
