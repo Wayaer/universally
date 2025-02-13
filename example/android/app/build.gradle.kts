@@ -36,6 +36,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    applicationVariants.all {
+        val versionCode = this.versionCode
+        outputs.all {
+            if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
+                versionCodeOverride = versionCode
+            }
+        }
+    }
 }
 
 flutter {
