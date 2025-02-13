@@ -77,3 +77,6 @@ export 'src/global.dart';
 export 'src/const/const.dart';
 export 'src/const/desktop.dart';
 export 'src/const/ios_macos_setting.dart';
+
+/// utils
+export 'src/utils/task_queue.dart';
