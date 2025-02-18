@@ -20,6 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:universally/universally.dart';
 
+import 'page/lucky_draw_page.dart';
+
 Future<void> main() async {
   isBeta = true;
   await Universally().setConfig(
@@ -142,6 +144,7 @@ class HomePage extends StatelessWidget {
                     push(const SpinKitPage());
                   },
                   text: 'SpinKit'),
+              Button(onTap: pushLuckyDrawPage, text: 'LuckyDraw'),
             ]));
   }
 }
