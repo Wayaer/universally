@@ -102,8 +102,7 @@ enum MacOSSettingUrl {
   sharingInternetSharing('s.sharing?Internet'),
 
   /// 共享-蓝牙共享
-  sharingBluetoothSharing('s.sharing?Services_BluetoothSharing'),
-  ;
+  sharingBluetoothSharing('s.sharing?Services_BluetoothSharing');
 
   const MacOSSettingUrl(this._value);
 
@@ -117,8 +116,7 @@ enum IOSSettingUrl {
   app(''),
 
   /// notifications ios16+
-  notifications('notifications'),
-  ;
+  notifications('notifications');
 
   const IOSSettingUrl(this._value);
 

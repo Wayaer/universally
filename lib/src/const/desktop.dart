@@ -29,8 +29,7 @@ enum WindowsSize {
   iPad11(Size(834, 1194)),
 
   /// set desktop size to ipad 11
-  iPad12P9(Size(1024, 1366)),
-  ;
+  iPad12P9(Size(1024, 1366));
 
   const WindowsSize(this.size);
 

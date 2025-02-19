@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class BaseProgressIndicator extends StatelessWidget {
-  const BaseProgressIndicator.linear(
-      {super.key,
-      this.value,
-      this.width = double.infinity,
-      this.height = 4,
-      this.borderRadius = BorderRadius.zero,
-      this.valueColor,
-      this.color,
-      this.backgroundColor,
-      this.minHeight,
-      this.semanticsLabel,
-      this.semanticsValue})
-      : strokeWidth = 4,
-        strokeAlign = 0.5,
-        strokeCap = null,
-        elevation = 2.0,
-        indicatorMargin = const EdgeInsets.all(4.0),
-        indicatorPadding = const EdgeInsets.all(12.0),
-        style = ProgressIndicatorStyle.linear;
+  const BaseProgressIndicator.linear({
+    super.key,
+    this.value,
+    this.width = double.infinity,
+    this.height = 4,
+    this.borderRadius = BorderRadius.zero,
+    this.valueColor,
+    this.color,
+    this.backgroundColor,
+    this.minHeight,
+    this.semanticsLabel,
+    this.semanticsValue,
+  }) : strokeWidth = 4,
+       strokeAlign = 0.5,
+       strokeCap = null,
+       elevation = 2.0,
+       indicatorMargin = const EdgeInsets.all(4.0),
+       indicatorPadding = const EdgeInsets.all(12.0),
+       style = ProgressIndicatorStyle.linear;
 
   const BaseProgressIndicator.circular({
     super.key,
@@ -36,12 +36,12 @@ class BaseProgressIndicator extends StatelessWidget {
     this.strokeCap,
     this.semanticsLabel,
     this.semanticsValue,
-  })  : minHeight = null,
-        elevation = 2.0,
-        indicatorMargin = const EdgeInsets.all(4.0),
-        indicatorPadding = const EdgeInsets.all(12.0),
-        borderRadius = BorderRadius.zero,
-        style = ProgressIndicatorStyle.circular;
+  }) : minHeight = null,
+       elevation = 2.0,
+       indicatorMargin = const EdgeInsets.all(4.0),
+       indicatorPadding = const EdgeInsets.all(12.0),
+       borderRadius = BorderRadius.zero,
+       style = ProgressIndicatorStyle.circular;
 
   const BaseProgressIndicator.refresh({
     super.key,
@@ -59,9 +59,9 @@ class BaseProgressIndicator extends StatelessWidget {
     this.elevation = 2.0,
     this.indicatorMargin = const EdgeInsets.all(4.0),
     this.indicatorPadding = const EdgeInsets.all(12.0),
-  })  : style = ProgressIndicatorStyle.refresh,
-        minHeight = null,
-        borderRadius = BorderRadius.zero;
+  }) : style = ProgressIndicatorStyle.refresh,
+       minHeight = null,
+       borderRadius = BorderRadius.zero;
 
   final double width;
   final double height;
@@ -116,21 +116,21 @@ class BaseProgressIndicator extends StatelessWidget {
 }
 
 class BaseProgressIndicatorListenable extends BaseProgressIndicator {
-  const BaseProgressIndicatorListenable.linear(
-      {super.key,
-      required this.listenable,
-      this.disposeNotifier = true,
-      super.value,
-      super.width = double.infinity,
-      super.height = 4,
-      super.borderRadius = BorderRadius.zero,
-      super.valueColor,
-      super.color,
-      super.backgroundColor,
-      super.minHeight,
-      super.semanticsLabel,
-      super.semanticsValue})
-      : super.linear();
+  const BaseProgressIndicatorListenable.linear({
+    super.key,
+    required this.listenable,
+    this.disposeNotifier = true,
+    super.value,
+    super.width = double.infinity,
+    super.height = 4,
+    super.borderRadius = BorderRadius.zero,
+    super.valueColor,
+    super.color,
+    super.backgroundColor,
+    super.minHeight,
+    super.semanticsLabel,
+    super.semanticsValue,
+  }) : super.linear();
 
   const BaseProgressIndicatorListenable.circular({
     super.key,
@@ -178,32 +178,33 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   @override
   Widget build(BuildContext context) {
     return ExtendedListenableBuilder<ValueListenable>(
-        listenable: listenable,
-        dispose: (_) {
-          if (disposeNotifier && listenable is ChangeNotifier) {
-            (listenable as ChangeNotifier).dispose();
-          }
-        },
-        builder: (_, ValueListenable value) {
-          return ProgressIndicatorOptions(
-                  width: width,
-                  height: height,
-                  style: style,
-                  value: value.value,
-                  color: color ?? context.theme.primaryColor,
-                  valueColor: valueColor,
-                  backgroundColor: backgroundColor,
-                  semanticsLabel: semanticsLabel,
-                  semanticsValue: semanticsValue,
-                  borderRadius: borderRadius,
-                  minHeight: minHeight,
-                  strokeWidth: strokeWidth,
-                  strokeAlign: strokeAlign,
-                  strokeCap: strokeCap,
-                  elevation: elevation,
-                  indicatorMargin: indicatorMargin,
-                  indicatorPadding: indicatorPadding)
-              .widget;
-        });
+      listenable: listenable,
+      dispose: (_) {
+        if (disposeNotifier && listenable is ChangeNotifier) {
+          (listenable as ChangeNotifier).dispose();
+        }
+      },
+      builder: (_, ValueListenable value) {
+        return ProgressIndicatorOptions(
+          width: width,
+          height: height,
+          style: style,
+          value: value.value,
+          color: color ?? context.theme.primaryColor,
+          valueColor: valueColor,
+          backgroundColor: backgroundColor,
+          semanticsLabel: semanticsLabel,
+          semanticsValue: semanticsValue,
+          borderRadius: borderRadius,
+          minHeight: minHeight,
+          strokeWidth: strokeWidth,
+          strokeAlign: strokeAlign,
+          strokeCap: strokeCap,
+          elevation: elevation,
+          indicatorMargin: indicatorMargin,
+          indicatorPadding: indicatorPadding,
+        ).widget;
+      },
+    );
   }
 }

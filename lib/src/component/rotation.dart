@@ -3,24 +3,25 @@ import 'package:universally/universally.dart';
 
 /// 扩展组件
 class BaseExpansionTiles extends StatelessWidget {
-  const BaseExpansionTiles(
-      {super.key,
-      this.title,
-      this.children = const [],
-      this.child,
-      this.backgroundColor,
-      this.onExpansionChanged,
-      this.duration = const Duration(milliseconds: 200),
-      this.curve = Curves.fastOutSlowIn,
-      this.titleText,
-      this.iconData = Icons.expand_more,
-      this.icon,
-      this.leading,
-      this.subtitle,
-      this.builder,
-      this.shape,
-      this.contentPadding,
-      this.enabled = true});
+  const BaseExpansionTiles({
+    super.key,
+    this.title,
+    this.children = const [],
+    this.child,
+    this.backgroundColor,
+    this.onExpansionChanged,
+    this.duration = const Duration(milliseconds: 200),
+    this.curve = Curves.fastOutSlowIn,
+    this.titleText,
+    this.iconData = Icons.expand_more,
+    this.icon,
+    this.leading,
+    this.subtitle,
+    this.builder,
+    this.shape,
+    this.contentPadding,
+    this.enabled = true,
+  });
 
   /// 旋转的图标
   final IconData iconData;
@@ -69,30 +70,40 @@ class BaseExpansionTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTiles(
-        icon: icon ??
-            (bool isExpanded) => Icon(iconData,
-                color: isExpanded
+      icon:
+          icon ??
+          (bool isExpanded) => Icon(
+            iconData,
+            color:
+                isExpanded
                     ? context.theme.primaryColor
-                    : context.theme.disabledColor),
-        builder: builder ??
-            (BuildContext context, VoidCallback expand, bool isExpanded,
-                    Widget? rotation) =>
-                ListTile(
-                    onTap: expand,
-                    leading: leading,
-                    title: title ?? TextLarge(titleText),
-                    subtitle: subtitle,
-                    trailing: rotation,
-                    shape: shape,
-                    contentPadding: contentPadding,
-                    enabled: enabled,
-                    dense: true),
-        onExpansionChanged: onExpansionChanged,
-        backgroundColor: backgroundColor,
-        curve: curve,
-        duration: duration,
-        child: child,
-        children: children);
+                    : context.theme.disabledColor,
+          ),
+      builder:
+          builder ??
+          (
+            BuildContext context,
+            VoidCallback expand,
+            bool isExpanded,
+            Widget? rotation,
+          ) => ListTile(
+            onTap: expand,
+            leading: leading,
+            title: title ?? TextLarge(titleText),
+            subtitle: subtitle,
+            trailing: rotation,
+            shape: shape,
+            contentPadding: contentPadding,
+            enabled: enabled,
+            dense: true,
+          ),
+      onExpansionChanged: onExpansionChanged,
+      backgroundColor: backgroundColor,
+      curve: curve,
+      duration: duration,
+      child: child,
+      children: children,
+    );
   }
 }
 
@@ -197,44 +208,55 @@ class BasePopupMenuButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     T? selected = initialValue;
     return PopupMenuButtonRotateBuilder(
-        icon: icon ??
-            Icon(iconData,
-                    color: context.theme.textTheme.bodyMedium?.color, size: 22)
-                .toToggleRotateIconBuilder,
-        builder: (BuildContext context, Widget rotateIcon,
-            VoidCallback onOpened, VoidCallback onClosed) {
-          return PopupMenuButton<T>(
-              initialValue: initialValue,
-              offset: offset,
-              position: position ?? PopupMenuPosition.under,
-              onOpened: () {
-                onOpened();
-                this.onOpened?.call();
-              },
-              onCanceled: () {
-                onClosed();
-                onCanceled?.call();
-              },
-              onSelected: (value) {
-                selected = value;
-                onClosed();
-                onSelected?.call(value);
-              },
-              shape:
-                  shape ?? ArrowShape(borderRadius: BorderRadius.circular(6)),
-              constraints: constraints,
-              enableFeedback: enableFeedback,
-              tooltip: tooltip,
-              elevation: elevation,
-              shadowColor: shadowColor,
-              enabled: enabled,
-              padding: padding,
-              splashRadius: splashRadius,
-              style: style,
-              popUpAnimationStyle: popUpAnimationStyle,
-              itemBuilder: (_) => list.builder((item) =>
-                  PopupMenuItem<T>(value: item, child: itemBuilder(item))),
-              child: builder(selected, rotateIcon));
-        });
+      icon:
+          icon ??
+          Icon(
+            iconData,
+            color: context.theme.textTheme.bodyMedium?.color,
+            size: 22,
+          ).toToggleRotateIconBuilder,
+      builder: (
+        BuildContext context,
+        Widget rotateIcon,
+        VoidCallback onOpened,
+        VoidCallback onClosed,
+      ) {
+        return PopupMenuButton<T>(
+          initialValue: initialValue,
+          offset: offset,
+          position: position ?? PopupMenuPosition.under,
+          onOpened: () {
+            onOpened();
+            this.onOpened?.call();
+          },
+          onCanceled: () {
+            onClosed();
+            onCanceled?.call();
+          },
+          onSelected: (value) {
+            selected = value;
+            onClosed();
+            onSelected?.call(value);
+          },
+          shape: shape ?? ArrowShape(borderRadius: BorderRadius.circular(6)),
+          constraints: constraints,
+          enableFeedback: enableFeedback,
+          tooltip: tooltip,
+          elevation: elevation,
+          shadowColor: shadowColor,
+          enabled: enabled,
+          padding: padding,
+          splashRadius: splashRadius,
+          style: style,
+          popUpAnimationStyle: popUpAnimationStyle,
+          itemBuilder:
+              (_) => list.builder(
+                (item) =>
+                    PopupMenuItem<T>(value: item, child: itemBuilder(item)),
+              ),
+          child: builder(selected, rotateIcon),
+        );
+      },
+    );
   }
 }

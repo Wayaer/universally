@@ -36,21 +36,25 @@ class BaseTabBar extends TabBar {
     double height = 38,
     List<Widget>? tabs,
     List<String>? list,
-  })  : assert(tabs != null || list != null),
-        super(
-            tabAlignment:
-                tabAlignment ?? (isScrollable ? TabAlignment.start : null),
-            tabs: tabs ??
-                list?.builder((value) => Tab(text: value, height: height)) ??
-                [],
-            labelStyle: labelStyle?.copyWith(
-                fontFamily: fontFamily,
-                fontSize: fontSize,
-                fontWeight: fontWeight),
-            unselectedLabelStyle: unselectedLabelStyle?.copyWith(
-                fontFamily: fontFamily,
-                fontSize: fontSize,
-                fontWeight: fontWeight));
+  }) : assert(tabs != null || list != null),
+       super(
+         tabAlignment:
+             tabAlignment ?? (isScrollable ? TabAlignment.start : null),
+         tabs:
+             tabs ??
+             list?.builder((value) => Tab(text: value, height: height)) ??
+             [],
+         labelStyle: labelStyle?.copyWith(
+           fontFamily: fontFamily,
+           fontSize: fontSize,
+           fontWeight: fontWeight,
+         ),
+         unselectedLabelStyle: unselectedLabelStyle?.copyWith(
+           fontFamily: fontFamily,
+           fontSize: fontSize,
+           fontWeight: fontWeight,
+         ),
+       );
 
   BaseTabBar.fill({
     super.key,
@@ -81,38 +85,45 @@ class BaseTabBar extends TabBar {
     BorderRadius indicatorRadius = const BorderRadius.all(Radius.circular(4)),
     List<Widget>? tabs,
     List<String>? list,
-  })  : assert(tabs != null || list != null),
-        super(
-            tabAlignment:
-                tabAlignment ?? (isScrollable ? TabAlignment.start : null),
-            tabs: tabs ??
-                list?.builder((value) => Tab(text: value, height: height)) ??
-                [],
-            indicatorWeight: 0,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicator: BoxDecoration(
-                color: indicatorColor, borderRadius: indicatorRadius),
-            dividerColor: UCS.transparent,
-            labelStyle: labelStyle?.copyWith(
-                fontFamily: fontFamily,
-                fontSize: fontSize,
-                fontWeight: fontWeight),
-            unselectedLabelStyle: unselectedLabelStyle?.copyWith(
-                fontFamily: fontFamily,
-                fontSize: fontSize,
-                fontWeight: fontWeight));
+  }) : assert(tabs != null || list != null),
+       super(
+         tabAlignment:
+             tabAlignment ?? (isScrollable ? TabAlignment.start : null),
+         tabs:
+             tabs ??
+             list?.builder((value) => Tab(text: value, height: height)) ??
+             [],
+         indicatorWeight: 0,
+         indicatorSize: TabBarIndicatorSize.tab,
+         indicator: BoxDecoration(
+           color: indicatorColor,
+           borderRadius: indicatorRadius,
+         ),
+         dividerColor: UCS.transparent,
+         labelStyle: labelStyle?.copyWith(
+           fontFamily: fontFamily,
+           fontSize: fontSize,
+           fontWeight: fontWeight,
+         ),
+         unselectedLabelStyle: unselectedLabelStyle?.copyWith(
+           fontFamily: fontFamily,
+           fontSize: fontSize,
+           fontWeight: fontWeight,
+         ),
+       );
 }
 
 typedef CustomTabBarItemBuilder = Widget Function(int selected, int index);
 
 class CustomTabBar extends StatefulWidget {
-  const CustomTabBar(
-      {super.key,
-      required this.itemBuilder,
-      required this.builder,
-      this.initial = 0,
-      required this.controller,
-      this.onTap});
+  const CustomTabBar({
+    super.key,
+    required this.itemBuilder,
+    required this.builder,
+    this.initial = 0,
+    required this.controller,
+    this.onTap,
+  });
 
   final CustomTabBarItemBuilder itemBuilder;
   final ValueCallbackTV<Widget, List<Widget>> builder;
@@ -162,8 +173,10 @@ class _CustomTabBarState extends State<CustomTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(widget.controller.length.generate((int index) {
-      return widget.itemBuilder(selected, index);
-    }));
+    return widget.builder(
+      widget.controller.length.generate((int index) {
+        return widget.itemBuilder(selected, index);
+      }),
+    );
   }
 }

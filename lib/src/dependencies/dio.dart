@@ -10,19 +10,19 @@ const String kContentTypeWithFormData = 'multipart/form-data';
 const String kContentTypeWithTextXml = 'text/xml';
 
 /// 扩展 header
-typedef ValueCallbackExtraPathHeader = Map<String, dynamic>? Function(
-    String path, Map<String, dynamic> headers);
+typedef ValueCallbackExtraPathHeader =
+    Map<String, dynamic>? Function(String path, Map<String, dynamic> headers);
 
 /// 扩展 path params
-typedef ValueCallbackExtraPathParams = Map<String, dynamic>? Function(
-    String path, Map<String, dynamic>? params);
+typedef ValueCallbackExtraPathParams =
+    Map<String, dynamic>? Function(String path, Map<String, dynamic>? params);
 
 /// 扩展 uri data
 typedef ValueCallbackExtraUriData = dynamic Function(Uri uri, dynamic data);
 
 /// 扩展 path data
-typedef ValueCallbackExtraPathData = dynamic Function(
-    String path, dynamic data);
+typedef ValueCallbackExtraPathData =
+    dynamic Function(String path, dynamic data);
 
 /// 扩展 uri
 typedef ValueCallbackExtraUri = Uri Function(Uri uri);
@@ -71,8 +71,8 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-typedef BaseDioErrorIntercept = List<InterceptorError> Function(
-    String path, dynamic tag);
+typedef BaseDioErrorIntercept =
+    List<InterceptorError> Function(String path, dynamic tag);
 
 enum BaseDioState {
   /// 无网络
@@ -174,9 +174,10 @@ class BaseDio {
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
-  BaseDio initialize(
-      {BaseDioOptions? options,
-      List<InterceptorsWrapper> interceptors = const []}) {
+  BaseDio initialize({
+    BaseDioOptions? options,
+    List<InterceptorsWrapper> interceptors = const [],
+  }) {
     if (options != null) baseDioOptions = options;
     dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
     if (isDebugger || isDebug) {
@@ -188,8 +189,9 @@ class BaseDio {
   }
 
   Map<String, dynamic>? _onExtraPathParams(
-          String path, Map<String, dynamic>? params) =>
-      baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
+    String path,
+    Map<String, dynamic>? params,
+  ) => baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
 
   dynamic _onExtraPathData(String path, Object? data) =>
       baseDioOptions.onExtra?.onExtraPathData?.call(path, data) ?? data;
@@ -217,11 +219,13 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.get<T>(_onExtraPath(path),
-        data: dataToJson ? jsonEncode(data) : data,
-        options: _mergeOptions(options, path),
-        cancelToken: cancelToken,
-        queryParameters: _onExtraPathParams(path, params));
+    final res = await dio.get<T>(
+      _onExtraPath(path),
+      data: dataToJson ? jsonEncode(data) : data,
+      options: _mergeOptions(options, path),
+      cancelToken: cancelToken,
+      queryParameters: _onExtraPathParams(path, params),
+    );
     return _handleResponse(res, tag);
   }
 
@@ -238,10 +242,12 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.getUri<T>(_onExtraUri(uri),
-        data: dataToJson ? jsonEncode(data) : data,
-        cancelToken: cancelToken,
-        options: _mergeOptions(options, uri.path));
+    final res = await dio.getUri<T>(
+      _onExtraUri(uri),
+      data: dataToJson ? jsonEncode(data) : data,
+      cancelToken: cancelToken,
+      options: _mergeOptions(options, uri.path),
+    );
     return _handleResponse(res, tag);
   }
 
@@ -261,13 +267,15 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.post<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        queryParameters: _onExtraPathParams(path, params),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.post<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      queryParameters: _onExtraPathParams(path, params),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -286,12 +294,14 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.postUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.postUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -311,13 +321,15 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.put<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        queryParameters: _onExtraPathParams(path, params),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.put<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      queryParameters: _onExtraPathParams(path, params),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -336,12 +348,14 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.putUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.putUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -359,11 +373,13 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.delete<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        queryParameters: _onExtraPathParams(path, params),
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.delete<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      queryParameters: _onExtraPathParams(path, params),
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -380,10 +396,12 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.deleteUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.deleteUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -403,13 +421,15 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.patch<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        queryParameters: _onExtraPathParams(path, params),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.patch<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      queryParameters: _onExtraPathParams(path, params),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -428,12 +448,14 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.patchUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.patchUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -451,11 +473,13 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.head<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        queryParameters: _onExtraPathParams(path, params),
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.head<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      queryParameters: _onExtraPathParams(path, params),
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -472,10 +496,12 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.headUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.headUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -495,13 +521,15 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.request<T>(_onExtraPath(path),
-        options: _mergeOptions(options, path),
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-        queryParameters: _onExtraPathParams(path, params),
-        cancelToken: cancelToken,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.request<T>(
+      _onExtraPath(path),
+      options: _mergeOptions(options, path),
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      queryParameters: _onExtraPathParams(path, params),
+      cancelToken: cancelToken,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -520,12 +548,14 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.requestUri<T>(_onExtraUri(uri),
-        options: _mergeOptions(options, uri.path),
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress,
-        data: dataToJson ? jsonEncode(data) : data);
+    final res = await dio.requestUri<T>(
+      _onExtraUri(uri),
+      options: _mergeOptions(options, uri.path),
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+      data: dataToJson ? jsonEncode(data) : data,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -544,36 +574,45 @@ class BaseDio {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    final res = await dio.post<T>(_onExtraPath(path),
-        data: _onExtraPathData(path, data),
-        options: _mergeOptions(options, path),
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-        onSendProgress: onSendProgress);
+    final res = await dio.post<T>(
+      _onExtraPath(path),
+      data: _onExtraPathData(path, data),
+      options: _mergeOptions(options, path),
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+      onSendProgress: onSendProgress,
+    );
     return _handleResponse(res, tag);
   }
 
   /// 文件上传
   /// File upload
-  Future<BaseModel> uploadUri<T>(Uri uri, Object? data,
-      {ProgressCallback? onSendProgress,
-      ProgressCallback? onReceiveProgress,
-      bool? loading,
-      Options? options,
-      dynamic tag,
-      CancelToken? cancelToken,
-      Duration receiveTimeout = const Duration(seconds: 40),
-      Duration sendTimeout = const Duration(seconds: 40)}) async {
+  Future<BaseModel> uploadUri<T>(
+    Uri uri,
+    Object? data, {
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+    bool? loading,
+    Options? options,
+    dynamic tag,
+    CancelToken? cancelToken,
+    Duration receiveTimeout = const Duration(seconds: 40),
+    Duration sendTimeout = const Duration(seconds: 40),
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
-    final res = await dio.postUri<T>(_onExtraUri(uri),
-        data: _onExtraUriData(uri, data),
-        options: (_mergeOptions(options, uri.path) ?? Options())
-            .copyWith(receiveTimeout: receiveTimeout, sendTimeout: sendTimeout),
-        onReceiveProgress: onReceiveProgress,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress);
+    final res = await dio.postUri<T>(
+      _onExtraUri(uri),
+      data: _onExtraUriData(uri, data),
+      options: (_mergeOptions(options, uri.path) ?? Options()).copyWith(
+        receiveTimeout: receiveTimeout,
+        sendTimeout: sendTimeout,
+      ),
+      onReceiveProgress: onReceiveProgress,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -598,14 +637,17 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.download(path, savePath,
-        fileAccessMode: fileAccessMode,
-        onReceiveProgress: onReceiveProgress,
-        options: _mergeOptions(options, path),
-        data: dataToJson ? jsonEncode(data) : data,
-        deleteOnError: deleteOnError,
-        lengthHeader: lengthHeader,
-        cancelToken: cancelToken);
+    final res = await dio.download(
+      path,
+      savePath,
+      fileAccessMode: fileAccessMode,
+      onReceiveProgress: onReceiveProgress,
+      options: _mergeOptions(options, path),
+      data: dataToJson ? jsonEncode(data) : data,
+      deleteOnError: deleteOnError,
+      lengthHeader: lengthHeader,
+      cancelToken: cancelToken,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -630,14 +672,17 @@ class BaseDio {
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.downloadUri(_onExtraUri(uri), savePath,
-        fileAccessMode: fileAccessMode,
-        onReceiveProgress: onReceiveProgress,
-        options: _mergeOptions(options, uri.path),
-        data: dataToJson ? jsonEncode(data) : data,
-        deleteOnError: deleteOnError,
-        lengthHeader: lengthHeader,
-        cancelToken: cancelToken);
+    final res = await dio.downloadUri(
+      _onExtraUri(uri),
+      savePath,
+      fileAccessMode: fileAccessMode,
+      onReceiveProgress: onReceiveProgress,
+      options: _mergeOptions(options, uri.path),
+      data: dataToJson ? jsonEncode(data) : data,
+      deleteOnError: deleteOnError,
+      lengthHeader: lengthHeader,
+      cancelToken: cancelToken,
+    );
     return _handleResponse(res, tag);
   }
 
@@ -688,8 +733,10 @@ class BaseDio {
 
   Options? _mergeOptions(Options? options, String url) {
     final Map<String, dynamic> headers = {};
-    final onExtraHeader = baseDioOptions.onExtra?.onExtraHeader
-        ?.call(url, baseDioOptions.headers);
+    final onExtraHeader = baseDioOptions.onExtra?.onExtraHeader?.call(
+      url,
+      baseDioOptions.headers,
+    );
     if (onExtraHeader != null) {
       headers.addAll(onExtraHeader);
     }
@@ -703,23 +750,25 @@ class BaseDio {
     _removeLoading();
     _sendRefreshStatus();
     BaseModel baseModel = BaseModel(
-        headers: res.headers.map,
-        code: '${res.statusCode}',
-        msg: buildBaseModel.msg,
-        statusCode: res.statusCode,
-        statusMessage: res.statusMessage,
-        data: res.data,
-        original: res);
+      headers: res.headers.map,
+      code: '${res.statusCode}',
+      msg: buildBaseModel.msg,
+      statusCode: res.statusCode,
+      statusMessage: res.statusMessage,
+      data: res.data,
+      original: res,
+    );
     Object? data = baseModel.data;
     if (data is ResponseBody) {
       return BaseModel(
-          headers: data.headers,
-          code: '${data.statusCode}',
-          msg: data.statusMessage ?? buildBaseModel.msg,
-          statusCode: data.statusCode,
-          statusMessage: data.statusMessage,
-          data: res.data,
-          original: res);
+        headers: data.headers,
+        code: '${data.statusCode}',
+        msg: data.statusMessage ?? buildBaseModel.msg,
+        statusCode: data.statusCode,
+        statusMessage: data.statusMessage,
+        data: res.data,
+        original: res,
+      );
     } else if (data != null && data is String && data.contains('"')) {
       try {
         data = jsonDecode(data);
@@ -732,8 +781,10 @@ class BaseDio {
     } else if (data is Map) {
       baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
     }
-    var errorIntercepts =
-        baseDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
+    var errorIntercepts = baseDioOptions.errorIntercept?.call(
+      res.realUri.toString(),
+      tag,
+    );
     if (errorIntercepts?.isNotEmpty ?? false) {
       bool pass = true;
       for (var element in errorIntercepts!) {
@@ -812,19 +863,23 @@ class BaseModel {
   dynamic extension;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'data': data,
-        'statusCode': statusCode,
-        'statusMessage': statusMessage,
-        'msg': msg,
-        'code': code,
-        'extension': extension,
-        'original': original?.toMap()
-      };
+    'data': data,
+    'statusCode': statusCode,
+    'statusMessage': statusMessage,
+    'msg': msg,
+    'code': code,
+    'extension': extension,
+    'original': original?.toMap(),
+  };
 }
 
 /// nullPass = true   data 为null  返回true
-bool resultSuccessFail(BaseModel data,
-    {String? text, bool nullPass = false, bool showErrorToast = true}) {
+bool resultSuccessFail(
+  BaseModel data, {
+  String? text,
+  bool nullPass = false,
+  bool showErrorToast = true,
+}) {
   if (BaseDio().baseDioOptions.successCode.contains(data.code) &&
       (nullPass || data.data != null)) {
     if (text != null) showToast(text);

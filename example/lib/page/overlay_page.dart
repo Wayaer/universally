@@ -8,17 +8,19 @@ class OverlayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        isScroll: true,
-        isCloseOverlay: true,
-        padding: const EdgeInsets.all(12),
-        appBarTitleText: 'Overlay',
-        children: [
-          const Button(onTap: showLoading, text: 'showLoading'),
-          Button(
-              onTap: () {
-                showToast('showToast');
-              },
-              text: 'showToast'),
-        ]);
+      isScroll: true,
+      isCloseOverlay: true,
+      padding: const EdgeInsets.all(12),
+      appBarTitleText: 'Overlay',
+      children: [
+        const Button(onTap: showLoading, text: 'showLoading'),
+        Button(
+          onTap: () {
+            showToast('showToast');
+          },
+          text: 'showToast',
+        ),
+      ],
+    );
   }
 }

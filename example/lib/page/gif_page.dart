@@ -18,32 +18,39 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    assetController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    networkController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    assetController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    networkController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        isScroll: true,
-        padding: const EdgeInsets.all(12),
-        appBarTitleText: 'GIF Image',
-        children: [
-          const TextLarge('NetworkImage'),
-          Gif(
-              autostart: Autostart.loop,
-              controller: networkController,
-              useCache: false,
-              image: NetworkImage(url)),
-          const TextLarge('AssetImage'),
-          Gif(
-              autostart: Autostart.loop,
-              controller: assetController,
-              image: const AssetImage('assets/gif.gif')),
-          const SizedBox(height: 30),
-        ]);
+      isScroll: true,
+      padding: const EdgeInsets.all(12),
+      appBarTitleText: 'GIF Image',
+      children: [
+        const TextLarge('NetworkImage'),
+        Gif(
+          autostart: Autostart.loop,
+          controller: networkController,
+          useCache: false,
+          image: NetworkImage(url),
+        ),
+        const TextLarge('AssetImage'),
+        Gif(
+          autostart: Autostart.loop,
+          controller: assetController,
+          image: const AssetImage('assets/gif.gif'),
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
   }
 
   @override

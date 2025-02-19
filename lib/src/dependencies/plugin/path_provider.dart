@@ -59,8 +59,9 @@ class PathProvider {
       isWeb || !isAndroid ? null : await path.getExternalCacheDirectories();
 
   /// Android
-  Future<List<Directory>?> getExternalStorageDirectories(
-          {StorageDirectory? type}) async =>
+  Future<List<Directory>?> getExternalStorageDirectories({
+    StorageDirectory? type,
+  }) async =>
       isWeb || !isAndroid
           ? null
           : await path.getExternalStorageDirectories(type: type);

@@ -14,26 +14,32 @@ class _BaseListPageState extends State<BaseListPage> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        appBarTitleText: 'BaseList',
-        child: BaseList(
-            itemCount: list.length,
-            placeholder: const Center(child: Text('请先下拉刷新')),
-            onRefresh: () async {
-              pullDown = true;
-              await 1.seconds.delayed();
-              setRefreshStatus();
-              list = Colors.accents;
-              setState(() {});
-            },
-            onLoading: () async {
-              pullUp = true;
-              await 1.seconds.delayed();
-              setRefreshStatus();
-              list.addAll(Colors.accents);
-              setState(() {});
-            },
-            itemBuilder: (_, int index) => Container(
-                height: 30, width: double.infinity, color: list[index])));
+      appBarTitleText: 'BaseList',
+      child: BaseList(
+        itemCount: list.length,
+        placeholder: const Center(child: Text('请先下拉刷新')),
+        onRefresh: () async {
+          pullDown = true;
+          await 1.seconds.delayed();
+          setRefreshStatus();
+          list = Colors.accents;
+          setState(() {});
+        },
+        onLoading: () async {
+          pullUp = true;
+          await 1.seconds.delayed();
+          setRefreshStatus();
+          list.addAll(Colors.accents);
+          setState(() {});
+        },
+        itemBuilder:
+            (_, int index) => Container(
+              height: 30,
+              width: double.infinity,
+              color: list[index],
+            ),
+      ),
+    );
   }
 
   void setRefreshStatus() {

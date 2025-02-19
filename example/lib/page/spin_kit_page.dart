@@ -8,21 +8,25 @@ class SpinKitPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const styles = SpinKitStyle.values;
     return BaseScaffold(
-        appBarTitleText: 'SpinKit',
-        padding: const EdgeInsets.all(10),
-        child: BaseList(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-                child: Column(children: [
-              SpinKit(styles[index]).expanded,
-              TextLarge(styles[index].name),
-              4.heightBox,
-            ]));
-          },
-          itemCount: styles.length,
-        ));
+      appBarTitleText: 'SpinKit',
+      padding: const EdgeInsets.all(10),
+      child: BaseList(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: Column(
+              children: [
+                SpinKit(styles[index]).expanded,
+                TextLarge(styles[index].name),
+                4.heightBox,
+              ],
+            ),
+          );
+        },
+        itemCount: styles.length,
+      ),
+    );
   }
 }

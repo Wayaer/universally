@@ -96,9 +96,11 @@ class Gif extends StatefulWidget {
     this.centerSlice,
     this.matchTextDirection = false,
     this.useCache = true,
-  })  : assert(fps == null || duration == null,
-            'only one of the two can be set [fps] [duration]'),
-        assert(fps == null || fps > 0, 'fps must be greater than 0');
+  }) : assert(
+         fps == null || duration == null,
+         'only one of the two can be set [fps] [duration]',
+       ),
+       assert(fps == null || fps > 0, 'fps must be greater than 0');
 
   @override
   State<Gif> createState() => _GifState();
@@ -122,10 +124,7 @@ class GifInfo {
   final List<ImageInfo> frames;
   final Duration duration;
 
-  const GifInfo({
-    required this.frames,
-    required this.duration,
-  });
+  const GifInfo({required this.frames, required this.duration});
 }
 
 class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
@@ -155,26 +154,28 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final RawImage image = RawImage(
-        image: frame?.image,
-        width: widget.width,
-        height: widget.height,
-        scale: frame?.scale ?? 1.0,
-        color: widget.color,
-        colorBlendMode: widget.colorBlendMode,
-        fit: widget.fit,
-        alignment: widget.alignment,
-        repeat: widget.repeat,
-        centerSlice: widget.centerSlice,
-        matchTextDirection: widget.matchTextDirection);
+      image: frame?.image,
+      width: widget.width,
+      height: widget.height,
+      scale: frame?.scale ?? 1.0,
+      color: widget.color,
+      colorBlendMode: widget.colorBlendMode,
+      fit: widget.fit,
+      alignment: widget.alignment,
+      repeat: widget.repeat,
+      centerSlice: widget.centerSlice,
+      matchTextDirection: widget.matchTextDirection,
+    );
     return widget.placeholder != null && frame == null
         ? widget.placeholder!(context)
         : widget.excludeFromSemantics
-            ? image
-            : Semantics(
-                container: widget.semanticLabel != null,
-                image: true,
-                label: widget.semanticLabel ?? '',
-                child: image);
+        ? image
+        : Semantics(
+          container: widget.semanticLabel != null,
+          image: true,
+          label: widget.semanticLabel ?? '',
+          child: image,
+        );
   }
 
   @override
@@ -189,7 +190,8 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   }
 
   void initController() {
-    controller = widget.controller ??
+    controller =
+        widget.controller ??
         AnimationController(vsync: this, duration: widget.duration);
     controller.addListener(listener);
   }
@@ -251,20 +253,25 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   /// When [frames] is updated [onFetchCompleted] is called.
   Future<void> loadFrames() async {
     if (!mounted) return;
-    final useCache = Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
+    final useCache =
+        Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
         widget.useCache;
 
-    GifInfo? gif = useCache
-        ? Gif.cache.caches[getImageKey(widget.image)]!
-        : await fetchFrames(widget.image);
+    GifInfo? gif =
+        useCache
+            ? Gif.cache.caches[getImageKey(widget.image)]!
+            : await fetchFrames(widget.image);
     if (gif == null) return;
     if (useCache) {
       Gif.cache.caches.putIfAbsent(getImageKey(widget.image), () => gif);
     }
     frames = gif.frames;
-    controller.duration = widget.fps != null
-        ? Duration(milliseconds: (frames.length / widget.fps! * 1000).round())
-        : widget.duration ?? gif.duration;
+    controller.duration =
+        widget.fps != null
+            ? Duration(
+              milliseconds: (frames.length / widget.fps! * 1000).round(),
+            )
+            : widget.duration ?? gif.duration;
     if (widget.onFetchCompleted != null) {
       widget.onFetchCompleted!();
     }
@@ -277,8 +284,9 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
     if (provider is NetworkImage) {
       try {
         final options = Options(headers: {}, responseType: ResponseType.bytes);
-        provider.headers?.forEach((String name, String value) =>
-            options.headers?.addAll({name: value}));
+        provider.headers?.forEach(
+          (String name, String value) => options.headers?.addAll({name: value}),
+        );
         final data = await Dio().get(provider.url, options: options);
         if (data.statusCode == 200) {
           bytes = Uint8List.fromList(data.data);
@@ -287,8 +295,9 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
         debugPrint('Gif network image error:$e');
       }
     } else if (provider is AssetImage) {
-      AssetBundleImageKey key =
-          await provider.obtainKey(const ImageConfiguration());
+      AssetBundleImageKey key = await provider.obtainKey(
+        const ImageConfiguration(),
+      );
       bytes = (await key.bundle.load(key.name)).buffer.asUint8List();
     } else if (provider is FileImage) {
       bytes = await provider.file.readAsBytes();
@@ -309,13 +318,17 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
 
   Future<Uint8List> loadGifImageData(NetworkImage provider) async {
     Completer<Uint8List> completer = Completer();
-    provider.resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener((ImageInfo info, bool syncCall) {
-        info.image.toByteData(format: ImageByteFormat.rawRgba).then((byteData) {
-          completer.complete(Uint8List.view(byteData!.buffer));
-        });
-      }),
-    );
+    provider
+        .resolve(const ImageConfiguration())
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool syncCall) {
+            info.image.toByteData(format: ImageByteFormat.rawRgba).then((
+              byteData,
+            ) {
+              completer.complete(Uint8List.view(byteData!.buffer));
+            });
+          }),
+        );
     return await completer.future;
   }
 }

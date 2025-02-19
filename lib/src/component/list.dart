@@ -4,11 +4,14 @@ import 'package:universally/universally.dart';
 
 class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
-      : super(
-            valueColor: AlwaysStoppedAnimation<Color>(color ??
-                Universally.to.getTheme()?.primaryColor ??
-                Colors.transparent),
-            backgroundColor: UCS.transparent);
+    : super(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          color ??
+              Universally.to.getTheme()?.primaryColor ??
+              Colors.transparent,
+        ),
+        backgroundColor: UCS.transparent,
+      );
 }
 
 class BaseList extends ScrollList {
@@ -70,22 +73,23 @@ class BaseList extends ScrollList {
     super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.builder(
-            header: header?.toSliverBox,
-            footer: footer?.toSliverBox,
-            refreshConfig: refreshConfig ??
-                ((onRefresh != null || onLoading != null)
-                    ? RefreshConfig(
-                        controller: refreshController,
-                        header: Universally().pullDownHeader(),
-                        footer: Universally().pullUpFooter(),
-                        onLoading: onLoading == null
-                            ? null
-                            : () async => onLoading.call(),
-                        onRefresh: onRefresh == null
-                            ? null
-                            : () async => onRefresh.call())
-                    : null),
-            placeholder: placeholder ?? Universally.to.config.placeholder);
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig:
+             refreshConfig ??
+             ((onRefresh != null || onLoading != null)
+                 ? RefreshConfig(
+                   controller: refreshController,
+                   header: Universally().pullDownHeader(),
+                   footer: Universally().pullUpFooter(),
+                   onLoading:
+                       onLoading == null ? null : () async => onLoading.call(),
+                   onRefresh:
+                       onRefresh == null ? null : () async => onRefresh.call(),
+                 )
+                 : null),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.count({
     super.key,
@@ -142,22 +146,23 @@ class BaseList extends ScrollList {
     super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.count(
-            header: header?.toSliverBox,
-            footer: footer?.toSliverBox,
-            refreshConfig: refreshConfig ??
-                ((onRefresh != null || onLoading != null)
-                    ? RefreshConfig(
-                        controller: refreshController,
-                        header: Universally().pullDownHeader(),
-                        footer: Universally().pullUpFooter(),
-                        onLoading: onLoading == null
-                            ? null
-                            : () async => onLoading.call(),
-                        onRefresh: onRefresh == null
-                            ? null
-                            : () async => onRefresh.call())
-                    : null),
-            placeholder: placeholder ?? Universally.to.config.placeholder);
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig:
+             refreshConfig ??
+             ((onRefresh != null || onLoading != null)
+                 ? RefreshConfig(
+                   controller: refreshController,
+                   header: Universally().pullDownHeader(),
+                   footer: Universally().pullUpFooter(),
+                   onLoading:
+                       onLoading == null ? null : () async => onLoading.call(),
+                   onRefresh:
+                       onRefresh == null ? null : () async => onRefresh.call(),
+                 )
+                 : null),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.waterfall({
     super.key,
@@ -217,22 +222,23 @@ class BaseList extends ScrollList {
     super.placeholderFill,
     RefreshConfig? refreshConfig,
   }) : super.builder(
-            header: header?.toSliverBox,
-            footer: footer?.toSliverBox,
-            refreshConfig: refreshConfig ??
-                ((onRefresh != null || onLoading != null)
-                    ? RefreshConfig(
-                        controller: refreshController,
-                        header: Universally().pullDownHeader(),
-                        footer: Universally().pullUpFooter(),
-                        onLoading: onLoading == null
-                            ? null
-                            : () async => onLoading.call(),
-                        onRefresh: onRefresh == null
-                            ? null
-                            : () async => onRefresh.call())
-                    : null),
-            placeholder: placeholder ?? Universally.to.config.placeholder);
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig:
+             refreshConfig ??
+             ((onRefresh != null || onLoading != null)
+                 ? RefreshConfig(
+                   controller: refreshController,
+                   header: Universally().pullDownHeader(),
+                   footer: Universally().pullUpFooter(),
+                   onLoading:
+                       onLoading == null ? null : () async => onLoading.call(),
+                   onRefresh:
+                       onRefresh == null ? null : () async => onRefresh.call(),
+                 )
+                 : null),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.custom({
     super.key,
@@ -256,19 +262,20 @@ class BaseList extends ScrollList {
     super.cacheExtent,
     RefreshConfig? refreshConfig,
   }) : super(
-            header: header?.toSliverBox,
-            footer: footer?.toSliverBox,
-            refreshConfig: refreshConfig ??
-                ((onRefresh != null || onLoading != null)
-                    ? RefreshConfig(
-                        controller: refreshController,
-                        footer: Universally().pullUpFooter(),
-                        header: Universally().pullDownHeader(),
-                        onLoading: onLoading == null
-                            ? null
-                            : () async => onLoading.call(),
-                        onRefresh: onRefresh == null
-                            ? null
-                            : () async => onRefresh.call())
-                    : null));
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig:
+             refreshConfig ??
+             ((onRefresh != null || onLoading != null)
+                 ? RefreshConfig(
+                   controller: refreshController,
+                   footer: Universally().pullUpFooter(),
+                   header: Universally().pullDownHeader(),
+                   onLoading:
+                       onLoading == null ? null : () async => onLoading.call(),
+                   onRefresh:
+                       onRefresh == null ? null : () async => onRefresh.call(),
+                 )
+                 : null),
+       );
 }

@@ -9,9 +9,13 @@ class AliOSS {
   static AliOSS? _singleton;
 
   /// 必须先初始化
-  void initialize(String aliOSSAccessKeyId, String aliOSSKeySecret,
-      {String? policyText}) {
-    final String text = policyText ??
+  void initialize(
+    String aliOSSAccessKeyId,
+    String aliOSSKeySecret, {
+    String? policyText,
+  }) {
+    final String text =
+        policyText ??
         '{"expiration": "2050-01-01T12:00:00.000Z","conditions": [["content-length-range", 0, 1048576000]]}';
 
     /// 进行base64编码
@@ -37,8 +41,12 @@ class AliOSS {
 
   String? _policyBase64;
 
-  Future<FormData> setFormData(String filePath, String ossPath,
-      {MediaType? contentType, String? fileName}) async {
+  Future<FormData> setFormData(
+    String filePath,
+    String ossPath, {
+    MediaType? contentType,
+    String? fileName,
+  }) async {
     assert(_singleton != null, '请先调用 initialize');
     fileName ??=
         '${DateTime.now().millisecondsSinceEpoch}-${filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length)}';
@@ -49,7 +57,7 @@ class AliOSS {
       'OSSAccessKeyId': _aliOSSAccessKeyId,
       'success_action_status': 200,
       'Signature': _signature,
-      'Filename': fileName
+      'Filename': fileName,
     });
   }
 }

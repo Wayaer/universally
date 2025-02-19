@@ -5,11 +5,14 @@ import 'package:universally/universally.dart';
 extension ExtensionConfirmActionDialog on ConfirmActionDialog {
   Future<T?> bottomSheet<T>({BottomSheetOptions? options}) =>
       popupBottomSheet<T>(
-          options: const BottomSheetOptions(backgroundColor: Colors.transparent)
-              .merge(options));
+        options: const BottomSheetOptions(
+          backgroundColor: Colors.transparent,
+        ).merge(options),
+      );
 
   Future<T?> show<T>({DialogOptions? options}) => popupDialog<T>(
-      options: const DialogOptions(barrierLabel: '').merge(options));
+    options: const DialogOptions(barrierLabel: '').merge(options),
+  );
 }
 
 /// text builder
@@ -58,12 +61,12 @@ class ConfirmActionDialog extends StatelessWidget {
     this.titleText,
     this.title,
     this.actions,
-  })  : options = null,
-        dividerColor = null,
-        constraints = null,
-        resizeToAvoidBottomInset = true,
-        dividerThickness = 1,
-        isCupertino = true;
+  }) : options = null,
+       dividerColor = null,
+       constraints = null,
+       resizeToAvoidBottomInset = true,
+       dividerThickness = 1,
+       isCupertino = true;
 
   /// confirm
   final String? confirmText;
@@ -110,54 +113,70 @@ class ConfirmActionDialog extends StatelessWidget {
     if (contentText != null) current = TextMedium(contentText, maxLines: 20);
     if (content != null) current = content!(current);
     return Universal(
-        margin: isCupertino
-            ? const EdgeInsets.only(top: 10)
-            : const EdgeInsets.fromLTRB(16, 2, 16, 20),
-        child: current);
+      margin:
+          isCupertino
+              ? const EdgeInsets.only(top: 10)
+              : const EdgeInsets.fromLTRB(16, 2, 16, 20),
+      child: current,
+    );
   }
 
   @override
-  Widget build(BuildContext context) => isCupertino
-      ? buildCupertinoActionDialog(context)
-      : buildActionDialog(context);
+  Widget build(BuildContext context) =>
+      isCupertino
+          ? buildCupertinoActionDialog(context)
+          : buildActionDialog(context);
 
   Widget buildActionDialog(BuildContext context) {
     Widget? current;
     if (titleText != null) {
-      current = TextLarge(titleText,
-          maxLines: 10, style: context.theme.textTheme.titleLarge);
+      current = TextLarge(
+        titleText,
+        maxLines: 10,
+        style: context.theme.textTheme.titleLarge,
+      );
     }
     if (title != null) current = title!(current);
     if (current != null) {
       current = Container(
-          alignment: Alignment.center,
-          height: 45,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: current);
+        alignment: Alignment.center,
+        height: 45,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: current,
+      );
     }
     return ActionDialog(
-        title: current,
-        content: buildContent,
-        dividerColor: dividerColor ?? CupertinoColors.separator,
-        dividerThickness: dividerThickness,
-        actions: buildActions(context),
-        constraints:
-            constraints ?? BoxConstraints(maxWidth: context.width - 60),
-        options: FlExtended().modalOptions.merge(options).copyWith(
+      title: current,
+      content: buildContent,
+      dividerColor: dividerColor ?? CupertinoColors.separator,
+      dividerThickness: dividerThickness,
+      actions: buildActions(context),
+      constraints: constraints ?? BoxConstraints(maxWidth: context.width - 60),
+      options: FlExtended().modalOptions
+          .merge(options)
+          .copyWith(
             resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            borderRadius: BorderRadius.circular(6)),
-        actionsMaxHeight: 40);
+            borderRadius: BorderRadius.circular(6),
+          ),
+      actionsMaxHeight: 40,
+    );
   }
 
   Widget buildCupertinoActionDialog(BuildContext context) {
     Widget? current;
     if (titleText != null) {
-      current = TextLarge(titleText,
-          maxLines: 10, style: context.theme.textTheme.titleLarge);
+      current = TextLarge(
+        titleText,
+        maxLines: 10,
+        style: context.theme.textTheme.titleLarge,
+      );
     }
     if (title != null) current = title!(current);
     return CupertinoAlertDialog(
-        title: current, content: buildContent, actions: buildActions(context));
+      title: current,
+      content: buildContent,
+      actions: buildActions(context),
+    );
   }
 
   List<Widget> buildActions(BuildContext context) {
@@ -172,14 +191,15 @@ class ConfirmActionDialog extends StatelessWidget {
     }
     if (confirm != null) current = confirm!(current);
     return Universal(
-        height: 40,
-        expanded: !isCupertino,
-        alignment: Alignment.center,
-        onTap: () {
-          final result = onConfirmTap?.call();
-          if (confirmTapPop) pop(result ?? confirmTapPopResult);
-        },
-        child: current);
+      height: 40,
+      expanded: !isCupertino,
+      alignment: Alignment.center,
+      onTap: () {
+        final result = onConfirmTap?.call();
+        if (confirmTapPop) pop(result ?? confirmTapPopResult);
+      },
+      child: current,
+    );
   }
 }
 
@@ -253,14 +273,15 @@ class ConfirmCancelActionDialog extends ConfirmActionDialog {
     }
     if (cancel != null) current = cancel!(current);
     return Universal(
-        height: 40,
-        expanded: !isCupertino,
-        onTap: () {
-          final result = onCancelTap?.call();
-          if (cancelTapPop) pop(result ?? cancelTapPopResult);
-        },
-        alignment: Alignment.center,
-        child: current);
+      height: 40,
+      expanded: !isCupertino,
+      onTap: () {
+        final result = onCancelTap?.call();
+        if (cancelTapPop) pop(result ?? cancelTapPopResult);
+      },
+      alignment: Alignment.center,
+      child: current,
+    );
   }
 }
 
@@ -305,8 +326,8 @@ class TextFieldDialog extends StatelessWidget {
     this.fillColor,
     this.borderSide,
     this.contentPadding = const EdgeInsets.all(8),
-  })  : isCupertino = true,
-        resizeToAvoidBottomInset = true;
+  }) : isCupertino = true,
+       resizeToAvoidBottomInset = true;
 
   /// use cupertino style
   final bool isCupertino;
@@ -342,42 +363,47 @@ class TextFieldDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isCupertino) {
       return ConfirmCancelActionDialog.cupertino(
-          confirmText: confirmText,
-          onConfirmTap: checkInput,
-          cancelText: cancelText,
-          onCancelTap: onCancelTap,
-          titleText: titleText,
-          content: (_) => buildTextField(context));
-    }
-    return ConfirmCancelActionDialog(
         confirmText: confirmText,
         onConfirmTap: checkInput,
         cancelText: cancelText,
         onCancelTap: onCancelTap,
         titleText: titleText,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        content: (_) => buildTextField(context));
+        content: (_) => buildTextField(context),
+      );
+    }
+    return ConfirmCancelActionDialog(
+      confirmText: confirmText,
+      onConfirmTap: checkInput,
+      cancelText: cancelText,
+      onCancelTap: onCancelTap,
+      titleText: titleText,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      content: (_) => buildTextField(context),
+    );
   }
 
   Widget buildTextField(BuildContext context) => Material(
-      color: Colors.transparent,
-      child: BaseTextField(
-          textInputType: textInputType,
-          value: value,
-          margin: const EdgeInsets.all(12),
-          hintText: hintText,
-          hasFocusedChangeBorder: false,
-          borderType: BorderType.outline,
-          contentPadding: contentPadding,
-          borderSide: borderSide ??
-              BorderSide(color: CupertinoColors.separator, width: 0.8),
-          controller: controller,
-          width: double.infinity,
-          maxLines: maxLines,
-          minLines: minLines,
-          maxLength: maxLength,
-          fillColor: fillColor,
-          autoFocus: true));
+    color: Colors.transparent,
+    child: BaseTextField(
+      textInputType: textInputType,
+      value: value,
+      margin: const EdgeInsets.all(12),
+      hintText: hintText,
+      hasFocusedChangeBorder: false,
+      borderType: BorderType.outline,
+      contentPadding: contentPadding,
+      borderSide:
+          borderSide ??
+          BorderSide(color: CupertinoColors.separator, width: 0.8),
+      controller: controller,
+      width: double.infinity,
+      maxLines: maxLines,
+      minLines: minLines,
+      maxLength: maxLength,
+      fillColor: fillColor,
+      autoFocus: true,
+    ),
+  );
 
   dynamic checkInput() {
     if (controller.text.isEmpty) {

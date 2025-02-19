@@ -31,7 +31,7 @@ class BaseWidgetsApp extends StatelessWidget {
     this.locale = const Locale('zh'),
     this.supportedLocales = const <Locale>[
       Locale('zh', 'CH'),
-      Locale('en', 'US')
+      Locale('en', 'US'),
     ],
     this.shortcuts,
     this.actions,
@@ -143,7 +143,7 @@ class BaseWidgetsApp extends StatelessWidget {
 
   /// onNavigationNotification
   final NotificationListenerCallback<NavigationNotification>?
-      onNavigationNotification;
+  onNavigationNotification;
 
   /// shortcuts
   final Map<LogicalKeySet, Intent>? shortcuts;
@@ -189,15 +189,16 @@ class BaseWidgetsApp extends StatelessWidget {
       textStyle: textStyle,
     );
     return BaseApp(
-        navigatorKey: navigatorKey,
-        onInactive: onInactive,
-        onPaused: onPaused,
-        onDetached: onDetached,
-        onResumed: onResumed,
-        onHidden: onHidden,
-        initState: initState,
-        deactivate: deactivate,
-        dispose: dispose,
-        builder: (context) => current);
+      navigatorKey: navigatorKey,
+      onInactive: onInactive,
+      onPaused: onPaused,
+      onDetached: onDetached,
+      onResumed: onResumed,
+      onHidden: onHidden,
+      initState: initState,
+      deactivate: deactivate,
+      dispose: dispose,
+      builder: (context) => current,
+    );
   }
 }

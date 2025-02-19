@@ -8,28 +8,37 @@ class ChangedBuilderWidgetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        isScroll: true,
-        padding: const EdgeInsets.all(12),
-        appBarTitleText: 'Changed builder widget',
-        children: [
-          const Partition('Switch', marginTop: 0),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      isScroll: true,
+      padding: const EdgeInsets.all(12),
+      appBarTitleText: 'Changed builder widget',
+      children: [
+        const Partition('Switch', marginTop: 0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
             BaseXSwitch(value: false),
             BaseSwitch(value: false),
             BaseSwitch.adaptive(value: false),
-          ]),
-          const Partition('Checkbox'),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          ],
+        ),
+        const Partition('Checkbox'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
             BaseCheckbox(value: false),
             BaseCheckbox(
-                value: false,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8))),
+              value: false,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
             BaseCheckbox.adaptive(value: false),
-          ]),
-          const Partition('Slider'),
-          BaseSlider(value: 0.5),
-          BaseSlider.adaptive(value: 0.7),
-        ]);
+          ],
+        ),
+        const Partition('Slider'),
+        BaseSlider(value: 0.5),
+        BaseSlider.adaptive(value: 0.7),
+      ],
+    );
   }
 }

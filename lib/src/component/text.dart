@@ -257,15 +257,15 @@ class BaseText extends StatelessWidget {
     this.fontFeatures,
     this.leadingDistribution,
     this.fontVariations,
-  })  : texts = const [],
-        styles = const [],
-        recognizers = const [],
-        semanticsLabels = const [],
-        mouseCursors = const [],
-        onEnters = const [],
-        onExits = const [],
-        locales = const [],
-        spellOuts = const [];
+  }) : texts = const [],
+       styles = const [],
+       recognizers = const [],
+       semanticsLabels = const [],
+       mouseCursors = const [],
+       onEnters = const [],
+       onExits = const [],
+       locales = const [],
+       spellOuts = const [];
 
   /// 与 [RText] 一致，仅增加 主题适配
   const BaseText.rich({
@@ -505,59 +505,60 @@ class BaseText extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle? textStyle = _mergeStyle(_getStyle(context), style);
     return BText.rich(
-        useStyleFirst: usePrimaryColor ? false : useStyleFirst,
-        text: text,
-        texts: texts,
-        style: textStyle,
-        styles: styles,
-        recognizer: recognizer,
-        recognizers: recognizers,
-        semanticsLabel: semanticsLabel,
-        semanticsLabels: semanticsLabels,
-        inherit: inherit,
-        color: usePrimaryColor ? context.theme.primaryColor : color,
-        foreground: foreground,
-        background: background,
-        backgroundColor: backgroundColor,
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        fontFamilyFallback: fontFamilyFallback,
-        fontVariations: fontVariations,
-        package: package,
-        fontStyle: fontStyle,
-        letterSpacing: letterSpacing,
-        wordSpacing: wordSpacing,
-        textBaseline: textBaseline,
-        height: height,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        decorationThickness: decorationThickness,
-        debugLabel: debugLabel,
-        shadows: shadows,
-        fontFeatures: fontFeatures,
-        selectionColor: selectionColor,
-        textScaler: textScaler,
-        leadingDistribution: leadingDistribution,
-        locale: locale,
-        softWrap: softWrap,
-        overflow: overflow,
-        textDirection: textDirection,
-        textHeightBehavior: textHeightBehavior,
-        textWidthBasis: textWidthBasis,
-        maxLines: maxLines,
-        mouseCursor: mouseCursor,
-        onEnter: onEnter,
-        onExit: onExit,
-        mouseCursors: mouseCursors,
-        onEnters: onEnters,
-        onExits: onExits,
-        locales: locales,
-        spellOut: spellOut,
-        spellOuts: spellOuts,
-        textAlign: textAlign,
-        strutStyle: strutStyle);
+      useStyleFirst: usePrimaryColor ? false : useStyleFirst,
+      text: text,
+      texts: texts,
+      style: textStyle,
+      styles: styles,
+      recognizer: recognizer,
+      recognizers: recognizers,
+      semanticsLabel: semanticsLabel,
+      semanticsLabels: semanticsLabels,
+      inherit: inherit,
+      color: usePrimaryColor ? context.theme.primaryColor : color,
+      foreground: foreground,
+      background: background,
+      backgroundColor: backgroundColor,
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      fontFamilyFallback: fontFamilyFallback,
+      fontVariations: fontVariations,
+      package: package,
+      fontStyle: fontStyle,
+      letterSpacing: letterSpacing,
+      wordSpacing: wordSpacing,
+      textBaseline: textBaseline,
+      height: height,
+      decoration: decoration,
+      decorationColor: decorationColor,
+      decorationStyle: decorationStyle,
+      decorationThickness: decorationThickness,
+      debugLabel: debugLabel,
+      shadows: shadows,
+      fontFeatures: fontFeatures,
+      selectionColor: selectionColor,
+      textScaler: textScaler,
+      leadingDistribution: leadingDistribution,
+      locale: locale,
+      softWrap: softWrap,
+      overflow: overflow,
+      textDirection: textDirection,
+      textHeightBehavior: textHeightBehavior,
+      textWidthBasis: textWidthBasis,
+      maxLines: maxLines,
+      mouseCursor: mouseCursor,
+      onEnter: onEnter,
+      onExit: onExit,
+      mouseCursors: mouseCursors,
+      onEnters: onEnters,
+      onExits: onExits,
+      locales: locales,
+      spellOut: spellOut,
+      spellOuts: spellOuts,
+      textAlign: textAlign,
+      strutStyle: strutStyle,
+    );
   }
 
   TextStyle? _getStyle(BuildContext context) {
@@ -642,12 +643,13 @@ class TStyle extends TextStyle {
 }
 
 class TextBoxPage extends StatelessWidget {
-  const TextBoxPage(
-      {super.key,
-      required this.text,
-      this.color,
-      this.appBarTitleText,
-      this.toastText = '复制成功'});
+  const TextBoxPage({
+    super.key,
+    required this.text,
+    this.color,
+    this.appBarTitleText,
+    this.toastText = '复制成功',
+  });
 
   final String? appBarTitleText;
   final String toastText;
@@ -656,12 +658,14 @@ class TextBoxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
-      appBarTitleText: appBarTitleText,
-      padding: const EdgeInsets.all(20),
-      child: Universal(
-          onTap: () {
-            text.toClipboard;
-            showToast(toastText);
-          },
-          child: TextMedium(text, color: color)));
+    appBarTitleText: appBarTitleText,
+    padding: const EdgeInsets.all(20),
+    child: Universal(
+      onTap: () {
+        text.toClipboard;
+        showToast(toastText);
+      },
+      child: TextMedium(text, color: color),
+    ),
+  );
 }

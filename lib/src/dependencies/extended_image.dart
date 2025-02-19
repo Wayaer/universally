@@ -12,17 +12,22 @@ class BaseResizeImage extends ExtendedResizeImage {
     int? cacheHeight,
     double? compressionRatio,
     int? maxBytes,
-  }) : super(ExtendedResizeImage.resizeIfNeeded(
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            provider: ExtendedMemoryImageProvider(bytes,
-                scale: scale,
-                cacheRawData: cacheRawData,
-                imageCacheName: imageCacheName)));
+  }) : super(
+         ExtendedResizeImage.resizeIfNeeded(
+           cacheWidth: cacheWidth,
+           cacheHeight: cacheHeight,
+           maxBytes: maxBytes,
+           compressionRatio: compressionRatio,
+           cacheRawData: cacheRawData,
+           imageCacheName: imageCacheName,
+           provider: ExtendedMemoryImageProvider(
+             bytes,
+             scale: scale,
+             cacheRawData: cacheRawData,
+             imageCacheName: imageCacheName,
+           ),
+         ),
+       );
 
   BaseResizeImage.asset(
     String assetName, {
@@ -34,18 +39,23 @@ class BaseResizeImage extends ExtendedResizeImage {
     int? cacheHeight,
     double? compressionRatio,
     int? maxBytes,
-  }) : super(ExtendedResizeImage.resizeIfNeeded(
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            provider: ExtendedAssetImageProvider(assetName,
-                bundle: bundle,
-                package: package,
-                cacheRawData: cacheRawData,
-                imageCacheName: imageCacheName)));
+  }) : super(
+         ExtendedResizeImage.resizeIfNeeded(
+           cacheWidth: cacheWidth,
+           cacheHeight: cacheHeight,
+           maxBytes: maxBytes,
+           compressionRatio: compressionRatio,
+           cacheRawData: cacheRawData,
+           imageCacheName: imageCacheName,
+           provider: ExtendedAssetImageProvider(
+             assetName,
+             bundle: bundle,
+             package: package,
+             cacheRawData: cacheRawData,
+             imageCacheName: imageCacheName,
+           ),
+         ),
+       );
 
   BaseResizeImage.file(
     File file, {
@@ -56,17 +66,22 @@ class BaseResizeImage extends ExtendedResizeImage {
     int? cacheHeight,
     double? compressionRatio,
     int? maxBytes,
-  }) : super(ExtendedResizeImage.resizeIfNeeded(
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            provider: ExtendedFileImageProvider(file,
-                cacheRawData: cacheRawData,
-                scale: scale,
-                imageCacheName: imageCacheName)));
+  }) : super(
+         ExtendedResizeImage.resizeIfNeeded(
+           cacheWidth: cacheWidth,
+           cacheHeight: cacheHeight,
+           maxBytes: maxBytes,
+           compressionRatio: compressionRatio,
+           cacheRawData: cacheRawData,
+           imageCacheName: imageCacheName,
+           provider: ExtendedFileImageProvider(
+             file,
+             cacheRawData: cacheRawData,
+             scale: scale,
+             imageCacheName: imageCacheName,
+           ),
+         ),
+       );
 
   BaseResizeImage.network(
     String url, {
@@ -86,26 +101,31 @@ class BaseResizeImage extends ExtendedResizeImage {
     int? maxBytes,
     bool cacheRawData = false,
     String? imageCacheName,
-  }) : super(ExtendedResizeImage.resizeIfNeeded(
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            provider: ExtendedNetworkImageProvider(url,
-                scale: scale,
-                headers: headers,
-                cache: cache,
-                cancelToken: cancelToken,
-                retries: retries,
-                timeRetry: timeRetry,
-                timeLimit: timeLimit,
-                cacheKey: cacheKey,
-                printError: printError,
-                cacheRawData: cacheRawData,
-                imageCacheName: imageCacheName,
-                cacheMaxAge: cacheMaxAge)));
+  }) : super(
+         ExtendedResizeImage.resizeIfNeeded(
+           cacheWidth: cacheWidth,
+           cacheHeight: cacheHeight,
+           maxBytes: maxBytes,
+           compressionRatio: compressionRatio,
+           cacheRawData: cacheRawData,
+           imageCacheName: imageCacheName,
+           provider: ExtendedNetworkImageProvider(
+             url,
+             scale: scale,
+             headers: headers,
+             cache: cache,
+             cancelToken: cancelToken,
+             retries: retries,
+             timeRetry: timeRetry,
+             timeLimit: timeLimit,
+             cacheKey: cacheKey,
+             printError: printError,
+             cacheRawData: cacheRawData,
+             imageCacheName: imageCacheName,
+             cacheMaxAge: cacheMaxAge,
+           ),
+         ),
+       );
 
   static ImageProvider buildImageProvider(
     dynamic value, {
@@ -133,51 +153,59 @@ class BaseResizeImage extends ExtendedResizeImage {
     String? package,
   }) {
     if (value is File) {
-      return BaseResizeImage.file(value,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
-          maxBytes: maxBytes,
-          compressionRatio: compressionRatio,
-          cacheRawData: cacheRawData,
-          imageCacheName: imageCacheName,
-          scale: scale);
+      return BaseResizeImage.file(
+        value,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        maxBytes: maxBytes,
+        compressionRatio: compressionRatio,
+        cacheRawData: cacheRawData,
+        imageCacheName: imageCacheName,
+        scale: scale,
+      );
     } else if (value is Uint8List) {
-      return BaseResizeImage.memory(value,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
-          maxBytes: maxBytes,
-          compressionRatio: compressionRatio,
-          cacheRawData: cacheRawData,
-          imageCacheName: imageCacheName,
-          scale: scale);
+      return BaseResizeImage.memory(
+        value,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        maxBytes: maxBytes,
+        compressionRatio: compressionRatio,
+        cacheRawData: cacheRawData,
+        imageCacheName: imageCacheName,
+        scale: scale,
+      );
     } else if (value is String) {
       return value.startsWith('http') || value.startsWith('blob:http')
-          ? BaseResizeImage.network(value,
-              cacheWidth: cacheWidth,
-              cacheHeight: cacheHeight,
-              maxBytes: maxBytes,
-              compressionRatio: compressionRatio,
-              cacheRawData: cacheRawData,
-              imageCacheName: imageCacheName,
-              scale: scale,
-              headers: headers,
-              cache: cache,
-              cancelToken: cancelToken,
-              retries: retries,
-              timeRetry: timeRetry,
-              timeLimit: timeLimit,
-              cacheKey: cacheKey,
-              printError: printError,
-              cacheMaxAge: cacheMaxAge)
-          : BaseResizeImage.asset(value,
-              cacheWidth: cacheWidth,
-              cacheHeight: cacheHeight,
-              maxBytes: maxBytes,
-              compressionRatio: compressionRatio,
-              cacheRawData: cacheRawData,
-              imageCacheName: imageCacheName,
-              bundle: bundle,
-              package: package);
+          ? BaseResizeImage.network(
+            value,
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            scale: scale,
+            headers: headers,
+            cache: cache,
+            cancelToken: cancelToken,
+            retries: retries,
+            timeRetry: timeRetry,
+            timeLimit: timeLimit,
+            cacheKey: cacheKey,
+            printError: printError,
+            cacheMaxAge: cacheMaxAge,
+          )
+          : BaseResizeImage.asset(
+            value,
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            bundle: bundle,
+            package: package,
+          );
     }
     return BaseResizeImage.asset('');
   }
@@ -272,8 +300,11 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.file(
-            loadStateChanged:
-                buildLoadStateChanged(failed: failed, loading: loading));
+         loadStateChanged: buildLoadStateChanged(
+           failed: failed,
+           loading: loading,
+         ),
+       );
 
   BaseImage.memory(
     super.bytes, {
@@ -322,8 +353,11 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.memory(
-            loadStateChanged:
-                buildLoadStateChanged(failed: failed, loading: loading));
+         loadStateChanged: buildLoadStateChanged(
+           failed: failed,
+           loading: loading,
+         ),
+       );
 
   BaseImage.asset(
     String? name, {
@@ -373,9 +407,13 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.asset(name ?? 'asset name is null',
-            loadStateChanged:
-                buildLoadStateChanged(failed: failed, loading: loading));
+  }) : super.asset(
+         name ?? 'asset name is null',
+         loadStateChanged: buildLoadStateChanged(
+           failed: failed,
+           loading: loading,
+         ),
+       );
 
   BaseImage.network(
     String? url, {
@@ -433,23 +471,28 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.network(url ?? 'url is null',
-            loadStateChanged:
-                buildLoadStateChanged(failed: failed, loading: loading));
+  }) : super.network(
+         url ?? 'url is null',
+         loadStateChanged: buildLoadStateChanged(
+           failed: failed,
+           loading: loading,
+         ),
+       );
 
-  static LoadStateChanged buildLoadStateChanged(
-          {Widget? failed, Widget? loading}) =>
-      (ExtendedImageState state) {
-        switch (state.extendedImageLoadState) {
-          case LoadState.loading:
-            return loading ?? const ImageLoading(size: 16);
-          case LoadState.completed:
-            return null;
-          case LoadState.failed:
-            _logFailed(state);
-            return failed ?? const ImageFailed(alignment: Alignment.center);
-        }
-      };
+  static LoadStateChanged buildLoadStateChanged({
+    Widget? failed,
+    Widget? loading,
+  }) => (ExtendedImageState state) {
+    switch (state.extendedImageLoadState) {
+      case LoadState.loading:
+        return loading ?? const ImageLoading(size: 16);
+      case LoadState.completed:
+        return null;
+      case LoadState.failed:
+        _logFailed(state);
+        return failed ?? const ImageFailed(alignment: Alignment.center);
+    }
+  };
 
   static void _logFailed(ExtendedImageState state) {
     String? value;
@@ -542,35 +585,41 @@ class BaseImage extends ExtendedImage {
     AssetBundle? bundle,
     String? package,
   }) : super(
-            image: BaseResizeImage.buildImageProvider(image,
-                cacheWidth: cacheWidth,
-                cacheHeight: cacheHeight,
-                maxBytes: maxBytes,
-                compressionRatio: compressionRatio,
-                cacheRawData: cacheRawData,
-                imageCacheName: imageCacheName,
-                scale: scale,
-                headers: headers,
-                cache: cache,
-                cancelToken: cancelToken,
-                retries: retries,
-                timeRetry: timeRetry,
-                timeLimit: timeLimit,
-                cacheKey: cacheKey,
-                printError: printError,
-                cacheMaxAge: cacheMaxAge,
-                bundle: bundle,
-                package: package),
-            loadStateChanged:
-                buildLoadStateChanged(failed: failed, loading: loading));
+         image: BaseResizeImage.buildImageProvider(
+           image,
+           cacheWidth: cacheWidth,
+           cacheHeight: cacheHeight,
+           maxBytes: maxBytes,
+           compressionRatio: compressionRatio,
+           cacheRawData: cacheRawData,
+           imageCacheName: imageCacheName,
+           scale: scale,
+           headers: headers,
+           cache: cache,
+           cancelToken: cancelToken,
+           retries: retries,
+           timeRetry: timeRetry,
+           timeLimit: timeLimit,
+           cacheKey: cacheKey,
+           printError: printError,
+           cacheMaxAge: cacheMaxAge,
+           bundle: bundle,
+           package: package,
+         ),
+         loadStateChanged: buildLoadStateChanged(
+           failed: failed,
+           loading: loading,
+         ),
+       );
 }
 
 class PreviewImage extends StatelessWidget {
-  const PreviewImage(
-      {super.key,
-      this.initialPage,
-      required this.itemCount,
-      required this.itemBuilder});
+  const PreviewImage({
+    super.key,
+    this.initialPage,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
 
   final int? itemCount;
   final IndexedWidgetBuilder itemBuilder;
@@ -578,20 +627,23 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-      color: UCS.black.withValues(alpha: 0.9),
-      child: Column(children: <Widget>[
+    color: UCS.black.withValues(alpha: 0.9),
+    child: Column(
+      children: <Widget>[
         Universal(
-            alignment: Alignment.centerRight,
-            margin: const EdgeInsets.only(right: 12),
-            height: context.padding.top + 50,
-            child: const CloseButton(color: UCS.white)),
+          alignment: Alignment.centerRight,
+          margin: const EdgeInsets.only(right: 12),
+          height: context.padding.top + 50,
+          child: const CloseButton(color: UCS.white),
+        ),
         ExtendedImageGesturePageView.builder(
-                controller:
-                    ExtendedPageController(initialPage: initialPage ?? 1),
-                itemCount: itemCount,
-                itemBuilder: itemBuilder)
-            .expanded,
-      ]));
+          controller: ExtendedPageController(initialPage: initialPage ?? 1),
+          itemCount: itemCount,
+          itemBuilder: itemBuilder,
+        ).expanded,
+      ],
+    ),
+  );
 }
 
 class ImageFailed extends StatelessWidget {
@@ -604,19 +656,21 @@ class ImageFailed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: failed == null ? const EdgeInsets.all(4) : EdgeInsets.zero,
-        alignment: alignment,
-        color: background,
-        child: failed ?? Universally.to.config.imageFailed);
+      padding: failed == null ? const EdgeInsets.all(4) : EdgeInsets.zero,
+      alignment: alignment,
+      color: background,
+      child: failed ?? Universally.to.config.imageFailed,
+    );
   }
 }
 
 class ImageLoading extends BaseLoading {
-  const ImageLoading(
-      {super.key,
-      super.size = 10,
-      super.color,
-      super.itemBuilder,
-      super.duration = const Duration(milliseconds: 1200),
-      super.controller});
+  const ImageLoading({
+    super.key,
+    super.size = 10,
+    super.color,
+    super.itemBuilder,
+    super.duration = const Duration(milliseconds: 1200),
+    super.controller,
+  });
 }

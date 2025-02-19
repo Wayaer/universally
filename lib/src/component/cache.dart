@@ -63,16 +63,17 @@ class _CleanCacheState extends State<CleanCache> {
 
   @override
   Widget build(BuildContext context) => Universal(
-      onTap: () {
-        if (path == null || path!.isEmpty) return;
-        final dir = Directory(path!);
-        if (!dir.existsSync()) return;
-        dir.delete(recursive: true);
-        showToast('已清理');
-        size = 0;
-        1.seconds.delayed(getSize);
-      },
-      child: TextSmall(text, color: widget.color));
+    onTap: () {
+      if (path == null || path!.isEmpty) return;
+      final dir = Directory(path!);
+      if (!dir.existsSync()) return;
+      dir.delete(recursive: true);
+      showToast('已清理');
+      size = 0;
+      1.seconds.delayed(getSize);
+    },
+    child: TextSmall(text, color: widget.color),
+  );
 }
 
 /// 消息推送开关
@@ -97,11 +98,12 @@ class _PushStateState extends State<PushSwitchState> {
 
   @override
   Widget build(BuildContext context) => XSwitch(
-      value: push,
-      onChanged: (value) {
-        if (value == push) return;
-        push = value;
-        BasePreferences().setBool(UConst.isPush, push);
-        setState(() {});
-      });
+    value: push,
+    onChanged: (value) {
+      if (value == push) return;
+      push = value;
+      BasePreferences().setBool(UConst.isPush, push);
+      setState(() {});
+    },
+  );
 }

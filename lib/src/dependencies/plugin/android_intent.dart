@@ -13,12 +13,10 @@ class AndroidAppMarketIntent extends AndroidIntent {
     List<int>? flags,
     super.type,
   }) : super(
-            action: 'action_view',
-            data: 'market://details?id=$packageName',
-            flags: [
-              Flag.FLAG_ACTIVITY_NEW_TASK,
-              if (flags != null) ...flags,
-            ]);
+         action: 'action_view',
+         data: 'market://details?id=$packageName',
+         flags: [Flag.FLAG_ACTIVITY_NEW_TASK, if (flags != null) ...flags],
+       );
 }
 
 class AndroidSystemSettingIntent extends AndroidIntent {
@@ -33,11 +31,14 @@ class AndroidSystemSettingIntent extends AndroidIntent {
     super.componentName,
     super.platform,
     super.type,
-  }) : super(action: intent.value, arguments: {
-          if (arguments != null) ...arguments,
-          if (intent == SettingIntent.notification && package != null)
-            'android.provider.extra.APP_PACKAGE': package
-        });
+  }) : super(
+         action: intent.value,
+         arguments: {
+           if (arguments != null) ...arguments,
+           if (intent == SettingIntent.notification && package != null)
+             'android.provider.extra.APP_PACKAGE': package,
+         },
+       );
 }
 
 /// Android 系统设置

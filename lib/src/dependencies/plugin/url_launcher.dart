@@ -17,11 +17,13 @@ class UrlLauncher {
     String? webOnlyWindowName,
   }) async {
     if (await canLaunch(Uri.parse(url))) {
-      return await launchUrl(Uri.parse(url),
-          mode: mode,
-          webOnlyWindowName: webOnlyWindowName,
-          browserConfiguration: browserConfiguration,
-          webViewConfiguration: webViewConfiguration);
+      return await launchUrl(
+        Uri.parse(url),
+        mode: mode,
+        webOnlyWindowName: webOnlyWindowName,
+        browserConfiguration: browserConfiguration,
+        webViewConfiguration: webViewConfiguration,
+      );
     } else {
       return false;
     }
@@ -36,10 +38,12 @@ class UrlLauncher {
     String? webOnlyWindowName,
   }) async {
     if (await canLaunch(uri)) {
-      return await launchUrl(uri,
-          mode: mode,
-          webOnlyWindowName: webOnlyWindowName,
-          webViewConfiguration: webViewConfiguration);
+      return await launchUrl(
+        uri,
+        mode: mode,
+        webOnlyWindowName: webOnlyWindowName,
+        webViewConfiguration: webViewConfiguration,
+      );
     } else {
       return false;
     }
@@ -92,22 +96,27 @@ class UrlLauncher {
   }) async {
     if ((isIOS || isMacOS) && appId.isNotEmptyOrNull) {
       final String url = 'itms-apps://itunes.apple.com/us/app/$appId';
-      return await openUrl(url,
-          mode: mode,
-          webOnlyWindowName: webOnlyWindowName,
-          webViewConfiguration: webViewConfiguration);
+      return await openUrl(
+        url,
+        mode: mode,
+        webOnlyWindowName: webOnlyWindowName,
+        webViewConfiguration: webViewConfiguration,
+      );
     } else if (isAndroid && packageName.isNotEmptyOrNull) {
       final String url = 'market://details?id=$packageName';
       if (androidUseIntent) {
         await AndroidAppMarketIntent(
-                packageName: packageName!, package: marketPackageName)
-            .launch();
+          packageName: packageName!,
+          package: marketPackageName,
+        ).launch();
         return true;
       } else {
-        return await openUrl(url,
-            mode: mode,
-            webOnlyWindowName: webOnlyWindowName,
-            webViewConfiguration: webViewConfiguration);
+        return await openUrl(
+          url,
+          mode: mode,
+          webOnlyWindowName: webOnlyWindowName,
+          webViewConfiguration: webViewConfiguration,
+        );
       }
     }
     return false;
@@ -156,20 +165,26 @@ class UrlLauncher {
   }) async {
     bool result = false;
     Future<bool> openStoreDialog(String url) async {
-      final data = await ConfirmCancelActionDialog.cupertino(
-          titleText: '温馨提示',
-          contentText: '您还未安装$name，是否跳转应用商店安装？',
-          onConfirmTap: () async {
-            return await UrlLauncher()
-                .openAppStore(packageName: androidPackageName, appId: iosAppId);
-          }).show();
+      final data =
+          await ConfirmCancelActionDialog.cupertino(
+            titleText: '温馨提示',
+            contentText: '您还未安装$name，是否跳转应用商店安装？',
+            onConfirmTap: () async {
+              return await UrlLauncher().openAppStore(
+                packageName: androidPackageName,
+                appId: iosAppId,
+              );
+            },
+          ).show();
       return data ?? false;
     }
 
     if (isAndroid) {
       if (!result && androidSchemes != null) {
-        result = await UrlLauncher().openUrl(androidSchemes,
-            mode: LaunchMode.externalNonBrowserApplication);
+        result = await UrlLauncher().openUrl(
+          androidSchemes,
+          mode: LaunchMode.externalNonBrowserApplication,
+        );
       }
       if (!result && androidPackageName != null) {
         result = await UrlLauncher().openUrl(androidPackageName);
@@ -181,8 +196,10 @@ class UrlLauncher {
         result = await UrlLauncher().openUrl(extraAndroidPackageName);
       }
       if (!result && uri != null) {
-        result = await UrlLauncher()
-            .openUrl(uri, mode: LaunchMode.externalApplication);
+        result = await UrlLauncher().openUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
       }
       if (!result && androidPackageName != null) {
         result = await openStoreDialog(androidPackageName);
@@ -195,8 +212,10 @@ class UrlLauncher {
         result = await UrlLauncher().openUrl(extraIOSSchemes);
       }
       if (!result && uri != null) {
-        result = await UrlLauncher()
-            .openUrl(uri, mode: LaunchMode.externalApplication);
+        result = await UrlLauncher().openUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
       }
       if (!result && iosAppId != null) result = await openStoreDialog(iosAppId);
     }

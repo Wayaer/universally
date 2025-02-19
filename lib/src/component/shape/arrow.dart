@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 /// ArrowShape
 class ArrowShape extends ShapeBorder {
-  const ArrowShape(
-      {this.side = BorderSide.none, this.borderRadius = BorderRadius.zero});
+  const ArrowShape({
+    this.side = BorderSide.none,
+    this.borderRadius = BorderRadius.zero,
+  });
 
   final BorderSide side;
 
@@ -17,7 +19,8 @@ class ArrowShape extends ShapeBorder {
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
     final Path path = Path();
     path.addRRect(
-        borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width));
+      borderRadius.resolve(textDirection).toRRect(rect).deflate(side.width),
+    );
     return path;
   }
 
@@ -37,7 +40,11 @@ class ArrowShape extends ShapeBorder {
     path.quadraticBezierTo(rrect.width, 0, rrect.width, radio);
     path.lineTo(rrect.width, rrect.height - radio);
     path.quadraticBezierTo(
-        rrect.width, rrect.height, rrect.width - radio, rrect.height);
+      rrect.width,
+      rrect.height,
+      rrect.width - radio,
+      rrect.height,
+    );
     path.lineTo(radio, rrect.height);
     path.quadraticBezierTo(0, rrect.height, 0, rrect.height - radio);
     return path;
@@ -48,5 +55,7 @@ class ArrowShape extends ShapeBorder {
 
   @override
   ShapeBorder scale(double t) => RoundedRectangleBorder(
-      side: side.scale(t), borderRadius: borderRadius * t);
+    side: side.scale(t),
+    borderRadius: borderRadius * t,
+  );
 }

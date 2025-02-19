@@ -23,52 +23,66 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        isScroll: true,
-        padding: const EdgeInsets.all(12),
-        appBarTitleText: 'BaseTabBar',
-        children: [
-          const Partition('BaseTabBar', marginTop: 0),
-          BaseTabBar(
-              controller: controller,
-              isScrollable: true,
-              tabs: tabs.builder((index) => Tab(text: '$index'))),
-          20.heightBox,
-          const Partition('BaseTabBar.fill'),
-          BaseTabBar.fill(
-              isScrollable: true,
-              controller: controller,
-              list: tabs.builder((index) => '$index')),
-          20.heightBox,
-          const Partition('CustomTabBar TabBar'),
-          CustomTabBar(
-              itemBuilder: (int selected, int index) {
-                return Universal(children: [
-                  Text('$index'),
-                  if (selected == index) const Icon(Icons.arrow_drop_down),
-                ]);
-              },
-              builder: (List<Widget> tabs) => TabBar(
-                  tabAlignment: TabAlignment.start,
-                  indicator: const BoxDecoration(border: null),
-                  isScrollable: true,
-                  controller: controller,
-                  tabs: tabs),
-              controller: controller),
-          20.heightBox,
-          const Partition('CustomTabBar BaseTabBar.fill'),
-          CustomTabBar(
-              itemBuilder: (int selected, int index) {
-                return Universal(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    children: [
-                      Text('$index'),
-                      if (selected == index) const Icon(Icons.arrow_drop_down),
-                    ]);
-              },
-              builder: (List<Widget> tabs) => BaseTabBar.fill(
-                  isScrollable: true, controller: controller, tabs: tabs),
-              controller: controller)
-        ]);
+      isScroll: true,
+      padding: const EdgeInsets.all(12),
+      appBarTitleText: 'BaseTabBar',
+      children: [
+        const Partition('BaseTabBar', marginTop: 0),
+        BaseTabBar(
+          controller: controller,
+          isScrollable: true,
+          tabs: tabs.builder((index) => Tab(text: '$index')),
+        ),
+        20.heightBox,
+        const Partition('BaseTabBar.fill'),
+        BaseTabBar.fill(
+          isScrollable: true,
+          controller: controller,
+          list: tabs.builder((index) => '$index'),
+        ),
+        20.heightBox,
+        const Partition('CustomTabBar TabBar'),
+        CustomTabBar(
+          itemBuilder: (int selected, int index) {
+            return Universal(
+              children: [
+                Text('$index'),
+                if (selected == index) const Icon(Icons.arrow_drop_down),
+              ],
+            );
+          },
+          builder:
+              (List<Widget> tabs) => TabBar(
+                tabAlignment: TabAlignment.start,
+                indicator: const BoxDecoration(border: null),
+                isScrollable: true,
+                controller: controller,
+                tabs: tabs,
+              ),
+          controller: controller,
+        ),
+        20.heightBox,
+        const Partition('CustomTabBar BaseTabBar.fill'),
+        CustomTabBar(
+          itemBuilder: (int selected, int index) {
+            return Universal(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              children: [
+                Text('$index'),
+                if (selected == index) const Icon(Icons.arrow_drop_down),
+              ],
+            );
+          },
+          builder:
+              (List<Widget> tabs) => BaseTabBar.fill(
+                isScrollable: true,
+                controller: controller,
+                tabs: tabs,
+              ),
+          controller: controller,
+        ),
+      ],
+    );
   }
 
   @override

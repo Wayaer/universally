@@ -8,18 +8,22 @@ class AndroidSystemSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        appBarTitleText: 'AndroidSystemSetting',
-        child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 12,
-            children: SettingIntent.values.builder(
-              (item) => Button(
-                  onTap: () {
-                    AndroidSystemSettingIntent(item,
-                            package: PackageInfoPlus().packageName)
-                        .launch();
-                  },
-                  text: item.name),
-            )));
+      appBarTitleText: 'AndroidSystemSetting',
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 12,
+        children: SettingIntent.values.builder(
+          (item) => Button(
+            onTap: () {
+              AndroidSystemSettingIntent(
+                item,
+                package: PackageInfoPlus().packageName,
+              ).launch();
+            },
+            text: item.name,
+          ),
+        ),
+      ),
+    );
   }
 }

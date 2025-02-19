@@ -300,147 +300,166 @@ class BaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget scaffold = Scaffold(
-        key: key,
-        primary: primary,
-        backgroundColor: backgroundColor,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        drawerDragStartBehavior: drawerDragStartBehavior,
-        extendBodyBehindAppBar: extendBodyBehindAppBar,
-        extendBody: extendBody,
-        drawer: drawer,
-        endDrawer: endDrawer,
-        onDrawerChanged: onDrawerChanged,
-        onEndDrawerChanged: onEndDrawerChanged,
-        drawerScrimColor: drawerScrimColor,
-        drawerEdgeDragWidth: drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-        persistentFooterButtons: persistentFooterButtons,
-        floatingActionButtonLocation: floatingActionButtonLocation,
-        floatingActionButton: floatingActionButton,
-        floatingActionButtonAnimator: floatingActionButtonAnimator,
-        appBar: appBar ?? buildAppBar(context),
-        bottomNavigationBar: bottomNavigationBar,
-        bottomSheet: bottomSheet,
-        restorationId: restorationId,
-        body: body ?? universal,
-        persistentFooterAlignment: persistentFooterAlignment);
-    final hasPopScope = onPopInvoked != null ||
+      key: key,
+      primary: primary,
+      backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      drawerDragStartBehavior: drawerDragStartBehavior,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      extendBody: extendBody,
+      drawer: drawer,
+      endDrawer: endDrawer,
+      onDrawerChanged: onDrawerChanged,
+      onEndDrawerChanged: onEndDrawerChanged,
+      drawerScrimColor: drawerScrimColor,
+      drawerEdgeDragWidth: drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
+      persistentFooterButtons: persistentFooterButtons,
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonAnimator: floatingActionButtonAnimator,
+      appBar: appBar ?? buildAppBar(context),
+      bottomNavigationBar: bottomNavigationBar,
+      bottomSheet: bottomSheet,
+      restorationId: restorationId,
+      body: body ?? universal,
+      persistentFooterAlignment: persistentFooterAlignment,
+    );
+    final hasPopScope =
+        onPopInvoked != null ||
         isCloseOverlay ||
         enableDoubleClickExit ||
         (Universally().config.isCloseOverlay == true);
     return hasPopScope
         ? ExtendedPopScope<dynamic>(
-            canPop: !hasPopScope,
-            isCloseOverlay: isCloseOverlay,
-            onPopInvokedWithResult:
-                (bool didPop, dynamic result, bool didCloseOverlay) {
-              onPopInvoked?.call(didPop, didCloseOverlay);
-              onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
-              if (didCloseOverlay || didPop) return;
-              if (enableDoubleClickExit) {
-                final now = DateTime.now();
-                if (_dateTime != null &&
-                    now.difference(_dateTime!).inMilliseconds < 2500) {
-                  Curiosity.native.exitApp();
-                } else {
-                  _dateTime = now;
-                  showToast(doubleClickExitPrompt,
-                      options: const ToastOptions(
-                          alignment: Alignment.center,
-                          duration: Duration(milliseconds: 1500)));
-                }
-              } else if (onPopInvoked == null) {
-                pop();
+          canPop: !hasPopScope,
+          isCloseOverlay: isCloseOverlay,
+          onPopInvokedWithResult: (
+            bool didPop,
+            dynamic result,
+            bool didCloseOverlay,
+          ) {
+            onPopInvoked?.call(didPop, didCloseOverlay);
+            onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
+            if (didCloseOverlay || didPop) return;
+            if (enableDoubleClickExit) {
+              final now = DateTime.now();
+              if (_dateTime != null &&
+                  now.difference(_dateTime!).inMilliseconds < 2500) {
+                Curiosity.native.exitApp();
+              } else {
+                _dateTime = now;
+                showToast(
+                  doubleClickExitPrompt,
+                  options: const ToastOptions(
+                    alignment: Alignment.center,
+                    duration: Duration(milliseconds: 1500),
+                  ),
+                );
               }
-            },
-            child: scaffold)
+            } else if (onPopInvoked == null) {
+              pop();
+            }
+          },
+          child: scaffold,
+        )
         : scaffold;
   }
 
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    Widget? current = (appBarTitleText != null ||
-            appBarTitle != null ||
-            appBarBottom != null ||
-            appBarActions != null ||
-            appBarFlexibleSpace != null ||
-            appBarLeading != null
-        ? AppBar(
-            actions: appBarActions,
-            bottom: appBarBottom,
-            title: appBarTitle ??
-                (appBarTitleText == null ? null : Text(appBarTitleText!)),
-            leading: appBarLeading,
-            iconTheme: appBarIconTheme,
-            backgroundColor: appBarBackgroundColor,
-            primary: appBarPrimary,
-            foregroundColor: appBarForegroundColor,
-            flexibleSpace: appBarFlexibleSpace,
-            systemOverlayStyle: systemOverlayStyle,
-            elevation: elevation,
-            centerTitle: centerTitle,
-            actionsIconTheme: actionsIconTheme,
-            automaticallyImplyLeading: automaticallyImplyLeading,
-            bottomOpacity: bottomOpacity,
-            excludeHeaderSemantics: excludeHeaderSemantics,
-            leadingWidth: leadingWidth,
-            notificationPredicate: notificationPredicate,
-            scrolledUnderElevation: scrolledUnderElevation,
-            shadowColor: shadowColor,
-            shape: shape,
-            surfaceTintColor: surfaceTintColor,
-            titleSpacing: titleSpacing,
-            titleTextStyle: titleTextStyle,
-            toolbarHeight: toolbarHeight,
-            toolbarOpacity: toolbarOpacity,
-            toolbarTextStyle: toolbarTextStyle,
-            forceMaterialTransparency: forceMaterialTransparency,
-            clipBehavior: clipBehavior)
-        : null);
+    Widget? current =
+        (appBarTitleText != null ||
+                appBarTitle != null ||
+                appBarBottom != null ||
+                appBarActions != null ||
+                appBarFlexibleSpace != null ||
+                appBarLeading != null
+            ? AppBar(
+              actions: appBarActions,
+              bottom: appBarBottom,
+              title:
+                  appBarTitle ??
+                  (appBarTitleText == null ? null : Text(appBarTitleText!)),
+              leading: appBarLeading,
+              iconTheme: appBarIconTheme,
+              backgroundColor: appBarBackgroundColor,
+              primary: appBarPrimary,
+              foregroundColor: appBarForegroundColor,
+              flexibleSpace: appBarFlexibleSpace,
+              systemOverlayStyle: systemOverlayStyle,
+              elevation: elevation,
+              centerTitle: centerTitle,
+              actionsIconTheme: actionsIconTheme,
+              automaticallyImplyLeading: automaticallyImplyLeading,
+              bottomOpacity: bottomOpacity,
+              excludeHeaderSemantics: excludeHeaderSemantics,
+              leadingWidth: leadingWidth,
+              notificationPredicate: notificationPredicate,
+              scrolledUnderElevation: scrolledUnderElevation,
+              shadowColor: shadowColor,
+              shape: shape,
+              surfaceTintColor: surfaceTintColor,
+              titleSpacing: titleSpacing,
+              titleTextStyle: titleTextStyle,
+              toolbarHeight: toolbarHeight,
+              toolbarOpacity: toolbarOpacity,
+              toolbarTextStyle: toolbarTextStyle,
+              forceMaterialTransparency: forceMaterialTransparency,
+              clipBehavior: clipBehavior,
+            )
+            : null);
     if (current == null) return null;
     return PreferredSize(
-        preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
-        child: current);
+      preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
+      child: current,
+    );
   }
 
   Universal get universal => Universal(
-      expand: true,
-      margin: margin,
-      spacing: spacing,
-      systemOverlayStyle: systemOverlayStyle,
-      useSingleChildScrollView:
-          useSingleChildScrollView && refreshConfig == null,
-      useListView: useListView && refreshConfig == null,
-      padding: refreshConfig == null ? padding : null,
-      isScroll: isScroll && refreshConfig == null,
-      safeLeft: safeLeft,
-      safeTop: safeTop,
-      safeRight: safeRight,
-      safeBottom: safeBottom,
-      isStack: isStack,
-      direction: direction,
-      decoration: decoration,
-      mainAxisAlignment: mainAxisAlignment,
-      crossAxisAlignment: crossAxisAlignment,
-      children: refreshConfig != null ? null : children,
-      physics: physics,
-      child: refreshConfig != null
-          ? RefreshScrollView(
+    expand: true,
+    margin: margin,
+    spacing: spacing,
+    systemOverlayStyle: systemOverlayStyle,
+    useSingleChildScrollView: useSingleChildScrollView && refreshConfig == null,
+    useListView: useListView && refreshConfig == null,
+    padding: refreshConfig == null ? padding : null,
+    isScroll: isScroll && refreshConfig == null,
+    safeLeft: safeLeft,
+    safeTop: safeTop,
+    safeRight: safeRight,
+    safeBottom: safeBottom,
+    isStack: isStack,
+    direction: direction,
+    decoration: decoration,
+    mainAxisAlignment: mainAxisAlignment,
+    crossAxisAlignment: crossAxisAlignment,
+    children: refreshConfig != null ? null : children,
+    physics: physics,
+    child:
+        refreshConfig != null
+            ? RefreshScrollView(
               padding: padding,
               scrollDirection: direction,
               physics: physics,
-              refreshConfig: refreshConfig ??
+              refreshConfig:
+                  refreshConfig ??
                   ((onRefresh != null || onLoading != null)
                       ? RefreshConfig(
-                          footer: Universally().pullUpFooter(),
-                          header: Universally().pullDownHeader(),
-                          onLoading: onLoading == null
-                              ? null
-                              : () async => onLoading!.call(),
-                          onRefresh: onRefresh == null
-                              ? null
-                              : () async => onRefresh!.call())
+                        footer: Universally().pullUpFooter(),
+                        header: Universally().pullDownHeader(),
+                        onLoading:
+                            onLoading == null
+                                ? null
+                                : () async => onLoading!.call(),
+                        onRefresh:
+                            onRefresh == null
+                                ? null
+                                : () async => onRefresh!.call(),
+                      )
                       : null),
-              slivers: children?.builder((item) => item.toSliverBox) ?? [])
-          : child);
+              slivers: children?.builder((item) => item.toSliverBox) ?? [],
+            )
+            : child,
+  );
 }

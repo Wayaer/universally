@@ -41,7 +41,7 @@ class BaseMaterialApp extends StatelessWidget {
     this.locale = const Locale('zh'),
     this.supportedLocales = const <Locale>[
       Locale('zh', 'CH'),
-      Locale('en', 'US')
+      Locale('en', 'US'),
     ],
     this.scrollBehavior,
     this.shortcuts,
@@ -175,7 +175,7 @@ class BaseMaterialApp extends StatelessWidget {
 
   /// onNavigationNotification
   final NotificationListenerCallback<NavigationNotification>?
-      onNavigationNotification;
+  onNavigationNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -216,16 +216,17 @@ class BaseMaterialApp extends StatelessWidget {
       onNavigationNotification: onNavigationNotification,
     );
     return BaseApp(
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        navigatorKey: navigatorKey,
-        onInactive: onInactive,
-        onPaused: onPaused,
-        onDetached: onDetached,
-        onResumed: onResumed,
-        onHidden: onHidden,
-        initState: initState,
-        deactivate: deactivate,
-        dispose: dispose,
-        builder: (context) => current);
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      navigatorKey: navigatorKey,
+      onInactive: onInactive,
+      onPaused: onPaused,
+      onDetached: onDetached,
+      onResumed: onResumed,
+      onHidden: onHidden,
+      initState: initState,
+      deactivate: deactivate,
+      dispose: dispose,
+      builder: (context) => current,
+    );
   }
 }
