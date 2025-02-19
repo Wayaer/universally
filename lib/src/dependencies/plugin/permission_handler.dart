@@ -45,7 +45,7 @@ Future<bool> checkRequestPermission(
   PermissionStatus status = await permission.status;
   if (!status.authorized) {
     if (beforeRequestPrompt != null) {
-      await PermissionDialog.show(content: beforeRequestPrompt);
+      PermissionDialog.show(content: beforeRequestPrompt);
     }
     status = await permission.request();
     if (beforeRequestPrompt != null) pop();
