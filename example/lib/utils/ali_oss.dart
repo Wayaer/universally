@@ -15,19 +15,19 @@ class AliOSS {
         '{"expiration": "2050-01-01T12:00:00.000Z","conditions": [["content-length-range", 0, 1048576000]]}';
 
     /// 进行base64编码
-    _policyBase64 = text.utf8Encode.base64Encode;
+    _policyBase64 = text.utf8Encode().base64Encode();
 
     /// 再次进行utf8编码
-    final List<int> policy = _policyBase64!.utf8Encode;
+    final List<int> policy = _policyBase64!.utf8Encode();
 
     /// 进行utf8 编码
-    final List<int> key = aliOSSKeySecret.utf8Encode;
+    final List<int> key = aliOSSKeySecret.utf8Encode();
 
     /// 通过 HMAC ,使用sha1进行加密
     final List<int> signatureHMAC = Hmac(sha1, key).convert(policy).bytes;
 
     /// 最后一步，将上述所得进行base64 编码
-    _signature = signatureHMAC.base64Encode;
+    _signature = signatureHMAC.base64Encode();
     _aliOSSAccessKeyId = aliOSSAccessKeyId;
   }
 
