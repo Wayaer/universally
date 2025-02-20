@@ -53,9 +53,9 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const TextMedium('默认服务器地址为：'),
-            showApi(defaultUrl),
+            buildApi(defaultUrl),
             const TextMedium('当前服务器地址为：'),
-            showApi(Universally().baseApi),
+            buildApi(Universally().baseApi),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,7 +166,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
         ),
         const USpacing(),
         const Row(children: [TextMedium('正式服IP：', maxLines: 2, height: 1.5)]),
-        showApi(Universally().config.releaseApi),
+        buildApi(Universally().config.releaseApi),
         const USpacing(),
       ],
     );
@@ -183,15 +183,13 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
     Curiosity.native.exitApp();
   }
 
-  Widget showApi(String url) => Container(
-    width: double.infinity,
+  Widget buildApi(String url) => Card(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
     margin: const EdgeInsets.symmetric(vertical: 10),
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      boxShadow: getBoxShadow(color: UCS.background, num: 3),
-      color: UCS.white,
-      borderRadius: BorderRadius.circular(8),
+    child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      child: TextMedium(url, maxLines: 3, height: 1.5),
     ),
-    child: TextMedium(url, maxLines: 3, height: 1.5),
   );
 }
