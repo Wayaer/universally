@@ -42,7 +42,10 @@ extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
       return true;
     } else {
       final result = await popupDialog(
-        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter),
+        options: const DialogOptions(
+          fromStyle: PopupFromStyle.fromCenter,
+          barrierDismissible: false,
+        ),
       );
       return result == true;
     }
@@ -155,7 +158,10 @@ extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
       return true;
     } else {
       final result = await popupDialog(
-        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter),
+        options: const DialogOptions(
+          fromStyle: PopupFromStyle.fromCenter,
+          barrierDismissible: false,
+        ),
       );
       if (result == true) return true;
     }
