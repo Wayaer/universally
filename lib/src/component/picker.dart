@@ -17,30 +17,18 @@ class BasePickerOptions<T> extends PickerOptions<T> {
     super.confirm = const TextMedium('确定', usePrimaryColor: true),
     super.cancel = const TextMedium('取消'),
     Widget? title,
-  }) : super(
-         title:
-             title ??
-             (titleText == null ? null : Center(child: TextLarge(titleText))),
-       );
+  }) : super(title: title ?? (titleText == null ? null : Center(child: TextLarge(titleText))));
 }
 
 extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {
-  Future<int?> show({BottomSheetOptions? options}) => popupBottomSheet<int?>(
-    options: const BottomSheetOptions(
-      backgroundColor: UCS.transparent,
-    ).merge(options),
-  );
+  Future<int?> show({BottomSheetOptions? options}) =>
+      popupBottomSheet<int?>(options: const BottomSheetOptions(backgroundColor: UCS.transparent).merge(options));
 }
 
 /// 底部有取消的单选
 /// 返回数组index
 class BaseCupertinoActionSheet extends StatelessWidget {
-  const BaseCupertinoActionSheet(
-    this.list, {
-    super.key,
-    this.cancel,
-    this.cancelText = '取消',
-  });
+  const BaseCupertinoActionSheet(this.list, {super.key, this.cancel, this.cancelText = '取消'});
 
   final List<String> list;
   final Widget? cancel;
@@ -55,13 +43,13 @@ class BaseCupertinoActionSheet extends StatelessWidget {
         child: TextMedium(entry.value, height: 1),
       ),
     );
-    actions.add(
-      CupertinoActionSheetAction(
+    return CupertinoActionSheet(
+      actions: actions,
+      cancelButton: CupertinoActionSheetAction(
         onPressed: maybePop,
         isDefaultAction: true,
-        child: TextMedium(cancelText),
+        child: cancel ?? TextMedium(cancelText),
       ),
     );
-    return CupertinoActionSheet(actions: actions);
   }
 }
