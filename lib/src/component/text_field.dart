@@ -113,6 +113,7 @@ class BaseTextField extends StatefulWidget {
     this.cursorErrorColor,
     this.groupId = EditableText,
     this.onTapUpOutside,
+    this.decoration,
   });
 
   /// ***** 附加功能 *****
@@ -194,6 +195,9 @@ class BaseTextField extends StatefulWidget {
 
   /// ***** [TextField] *****
   final EdgeInsetsGeometry contentPadding;
+
+  /// InputDecoration
+  final InputDecoration? decoration;
 
   final TextEditingController? controller;
 
@@ -560,7 +564,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       disabledBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
       errorBorder: InputBorder.none,
-    ),
+    ).merge(widget.decoration),
     style: style,
     keyboardType: keyboardType,
     inputFormatters: inputFormatters,
@@ -866,4 +870,69 @@ class TextFieldConfig {
 
   /// strutStyle
   final StrutStyle? strutStyle;
+}
+
+extension ExtensionTextInputDecoration on InputDecoration {
+  InputDecoration merge(InputDecoration? decoration) {
+    return copyWith(
+      isDense: decoration?.isDense ?? isDense,
+      contentPadding: decoration?.contentPadding ?? contentPadding,
+      border: decoration?.border ?? border,
+      enabledBorder: decoration?.enabledBorder ?? enabledBorder,
+      focusedBorder: decoration?.focusedBorder ?? focusedBorder,
+      disabledBorder: decoration?.disabledBorder ?? disabledBorder,
+      errorBorder: decoration?.errorBorder ?? errorBorder,
+      focusedErrorBorder: decoration?.focusedErrorBorder ?? focusedErrorBorder,
+      suffixIcon: decoration?.suffixIcon ?? suffixIcon,
+      suffixIconConstraints:
+          decoration?.suffixIconConstraints ?? suffixIconConstraints,
+      suffixIconColor: decoration?.suffixIconColor ?? suffixIconColor,
+      prefixIcon: decoration?.prefixIcon ?? prefixIcon,
+      prefixIconConstraints:
+          decoration?.prefixIconConstraints ?? prefixIconConstraints,
+      prefixIconColor: decoration?.prefixIconColor ?? prefixIconColor,
+      helperStyle: decoration?.helperStyle ?? helperStyle,
+      helperMaxLines: decoration?.helperMaxLines ?? helperMaxLines,
+      errorStyle: decoration?.errorStyle ?? errorStyle,
+      errorMaxLines: decoration?.errorMaxLines ?? errorMaxLines,
+      floatingLabelStyle: decoration?.floatingLabelStyle ?? floatingLabelStyle,
+      floatingLabelBehavior:
+          decoration?.floatingLabelBehavior ?? floatingLabelBehavior,
+      floatingLabelAlignment:
+          decoration?.floatingLabelAlignment ?? floatingLabelAlignment,
+      hintStyle: decoration?.hintStyle ?? hintStyle,
+      hintMaxLines: decoration?.hintMaxLines ?? hintMaxLines,
+      hintFadeDuration: decoration?.hintFadeDuration ?? hintFadeDuration,
+      hintTextDirection: decoration?.hintTextDirection ?? hintTextDirection,
+      hintText: decoration?.hintText ?? hintText,
+      helperText: decoration?.helperText ?? helperText,
+      errorText: decoration?.errorText ?? errorText,
+      labelText: decoration?.labelText ?? labelText,
+      labelStyle: decoration?.labelStyle ?? labelStyle,
+      counterText: decoration?.counterText ?? counterText,
+      counterStyle: decoration?.counterStyle ?? counterStyle,
+      counter: decoration?.counter ?? counter,
+      filled: decoration?.filled ?? filled,
+      fillColor: decoration?.fillColor ?? fillColor,
+      prefixText: decoration?.prefixText ?? prefixText,
+      prefixStyle: decoration?.prefixStyle ?? prefixStyle,
+      suffixText: decoration?.suffixText ?? suffixText,
+      suffixStyle: decoration?.suffixStyle ?? suffixStyle,
+      prefix: decoration?.prefix ?? prefix,
+      suffix: decoration?.suffix ?? suffix,
+      isCollapsed: decoration?.isCollapsed ?? isCollapsed,
+
+      alignLabelWithHint: decoration?.alignLabelWithHint ?? alignLabelWithHint,
+      constraints: decoration?.constraints ?? constraints,
+      enabled: decoration?.enabled ?? enabled,
+      focusColor: decoration?.focusColor ?? focusColor,
+      helper: decoration?.helper ?? helper,
+      hoverColor: decoration?.hoverColor ?? hoverColor,
+      icon: decoration?.icon ?? icon,
+      iconColor: decoration?.iconColor ?? iconColor,
+      label: decoration?.label ?? label,
+      maintainHintHeight: decoration?.maintainHintHeight ?? maintainHintHeight,
+      error: decoration?.error ?? error,
+    );
+  }
 }
