@@ -1,6 +1,7 @@
 export 'package:flutter_localizations/flutter_localizations.dart';
 
 export 'package:flutter_svg/flutter_svg.dart';
+export 'package:provider/provider.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:url_launcher/url_launcher.dart';
