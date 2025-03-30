@@ -17,7 +17,6 @@ import 'package:app/page/url_lanuncher_page.dart';
 import 'package:app/theme.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:universally/universally.dart';
 
 import 'page/lucky_draw_page.dart';
