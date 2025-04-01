@@ -308,6 +308,8 @@ class TextFieldDialog extends StatelessWidget {
     this.fillColor,
     this.borderSide,
     this.contentPadding = const EdgeInsets.all(8),
+    this.cancelTapPop = true,
+    this.confirmTapPop = true,
   }) : isCupertino = false;
 
   TextFieldDialog.cupertino({
@@ -326,6 +328,8 @@ class TextFieldDialog extends StatelessWidget {
     this.fillColor,
     this.borderSide,
     this.contentPadding = const EdgeInsets.all(8),
+    this.cancelTapPop = true,
+    this.confirmTapPop = true,
   }) : isCupertino = true,
        resizeToAvoidBottomInset = true;
 
@@ -359,13 +363,21 @@ class TextFieldDialog extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
 
+  /// [onConfirmTap] 是否 pop
+  final bool confirmTapPop;
+
+  /// [onCancelTap] 是否 pop
+  final bool cancelTapPop;
+
   @override
   Widget build(BuildContext context) {
     if (isCupertino) {
       return ConfirmCancelActionDialog.cupertino(
         confirmText: confirmText,
         onConfirmTap: checkInput,
+        confirmTapPop: confirmTapPop,
         cancelText: cancelText,
+        cancelTapPop: cancelTapPop,
         onCancelTap: onCancelTap,
         titleText: titleText,
         content: (_) => buildTextField(context),
@@ -374,9 +386,12 @@ class TextFieldDialog extends StatelessWidget {
     return ConfirmCancelActionDialog(
       confirmText: confirmText,
       onConfirmTap: checkInput,
+      confirmTapPop: confirmTapPop,
       cancelText: cancelText,
+      cancelTapPop: cancelTapPop,
       onCancelTap: onCancelTap,
       titleText: titleText,
+
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       content: (_) => buildTextField(context),
     );
