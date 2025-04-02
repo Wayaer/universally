@@ -18,14 +18,14 @@ class _BaseListPageState extends State<BaseListPage> {
       child: BaseList(
         itemCount: list.length,
         placeholder: const Center(child: Text('请先下拉刷新')),
-        onRefresh: () async {
+        onRefresh: (_) async {
           pullDown = true;
           await 1.seconds.delayed();
           setRefreshStatus();
           list = Colors.accents;
           setState(() {});
         },
-        onLoading: () async {
+        onLoad: (_) async {
           pullUp = true;
           await 1.seconds.delayed();
           setRefreshStatus();
@@ -45,11 +45,11 @@ class _BaseListPageState extends State<BaseListPage> {
   void setRefreshStatus() {
     if (pullDown) {
       pullDown = false;
-      RefreshControllers().call(EasyRefreshType.refreshSuccess);
+      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.refreshSuccess);
     }
     if (pullUp) {
       pullUp = false;
-      RefreshControllers().call(EasyRefreshType.loadingSuccess);
+      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.loadingSuccess);
     }
   }
 }

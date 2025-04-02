@@ -189,6 +189,10 @@ class Universally {
     /// list wheel
     FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
     FlListWheel.pop = (dynamic value) => pop(value);
+
+    /// 默认刷新组件配置
+    EasyRefresh.defaultHeaderBuilder = pullDownHeader;
+    EasyRefresh.defaultFooterBuilder = pullUpFooter;
   }
 
   /// 当前项目 全局使用的 刷新Header

@@ -723,11 +723,11 @@ class BaseDio {
   void _sendRefreshStatus() {
     if (pullDown) {
       pullDown = false;
-      RefreshControllers().call(EasyRefreshType.refreshSuccess);
+      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.refreshSuccess);
     }
     if (pullUp) {
       pullUp = false;
-      RefreshControllers().call(EasyRefreshType.loadingSuccess);
+      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.loadingSuccess);
     }
   }
 

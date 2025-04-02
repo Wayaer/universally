@@ -1,3 +1,10 @@
+## 9.7.0
+
+* 更新 `fl_scroll_view`
+* `BaseList` 的 `onLoading` 改为 `onLoad`
+* `BaseList` 的 `onRefresh` 和 `onLoad`增加 `EasyRefreshController`回调参数
+* `BaseScaffold` 删除 `onRefresh`、`onLoading`、`onRefreshConfig`
+
 ## 9.6.0
 
 * 更新依赖

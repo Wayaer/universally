@@ -104,17 +104,14 @@ class HomePage extends StatelessWidget {
       appBarTitleText: 'Universally',
       safeBottom: true,
       enableDoubleClickExit: true,
-      isScroll: true,
       padding: EdgeInsets.all(10),
+      isScroll: true,
       child: Wrap(
         alignment: WrapAlignment.center,
         runSpacing: 12,
         spacing: 12,
         children: [
-          ...UnifiedButtonCategory.values.builder(
-            (e) => SwitchApiButton(unifiedButtonCategory: e),
-          ),
-          SizedBox(width: double.infinity),
+          SwitchApiButton(),
           Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),

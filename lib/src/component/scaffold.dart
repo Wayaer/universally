@@ -35,13 +35,7 @@ class BaseScaffold extends StatelessWidget {
     this.useSingleChildScrollView = true,
     this.useListView = false,
     this.margin,
-    this.refreshConfig,
-
-    /// ****** [Refreshed] ****** ///
-    this.onRefresh,
-    this.onLoading,
     this.clipBehavior,
-    this.scrollBehavior,
     this.physics,
 
     /// ****** [PopScope] ****** ///
@@ -179,9 +173,6 @@ class BaseScaffold extends StatelessWidget {
   final bool enableDoubleClickExit;
   final String doubleClickExitPrompt;
 
-  /// ****** 刷新组件相关 ******  ///
-  final RefreshConfig? refreshConfig;
-  final ScrollBehavior? scrollBehavior;
   final ScrollPhysics? physics;
 
   final bool useSingleChildScrollView;
@@ -290,10 +281,6 @@ class BaseScaffold extends StatelessWidget {
   final TextStyle? toolbarTextStyle;
   final bool forceMaterialTransparency;
   final Clip? clipBehavior;
-
-  /// ****** [Refreshed] ****** ///
-  final VoidCallback? onRefresh;
-  final VoidCallback? onLoading;
 
   static DateTime? _dateTime;
 
@@ -421,10 +408,10 @@ class BaseScaffold extends StatelessWidget {
     margin: margin,
     spacing: spacing,
     systemOverlayStyle: systemOverlayStyle,
-    useSingleChildScrollView: useSingleChildScrollView && refreshConfig == null,
-    useListView: useListView && refreshConfig == null,
-    padding: refreshConfig == null ? padding : null,
-    isScroll: isScroll && refreshConfig == null,
+    useSingleChildScrollView: useSingleChildScrollView,
+    useListView: useListView,
+    padding: padding,
+    isScroll: isScroll,
     safeLeft: safeLeft,
     safeTop: safeTop,
     safeRight: safeRight,
@@ -434,32 +421,8 @@ class BaseScaffold extends StatelessWidget {
     decoration: decoration,
     mainAxisAlignment: mainAxisAlignment,
     crossAxisAlignment: crossAxisAlignment,
-    children: refreshConfig != null ? null : children,
+    children: children,
     physics: physics,
-    child:
-        refreshConfig != null
-            ? RefreshScrollView(
-              padding: padding,
-              scrollDirection: direction,
-              physics: physics,
-              refreshConfig:
-                  refreshConfig ??
-                  ((onRefresh != null || onLoading != null)
-                      ? RefreshConfig(
-                        footer: Universally().pullUpFooter(),
-                        header: Universally().pullDownHeader(),
-                        onLoading:
-                            onLoading == null
-                                ? null
-                                : () async => onLoading!.call(),
-                        onRefresh:
-                            onRefresh == null
-                                ? null
-                                : () async => onRefresh!.call(),
-                      )
-                      : null),
-              slivers: children?.builder((item) => item.toSliverBox) ?? [],
-            )
-            : child,
+    child: child,
   );
 }

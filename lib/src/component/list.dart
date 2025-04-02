@@ -14,7 +14,7 @@ class BaseMaterialHeader extends MaterialHeader {
       );
 }
 
-class BaseList extends ScrollList {
+class BaseList extends FlScrollListGrid {
   BaseList({
     super.key,
     required super.itemBuilder,
@@ -23,8 +23,8 @@ class BaseList extends ScrollList {
     Widget? placeholder,
     Widget? header,
     Widget? footer,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
+    FlEasyRefreshCallback? onRefresh,
+    FlEasyRefreshCallback? onLoad,
     super.reverse = false,
     super.shrinkWrap,
     super.noScrollBehavior = false,
@@ -71,23 +71,15 @@ class BaseList extends ScrollList {
     super.mainAxisExtent,
     super.cacheExtent,
     super.placeholderFill,
-    RefreshConfig? refreshConfig,
+    FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig:
-             refreshConfig ??
-             ((onRefresh != null || onLoading != null)
-                 ? RefreshConfig(
-                   controller: refreshController,
-                   header: Universally().pullDownHeader(),
-                   footer: Universally().pullUpFooter(),
-                   onLoading:
-                       onLoading == null ? null : () async => onLoading.call(),
-                   onRefresh:
-                       onRefresh == null ? null : () async => onRefresh.call(),
-                 )
-                 : null),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -98,8 +90,8 @@ class BaseList extends ScrollList {
     Widget? placeholder,
     Widget? header,
     Widget? footer,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
+    FlEasyRefreshCallback? onRefresh,
+    FlEasyRefreshCallback? onLoad,
     super.reverse = false,
     super.shrinkWrap,
     super.noScrollBehavior = false,
@@ -144,23 +136,15 @@ class BaseList extends ScrollList {
     /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
     super.mainAxisExtent,
     super.placeholderFill,
-    RefreshConfig? refreshConfig,
+    FlEasyRefreshConfig? refreshConfig,
   }) : super.count(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig:
-             refreshConfig ??
-             ((onRefresh != null || onLoading != null)
-                 ? RefreshConfig(
-                   controller: refreshController,
-                   header: Universally().pullDownHeader(),
-                   footer: Universally().pullUpFooter(),
-                   onLoading:
-                       onLoading == null ? null : () async => onLoading.call(),
-                   onRefresh:
-                       onRefresh == null ? null : () async => onRefresh.call(),
-                 )
-                 : null),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -172,8 +156,8 @@ class BaseList extends ScrollList {
     Widget? placeholder,
     Widget? header,
     Widget? footer,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
+    FlEasyRefreshCallback? onRefresh,
+    FlEasyRefreshCallback? onLoad,
     super.reverse = false,
     super.shrinkWrap,
     super.noScrollBehavior = false,
@@ -220,23 +204,15 @@ class BaseList extends ScrollList {
     super.mainAxisExtent,
     super.cacheExtent,
     super.placeholderFill,
-    RefreshConfig? refreshConfig,
+    FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig:
-             refreshConfig ??
-             ((onRefresh != null || onLoading != null)
-                 ? RefreshConfig(
-                   controller: refreshController,
-                   header: Universally().pullDownHeader(),
-                   footer: Universally().pullUpFooter(),
-                   onLoading:
-                       onLoading == null ? null : () async => onLoading.call(),
-                   onRefresh:
-                       onRefresh == null ? null : () async => onRefresh.call(),
-                 )
-                 : null),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -246,8 +222,8 @@ class BaseList extends ScrollList {
     EasyRefreshController? refreshController,
     Widget? header,
     Widget? footer,
-    VoidCallback? onRefresh,
-    VoidCallback? onLoading,
+    FlEasyRefreshCallback? onRefresh,
+    FlEasyRefreshCallback? onLoad,
     super.physics,
     super.controller,
     super.padding,
@@ -260,22 +236,28 @@ class BaseList extends ScrollList {
     super.noScrollBehavior,
     super.restorationId,
     super.cacheExtent,
-    RefreshConfig? refreshConfig,
+    FlEasyRefreshConfig? refreshConfig,
   }) : super(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig:
-             refreshConfig ??
-             ((onRefresh != null || onLoading != null)
-                 ? RefreshConfig(
-                   controller: refreshController,
-                   footer: Universally().pullUpFooter(),
-                   header: Universally().pullDownHeader(),
-                   onLoading:
-                       onLoading == null ? null : () async => onLoading.call(),
-                   onRefresh:
-                       onRefresh == null ? null : () async => onRefresh.call(),
-                 )
-                 : null),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
        );
+
+  /// 构建刷新配置
+  static FlEasyRefreshConfig? builderRefreshConfig({
+    FlEasyRefreshConfig? refreshConfig,
+    FlEasyRefreshCallback? onRefresh,
+    FlEasyRefreshCallback? onLoad,
+  }) {
+    if (refreshConfig != null) {
+      return refreshConfig.copyWith(onRefresh: onRefresh, onLoad: onLoad);
+    } else if (onRefresh != null || onLoad != null) {
+      return FlEasyRefreshConfig(onRefresh: onRefresh, onLoad: onLoad);
+    }
+    return null;
+  }
 }
