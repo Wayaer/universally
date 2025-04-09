@@ -39,7 +39,7 @@ export 'src/component/changed_builder.dart';
 export 'src/component/extension.dart';
 export 'src/component/component.dart';
 export 'src/component/gif.dart';
-export 'src/component/list.dart';
+export 'src/component/scroll_list.dart';
 export 'src/component/picker.dart';
 export 'src/component/dialog.dart';
 export 'src/component/scaffold.dart';
