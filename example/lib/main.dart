@@ -1,4 +1,3 @@
-import 'package:app/page/carousel_slider_page.dart';
 import 'package:app/page/overlay_page.dart';
 import 'package:app/page/base_list_page.dart';
 import 'package:app/page/changed_builder_page.dart';
@@ -129,10 +128,6 @@ class HomePage extends StatelessWidget {
           Button(
             onTap: () => push(const ProgressIndicatorPage()),
             text: 'ProgressIndicator',
-          ),
-          Button(
-            onTap: () => push(const CarouselSliderPage()),
-            text: 'CarouselSlider',
           ),
           Button(
             onTap: () => push(const ChangedBuilderWidgetPage()),

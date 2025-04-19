@@ -33,7 +33,7 @@ export 'src/app/cupertino_app.dart';
 export 'src/app/widgets_app.dart';
 
 /// component
-export 'src/component/shape/arrow.dart';
+export 'src/component/arrow_shape.dart';
 export 'src/component/rotation.dart';
 export 'src/component/changed_builder.dart';
 export 'src/component/extension.dart';
@@ -57,7 +57,7 @@ export 'src/component/icon.dart';
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/hive.dart';
 export 'src/dependencies/svg.dart';
-export 'src/component/carousel_slider.dart';
+export 'src/component/indicator.dart';
 export 'src/dependencies/extended_image.dart';
 export 'src/dependencies/spin_kit.dart';
 export 'src/dependencies/path.dart';
