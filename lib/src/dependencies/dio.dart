@@ -10,16 +10,19 @@ const String kContentTypeWithFormData = 'multipart/form-data';
 const String kContentTypeWithTextXml = 'text/xml';
 
 /// 扩展 header
-typedef ValueCallbackExtraPathHeader = Map<String, dynamic>? Function(String path, Map<String, dynamic> headers);
+typedef ValueCallbackExtraPathHeader =
+    Map<String, dynamic>? Function(String path, Map<String, dynamic> headers);
 
 /// 扩展 path params
-typedef ValueCallbackExtraPathParams = Map<String, dynamic>? Function(String path, Map<String, dynamic>? params);
+typedef ValueCallbackExtraPathParams =
+    Map<String, dynamic>? Function(String path, Map<String, dynamic>? params);
 
 /// 扩展 uri data
 typedef ValueCallbackExtraUriData = dynamic Function(Uri uri, dynamic data);
 
 /// 扩展 path data
-typedef ValueCallbackExtraPathData = dynamic Function(String path, dynamic data);
+typedef ValueCallbackExtraPathData =
+    dynamic Function(String path, dynamic data);
 
 /// 扩展 uri
 typedef ValueCallbackExtraUri = Uri Function(Uri uri);
@@ -68,7 +71,8 @@ class InterceptorError {
   late ValueCallbackError callback;
 }
 
-typedef BaseDioErrorIntercept = List<InterceptorError> Function(String path, dynamic tag);
+typedef BaseDioErrorIntercept =
+    List<InterceptorError> Function(String path, dynamic tag);
 
 enum BaseDioState {
   /// 无网络
@@ -187,17 +191,19 @@ class BaseDio {
   Map<String, dynamic>? _onExtraPathParams(
     String path,
     Map<String, dynamic>? params,
-  ) =>
-      baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
+  ) => baseDioOptions.onExtra?.onExtraPathParams?.call(path, params) ?? params;
 
   dynamic _onExtraPathData(String path, Object? data) =>
       baseDioOptions.onExtra?.onExtraPathData?.call(path, data) ?? data;
 
-  dynamic _onExtraUriData(Uri uri, Object? data) => baseDioOptions.onExtra?.onExtraUriData?.call(uri, data) ?? data;
+  dynamic _onExtraUriData(Uri uri, Object? data) =>
+      baseDioOptions.onExtra?.onExtraUriData?.call(uri, data) ?? data;
 
-  String _onExtraPath(String path) => baseDioOptions.onExtra?.onExtraPath?.call(path) ?? path;
+  String _onExtraPath(String path) =>
+      baseDioOptions.onExtra?.onExtraPath?.call(path) ?? path;
 
-  Uri _onExtraUri(Uri uri) => baseDioOptions.onExtra?.onExtraUri?.call(uri) ?? uri;
+  Uri _onExtraUri(Uri uri) =>
+      baseDioOptions.onExtra?.onExtraUri?.call(uri) ?? uri;
 
   Future<BaseModel> get<T>(
     String path, {
@@ -857,14 +863,14 @@ class BaseModel {
   dynamic extension;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'data': data,
-        'statusCode': statusCode,
-        'statusMessage': statusMessage,
-        'msg': msg,
-        'code': code,
-        'extension': extension,
-        'original': original?.toMap(),
-      };
+    'data': data,
+    'statusCode': statusCode,
+    'statusMessage': statusMessage,
+    'msg': msg,
+    'code': code,
+    'extension': extension,
+    'original': original?.toMap(),
+  };
 }
 
 /// nullPass = true   data 为null  返回true
@@ -874,7 +880,8 @@ bool resultSuccessFail(
   bool nullPass = false,
   bool showErrorToast = true,
 }) {
-  if (BaseDio().baseDioOptions.successCode.contains(data.code) && (nullPass || data.data != null)) {
+  if (BaseDio().baseDioOptions.successCode.contains(data.code) &&
+      (nullPass || data.data != null)) {
     if (text != null) showToast(text);
     return true;
   } else {

@@ -57,7 +57,7 @@ export 'src/component/icon.dart';
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/hive.dart';
 export 'src/dependencies/svg.dart';
-export 'src/component/indicator.dart';
+export 'src/component/page_view.dart';
 export 'src/dependencies/extended_image.dart';
 export 'src/dependencies/spin_kit.dart';
 export 'src/dependencies/path.dart';
