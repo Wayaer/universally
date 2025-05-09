@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
+typedef BaseTextFieldDecoratorPendantBuilder =
+    List<DecoratorPendant> Function(TextEditingController controller);
+
 class BaseTextField extends StatefulWidget {
   const BaseTextField({
     super.key,
@@ -35,9 +38,13 @@ class BaseTextField extends StatefulWidget {
     this.hasFocusedChangeBorder = true,
     this.fillColor,
     this.headers = const [],
+    this.headersBuilder,
     this.footers = const [],
+    this.footersBuilder,
     this.suffixes = const [],
+    this.suffixesBuilder,
     this.prefixes = const [],
+    this.prefixesBuilder,
     this.constraints,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.borderType = BorderType.outline,
@@ -155,15 +162,19 @@ class BaseTextField extends StatefulWidget {
 
   /// [child] 头部
   final List<DecoratorPendant> headers;
+  final BaseTextFieldDecoratorPendantBuilder? headersBuilder;
 
   /// [child] 尾部
   final List<DecoratorPendant> footers;
+  final BaseTextFieldDecoratorPendantBuilder? footersBuilder;
 
   /// [child] 后缀
   final List<DecoratorPendant> suffixes;
+  final BaseTextFieldDecoratorPendantBuilder? suffixesBuilder;
 
   /// [child]  前缀
   final List<DecoratorPendant> prefixes;
+  final BaseTextFieldDecoratorPendantBuilder? prefixesBuilder;
 
   /// 添加hero
   final String? heroTag;
@@ -457,6 +468,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
           widget: buildSearchText,
         ),
       ...widget.suffixes,
+      if (widget.suffixesBuilder != null)
+        ...widget.suffixesBuilder!(controller),
     ];
 
     /// 前缀
@@ -467,6 +480,20 @@ class _BaseTextFieldState extends State<BaseTextField> {
           widget: buildSearchIcon,
         ),
       ...widget.prefixes,
+      if (widget.prefixesBuilder != null)
+        ...widget.prefixesBuilder!(controller),
+    ];
+
+    /// headers
+    final headers = [
+      ...widget.headers,
+      if (widget.headersBuilder != null) ...widget.headersBuilder!(controller),
+    ];
+
+    /// footers
+    final footers = [
+      ...widget.footers,
+      if (widget.footersBuilder != null) ...widget.footersBuilder!(controller),
     ];
 
     /// 未获取焦点后的 borderSide
@@ -496,14 +523,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
                   e.mode != DecoratorPendantVisibilityMode.always,
             )
             .isNotEmpty ||
-        widget.headers
+        headers
             .where(
               (e) =>
                   e.mode != DecoratorPendantVisibilityMode.never &&
                   e.mode != DecoratorPendantVisibilityMode.always,
             )
             .isNotEmpty ||
-        widget.footers
+        footers
             .where(
               (e) =>
                   e.mode != DecoratorPendantVisibilityMode.never &&
@@ -526,8 +553,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
         ? DecoratorBoxState(
           listenable: Listenable.merge([focusNode, controller]),
           decoration: decoration,
-          headers: widget.headers,
-          footers: widget.footers,
+          headers: headers,
+          footers: footers,
           suffixes: suffixes,
           prefixes: prefixes,
           onFocus: () => focusNode.hasFocus,
@@ -542,8 +569,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
         )
         : DecoratorBox(
           decoration: decoration,
-          headers: widget.headers,
-          footers: widget.footers,
+          headers: headers,
+          footers: footers,
           suffixes: suffixes,
           prefixes: prefixes,
           child: current,
