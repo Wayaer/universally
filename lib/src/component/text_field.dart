@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-typedef BaseTextFieldDecoratorPendantBuilder =
-    List<DecoratorPendant> Function(TextEditingController controller);
+typedef BaseTextFieldDecoratorPendantBuilder = List<DecoratorPendant> Function(TextEditingController controller);
 
 class BaseTextField extends StatefulWidget {
   const BaseTextField({
@@ -97,8 +96,7 @@ class BaseTextField extends StatefulWidget {
     this.autofillHints = const [],
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
-    this.stylusHandwritingEnabled =
-        EditableText.defaultStylusHandwritingEnabled,
+    this.stylusHandwritingEnabled = EditableText.defaultStylusHandwritingEnabled,
     this.enableIMEPersonalizedLearning = true,
     this.textInputType = TextInputLimitFormatter.text,
     this.keyboardType,
@@ -139,8 +137,7 @@ class BaseTextField extends StatefulWidget {
   /// **** 发送验证码 ****
   /// 添加 发送验证码 点击事件
   final SendVerificationCodeValueCallback? sendVerificationCodeTap;
-  final ValueTwoCallbackT<Widget, SendState, int>?
-  sendVerificationCodeTextBuilder;
+  final ValueTwoCallbackT<Widget, SendState, int>? sendVerificationCodeTextBuilder;
   final DecoratorPendantPosition sendVerificationCodePosition;
 
   /// 验证码等待时间
@@ -234,8 +231,7 @@ class BaseTextField extends StatefulWidget {
 
   /// 按回车时调用 先调用此方法  然后调用onSubmitted方法
   final Callback? onEditingComplete;
-  final ValueTwoCallback<TextEditingController, FocusNode>?
-  onEditingCompleteWith;
+  final ValueTwoCallback<TextEditingController, FocusNode>? onEditingCompleteWith;
 
   /// 提交
   final ValueChanged<String>? onSubmitted;
@@ -433,10 +429,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       margin: widget.margin,
       child: buildDecoratorBox(
         widget.enableEye
-            ? ValueListenableBuilder(
-              valueListenable: obscureText,
-              builder: (_, bool value, __) => buildTextField,
-            )
+            ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, __) => buildTextField)
             : buildTextField,
       ),
     );
@@ -446,55 +439,28 @@ class _BaseTextFieldState extends State<BaseTextField> {
     /// 后缀
     final suffixes = [
       if (widget.enableClearIcon)
-        DecoratorPendant(
-          mode: DecoratorPendantVisibilityMode.editing,
-          positioned: DecoratorPendantPosition.inner,
-          widget: buildClearIcon,
-        ),
+        DecoratorPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildClearIcon),
       if (widget.enableEye)
-        DecoratorPendant(
-          mode: DecoratorPendantVisibilityMode.editing,
-          positioned: DecoratorPendantPosition.inner,
-          widget: buildEyeIcon,
-        ),
+        DecoratorPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildEyeIcon),
       if (widget.sendVerificationCodeTap != null)
-        DecoratorPendant(
-          positioned: widget.sendVerificationCodePosition,
-          widget: buildSendSMS,
-        ),
-      if (widget.searchTextTap != null)
-        DecoratorPendant(
-          positioned: widget.searchTextPosition,
-          widget: buildSearchText,
-        ),
+        DecoratorPendant(positioned: widget.sendVerificationCodePosition, child: buildSendSMS),
+      if (widget.searchTextTap != null) DecoratorPendant(positioned: widget.searchTextPosition, child: buildSearchText),
       ...widget.suffixes,
-      if (widget.suffixesBuilder != null)
-        ...widget.suffixesBuilder!(controller),
+      if (widget.suffixesBuilder != null) ...widget.suffixesBuilder!(controller),
     ];
 
     /// 前缀
     final prefixes = [
-      if (widget.enableSearchIcon)
-        DecoratorPendant(
-          positioned: DecoratorPendantPosition.inner,
-          widget: buildSearchIcon,
-        ),
+      if (widget.enableSearchIcon) DecoratorPendant(positioned: DecoratorPendantPosition.inner, child: buildSearchIcon),
       ...widget.prefixes,
-      if (widget.prefixesBuilder != null)
-        ...widget.prefixesBuilder!(controller),
+      if (widget.prefixesBuilder != null) ...widget.prefixesBuilder!(controller),
     ];
 
     /// headers
-    final headers = [
-      ...widget.headers,
-      if (widget.headersBuilder != null) ...widget.headersBuilder!(controller),
-    ];
+    final headers = [...widget.headers, if (widget.headersBuilder != null) ...widget.headersBuilder!(controller)];
 
     /// footers
-    final footers = [
-      ...widget.footers,
-      if (widget.footersBuilder != null) ...widget.footersBuilder!(controller),
-    ];
+    final footers = [...widget.footers, if (widget.footersBuilder != null) ...widget.footersBuilder!(controller)];
 
     /// 未获取焦点后的 borderSide
     final borderSide =
@@ -509,50 +475,26 @@ class _BaseTextFieldState extends State<BaseTextField> {
         context.theme.inputDecorationTheme.border?.borderSide;
     bool useDecoratorBoxState =
         widget.hasFocusedChangeBorder ||
-        suffixes
-            .where(
-              (e) =>
-                  e.mode != DecoratorPendantVisibilityMode.never &&
-                  e.mode != DecoratorPendantVisibilityMode.always,
-            )
-            .isNotEmpty ||
-        prefixes
-            .where(
-              (e) =>
-                  e.mode != DecoratorPendantVisibilityMode.never &&
-                  e.mode != DecoratorPendantVisibilityMode.always,
-            )
-            .isNotEmpty ||
-        headers
-            .where(
-              (e) =>
-                  e.mode != DecoratorPendantVisibilityMode.never &&
-                  e.mode != DecoratorPendantVisibilityMode.always,
-            )
-            .isNotEmpty ||
-        footers
-            .where(
-              (e) =>
-                  e.mode != DecoratorPendantVisibilityMode.never &&
-                  e.mode != DecoratorPendantVisibilityMode.always,
-            )
-            .isNotEmpty;
+        suffixes.where((e) => e.needFocus != null || e.needEditing != null).isNotEmpty ||
+        prefixes.where((e) => e.needFocus != null || e.needEditing != null).isNotEmpty ||
+        headers.where((e) => e.needFocus != null || e.needEditing != null).isNotEmpty ||
+        footers.where((e) => e.needFocus != null || e.needEditing != null).isNotEmpty;
     final decoration = BoxDecorative(
       padding: widget.padding,
       borderType: widget.borderType,
       fillColor: widget.fillColor,
       borderRadius: widget.borderRadius,
       borderSide: borderSide,
-      focusedBorderSide:
-          widget.hasFocusedChangeBorder
-              ? focusedBorderSide ?? borderSide
-              : borderSide,
       constraints: widget.constraints,
     );
     return useDecoratorBoxState
         ? DecoratorBoxState(
           listenable: Listenable.merge([focusNode, controller]),
-          decoration: decoration,
+          decoration:
+              (bool hasFocus, bool isEditing) =>
+                  hasFocus && widget.hasFocusedChangeBorder
+                      ? decoration.copyWith(borderSide: focusedBorderSide ?? borderSide)
+                      : decoration,
           headers: headers,
           footers: footers,
           suffixes: suffixes,
@@ -561,14 +503,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
           onEditing: () => controller.text.isNotEmpty,
           child:
               widget.enableEye
-                  ? ValueListenableBuilder(
-                    valueListenable: obscureText,
-                    builder: (_, bool value, __) => buildTextField,
-                  )
+                  ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, __) => buildTextField)
                   : buildTextField,
         )
         : DecoratorBox(
-          decoration: decoration,
+          decoration: (_, __) => decoration,
           headers: headers,
           footers: footers,
           suffixes: suffixes,
@@ -681,21 +620,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
             widget.onTapWith?.call(controller, focusNode);
           };
 
-  StrutStyle? get strutStyle =>
-      widget.strutStyle ?? Universally.to.config.textField?.strutStyle;
+  StrutStyle? get strutStyle => widget.strutStyle ?? Universally.to.config.textField?.strutStyle;
 
-  TextStyle get hintStyle => const TStyle(fontSize: 13)
-      .merge(
-        context.theme.inputDecorationTheme.hintStyle ??
-            context.theme.textTheme.bodySmall,
-      )
-      .merge(widget.hintStyle);
+  TextStyle get hintStyle => const TStyle(
+    fontSize: 13,
+  ).merge(context.theme.inputDecorationTheme.hintStyle ?? context.theme.textTheme.bodySmall).merge(widget.hintStyle);
 
   TextStyle get style => const TStyle()
-      .merge(
-        Universally.to.config.textField?.style ??
-            context.theme.textTheme.bodyMedium,
-      )
+      .merge(Universally.to.config.textField?.style ?? context.theme.textTheme.bodyMedium)
       .merge(widget.style);
 
   int? get maxLength {
@@ -714,14 +646,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
     return list;
   }
 
-  TextInputType get keyboardType =>
-      widget.keyboardType ?? widget.textInputType.toKeyboardType();
+  TextInputType get keyboardType => widget.keyboardType ?? widget.textInputType.toKeyboardType();
 
-  int? get minLines =>
-      (widget.enableEye && obscureText.value) ? 1 : widget.minLines;
+  int? get minLines => (widget.enableEye && obscureText.value) ? 1 : widget.minLines;
 
-  int? get maxLines =>
-      (widget.enableEye && obscureText.value) ? 1 : widget.maxLines;
+  int? get maxLines => (widget.enableEye && obscureText.value) ? 1 : widget.maxLines;
 
   TextAlign get textAlign {
     TextAlign align = widget.textAlign;
@@ -734,18 +663,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
   /// 搜索
   Widget get buildSearchText {
     bool isLeft =
-        (Universally.to.config.textField?.searchTextPosition ??
-            widget.searchTextPosition) !=
+        (Universally.to.config.textField?.searchTextPosition ?? widget.searchTextPosition) !=
         DecoratorPendantPosition.inner;
-    final current =
-        widget.searchText ??
-        Universally.to.config.textField?.searchText ??
-        const TextMedium('搜索');
+    final current = widget.searchText ?? Universally.to.config.textField?.searchText ?? const TextMedium('搜索');
     return Universal(
-      padding: EdgeInsets.only(
-        left: isLeft ? widget.interval : 0,
-        right: isLeft ? 0 : widget.interval,
-      ),
+      padding: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       onTap: () => widget.searchTextTap?.call(controller.text),
       alignment: Alignment.center,
       child: current,
@@ -755,22 +677,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
   /// 发送验证码
   Widget get buildSendSMS {
     bool isLeft =
-        (Universally.to.config.textField?.sendVerificationCodePosition ??
-            widget.sendVerificationCodePosition) !=
+        (Universally.to.config.textField?.sendVerificationCodePosition ?? widget.sendVerificationCodePosition) !=
         DecoratorPendantPosition.inner;
     return SendVerificationCode(
-      margin: EdgeInsets.only(
-        left: isLeft ? widget.interval : 0,
-        right: isLeft ? 0 : widget.interval,
-      ),
+      margin: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       value: widget.sendVerificationCodeDuration,
       builder: (SendState state, int i) {
         final current = (widget.sendVerificationCodeTextBuilder ??
-                Universally
-                    .to
-                    .config
-                    .textField
-                    ?.sendVerificationCodeTextBuilder)
+                Universally.to.config.textField?.sendVerificationCodeTextBuilder)
             ?.call(state, i);
         if (current != null) return current;
         switch (state) {
@@ -793,15 +707,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
     final current =
         widget.searchIcon ??
         Universally.to.config.textField?.searchIcon ??
-        Icon(
-          UIS.search,
-          size: 20,
-          color: context.theme.textTheme.bodyMedium?.color,
-        );
-    return Padding(
-      padding: EdgeInsets.only(left: widget.interval),
-      child: current,
-    );
+        Icon(UIS.search, size: 20, color: context.theme.textTheme.bodyMedium?.color);
+    return Padding(padding: EdgeInsets.only(left: widget.interval), child: current);
   }
 
   /// 清除
@@ -809,11 +716,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     final current =
         widget.clearIcon ??
         Universally.to.config.textField?.clearIcon ??
-        Icon(
-          UIS.clear,
-          size: 18,
-          color: context.theme.textTheme.bodyMedium?.color,
-        );
+        Icon(UIS.clear, size: 18, color: context.theme.textTheme.bodyMedium?.color);
     return Universal(
       onTap: () {
         controller.clear();
@@ -833,14 +736,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
     child: ValueListenableBuilder(
       valueListenable: obscureText,
       builder: (_, bool value, __) {
-        return (widget.eyeIconBuilder ??
-                    Universally.to.config.textField?.eyeIconBuilder)
-                ?.call(value) ??
-            Icon(
-              value ? UIS.eyeClose : UIS.eyeOpen,
-              color: context.theme.textTheme.bodyMedium?.color,
-              size: 20,
-            );
+        return (widget.eyeIconBuilder ?? Universally.to.config.textField?.eyeIconBuilder)?.call(value) ??
+            Icon(value ? UIS.eyeClose : UIS.eyeOpen, color: context.theme.textTheme.bodyMedium?.color, size: 20);
       },
     ),
   );
@@ -877,8 +774,7 @@ class TextFieldConfig {
   final DecoratorPendantPosition? searchTextPosition;
 
   /// 发送验证码
-  final ValueTwoCallbackT<Widget, SendState, int>?
-  sendVerificationCodeTextBuilder;
+  final ValueTwoCallbackT<Widget, SendState, int>? sendVerificationCodeTextBuilder;
 
   /// 发送验证码位置
   final DecoratorPendantPosition? sendVerificationCodePosition;
@@ -911,22 +807,18 @@ extension ExtensionTextInputDecoration on InputDecoration {
       errorBorder: decoration?.errorBorder ?? errorBorder,
       focusedErrorBorder: decoration?.focusedErrorBorder ?? focusedErrorBorder,
       suffixIcon: decoration?.suffixIcon ?? suffixIcon,
-      suffixIconConstraints:
-          decoration?.suffixIconConstraints ?? suffixIconConstraints,
+      suffixIconConstraints: decoration?.suffixIconConstraints ?? suffixIconConstraints,
       suffixIconColor: decoration?.suffixIconColor ?? suffixIconColor,
       prefixIcon: decoration?.prefixIcon ?? prefixIcon,
-      prefixIconConstraints:
-          decoration?.prefixIconConstraints ?? prefixIconConstraints,
+      prefixIconConstraints: decoration?.prefixIconConstraints ?? prefixIconConstraints,
       prefixIconColor: decoration?.prefixIconColor ?? prefixIconColor,
       helperStyle: decoration?.helperStyle ?? helperStyle,
       helperMaxLines: decoration?.helperMaxLines ?? helperMaxLines,
       errorStyle: decoration?.errorStyle ?? errorStyle,
       errorMaxLines: decoration?.errorMaxLines ?? errorMaxLines,
       floatingLabelStyle: decoration?.floatingLabelStyle ?? floatingLabelStyle,
-      floatingLabelBehavior:
-          decoration?.floatingLabelBehavior ?? floatingLabelBehavior,
-      floatingLabelAlignment:
-          decoration?.floatingLabelAlignment ?? floatingLabelAlignment,
+      floatingLabelBehavior: decoration?.floatingLabelBehavior ?? floatingLabelBehavior,
+      floatingLabelAlignment: decoration?.floatingLabelAlignment ?? floatingLabelAlignment,
       hintStyle: decoration?.hintStyle ?? hintStyle,
       hintMaxLines: decoration?.hintMaxLines ?? hintMaxLines,
       hintFadeDuration: decoration?.hintFadeDuration ?? hintFadeDuration,
