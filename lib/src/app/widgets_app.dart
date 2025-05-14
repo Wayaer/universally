@@ -143,7 +143,7 @@ class BaseWidgetsApp extends StatelessWidget {
 
   /// onNavigationNotification
   final NotificationListenerCallback<NavigationNotification>?
-  onNavigationNotification;
+      onNavigationNotification;
 
   /// shortcuts
   final Map<LogicalKeySet, Intent>? shortcuts;

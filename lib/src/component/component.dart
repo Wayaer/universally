@@ -21,15 +21,15 @@ class BottomPadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Universal(
-    color: color,
-    padding: EdgeInsets.fromLTRB(
-      left,
-      top,
-      right,
-      context.bottomNavigationBarHeight + bottom,
-    ),
-    child: child,
-  );
+        color: color,
+        padding: EdgeInsets.fromLTRB(
+          left,
+          top,
+          right,
+          context.bottomNavigationBarHeight + bottom,
+        ),
+        child: child,
+      );
 }
 
 class BaseDivider extends Divider {
@@ -50,17 +50,17 @@ class BaseError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Universal(
-    onTap: onTap,
-    child: IconLabel(
-      mainAxisAlignment: MainAxisAlignment.center,
-      direction: Axis.vertical,
-      spacing: 10,
-      icon: UIS.empty,
-      size: 80,
-      color: context.theme.textTheme.bodyMedium?.color,
-      label: const TextMedium('加载失败，点击刷新', fontWeight: FontWeights.medium),
-    ),
-  );
+        onTap: onTap,
+        child: IconLabel(
+          mainAxisAlignment: MainAxisAlignment.center,
+          direction: Axis.vertical,
+          spacing: 10,
+          icon: UIS.empty,
+          size: 80,
+          color: context.theme.textTheme.bodyMedium?.color,
+          label: const TextMedium('加载失败，点击刷新', fontWeight: FontWeights.medium),
+        ),
+      );
 }
 
 class BasePlaceholder extends StatelessWidget {
@@ -75,20 +75,20 @@ class BasePlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: padding,
-    child: IconLabel(
-      onTap: onTap,
-      mainAxisAlignment: MainAxisAlignment.center,
-      direction: Axis.vertical,
-      spacing: 10,
-      widget: Icon(
-        UIS.empty,
-        size: 80,
-        color: context.theme.textTheme.bodyMedium?.color,
-      ),
-      label: const TextSmall('什么也没有哎~', fontWeight: FontWeights.medium),
-    ),
-  );
+        padding: padding,
+        child: IconLabel(
+          onTap: onTap,
+          mainAxisAlignment: MainAxisAlignment.center,
+          direction: Axis.vertical,
+          spacing: 10,
+          widget: Icon(
+            UIS.empty,
+            size: 80,
+            color: context.theme.textTheme.bodyMedium?.color,
+          ),
+          label: const TextSmall('什么也没有哎~', fontWeight: FontWeights.medium),
+        ),
+      );
 }
 
 /// loading
@@ -112,13 +112,13 @@ class BaseLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SpinKit(
-    style,
-    size: size,
-    itemBuilder: itemBuilder,
-    controller: controller,
-    duration: duration,
-    color: color ?? context.theme.primaryColor,
-  );
+        style,
+        size: size,
+        itemBuilder: itemBuilder,
+        controller: controller,
+        duration: duration,
+        color: color ?? context.theme.primaryColor,
+      );
 }
 
 class UButton extends Universal {
@@ -135,19 +135,18 @@ class UButton extends Universal {
     String? text,
     GestureTapCallback? onTap,
   }) : super(
-         heroTag: text,
-         child:
-             child ?? BText(text ?? '', style: const TStyle(color: UCS.white)),
-         onTap: enabled ? onTap : null,
-         decoration: BoxDecoration(
-           border:
-               Universally.to.getTheme() != null
-                   ? Border.all(color: Universally.to.getTheme()!.primaryColor)
-                   : null,
-           color: color ?? Universally.to.getTheme()?.primaryColor,
-           borderRadius: BorderRadius.circular(8),
-         ),
-       );
+          heroTag: text,
+          child:
+              child ?? BText(text ?? '', style: const TStyle(color: UCS.white)),
+          onTap: enabled ? onTap : null,
+          decoration: BoxDecoration(
+            border: Universally.to.getTheme() != null
+                ? Border.all(color: Universally.to.getTheme()!.primaryColor)
+                : null,
+            color: color ?? Universally.to.getTheme()?.primaryColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+        );
 }
 
 class USpacing extends StatelessWidget {
@@ -168,8 +167,8 @@ class USpacing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    color: color,
-    height: height ?? (horizontal ? 0 : spacing),
-    width: width ?? (horizontal ? spacing : 0),
-  );
+        color: color,
+        height: height ?? (horizontal ? 0 : spacing),
+        width: width ?? (horizontal ? spacing : 0),
+      );
 }

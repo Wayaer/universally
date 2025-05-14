@@ -23,10 +23,9 @@ class PickerPage extends StatelessWidget {
         ),
         Button(
           onTap: () async {
-            final result =
-                await DateTimePicker(
-                  options: BasePickerOptions<DateTime>(),
-                ).show();
+            final result = await DateTimePicker(
+              options: BasePickerOptions<DateTime>(),
+            ).show();
             showToast(result.toString());
           },
           text: 'DateTimePicker',
@@ -41,26 +40,23 @@ class PickerPage extends StatelessWidget {
         ),
         Button(
           onTap: () async {
-            final result =
-                await SingleListWheelPicker(
-                  options: BasePickerOptions<int>(),
-                  itemBuilder:
-                      (BuildContext context, int index) => Center(
-                        child: TextLarge(numberList[index].toString()),
-                      ),
-                  itemCount: numberList.length,
-                ).show();
+            final result = await SingleListWheelPicker(
+              options: BasePickerOptions<int>(),
+              itemBuilder: (BuildContext context, int index) => Center(
+                child: TextLarge(numberList[index].toString()),
+              ),
+              itemCount: numberList.length,
+            ).show();
             showToast(result.toString());
           },
           text: 'SingleListWheelPicker',
         ),
         Button(
           onTap: () async {
-            final result =
-                await MultiListWheelPicker(
-                  options: BasePickerOptions<List<int>>(),
-                  items: multiListWheelList,
-                ).show();
+            final result = await MultiListWheelPicker(
+              options: BasePickerOptions<List<int>>(),
+              items: multiListWheelList,
+            ).show();
             showToast(result.toString());
           },
           text: 'MultiListWheelPicker',
@@ -72,11 +68,11 @@ class PickerPage extends StatelessWidget {
   final numberList = const ['一', '二', '三', '四', '五', '六', '七', '八', '十'];
 
   List<PickerItem> get multiListWheelList => List.generate(
-    4,
-    (_) => PickerItem(
-      itemCount: numberList.length,
-      itemBuilder:
-          (_, int index) => Center(child: TextLarge(numberList[index])),
-    ),
-  );
+        4,
+        (_) => PickerItem(
+          itemCount: numberList.length,
+          itemBuilder: (_, int index) =>
+              Center(child: TextLarge(numberList[index])),
+        ),
+      );
 }

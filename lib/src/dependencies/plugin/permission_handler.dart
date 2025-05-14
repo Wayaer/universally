@@ -32,7 +32,6 @@ Future<List<Permission>> checkPermissions(List<Permission> permissions) async {
 /// 单独获取一个权限
 Future<bool> checkRequestPermission(
   Permission permission, {
-
   /// 请求前提示
   String? beforeRequestPrompt,
 
@@ -51,13 +50,12 @@ Future<bool> checkRequestPermission(
     if (beforeRequestPrompt != null) pop();
   }
   if (!(status.authorized) && jumpSettingsPrompt != null) {
-    final result =
-        await ConfirmCancelActionDialog(
-          titleText: '权限申请说明',
-          contentText: jumpSettingsPrompt,
-          onConfirmTap: () => true,
-          onCancelTap: onCancelTap,
-        ).show();
+    final result = await ConfirmCancelActionDialog(
+      titleText: '权限申请说明',
+      contentText: jumpSettingsPrompt,
+      onConfirmTap: () => true,
+      onCancelTap: onCancelTap,
+    ).show();
     if (result == true) await openAppSettings();
   }
   return status.authorized;
@@ -105,10 +103,11 @@ class PermissionDialog extends StatelessWidget {
   static Future<void> show({
     String title = '权限申请说明',
     required String content,
-  }) => PermissionDialog(
-    title: title,
-    content: content,
-  ).popupBottomSheet(options: _defaultBottomSheetOptions);
+  }) =>
+      PermissionDialog(
+        title: title,
+        content: content,
+      ).popupBottomSheet(options: _defaultBottomSheetOptions);
 
   @override
   Widget build(BuildContext context) {

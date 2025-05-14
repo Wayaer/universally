@@ -13,21 +13,21 @@ class BaseResizeImage extends ExtendedResizeImage {
     double? compressionRatio,
     int? maxBytes,
   }) : super(
-         ExtendedResizeImage.resizeIfNeeded(
-           cacheWidth: cacheWidth,
-           cacheHeight: cacheHeight,
-           maxBytes: maxBytes,
-           compressionRatio: compressionRatio,
-           cacheRawData: cacheRawData,
-           imageCacheName: imageCacheName,
-           provider: ExtendedMemoryImageProvider(
-             bytes,
-             scale: scale,
-             cacheRawData: cacheRawData,
-             imageCacheName: imageCacheName,
-           ),
-         ),
-       );
+          ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedMemoryImageProvider(
+              bytes,
+              scale: scale,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+            ),
+          ),
+        );
 
   BaseResizeImage.asset(
     String assetName, {
@@ -40,22 +40,22 @@ class BaseResizeImage extends ExtendedResizeImage {
     double? compressionRatio,
     int? maxBytes,
   }) : super(
-         ExtendedResizeImage.resizeIfNeeded(
-           cacheWidth: cacheWidth,
-           cacheHeight: cacheHeight,
-           maxBytes: maxBytes,
-           compressionRatio: compressionRatio,
-           cacheRawData: cacheRawData,
-           imageCacheName: imageCacheName,
-           provider: ExtendedAssetImageProvider(
-             assetName,
-             bundle: bundle,
-             package: package,
-             cacheRawData: cacheRawData,
-             imageCacheName: imageCacheName,
-           ),
-         ),
-       );
+          ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedAssetImageProvider(
+              assetName,
+              bundle: bundle,
+              package: package,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+            ),
+          ),
+        );
 
   BaseResizeImage.file(
     File file, {
@@ -67,21 +67,21 @@ class BaseResizeImage extends ExtendedResizeImage {
     double? compressionRatio,
     int? maxBytes,
   }) : super(
-         ExtendedResizeImage.resizeIfNeeded(
-           cacheWidth: cacheWidth,
-           cacheHeight: cacheHeight,
-           maxBytes: maxBytes,
-           compressionRatio: compressionRatio,
-           cacheRawData: cacheRawData,
-           imageCacheName: imageCacheName,
-           provider: ExtendedFileImageProvider(
-             file,
-             cacheRawData: cacheRawData,
-             scale: scale,
-             imageCacheName: imageCacheName,
-           ),
-         ),
-       );
+          ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedFileImageProvider(
+              file,
+              cacheRawData: cacheRawData,
+              scale: scale,
+              imageCacheName: imageCacheName,
+            ),
+          ),
+        );
 
   BaseResizeImage.network(
     String url, {
@@ -102,30 +102,30 @@ class BaseResizeImage extends ExtendedResizeImage {
     bool cacheRawData = false,
     String? imageCacheName,
   }) : super(
-         ExtendedResizeImage.resizeIfNeeded(
-           cacheWidth: cacheWidth,
-           cacheHeight: cacheHeight,
-           maxBytes: maxBytes,
-           compressionRatio: compressionRatio,
-           cacheRawData: cacheRawData,
-           imageCacheName: imageCacheName,
-           provider: ExtendedNetworkImageProvider(
-             url,
-             scale: scale,
-             headers: headers,
-             cache: cache,
-             cancelToken: cancelToken,
-             retries: retries,
-             timeRetry: timeRetry,
-             timeLimit: timeLimit,
-             cacheKey: cacheKey,
-             printError: printError,
-             cacheRawData: cacheRawData,
-             imageCacheName: imageCacheName,
-             cacheMaxAge: cacheMaxAge,
-           ),
-         ),
-       );
+          ExtendedResizeImage.resizeIfNeeded(
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            provider: ExtendedNetworkImageProvider(
+              url,
+              scale: scale,
+              headers: headers,
+              cache: cache,
+              cancelToken: cancelToken,
+              retries: retries,
+              timeRetry: timeRetry,
+              timeLimit: timeLimit,
+              cacheKey: cacheKey,
+              printError: printError,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              cacheMaxAge: cacheMaxAge,
+            ),
+          ),
+        );
 
   static ImageProvider buildImageProvider(
     dynamic value, {
@@ -177,35 +177,35 @@ class BaseResizeImage extends ExtendedResizeImage {
     } else if (value is String) {
       return value.startsWith('http') || value.startsWith('blob:http')
           ? BaseResizeImage.network(
-            value,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            scale: scale,
-            headers: headers,
-            cache: cache,
-            cancelToken: cancelToken,
-            retries: retries,
-            timeRetry: timeRetry,
-            timeLimit: timeLimit,
-            cacheKey: cacheKey,
-            printError: printError,
-            cacheMaxAge: cacheMaxAge,
-          )
+              value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              scale: scale,
+              headers: headers,
+              cache: cache,
+              cancelToken: cancelToken,
+              retries: retries,
+              timeRetry: timeRetry,
+              timeLimit: timeLimit,
+              cacheKey: cacheKey,
+              printError: printError,
+              cacheMaxAge: cacheMaxAge,
+            )
           : BaseResizeImage.asset(
-            value,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            bundle: bundle,
-            package: package,
-          );
+              value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              bundle: bundle,
+              package: package,
+            );
     }
     return BaseResizeImage.asset('');
   }
@@ -300,11 +300,11 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.file(
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+          loadStateChanged: buildLoadStateChanged(
+            failed: failed,
+            loading: loading,
+          ),
+        );
 
   BaseImage.memory(
     super.bytes, {
@@ -353,11 +353,11 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.memory(
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+          loadStateChanged: buildLoadStateChanged(
+            failed: failed,
+            loading: loading,
+          ),
+        );
 
   BaseImage.asset(
     String? name, {
@@ -408,12 +408,12 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.asset(
-         name ?? 'asset name is null',
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+          name ?? 'asset name is null',
+          loadStateChanged: buildLoadStateChanged(
+            failed: failed,
+            loading: loading,
+          ),
+        );
 
   BaseImage.network(
     String? url, {
@@ -472,27 +472,28 @@ class BaseImage extends ExtendedImage {
     Widget? failed,
     Widget? loading,
   }) : super.network(
-         url ?? 'url is null',
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+          url ?? 'url is null',
+          loadStateChanged: buildLoadStateChanged(
+            failed: failed,
+            loading: loading,
+          ),
+        );
 
   static LoadStateChanged buildLoadStateChanged({
     Widget? failed,
     Widget? loading,
-  }) => (ExtendedImageState state) {
-    switch (state.extendedImageLoadState) {
-      case LoadState.loading:
-        return loading ?? const ImageLoading(size: 16);
-      case LoadState.completed:
-        return null;
-      case LoadState.failed:
-        _logFailed(state);
-        return failed ?? const ImageFailed(alignment: Alignment.center);
-    }
-  };
+  }) =>
+      (ExtendedImageState state) {
+        switch (state.extendedImageLoadState) {
+          case LoadState.loading:
+            return loading ?? const ImageLoading(size: 16);
+          case LoadState.completed:
+            return null;
+          case LoadState.failed:
+            _logFailed(state);
+            return failed ?? const ImageFailed(alignment: Alignment.center);
+        }
+      };
 
   static void _logFailed(ExtendedImageState state) {
     String? value;
@@ -585,32 +586,32 @@ class BaseImage extends ExtendedImage {
     AssetBundle? bundle,
     String? package,
   }) : super(
-         image: BaseResizeImage.buildImageProvider(
-           image,
-           cacheWidth: cacheWidth,
-           cacheHeight: cacheHeight,
-           maxBytes: maxBytes,
-           compressionRatio: compressionRatio,
-           cacheRawData: cacheRawData,
-           imageCacheName: imageCacheName,
-           scale: scale,
-           headers: headers,
-           cache: cache,
-           cancelToken: cancelToken,
-           retries: retries,
-           timeRetry: timeRetry,
-           timeLimit: timeLimit,
-           cacheKey: cacheKey,
-           printError: printError,
-           cacheMaxAge: cacheMaxAge,
-           bundle: bundle,
-           package: package,
-         ),
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+          image: BaseResizeImage.buildImageProvider(
+            image,
+            cacheWidth: cacheWidth,
+            cacheHeight: cacheHeight,
+            maxBytes: maxBytes,
+            compressionRatio: compressionRatio,
+            cacheRawData: cacheRawData,
+            imageCacheName: imageCacheName,
+            scale: scale,
+            headers: headers,
+            cache: cache,
+            cancelToken: cancelToken,
+            retries: retries,
+            timeRetry: timeRetry,
+            timeLimit: timeLimit,
+            cacheKey: cacheKey,
+            printError: printError,
+            cacheMaxAge: cacheMaxAge,
+            bundle: bundle,
+            package: package,
+          ),
+          loadStateChanged: buildLoadStateChanged(
+            failed: failed,
+            loading: loading,
+          ),
+        );
 }
 
 class PreviewImage extends StatelessWidget {
@@ -627,23 +628,23 @@ class PreviewImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Material(
-    color: UCS.black.withValues(alpha: 0.9),
-    child: Column(
-      children: <Widget>[
-        Universal(
-          alignment: Alignment.centerRight,
-          margin: const EdgeInsets.only(right: 12),
-          height: context.padding.top + 50,
-          child: const CloseButton(color: UCS.white),
+        color: UCS.black.withValues(alpha: 0.9),
+        child: Column(
+          children: <Widget>[
+            Universal(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(right: 12),
+              height: context.padding.top + 50,
+              child: const CloseButton(color: UCS.white),
+            ),
+            ExtendedImageGesturePageView.builder(
+              controller: ExtendedPageController(initialPage: initialPage ?? 1),
+              itemCount: itemCount,
+              itemBuilder: itemBuilder,
+            ).expanded,
+          ],
         ),
-        ExtendedImageGesturePageView.builder(
-          controller: ExtendedPageController(initialPage: initialPage ?? 1),
-          itemCount: itemCount,
-          itemBuilder: itemBuilder,
-        ).expanded,
-      ],
-    ),
-  );
+      );
 }
 
 class ImageFailed extends StatelessWidget {

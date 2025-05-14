@@ -158,7 +158,7 @@ class BaseCupertinoApp extends StatelessWidget {
 
   /// onNavigationNotification
   final NotificationListenerCallback<NavigationNotification>?
-  onNavigationNotification;
+      onNavigationNotification;
 
   @override
   Widget build(BuildContext context) {

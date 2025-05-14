@@ -196,8 +196,7 @@ class Universally {
   }
 
   /// 当前项目 全局使用的 刷新Header
-  CallbackT<Header> pullDownHeader =
-      () => const ClassicHeader(
+  CallbackT<Header> pullDownHeader = () => const ClassicHeader(
         dragText: '请尽情拉我',
         armedText: '可以松开我了',
         readyText: '我要开始刷新了',
@@ -209,8 +208,7 @@ class Universally {
       );
 
   /// 当前项目 全局使用的 刷新Footer
-  CallbackT<Footer> pullUpFooter =
-      () => const ClassicFooter(
+  CallbackT<Footer> pullUpFooter = () => const ClassicFooter(
         dragText: '请尽情拉我',
         armedText: '可以松开我了',
         readyText: '我要准备加载了',

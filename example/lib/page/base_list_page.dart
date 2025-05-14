@@ -32,12 +32,11 @@ class _BaseListPageState extends State<BaseListPage> {
           list.addAll(Colors.accents);
           setState(() {});
         },
-        itemBuilder:
-            (_, int index) => Container(
-              height: 30,
-              width: double.infinity,
-              color: list[index],
-            ),
+        itemBuilder: (_, int index) => Container(
+          height: 30,
+          width: double.infinity,
+          color: list[index],
+        ),
       ),
     );
   }

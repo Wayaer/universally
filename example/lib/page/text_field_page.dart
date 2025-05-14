@@ -22,8 +22,14 @@ class TextFieldPage extends StatelessWidget {
           onTap: () {
             showToast('请输入');
           },
-          prefixes: [const BText('prefix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
-          suffixes: [const BText('suffix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
+          prefixes: [
+            const BText('prefix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
+          suffixes: [
+            const BText('suffix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
           searchTextTap: (String value) {},
           sendVerificationCodeTap: () async {
             await 1.seconds.delayed();
@@ -47,8 +53,14 @@ class TextFieldPage extends StatelessWidget {
             }
           },
           enableEye: true,
-          prefixes: [const BText('prefix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
-          suffixes: [const BText('suffix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
+          prefixes: [
+            const BText('prefix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
+          suffixes: [
+            const BText('suffix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
           borderType: BorderType.outline,
           borderRadius: BorderRadius.circular(4),
           fillColor: Colors.red.withValues(alpha: 0.2),
@@ -76,8 +88,14 @@ class TextFieldPage extends StatelessWidget {
                 return TextMedium('$i s', color: context.theme.primaryColor);
             }
           },
-          prefixes: [const BText('prefix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
-          suffixes: [const BText('suffix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
+          prefixes: [
+            const BText('prefix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
+          suffixes: [
+            const BText('suffix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
           borderType: BorderType.outline,
           borderRadius: BorderRadius.circular(4),
           fillColor: Colors.red.withValues(alpha: 0.2),
@@ -97,8 +115,14 @@ class TextFieldPage extends StatelessWidget {
           maxLength: 10,
           fillColor: Colors.grey.withValues(alpha: 0.2),
           enableClearIcon: true,
-          prefixes: [const BText('prefix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
-          suffixes: [const BText('suffix').toDecoratorPendant(positioned: DecoratorPendantPosition.outer)],
+          prefixes: [
+            const BText('prefix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
+          suffixes: [
+            const BText('suffix')
+                .toDecoratorPendant(positioned: DecoratorPendantPosition.outer)
+          ],
           hintText: '请输入内容   useTextField=true',
         ),
         const SizedBox(height: 20),
@@ -107,16 +131,24 @@ class TextFieldPage extends StatelessWidget {
           maxLines: 6,
           maxLength: 10,
           prefixes: [
-            const BText('inner').toDecoratorPendant(needFocus: false, positioned: DecoratorPendantPosition.inner),
+            const BText('inner').toDecoratorPendant(
+                needFocus: false, positioned: DecoratorPendantPosition.inner),
             const BText(
               'prefix',
-            ).toDecoratorPendant(needFocus: true, maintainSize: true, positioned: DecoratorPendantPosition.outer),
+            ).toDecoratorPendant(
+                needFocus: true,
+                maintainSize: true,
+                positioned: DecoratorPendantPosition.outer),
           ],
           suffixes: [
-            const BText('editing').toDecoratorPendant(needEditing: true, positioned: DecoratorPendantPosition.inner),
+            const BText('editing').toDecoratorPendant(
+                needEditing: true, positioned: DecoratorPendantPosition.inner),
             const BText(
               'suffix',
-            ).toDecoratorPendant(needEditing: false, maintainSize: true, positioned: DecoratorPendantPosition.outer),
+            ).toDecoratorPendant(
+                needEditing: false,
+                maintainSize: true,
+                positioned: DecoratorPendantPosition.outer),
           ],
           fillColor: Colors.grey.withValues(alpha: 0.2),
           enableClearIcon: true,

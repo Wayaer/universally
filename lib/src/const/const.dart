@@ -66,7 +66,7 @@ class UIS {
 
 class _IconData extends IconData {
   const _IconData(super.codePoint)
-    : super(fontFamily: 'Universally', fontPackage: 'universally');
+      : super(fontFamily: 'Universally', fontPackage: 'universally');
 }
 
 class UCS {
@@ -90,11 +90,11 @@ class UStyle {
   /// 统一阴影样式
   /// Unified Shadow Style
   static List<BoxShadow> getBaseBoxShadow({Color? color}) => getBoxShadow(
-    color: color ?? UCS.lineColor.withValues(alpha: 0.4),
-    offset: const Offset(0.0, 0.0), //阴影xy轴偏移量
-    blurRadius: 3.0, //阴影模糊程度
-    spreadRadius: 2.0, //阴影扩散程度
-  );
+        color: color ?? UCS.lineColor.withValues(alpha: 0.4),
+        offset: const Offset(0.0, 0.0), //阴影xy轴偏移量
+        blurRadius: 3.0, //阴影模糊程度
+        spreadRadius: 2.0, //阴影扩散程度
+      );
 
   static List<BoxShadow> getBoxShadow({
     int num = 1,
@@ -104,15 +104,16 @@ class UStyle {
     double blurRadius = 0.05,
     double spreadRadius = 0.05,
     Offset? offset,
-  }) => num.generate(
-    (index) => BoxShadow(
-      color: color,
-      blurStyle: blurStyle,
-      blurRadius: radius ?? blurRadius,
-      spreadRadius: radius ?? spreadRadius,
-      offset: offset ?? const Offset(0, 0),
-    ),
-  );
+  }) =>
+      num.generate(
+        (index) => BoxShadow(
+          color: color,
+          blurStyle: blurStyle,
+          blurRadius: radius ?? blurRadius,
+          spreadRadius: radius ?? spreadRadius,
+          offset: offset ?? const Offset(0, 0),
+        ),
+      );
 }
 
 /// 下拉刷新

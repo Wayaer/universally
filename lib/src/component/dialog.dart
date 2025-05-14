@@ -11,8 +11,8 @@ extension ExtensionConfirmActionDialog on ConfirmActionDialog {
       );
 
   Future<T?> show<T>({DialogOptions? options}) => popupDialog<T>(
-    options: const DialogOptions(barrierLabel: '').merge(options),
-  );
+        options: const DialogOptions(barrierLabel: '').merge(options),
+      );
 }
 
 /// text builder
@@ -61,12 +61,12 @@ class ConfirmActionDialog extends StatelessWidget {
     this.titleText,
     this.title,
     this.actions,
-  }) : options = null,
-       dividerColor = null,
-       constraints = null,
-       resizeToAvoidBottomInset = true,
-       dividerThickness = 1,
-       isCupertino = true;
+  })  : options = null,
+        dividerColor = null,
+        constraints = null,
+        resizeToAvoidBottomInset = true,
+        dividerThickness = 1,
+        isCupertino = true;
 
   /// confirm
   final String? confirmText;
@@ -113,19 +113,17 @@ class ConfirmActionDialog extends StatelessWidget {
     if (contentText != null) current = TextMedium(contentText, maxLines: 20);
     if (content != null) current = content!(current);
     return Universal(
-      margin:
-          isCupertino
-              ? const EdgeInsets.only(top: 10)
-              : const EdgeInsets.fromLTRB(16, 2, 16, 20),
+      margin: isCupertino
+          ? const EdgeInsets.only(top: 10)
+          : const EdgeInsets.fromLTRB(16, 2, 16, 20),
       child: current,
     );
   }
 
   @override
-  Widget build(BuildContext context) =>
-      isCupertino
-          ? buildCupertinoActionDialog(context)
-          : buildActionDialog(context);
+  Widget build(BuildContext context) => isCupertino
+      ? buildCupertinoActionDialog(context)
+      : buildActionDialog(context);
 
   Widget buildActionDialog(BuildContext context) {
     Widget? current;
@@ -152,9 +150,7 @@ class ConfirmActionDialog extends StatelessWidget {
       dividerThickness: dividerThickness,
       actions: buildActions(context),
       constraints: constraints ?? BoxConstraints(maxWidth: context.width - 60),
-      options: FlExtended().modalOptions
-          .merge(options)
-          .copyWith(
+      options: FlExtended().modalOptions.merge(options).copyWith(
             resizeToAvoidBottomInset: resizeToAvoidBottomInset,
             borderRadius: BorderRadius.circular(6),
           ),
@@ -330,8 +326,8 @@ class TextFieldDialog extends StatelessWidget {
     this.contentPadding = const EdgeInsets.all(8),
     this.cancelTapPop = true,
     this.confirmTapPop = true,
-  }) : isCupertino = true,
-       resizeToAvoidBottomInset = true;
+  })  : isCupertino = true,
+        resizeToAvoidBottomInset = true;
 
   /// use cupertino style
   final bool isCupertino;
@@ -391,34 +387,32 @@ class TextFieldDialog extends StatelessWidget {
       cancelTapPop: cancelTapPop,
       onCancelTap: onCancelTap,
       titleText: titleText,
-
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       content: (_) => buildTextField(context),
     );
   }
 
   Widget buildTextField(BuildContext context) => Material(
-    color: Colors.transparent,
-    child: BaseTextField(
-      textInputType: textInputType,
-      value: value,
-      margin: const EdgeInsets.all(12),
-      hintText: hintText,
-      hasFocusedChangeBorder: false,
-      borderType: BorderType.outline,
-      contentPadding: contentPadding,
-      borderSide:
-          borderSide ??
-          BorderSide(color: CupertinoColors.separator, width: 0.8),
-      controller: controller,
-      width: double.infinity,
-      maxLines: maxLines,
-      minLines: minLines,
-      maxLength: maxLength,
-      fillColor: fillColor,
-      autoFocus: true,
-    ),
-  );
+        color: Colors.transparent,
+        child: BaseTextField(
+          textInputType: textInputType,
+          value: value,
+          margin: const EdgeInsets.all(12),
+          hintText: hintText,
+          hasFocusedChangeBorder: false,
+          borderType: BorderType.outline,
+          contentPadding: contentPadding,
+          borderSide: borderSide ??
+              BorderSide(color: CupertinoColors.separator, width: 0.8),
+          controller: controller,
+          width: double.infinity,
+          maxLines: maxLines,
+          minLines: minLines,
+          maxLength: maxLength,
+          fillColor: fillColor,
+          autoFocus: true,
+        ),
+      );
 
   dynamic checkInput() {
     if (controller.text.isEmpty) {

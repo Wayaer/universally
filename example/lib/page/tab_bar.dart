@@ -51,14 +51,13 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
               ],
             );
           },
-          builder:
-              (List<Widget> tabs) => TabBar(
-                tabAlignment: TabAlignment.start,
-                indicator: const BoxDecoration(border: null),
-                isScrollable: true,
-                controller: controller,
-                tabs: tabs,
-              ),
+          builder: (List<Widget> tabs) => TabBar(
+            tabAlignment: TabAlignment.start,
+            indicator: const BoxDecoration(border: null),
+            isScrollable: true,
+            controller: controller,
+            tabs: tabs,
+          ),
           controller: controller,
         ),
         20.heightBox,
@@ -73,12 +72,11 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
               ],
             );
           },
-          builder:
-              (List<Widget> tabs) => BaseTabBar.fill(
-                isScrollable: true,
-                controller: controller,
-                tabs: tabs,
-              ),
+          builder: (List<Widget> tabs) => BaseTabBar.fill(
+            isScrollable: true,
+            controller: controller,
+            tabs: tabs,
+          ),
           controller: controller,
         ),
       ],

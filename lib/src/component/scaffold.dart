@@ -313,89 +313,86 @@ class BaseScaffold extends StatelessWidget {
       body: body ?? universal,
       persistentFooterAlignment: persistentFooterAlignment,
     );
-    final hasPopScope =
-        onPopInvoked != null ||
+    final hasPopScope = onPopInvoked != null ||
         isCloseOverlay ||
         enableDoubleClickExit ||
         (Universally().config.isCloseOverlay == true);
     return hasPopScope
         ? ExtendedPopScope<dynamic>(
-          canPop: !hasPopScope,
-          isCloseOverlay: isCloseOverlay,
-          onPopInvokedWithResult: (
-            bool didPop,
-            dynamic result,
-            bool didCloseOverlay,
-          ) {
-            onPopInvoked?.call(didPop, didCloseOverlay);
-            onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
-            if (didCloseOverlay || didPop) return;
-            if (enableDoubleClickExit) {
-              final now = DateTime.now();
-              if (_dateTime != null &&
-                  now.difference(_dateTime!).inMilliseconds < 2500) {
-                Curiosity.native.exitApp();
-              } else {
-                _dateTime = now;
-                showToast(
-                  doubleClickExitPrompt,
-                  options: const ToastOptions(
-                    alignment: Alignment.center,
-                    duration: Duration(milliseconds: 1500),
-                  ),
-                );
+            canPop: !hasPopScope,
+            isCloseOverlay: isCloseOverlay,
+            onPopInvokedWithResult: (
+              bool didPop,
+              dynamic result,
+              bool didCloseOverlay,
+            ) {
+              onPopInvoked?.call(didPop, didCloseOverlay);
+              onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
+              if (didCloseOverlay || didPop) return;
+              if (enableDoubleClickExit) {
+                final now = DateTime.now();
+                if (_dateTime != null &&
+                    now.difference(_dateTime!).inMilliseconds < 2500) {
+                  Curiosity.native.exitApp();
+                } else {
+                  _dateTime = now;
+                  showToast(
+                    doubleClickExitPrompt,
+                    options: const ToastOptions(
+                      alignment: Alignment.center,
+                      duration: Duration(milliseconds: 1500),
+                    ),
+                  );
+                }
+              } else if (onPopInvoked == null) {
+                pop();
               }
-            } else if (onPopInvoked == null) {
-              pop();
-            }
-          },
-          child: scaffold,
-        )
+            },
+            child: scaffold,
+          )
         : scaffold;
   }
 
   PreferredSizeWidget? buildAppBar(BuildContext context) {
-    Widget? current =
-        (appBarTitleText != null ||
-                appBarTitle != null ||
-                appBarBottom != null ||
-                appBarActions != null ||
-                appBarFlexibleSpace != null ||
-                appBarLeading != null
-            ? AppBar(
-              actions: appBarActions,
-              bottom: appBarBottom,
-              title:
-                  appBarTitle ??
-                  (appBarTitleText == null ? null : Text(appBarTitleText!)),
-              leading: appBarLeading,
-              iconTheme: appBarIconTheme,
-              backgroundColor: appBarBackgroundColor,
-              primary: appBarPrimary,
-              foregroundColor: appBarForegroundColor,
-              flexibleSpace: appBarFlexibleSpace,
-              systemOverlayStyle: systemOverlayStyle,
-              elevation: elevation,
-              centerTitle: centerTitle,
-              actionsIconTheme: actionsIconTheme,
-              automaticallyImplyLeading: automaticallyImplyLeading,
-              bottomOpacity: bottomOpacity,
-              excludeHeaderSemantics: excludeHeaderSemantics,
-              leadingWidth: leadingWidth,
-              notificationPredicate: notificationPredicate,
-              scrolledUnderElevation: scrolledUnderElevation,
-              shadowColor: shadowColor,
-              shape: shape,
-              surfaceTintColor: surfaceTintColor,
-              titleSpacing: titleSpacing,
-              titleTextStyle: titleTextStyle,
-              toolbarHeight: toolbarHeight,
-              toolbarOpacity: toolbarOpacity,
-              toolbarTextStyle: toolbarTextStyle,
-              forceMaterialTransparency: forceMaterialTransparency,
-              clipBehavior: clipBehavior,
-            )
-            : null);
+    Widget? current = (appBarTitleText != null ||
+            appBarTitle != null ||
+            appBarBottom != null ||
+            appBarActions != null ||
+            appBarFlexibleSpace != null ||
+            appBarLeading != null
+        ? AppBar(
+            actions: appBarActions,
+            bottom: appBarBottom,
+            title: appBarTitle ??
+                (appBarTitleText == null ? null : Text(appBarTitleText!)),
+            leading: appBarLeading,
+            iconTheme: appBarIconTheme,
+            backgroundColor: appBarBackgroundColor,
+            primary: appBarPrimary,
+            foregroundColor: appBarForegroundColor,
+            flexibleSpace: appBarFlexibleSpace,
+            systemOverlayStyle: systemOverlayStyle,
+            elevation: elevation,
+            centerTitle: centerTitle,
+            actionsIconTheme: actionsIconTheme,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            bottomOpacity: bottomOpacity,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            leadingWidth: leadingWidth,
+            notificationPredicate: notificationPredicate,
+            scrolledUnderElevation: scrolledUnderElevation,
+            shadowColor: shadowColor,
+            shape: shape,
+            surfaceTintColor: surfaceTintColor,
+            titleSpacing: titleSpacing,
+            titleTextStyle: titleTextStyle,
+            toolbarHeight: toolbarHeight,
+            toolbarOpacity: toolbarOpacity,
+            toolbarTextStyle: toolbarTextStyle,
+            forceMaterialTransparency: forceMaterialTransparency,
+            clipBehavior: clipBehavior,
+          )
+        : null);
     if (current == null) return null;
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
@@ -404,25 +401,25 @@ class BaseScaffold extends StatelessWidget {
   }
 
   Universal get universal => Universal(
-    expand: true,
-    margin: margin,
-    spacing: spacing,
-    systemOverlayStyle: systemOverlayStyle,
-    useSingleChildScrollView: useSingleChildScrollView,
-    useListView: useListView,
-    padding: padding,
-    isScroll: isScroll,
-    safeLeft: safeLeft,
-    safeTop: safeTop,
-    safeRight: safeRight,
-    safeBottom: safeBottom,
-    isStack: isStack,
-    direction: direction,
-    decoration: decoration,
-    mainAxisAlignment: mainAxisAlignment,
-    crossAxisAlignment: crossAxisAlignment,
-    children: children,
-    physics: physics,
-    child: child,
-  );
+        expand: true,
+        margin: margin,
+        spacing: spacing,
+        systemOverlayStyle: systemOverlayStyle,
+        useSingleChildScrollView: useSingleChildScrollView,
+        useListView: useListView,
+        padding: padding,
+        isScroll: isScroll,
+        safeLeft: safeLeft,
+        safeTop: safeTop,
+        safeRight: safeRight,
+        safeBottom: safeBottom,
+        isStack: isStack,
+        direction: direction,
+        decoration: decoration,
+        mainAxisAlignment: mainAxisAlignment,
+        crossAxisAlignment: crossAxisAlignment,
+        children: children,
+        physics: physics,
+        child: child,
+      );
 }

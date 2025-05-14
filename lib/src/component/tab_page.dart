@@ -61,29 +61,29 @@ class TabPageBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: controller,
-    builder: (_, __) {
-      return Universal(
-        direction: Axis.horizontal,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: borderSide != null ? Border(top: borderSide!) : null,
-        ),
-        clipper: clipper,
-        height: context.padding.bottom + kToolbarHeight,
-        padding: EdgeInsets.only(bottom: context.padding.bottom),
-        children: itemBuilder(context).builderEntry((item) {
+        listenable: controller,
+        builder: (_, __) {
           return Universal(
-            expanded: true,
-            onTap: () => onChanged?.call(item.key),
-            padding: EdgeInsets.all(spacing),
-            height: double.infinity,
-            child: item.value,
+            direction: Axis.horizontal,
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              border: borderSide != null ? Border(top: borderSide!) : null,
+            ),
+            clipper: clipper,
+            height: context.padding.bottom + kToolbarHeight,
+            padding: EdgeInsets.only(bottom: context.padding.bottom),
+            children: itemBuilder(context).builderEntry((item) {
+              return Universal(
+                expanded: true,
+                onTap: () => onChanged?.call(item.key),
+                padding: EdgeInsets.all(spacing),
+                height: double.infinity,
+                child: item.value,
+              );
+            }),
           );
-        }),
+        },
       );
-    },
-  );
 }
 
 class TabPage extends PageView {
@@ -105,14 +105,13 @@ class TabPage extends PageView {
     bool enableScroll = true,
     ScrollPhysics? physics,
   }) : super.builder(
-         physics:
-             physics ??
-             (enableScroll
-                 ? const ClampingScrollPhysics()
-                 : const NeverScrollableScrollPhysics()),
-         itemCount: children.length,
-         itemBuilder: (_, int index) => children[index],
-       );
+          physics: physics ??
+              (enableScroll
+                  ? const ClampingScrollPhysics()
+                  : const NeverScrollableScrollPhysics()),
+          itemCount: children.length,
+          itemBuilder: (_, int index) => children[index],
+        );
 
   TabPage.items({
     super.key,
@@ -132,10 +131,9 @@ class TabPage extends PageView {
     bool enableScroll = true,
     ScrollPhysics? physics,
   }) : super(
-         physics:
-             physics ??
-             (enableScroll
-                 ? const ClampingScrollPhysics()
-                 : const NeverScrollableScrollPhysics()),
-       );
+          physics: physics ??
+              (enableScroll
+                  ? const ClampingScrollPhysics()
+                  : const NeverScrollableScrollPhysics()),
+        );
 }

@@ -96,11 +96,11 @@ class Gif extends StatefulWidget {
     this.centerSlice,
     this.matchTextDirection = false,
     this.useCache = true,
-  }) : assert(
-         fps == null || duration == null,
-         'only one of the two can be set [fps] [duration]',
-       ),
-       assert(fps == null || fps > 0, 'fps must be greater than 0');
+  })  : assert(
+          fps == null || duration == null,
+          'only one of the two can be set [fps] [duration]',
+        ),
+        assert(fps == null || fps > 0, 'fps must be greater than 0');
 
   @override
   State<Gif> createState() => _GifState();
@@ -169,13 +169,13 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
     return widget.placeholder != null && frame == null
         ? widget.placeholder!(context)
         : widget.excludeFromSemantics
-        ? image
-        : Semantics(
-          container: widget.semanticLabel != null,
-          image: true,
-          label: widget.semanticLabel ?? '',
-          child: image,
-        );
+            ? image
+            : Semantics(
+                container: widget.semanticLabel != null,
+                image: true,
+                label: widget.semanticLabel ?? '',
+                child: image,
+              );
   }
 
   @override
@@ -190,8 +190,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   }
 
   void initController() {
-    controller =
-        widget.controller ??
+    controller = widget.controller ??
         AnimationController(vsync: this, duration: widget.duration);
     controller.addListener(listener);
   }
@@ -253,25 +252,22 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   /// When [frames] is updated [onFetchCompleted] is called.
   Future<void> loadFrames() async {
     if (!mounted) return;
-    final useCache =
-        Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
+    final useCache = Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
         widget.useCache;
 
-    GifInfo? gif =
-        useCache
-            ? Gif.cache.caches[getImageKey(widget.image)]!
-            : await fetchFrames(widget.image);
+    GifInfo? gif = useCache
+        ? Gif.cache.caches[getImageKey(widget.image)]!
+        : await fetchFrames(widget.image);
     if (gif == null) return;
     if (useCache) {
       Gif.cache.caches.putIfAbsent(getImageKey(widget.image), () => gif);
     }
     frames = gif.frames;
-    controller.duration =
-        widget.fps != null
-            ? Duration(
-              milliseconds: (frames.length / widget.fps! * 1000).round(),
-            )
-            : widget.duration ?? gif.duration;
+    controller.duration = widget.fps != null
+        ? Duration(
+            milliseconds: (frames.length / widget.fps! * 1000).round(),
+          )
+        : widget.duration ?? gif.duration;
     if (widget.onFetchCompleted != null) {
       widget.onFetchCompleted!();
     }
@@ -318,17 +314,15 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
 
   Future<Uint8List> loadGifImageData(NetworkImage provider) async {
     Completer<Uint8List> completer = Completer();
-    provider
-        .resolve(const ImageConfiguration())
-        .addListener(
-          ImageStreamListener((ImageInfo info, bool syncCall) {
-            info.image.toByteData(format: ImageByteFormat.rawRgba).then((
-              byteData,
-            ) {
-              completer.complete(Uint8List.view(byteData!.buffer));
-            });
-          }),
-        );
+    provider.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener((ImageInfo info, bool syncCall) {
+        info.image.toByteData(format: ImageByteFormat.rawRgba).then((
+          byteData,
+        ) {
+          completer.complete(Uint8List.view(byteData!.buffer));
+        });
+      }),
+    );
     return await completer.future;
   }
 }

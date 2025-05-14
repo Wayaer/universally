@@ -18,18 +18,17 @@ class BasePickerOptions<T> extends PickerOptions<T> {
     super.cancel = const TextMedium('取消'),
     Widget? title,
   }) : super(
-         title:
-             title ??
-             (titleText == null ? null : Center(child: TextLarge(titleText))),
-       );
+          title: title ??
+              (titleText == null ? null : Center(child: TextLarge(titleText))),
+        );
 }
 
 extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {
   Future<int?> show({BottomSheetOptions? options}) => popupBottomSheet<int?>(
-    options: const BottomSheetOptions(
-      backgroundColor: UCS.transparent,
-    ).merge(options),
-  );
+        options: const BottomSheetOptions(
+          backgroundColor: UCS.transparent,
+        ).merge(options),
+      );
 }
 
 /// 底部有取消的单选

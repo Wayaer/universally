@@ -257,15 +257,15 @@ class BaseText extends StatelessWidget {
     this.fontFeatures,
     this.leadingDistribution,
     this.fontVariations,
-  }) : texts = const [],
-       styles = const [],
-       recognizers = const [],
-       semanticsLabels = const [],
-       mouseCursors = const [],
-       onEnters = const [],
-       onExits = const [],
-       locales = const [],
-       spellOuts = const [];
+  })  : texts = const [],
+        styles = const [],
+        recognizers = const [],
+        semanticsLabels = const [],
+        mouseCursors = const [],
+        onEnters = const [],
+        onExits = const [],
+        locales = const [],
+        spellOuts = const [];
 
   /// 与 [RText] 一致，仅增加 主题适配
   const BaseText.rich({
@@ -658,14 +658,14 @@ class TextBoxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BaseScaffold(
-    appBarTitleText: appBarTitleText,
-    padding: const EdgeInsets.all(20),
-    child: Universal(
-      onTap: () {
-        text.toClipboard;
-        showToast(toastText);
-      },
-      child: TextMedium(text, color: color),
-    ),
-  );
+        appBarTitleText: appBarTitleText,
+        padding: const EdgeInsets.all(20),
+        child: Universal(
+          onTap: () {
+            text.toClipboard;
+            showToast(toastText);
+          },
+          child: TextMedium(text, color: color),
+        ),
+      );
 }

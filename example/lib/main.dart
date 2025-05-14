@@ -183,19 +183,19 @@ class Partition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Universal(
-    onTap: onTap,
-    width: double.infinity,
-    color: Colors.grey.withValues(alpha: 0.2),
-    alignment: Alignment.center,
-    padding: const EdgeInsets.all(10),
-    margin: EdgeInsets.only(top: marginTop, bottom: 20),
-    child: BaseText(
-      title,
-      textFontSize: textFontSize,
-      textAlign: TextAlign.center,
-      fontWeight: FontWeight.bold,
-    ),
-  );
+        onTap: onTap,
+        width: double.infinity,
+        color: Colors.grey.withValues(alpha: 0.2),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(10),
+        margin: EdgeInsets.only(top: marginTop, bottom: 20),
+        child: BaseText(
+          title,
+          textFontSize: textFontSize,
+          textAlign: TextAlign.center,
+          fontWeight: FontWeight.bold,
+        ),
+      );
 }
 
 class AppState with ChangeNotifier {}

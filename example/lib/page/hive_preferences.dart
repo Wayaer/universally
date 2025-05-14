@@ -135,12 +135,11 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
               text: 'setMap',
               onTap: () {
-                BasePreferences()
-                    .setMap('map Key', {'1': 'value1', '2': 'value2'})
-                    .then((value) {
-                      text = 'call setMap() $value';
-                      setState(() {});
-                    });
+                BasePreferences().setMap(
+                    'map Key', {'1': 'value1', '2': 'value2'}).then((value) {
+                  text = 'call setMap() $value';
+                  setState(() {});
+                });
               },
             ),
             const SizedBox(width: 20),
@@ -160,12 +159,11 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             Button(
               text: 'setStringList',
               onTap: () {
-                BasePreferences()
-                    .setStringList('list<String> Key', ['1', '2', '3'])
-                    .then((value) {
-                      text = 'call setStringList() $value';
-                      setState(() {});
-                    });
+                BasePreferences().setStringList(
+                    'list<String> Key', ['1', '2', '3']).then((value) {
+                  text = 'call setStringList() $value';
+                  setState(() {});
+                });
               },
             ),
             const SizedBox(width: 20),
