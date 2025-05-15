@@ -76,10 +76,11 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
 
   @override
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
-        options: FlExtended().modalOptions.merge(options),
-        dividerThickness: 0,
-        titleText: titleText,
-        content: (_) => Column(
+    options: FlExtended().modalOptions.merge(options),
+    dividerThickness: 0,
+    titleText: titleText,
+    content:
+        (_) => Column(
           children: [
             content ??
                 _RTextWithRecognizers(
@@ -117,13 +118,14 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
                 ),
           ],
         ),
-        onCancelTap: Curiosity.native.exitApp,
-        onConfirmTap: () {
-          BasePreferences().setBool(UConst.isPrivacy, true);
-          onConsentTap?.call();
-          return true;
-        },
-        cancel: (_) => Universal(
+    onCancelTap: Curiosity.native.exitApp,
+    onConfirmTap: () {
+      BasePreferences().setBool(UConst.isPrivacy, true);
+      onConsentTap?.call();
+      return true;
+    },
+    cancel:
+        (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.theme.textTheme.bodyMedium?.color?.withValues(
@@ -136,7 +138,8 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
             style: context.theme.textTheme.bodyMedium,
           ),
         ),
-        confirm: (_) => Universal(
+    confirm:
+        (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.theme.primaryColor,
@@ -146,7 +149,7 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
           ),
           child: TextMedium(confirmText, color: UCS.white),
         ),
-      );
+  );
 }
 
 extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
@@ -190,20 +193,22 @@ class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
 
   @override
   Widget build(BuildContext context) => ConfirmCancelActionDialog(
-        options: options,
-        titleText: titleText,
-        cancelText: cancelText,
-        confirm: (_) => TextMedium(
+    options: options,
+    titleText: titleText,
+    cancelText: cancelText,
+    confirm:
+        (_) => TextMedium(
           confirmText,
           color: highlightColor ?? context.theme.primaryColor,
         ),
-        dividerColor: dividerColor,
-        onConfirmTap: () {
-          onConsentTap?.call();
-          return true;
-        },
-        constraints: BoxConstraints(maxWidth: 280),
-        content: (_) => _RTextWithRecognizers(
+    dividerColor: dividerColor,
+    onConfirmTap: () {
+      onConsentTap?.call();
+      return true;
+    },
+    constraints: BoxConstraints(maxWidth: 280),
+    content:
+        (_) => _RTextWithRecognizers(
           texts: contentTexts,
           style: const TStyle(height: 1.4)
               .merge(context.theme.textTheme.bodyMedium)
@@ -227,7 +232,7 @@ class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
             TapGestureRecognizer()..onTap = onPrivacyPolicyTap,
           ],
         ),
-      );
+  );
 }
 
 class UserPrivacyCheckbox extends StatelessWidget {
@@ -327,13 +332,13 @@ class _RTextWithRecognizers extends StatefulWidget {
 class _RTextWithRecognizersState extends State<_RTextWithRecognizers> {
   @override
   Widget build(BuildContext context) => RText(
-        maxLines: widget.maxLines,
-        textAlign: widget.textAlign,
-        texts: widget.texts,
-        style: widget.style,
-        styles: widget.styles,
-        recognizers: widget.recognizers,
-      );
+    maxLines: widget.maxLines,
+    textAlign: widget.textAlign,
+    texts: widget.texts,
+    style: widget.style,
+    styles: widget.styles,
+    recognizers: widget.recognizers,
+  );
 
   @override
   void dispose() {

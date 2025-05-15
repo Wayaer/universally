@@ -165,16 +165,17 @@ class UrlLauncher {
   }) async {
     bool result = false;
     Future<bool> openStoreDialog(String url) async {
-      final data = await ConfirmCancelActionDialog.cupertino(
-        titleText: '温馨提示',
-        contentText: '您还未安装$name，是否跳转应用商店安装？',
-        onConfirmTap: () async {
-          return await UrlLauncher().openAppStore(
-            packageName: androidPackageName,
-            appId: iosAppId,
-          );
-        },
-      ).show();
+      final data =
+          await ConfirmCancelActionDialog.cupertino(
+            titleText: '温馨提示',
+            contentText: '您还未安装$name，是否跳转应用商店安装？',
+            onConfirmTap: () async {
+              return await UrlLauncher().openAppStore(
+                packageName: androidPackageName,
+                appId: iosAppId,
+              );
+            },
+          ).show();
       return data ?? false;
     }
 

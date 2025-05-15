@@ -22,11 +22,12 @@ class SVGAsset extends SvgPicture {
     BlendMode blendMode = BlendMode.srcIn,
     Color? color,
   }) : super.asset(
-          colorFilter: colorFilter ??
-              (color == null ? null : ColorFilter.mode(color, blendMode)),
-          width: width ?? size,
-          height: height ?? size,
-        );
+         colorFilter:
+             colorFilter ??
+             (color == null ? null : ColorFilter.mode(color, blendMode)),
+         width: width ?? size,
+         height: height ?? size,
+       );
 }
 
 class SVGNetwork extends SvgPicture {
@@ -49,9 +50,10 @@ class SVGNetwork extends SvgPicture {
     BlendMode blendMode = BlendMode.srcIn,
     Color? color,
   }) : super.network(
-          colorFilter: colorFilter ??
-              (color == null ? null : ColorFilter.mode(color, blendMode)),
-          width: width ?? size,
-          height: height ?? size,
-        );
+         colorFilter:
+             colorFilter ??
+             (color == null ? null : ColorFilter.mode(color, blendMode)),
+         width: width ?? size,
+         height: height ?? size,
+       );
 }

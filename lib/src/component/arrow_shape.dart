@@ -55,7 +55,7 @@ class ArrowShape extends ShapeBorder {
 
   @override
   ShapeBorder scale(double t) => RoundedRectangleBorder(
-        side: side.scale(t),
-        borderRadius: borderRadius * t,
-      );
+    side: side.scale(t),
+    borderRadius: borderRadius * t,
+  );
 }

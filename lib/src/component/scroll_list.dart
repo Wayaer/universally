@@ -4,14 +4,14 @@ import 'package:universally/universally.dart';
 
 class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
-      : super(
-          valueColor: AlwaysStoppedAnimation<Color>(
-            color ??
-                Universally.to.getTheme()?.primaryColor ??
-                Colors.transparent,
-          ),
-          backgroundColor: UCS.transparent,
-        );
+    : super(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          color ??
+              Universally.to.getTheme()?.primaryColor ??
+              Colors.transparent,
+        ),
+        backgroundColor: UCS.transparent,
+      );
 }
 
 class BaseList extends FlScrollListGrid {
@@ -73,15 +73,15 @@ class BaseList extends FlScrollListGrid {
     super.placeholderFill,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
-          header: header?.toSliverBox,
-          footer: footer?.toSliverBox,
-          refreshConfig: builderRefreshConfig(
-            refreshConfig: refreshConfig,
-            onRefresh: onRefresh,
-            onLoad: onLoad,
-          ),
-          placeholder: placeholder ?? Universally.to.config.placeholder,
-        );
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.count({
     super.key,
@@ -138,15 +138,15 @@ class BaseList extends FlScrollListGrid {
     super.placeholderFill,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.count(
-          header: header?.toSliverBox,
-          footer: footer?.toSliverBox,
-          refreshConfig: builderRefreshConfig(
-            refreshConfig: refreshConfig,
-            onRefresh: onRefresh,
-            onLoad: onLoad,
-          ),
-          placeholder: placeholder ?? Universally.to.config.placeholder,
-        );
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.waterfall({
     super.key,
@@ -206,15 +206,15 @@ class BaseList extends FlScrollListGrid {
     super.placeholderFill,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
-          header: header?.toSliverBox,
-          footer: footer?.toSliverBox,
-          refreshConfig: builderRefreshConfig(
-            refreshConfig: refreshConfig,
-            onRefresh: onRefresh,
-            onLoad: onLoad,
-          ),
-          placeholder: placeholder ?? Universally.to.config.placeholder,
-        );
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
+         placeholder: placeholder ?? Universally.to.config.placeholder,
+       );
 
   BaseList.custom({
     super.key,
@@ -238,14 +238,14 @@ class BaseList extends FlScrollListGrid {
     super.cacheExtent,
     FlEasyRefreshConfig? refreshConfig,
   }) : super(
-          header: header?.toSliverBox,
-          footer: footer?.toSliverBox,
-          refreshConfig: builderRefreshConfig(
-            refreshConfig: refreshConfig,
-            onRefresh: onRefresh,
-            onLoad: onLoad,
-          ),
-        );
+         header: header?.toSliverBox,
+         footer: footer?.toSliverBox,
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
+       );
 
   /// 构建刷新配置
   static FlEasyRefreshConfig? builderRefreshConfig({

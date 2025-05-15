@@ -15,13 +15,13 @@ class BaseProgressIndicator extends StatelessWidget {
     this.minHeight,
     this.semanticsLabel,
     this.semanticsValue,
-  })  : strokeWidth = 4,
-        strokeAlign = 0.5,
-        strokeCap = null,
-        elevation = 2.0,
-        indicatorMargin = const EdgeInsets.all(4.0),
-        indicatorPadding = const EdgeInsets.all(12.0),
-        style = ProgressIndicatorStyle.linear;
+  }) : strokeWidth = 4,
+       strokeAlign = 0.5,
+       strokeCap = null,
+       elevation = 2.0,
+       indicatorMargin = const EdgeInsets.all(4.0),
+       indicatorPadding = const EdgeInsets.all(12.0),
+       style = ProgressIndicatorStyle.linear;
 
   const BaseProgressIndicator.circular({
     super.key,
@@ -36,12 +36,12 @@ class BaseProgressIndicator extends StatelessWidget {
     this.strokeCap,
     this.semanticsLabel,
     this.semanticsValue,
-  })  : minHeight = null,
-        elevation = 2.0,
-        indicatorMargin = const EdgeInsets.all(4.0),
-        indicatorPadding = const EdgeInsets.all(12.0),
-        borderRadius = BorderRadius.zero,
-        style = ProgressIndicatorStyle.circular;
+  }) : minHeight = null,
+       elevation = 2.0,
+       indicatorMargin = const EdgeInsets.all(4.0),
+       indicatorPadding = const EdgeInsets.all(12.0),
+       borderRadius = BorderRadius.zero,
+       style = ProgressIndicatorStyle.circular;
 
   const BaseProgressIndicator.refresh({
     super.key,
@@ -59,9 +59,9 @@ class BaseProgressIndicator extends StatelessWidget {
     this.elevation = 2.0,
     this.indicatorMargin = const EdgeInsets.all(4.0),
     this.indicatorPadding = const EdgeInsets.all(12.0),
-  })  : style = ProgressIndicatorStyle.refresh,
-        minHeight = null,
-        borderRadius = BorderRadius.zero;
+  }) : style = ProgressIndicatorStyle.refresh,
+       minHeight = null,
+       borderRadius = BorderRadius.zero;
 
   final double width;
   final double height;

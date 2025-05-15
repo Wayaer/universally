@@ -76,10 +76,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           width: double.infinity,
           margin: const EdgeInsets.only(top: 10),
           borderType: BorderType.outline,
-          prefixes: SizedBox(
-            width: 50,
-            child: TextMedium(httpStr),
-          ).toDecoratorPendant().toList,
+          prefixes:
+              SizedBox(
+                width: 50,
+                child: TextMedium(httpStr),
+              ).toTextFieldPendant().toList,
           maxLength: 30,
           controller: ip,
           hintText: '请输入IP地址',
@@ -89,10 +90,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           enableClearIcon: true,
           margin: const EdgeInsets.only(top: 10),
           borderType: BorderType.outline,
-          prefixes: const SizedBox(
-            width: 50,
-            child: TextMedium('端口: '),
-          ).toDecoratorPendant().toList,
+          prefixes:
+              const SizedBox(
+                width: 50,
+                child: TextMedium('端口: '),
+              ).toTextFieldPendant().toList,
           maxLength: 10,
           controller: port,
           hintText: '请输入端口',
@@ -182,12 +184,12 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   }
 
   Widget buildApi(String url) => Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(12),
-          child: TextMedium(url, maxLines: 3, height: 1.5),
-        ),
-      );
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+    margin: const EdgeInsets.symmetric(vertical: 10),
+    child: Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      child: TextMedium(url, maxLines: 3, height: 1.5),
+    ),
+  );
 }

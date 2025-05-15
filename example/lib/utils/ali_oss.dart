@@ -14,7 +14,8 @@ class AliOSS {
     String aliOSSKeySecret, {
     String? policyText,
   }) {
-    final String text = policyText ??
+    final String text =
+        policyText ??
         '{"expiration": "2050-01-01T12:00:00.000Z","conditions": [["content-length-range", 0, 1048576000]]}';
 
     /// 进行base64编码

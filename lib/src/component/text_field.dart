@@ -5,8 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-typedef BaseTextFieldDecoratorPendantBuilder = List<DecoratorPendant> Function(
-    TextEditingController controller);
+class TextFieldPendant extends DecoratorPendant<TextEditingValue> {
+  const TextFieldPendant({
+    super.child,
+    super.builder,
+    super.positioned = DecoratorPendantPosition.inner,
+    super.maintainSize = false,
+    super.needValue,
+    super.needFocus,
+    super.needEditing,
+  }) : super();
+}
+
+extension ExtensionWidgetTextFieldPendant on Widget {
+  TextFieldPendant toTextFieldPendant({
+    DecoratorPendantPosition positioned = DecoratorPendantPosition.outer,
+    bool maintainSize = false,
+    bool? needFocus,
+    bool? needEditing,
+    DecoratorPendantValueCallback<TextEditingValue?>? needValue,
+  }) => TextFieldPendant(
+    child: this,
+    maintainSize: maintainSize,
+    positioned: positioned,
+    needValue: needValue,
+    needEditing: needEditing,
+    needFocus: needFocus,
+  );
+}
 
 class BaseTextField extends StatefulWidget {
   const BaseTextField({
@@ -38,13 +64,9 @@ class BaseTextField extends StatefulWidget {
     this.hasFocusedChangeBorder = true,
     this.fillColor,
     this.headers = const [],
-    this.headersBuilder,
     this.footers = const [],
-    this.footersBuilder,
     this.suffixes = const [],
-    this.suffixesBuilder,
     this.prefixes = const [],
-    this.prefixesBuilder,
     this.constraints,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.borderType = BorderType.outline,
@@ -140,7 +162,7 @@ class BaseTextField extends StatefulWidget {
   /// 添加 发送验证码 点击事件
   final SendVerificationCodeValueCallback? sendVerificationCodeTap;
   final ValueTwoCallbackT<Widget, SendState, int>?
-      sendVerificationCodeTextBuilder;
+  sendVerificationCodeTextBuilder;
   final DecoratorPendantPosition sendVerificationCodePosition;
 
   /// 验证码等待时间
@@ -161,20 +183,16 @@ class BaseTextField extends StatefulWidget {
   final Widget? searchIcon;
 
   /// [child] 头部
-  final List<DecoratorPendant> headers;
-  final BaseTextFieldDecoratorPendantBuilder? headersBuilder;
+  final List<TextFieldPendant> headers;
 
   /// [child] 尾部
-  final List<DecoratorPendant> footers;
-  final BaseTextFieldDecoratorPendantBuilder? footersBuilder;
+  final List<TextFieldPendant> footers;
 
   /// [child] 后缀
-  final List<DecoratorPendant> suffixes;
-  final BaseTextFieldDecoratorPendantBuilder? suffixesBuilder;
+  final List<TextFieldPendant> suffixes;
 
   /// [child]  前缀
-  final List<DecoratorPendant> prefixes;
-  final BaseTextFieldDecoratorPendantBuilder? prefixesBuilder;
+  final List<TextFieldPendant> prefixes;
 
   /// 添加hero
   final String? heroTag;
@@ -235,7 +253,7 @@ class BaseTextField extends StatefulWidget {
   /// 按回车时调用 先调用此方法  然后调用onSubmitted方法
   final Callback? onEditingComplete;
   final ValueTwoCallback<TextEditingController, FocusNode>?
-      onEditingCompleteWith;
+  onEditingCompleteWith;
 
   /// 提交
   final ValueChanged<String>? onSubmitted;
@@ -434,8 +452,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
       child: buildDecoratorBox(
         widget.enableEye
             ? ValueListenableBuilder(
-                valueListenable: obscureText,
-                builder: (_, bool value, __) => buildTextField)
+              valueListenable: obscureText,
+              builder: (_, bool value, __) => buildTextField,
+            )
             : buildTextField,
       ),
     );
@@ -445,218 +464,218 @@ class _BaseTextFieldState extends State<BaseTextField> {
     /// 后缀
     final suffixes = [
       if (widget.enableClearIcon)
-        DecoratorPendant(
-            needEditing: true,
-            positioned: DecoratorPendantPosition.inner,
-            child: buildClearIcon),
+        TextFieldPendant(
+          needEditing: true,
+          positioned: DecoratorPendantPosition.inner,
+          child: buildClearIcon,
+        ),
       if (widget.enableEye)
-        DecoratorPendant(
-            needEditing: true,
-            positioned: DecoratorPendantPosition.inner,
-            child: buildEyeIcon),
+        TextFieldPendant(
+          needEditing: true,
+          positioned: DecoratorPendantPosition.inner,
+          child: buildEyeIcon,
+        ),
       if (widget.sendVerificationCodeTap != null)
-        DecoratorPendant(
-            positioned: widget.sendVerificationCodePosition,
-            child: buildSendSMS),
+        TextFieldPendant(
+          positioned: widget.sendVerificationCodePosition,
+          child: buildSendSMS,
+        ),
       if (widget.searchTextTap != null)
-        DecoratorPendant(
-            positioned: widget.searchTextPosition, child: buildSearchText),
+        TextFieldPendant(
+          positioned: widget.searchTextPosition,
+          child: buildSearchText,
+        ),
       ...widget.suffixes,
-      if (widget.suffixesBuilder != null)
-        ...widget.suffixesBuilder!(controller),
     ];
 
     /// 前缀
     final prefixes = [
       if (widget.enableSearchIcon)
-        DecoratorPendant(
-            positioned: DecoratorPendantPosition.inner, child: buildSearchIcon),
+        TextFieldPendant(
+          positioned: DecoratorPendantPosition.inner,
+          child: buildSearchIcon,
+        ),
       ...widget.prefixes,
-      if (widget.prefixesBuilder != null)
-        ...widget.prefixesBuilder!(controller),
     ];
 
     /// headers
-    final headers = [
-      ...widget.headers,
-      if (widget.headersBuilder != null) ...widget.headersBuilder!(controller)
-    ];
+    final headers = widget.headers;
 
     /// footers
-    final footers = [
-      ...widget.footers,
-      if (widget.footersBuilder != null) ...widget.footersBuilder!(controller)
-    ];
+    final footers = widget.footers;
 
     /// 未获取焦点后的 borderSide
-    final borderSide = widget.borderSide ??
+    final borderSide =
+        widget.borderSide ??
         context.theme.inputDecorationTheme.enabledBorder?.borderSide ??
         context.theme.inputDecorationTheme.border?.borderSide;
 
     /// 获取焦点后的 borderSide
-    final focusedBorderSide = widget.focusedBorderSide ??
+    final focusedBorderSide =
+        widget.focusedBorderSide ??
         context.theme.inputDecorationTheme.focusedBorder?.borderSide ??
         context.theme.inputDecorationTheme.border?.borderSide;
-    bool useDecoratorBoxState = widget.hasFocusedChangeBorder ||
+    bool useListenable =
+        widget.hasFocusedChangeBorder ||
         suffixes.where((e) => e.needChangedState).isNotEmpty ||
         prefixes.where((e) => e.needChangedState).isNotEmpty ||
         headers.where((e) => e.needChangedState).isNotEmpty ||
         footers.where((e) => e.needChangedState).isNotEmpty;
-    final decoration = BoxDecorative(
-      padding: widget.padding,
-      borderType: widget.borderType,
-      fillColor: widget.fillColor,
-      borderRadius: widget.borderRadius,
-      borderSide: borderSide,
-      constraints: widget.constraints,
+    return DecoratorBox<TextEditingValue>(
+      listenable:
+          useListenable ? Listenable.merge([focusNode, controller]) : null,
+      decoration:
+          (Widget child, DecoratorBoxStatus<TextEditingValue> status) =>
+              Container(
+                constraints: widget.constraints,
+                padding: widget.padding,
+                decoration: BoxDecoration(
+                  border: widget.borderType.toBorder(
+                    status.hasFocus && widget.hasFocusedChangeBorder
+                        ? focusedBorderSide ?? borderSide
+                        : borderSide,
+                  ),
+                  color: widget.fillColor,
+                  borderRadius: widget.borderRadius,
+                ),
+                child: child,
+              ),
+      headers: headers,
+      footers: footers,
+      suffixes: suffixes,
+      prefixes: prefixes,
+      onFocus: () => focusNode.hasFocus,
+      onEditing: () => controller.text.isNotEmpty,
+      onValue: () => controller.value,
+      child:
+          widget.enableEye
+              ? ValueListenableBuilder(
+                valueListenable: obscureText,
+                builder: (_, bool value, __) => buildTextField,
+              )
+              : buildTextField,
     );
-    return useDecoratorBoxState
-        ? DecoratorBoxState(
-            listenable: Listenable.merge([focusNode, controller]),
-            decoration: (bool hasFocus, bool isEditing) =>
-                hasFocus && widget.hasFocusedChangeBorder
-                    ? decoration.copyWith(
-                        borderSide: focusedBorderSide ?? borderSide)
-                    : decoration,
-            headers: headers,
-            footers: footers,
-            suffixes: suffixes,
-            prefixes: prefixes,
-            onFocus: () => focusNode.hasFocus,
-            onEditing: () => controller.text.isNotEmpty,
-            child: widget.enableEye
-                ? ValueListenableBuilder(
-                    valueListenable: obscureText,
-                    builder: (_, bool value, __) => buildTextField)
-                : buildTextField,
-          )
-        : DecoratorBox(
-            decoration: (_, __) => decoration,
-            headers: headers,
-            footers: footers,
-            suffixes: suffixes,
-            prefixes: prefixes,
-            child: current,
-          );
   }
 
   Widget get buildTextField => TextField(
-        controller: controller,
-        focusNode: focusNode,
-        decoration: InputDecoration(
-          contentPadding: widget.contentPadding,
-          isDense: true,
-          hintText: widget.hintText,
-          hintStyle: hintStyle,
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-        ).merge(widget.decoration),
-        style: style,
-        keyboardType: keyboardType,
-        inputFormatters: inputFormatters,
-        keyboardAppearance: widget.keyboardAppearance,
-        textInputAction: widget.textInputAction,
-        textCapitalization: widget.textCapitalization,
-        enabled: widget.enabled,
-        autofocus: widget.autoFocus,
-        obscureText: widget.enableEye && obscureText.value,
-        obscuringCharacter: widget.obscuringCharacter,
-        maxLines: maxLines,
-        minLines: minLines,
-        maxLengthEnforcement: widget.maxLengthEnforcement,
-        maxLength: maxLength,
-        onChanged: widget.onChanged,
-        textAlign: textAlign,
-        onTap: onTap,
-        onSubmitted: onSubmitted,
-        onEditingComplete: onEditingComplete,
-        showCursor: widget.showCursor,
-        cursorColor: widget.cursorColor ?? context.theme.primaryColor,
-        mouseCursor: widget.mouseCursor,
-        cursorHeight: widget.cursorHeight,
-        cursorWidth: widget.cursorWidth,
-        cursorRadius: widget.cursorRadius,
-        cursorOpacityAnimates: widget.cursorOpacityAnimates,
-        clipBehavior: widget.clipBehavior,
-        autocorrect: widget.autocorrect,
-        autofillHints: widget.autofillHints,
-        dragStartBehavior: widget.dragStartBehavior,
-        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-        enableInteractiveSelection: widget.enableInteractiveSelection,
-        enableSuggestions: widget.enableSuggestions,
-        expands: widget.expands,
-        readOnly: widget.readOnly,
-        restorationId: widget.restorationId,
-        stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
-        scrollController: widget.scrollController,
-        scrollPadding: widget.scrollPadding,
-        scrollPhysics: widget.scrollPhysics,
-        selectionControls: widget.selectionControls,
-        selectionHeightStyle: widget.selectionHeightStyle,
-        selectionWidthStyle: widget.selectionWidthStyle,
-        smartDashesType: widget.smartDashesType,
-        smartQuotesType: widget.smartQuotesType,
-        strutStyle: strutStyle,
-        textAlignVertical: widget.textAlignVertical,
-        textDirection: widget.textDirection,
-        contextMenuBuilder: widget.contextMenuBuilder,
-        magnifierConfiguration: widget.magnifierConfiguration,
-        onTapOutside: widget.onTapOutside,
-        spellCheckConfiguration: widget.spellCheckConfiguration,
-        contentInsertionConfiguration: widget.contentInsertionConfiguration,
-        undoController: widget.undoController,
-        buildCounter: widget.buildCounter,
-        canRequestFocus: widget.canRequestFocus,
-        ignorePointers: widget.ignorePointers,
-        onAppPrivateCommand: widget.onAppPrivateCommand,
-        onTapAlwaysCalled: widget.onTapAlwaysCalled,
-        statesController: widget.statesController,
-        cursorErrorColor: widget.cursorErrorColor,
-        groupId: widget.groupId,
-        onTapUpOutside: widget.onTapUpOutside,
-      );
+    controller: controller,
+    focusNode: focusNode,
+    decoration: InputDecoration(
+      contentPadding: widget.contentPadding,
+      isDense: true,
+      hintText: widget.hintText,
+      hintStyle: hintStyle,
+      border: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      focusedErrorBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      errorBorder: InputBorder.none,
+    ).merge(widget.decoration),
+    style: style,
+    keyboardType: keyboardType,
+    inputFormatters: inputFormatters,
+    keyboardAppearance: widget.keyboardAppearance,
+    textInputAction: widget.textInputAction,
+    textCapitalization: widget.textCapitalization,
+    enabled: widget.enabled,
+    autofocus: widget.autoFocus,
+    obscureText: widget.enableEye && obscureText.value,
+    obscuringCharacter: widget.obscuringCharacter,
+    maxLines: maxLines,
+    minLines: minLines,
+    maxLengthEnforcement: widget.maxLengthEnforcement,
+    maxLength: maxLength,
+    onChanged: widget.onChanged,
+    textAlign: textAlign,
+    onTap: onTap,
+    onSubmitted: onSubmitted,
+    onEditingComplete: onEditingComplete,
+    showCursor: widget.showCursor,
+    cursorColor: widget.cursorColor ?? context.theme.primaryColor,
+    mouseCursor: widget.mouseCursor,
+    cursorHeight: widget.cursorHeight,
+    cursorWidth: widget.cursorWidth,
+    cursorRadius: widget.cursorRadius,
+    cursorOpacityAnimates: widget.cursorOpacityAnimates,
+    clipBehavior: widget.clipBehavior,
+    autocorrect: widget.autocorrect,
+    autofillHints: widget.autofillHints,
+    dragStartBehavior: widget.dragStartBehavior,
+    enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+    enableInteractiveSelection: widget.enableInteractiveSelection,
+    enableSuggestions: widget.enableSuggestions,
+    expands: widget.expands,
+    readOnly: widget.readOnly,
+    restorationId: widget.restorationId,
+    stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
+    scrollController: widget.scrollController,
+    scrollPadding: widget.scrollPadding,
+    scrollPhysics: widget.scrollPhysics,
+    selectionControls: widget.selectionControls,
+    selectionHeightStyle: widget.selectionHeightStyle,
+    selectionWidthStyle: widget.selectionWidthStyle,
+    smartDashesType: widget.smartDashesType,
+    smartQuotesType: widget.smartQuotesType,
+    strutStyle: strutStyle,
+    textAlignVertical: widget.textAlignVertical,
+    textDirection: widget.textDirection,
+    contextMenuBuilder: widget.contextMenuBuilder,
+    magnifierConfiguration: widget.magnifierConfiguration,
+    onTapOutside: widget.onTapOutside,
+    spellCheckConfiguration: widget.spellCheckConfiguration,
+    contentInsertionConfiguration: widget.contentInsertionConfiguration,
+    undoController: widget.undoController,
+    buildCounter: widget.buildCounter,
+    canRequestFocus: widget.canRequestFocus,
+    ignorePointers: widget.ignorePointers,
+    onAppPrivateCommand: widget.onAppPrivateCommand,
+    onTapAlwaysCalled: widget.onTapAlwaysCalled,
+    statesController: widget.statesController,
+    cursorErrorColor: widget.cursorErrorColor,
+    groupId: widget.groupId,
+    onTapUpOutside: widget.onTapUpOutside,
+  );
 
   ValueChanged<String>? get onSubmitted =>
       widget.onSubmitted == null && widget.onSubmittedWith == null
           ? null
           : (String value) {
-              widget.onSubmitted?.call(value);
-              widget.onSubmittedWith?.call(controller, focusNode);
-            };
+            widget.onSubmitted?.call(value);
+            widget.onSubmittedWith?.call(controller, focusNode);
+          };
 
   VoidCallback? get onEditingComplete =>
       widget.onEditingComplete == null && widget.onEditingCompleteWith == null
           ? null
           : () {
-              widget.onEditingComplete?.call();
-              widget.onEditingCompleteWith?.call(controller, focusNode);
-            };
+            widget.onEditingComplete?.call();
+            widget.onEditingCompleteWith?.call(controller, focusNode);
+          };
 
   GestureTapCallback? get onTap =>
       widget.onTap == null && widget.onTapWith == null
           ? null
           : () {
-              widget.onTap?.call();
-              widget.onTapWith?.call(controller, focusNode);
-            };
+            widget.onTap?.call();
+            widget.onTapWith?.call(controller, focusNode);
+          };
 
   StrutStyle? get strutStyle =>
       widget.strutStyle ?? Universally.to.config.textField?.strutStyle;
 
-  TextStyle get hintStyle => const TStyle(
-        fontSize: 13,
+  TextStyle get hintStyle => const TStyle(fontSize: 13)
+      .merge(
+        context.theme.inputDecorationTheme.hintStyle ??
+            context.theme.textTheme.bodySmall,
       )
-          .merge(context.theme.inputDecorationTheme.hintStyle ??
-              context.theme.textTheme.bodySmall)
-          .merge(widget.hintStyle);
+      .merge(widget.hintStyle);
 
   TextStyle get style => const TStyle()
-      .merge(Universally.to.config.textField?.style ??
-          context.theme.textTheme.bodyMedium)
+      .merge(
+        Universally.to.config.textField?.style ??
+            context.theme.textTheme.bodyMedium,
+      )
       .merge(widget.style);
 
   int? get maxLength {
@@ -694,16 +713,19 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   /// 搜索
   Widget get buildSearchText {
-    bool isLeft = (Universally.to.config.textField?.searchTextPosition ??
+    bool isLeft =
+        (Universally.to.config.textField?.searchTextPosition ??
             widget.searchTextPosition) !=
         DecoratorPendantPosition.inner;
-    final current = widget.searchText ??
+    final current =
+        widget.searchText ??
         Universally.to.config.textField?.searchText ??
         const TextMedium('搜索');
     return Universal(
       padding: EdgeInsets.only(
-          left: isLeft ? widget.interval : 0,
-          right: isLeft ? 0 : widget.interval),
+        left: isLeft ? widget.interval : 0,
+        right: isLeft ? 0 : widget.interval,
+      ),
       onTap: () => widget.searchTextTap?.call(controller.text),
       alignment: Alignment.center,
       child: current,
@@ -714,17 +736,21 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildSendSMS {
     bool isLeft =
         (Universally.to.config.textField?.sendVerificationCodePosition ??
-                widget.sendVerificationCodePosition) !=
-            DecoratorPendantPosition.inner;
+            widget.sendVerificationCodePosition) !=
+        DecoratorPendantPosition.inner;
     return SendVerificationCode(
       margin: EdgeInsets.only(
-          left: isLeft ? widget.interval : 0,
-          right: isLeft ? 0 : widget.interval),
+        left: isLeft ? widget.interval : 0,
+        right: isLeft ? 0 : widget.interval,
+      ),
       value: widget.sendVerificationCodeDuration,
       builder: (SendState state, int i) {
         final current = (widget.sendVerificationCodeTextBuilder ??
                 Universally
-                    .to.config.textField?.sendVerificationCodeTextBuilder)
+                    .to
+                    .config
+                    .textField
+                    ?.sendVerificationCodeTextBuilder)
             ?.call(state, i);
         if (current != null) return current;
         switch (state) {
@@ -744,20 +770,30 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   /// 搜索文字
   Widget get buildSearchIcon {
-    final current = widget.searchIcon ??
+    final current =
+        widget.searchIcon ??
         Universally.to.config.textField?.searchIcon ??
-        Icon(UIS.search,
-            size: 20, color: context.theme.textTheme.bodyMedium?.color);
+        Icon(
+          UIS.search,
+          size: 20,
+          color: context.theme.textTheme.bodyMedium?.color,
+        );
     return Padding(
-        padding: EdgeInsets.only(left: widget.interval), child: current);
+      padding: EdgeInsets.only(left: widget.interval),
+      child: current,
+    );
   }
 
   /// 清除
   Widget get buildClearIcon {
-    final current = widget.clearIcon ??
+    final current =
+        widget.clearIcon ??
         Universally.to.config.textField?.clearIcon ??
-        Icon(UIS.clear,
-            size: 18, color: context.theme.textTheme.bodyMedium?.color);
+        Icon(
+          UIS.clear,
+          size: 18,
+          color: context.theme.textTheme.bodyMedium?.color,
+        );
     return Universal(
       onTap: () {
         controller.clear();
@@ -770,21 +806,24 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   /// 眼睛
   Widget get buildEyeIcon => Universal(
-        padding: EdgeInsets.only(right: widget.interval),
-        onTap: () {
-          obscureText.value = !obscureText.value;
-        },
-        child: ValueListenableBuilder(
-          valueListenable: obscureText,
-          builder: (_, bool value, __) {
-            return (widget.eyeIconBuilder ??
-                        Universally.to.config.textField?.eyeIconBuilder)
-                    ?.call(value) ??
-                Icon(value ? UIS.eyeClose : UIS.eyeOpen,
-                    color: context.theme.textTheme.bodyMedium?.color, size: 20);
-          },
-        ),
-      );
+    padding: EdgeInsets.only(right: widget.interval),
+    onTap: () {
+      obscureText.value = !obscureText.value;
+    },
+    child: ValueListenableBuilder(
+      valueListenable: obscureText,
+      builder: (_, bool value, __) {
+        return (widget.eyeIconBuilder ??
+                    Universally.to.config.textField?.eyeIconBuilder)
+                ?.call(value) ??
+            Icon(
+              value ? UIS.eyeClose : UIS.eyeOpen,
+              color: context.theme.textTheme.bodyMedium?.color,
+              size: 20,
+            );
+      },
+    ),
+  );
 
   @override
   void didUpdateWidget(covariant BaseTextField oldWidget) {
@@ -819,7 +858,7 @@ class TextFieldConfig {
 
   /// 发送验证码
   final ValueTwoCallbackT<Widget, SendState, int>?
-      sendVerificationCodeTextBuilder;
+  sendVerificationCodeTextBuilder;
 
   /// 发送验证码位置
   final DecoratorPendantPosition? sendVerificationCodePosition;
@@ -840,9 +879,10 @@ class TextFieldConfig {
   final StrutStyle? strutStyle;
 }
 
-extension ExtensionDecoratorPendant on DecoratorPendant {
+extension ExtensionDecoratorPendant on DecoratorPendant<TextEditingValue> {
   /// 获取是否需要改变状态
-  bool get needChangedState => needFocus != null || needEditing != null;
+  bool get needChangedState =>
+      needFocus != null || needEditing != null || needValue != null;
 }
 
 extension ExtensionTextInputDecoration on InputDecoration {
