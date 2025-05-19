@@ -35,8 +35,7 @@ class AndroidSystemSettingIntent extends AndroidIntent {
          action: intent.value,
          arguments: {
            if (arguments != null) ...arguments,
-           if (intent == SettingIntent.notification && package != null)
-             'android.provider.extra.APP_PACKAGE': package,
+           if (intent == SettingIntent.notification && package != null) 'android.provider.extra.APP_PACKAGE': package,
          },
        );
 }

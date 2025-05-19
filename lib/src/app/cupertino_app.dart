@@ -32,10 +32,7 @@ class BaseCupertinoApp extends StatelessWidget {
       GlobalWidgetsLocalizations.delegate,
     ],
     this.locale = const Locale('zh'),
-    this.supportedLocales = const <Locale>[
-      Locale('zh', 'CH'),
-      Locale('en', 'US'),
-    ],
+    this.supportedLocales = const <Locale>[Locale('zh', 'CH'), Locale('en', 'US')],
     this.scrollBehavior,
     this.shortcuts,
     this.actions,
@@ -157,8 +154,7 @@ class BaseCupertinoApp extends StatelessWidget {
   final String? restorationScopeId;
 
   /// onNavigationNotification
-  final NotificationListenerCallback<NavigationNotification>?
-  onNavigationNotification;
+  final NotificationListenerCallback<NavigationNotification>? onNavigationNotification;
 
   @override
   Widget build(BuildContext context) {

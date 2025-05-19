@@ -38,17 +38,9 @@ class BaseTabBar extends TabBar {
     List<String>? list,
   }) : assert(tabs != null || list != null),
        super(
-         tabAlignment:
-             tabAlignment ?? (isScrollable ? TabAlignment.start : null),
-         tabs:
-             tabs ??
-             list?.builder((value) => Tab(text: value, height: height)) ??
-             [],
-         labelStyle: labelStyle?.copyWith(
-           fontFamily: fontFamily,
-           fontSize: fontSize,
-           fontWeight: fontWeight,
-         ),
+         tabAlignment: tabAlignment ?? (isScrollable ? TabAlignment.start : null),
+         tabs: tabs ?? list?.builder((value) => Tab(text: value, height: height)) ?? [],
+         labelStyle: labelStyle?.copyWith(fontFamily: fontFamily, fontSize: fontSize, fontWeight: fontWeight),
          unselectedLabelStyle: unselectedLabelStyle?.copyWith(
            fontFamily: fontFamily,
            fontSize: fontSize,
@@ -87,24 +79,13 @@ class BaseTabBar extends TabBar {
     List<String>? list,
   }) : assert(tabs != null || list != null),
        super(
-         tabAlignment:
-             tabAlignment ?? (isScrollable ? TabAlignment.start : null),
-         tabs:
-             tabs ??
-             list?.builder((value) => Tab(text: value, height: height)) ??
-             [],
+         tabAlignment: tabAlignment ?? (isScrollable ? TabAlignment.start : null),
+         tabs: tabs ?? list?.builder((value) => Tab(text: value, height: height)) ?? [],
          indicatorWeight: 0,
          indicatorSize: TabBarIndicatorSize.tab,
-         indicator: BoxDecoration(
-           color: indicatorColor,
-           borderRadius: indicatorRadius,
-         ),
+         indicator: BoxDecoration(color: indicatorColor, borderRadius: indicatorRadius),
          dividerColor: UCS.transparent,
-         labelStyle: labelStyle?.copyWith(
-           fontFamily: fontFamily,
-           fontSize: fontSize,
-           fontWeight: fontWeight,
-         ),
+         labelStyle: labelStyle?.copyWith(fontFamily: fontFamily, fontSize: fontSize, fontWeight: fontWeight),
          unselectedLabelStyle: unselectedLabelStyle?.copyWith(
            fontFamily: fontFamily,
            fontSize: fontSize,

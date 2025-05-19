@@ -4,14 +4,9 @@ import 'package:universally/universally.dart';
 
 /// 返回 false 不再继续执行其他方法
 /// 返回 true 继续执行其他方法
-typedef ConnectivityListenCallback =
-    Future<bool> Function(bool status, List<ConnectivityResult> result);
+typedef ConnectivityListenCallback = Future<bool> Function(bool status, List<ConnectivityResult> result);
 
-typedef UnavailableNetworkAlertBuilder =
-    ExtendedOverlayEntry? Function(
-      bool status,
-      List<ConnectivityResult> result,
-    );
+typedef UnavailableNetworkAlertBuilder = ExtendedOverlayEntry? Function(bool status, List<ConnectivityResult> result);
 
 /// 网络状态变化管理
 class ConnectivityPlus {
@@ -54,14 +49,11 @@ class ConnectivityPlus {
 
     /// 添加模态框
     if (popupUnavailableNetwork != null) {
-      _overlayCallback ??=
-          (_, __) => showOverlayWhenUnavailableNetwork(popupUnavailableNetwork);
+      _overlayCallback ??= (_, __) => showOverlayWhenUnavailableNetwork(popupUnavailableNetwork);
       _listenerList.add(_overlayCallback!);
     }
     await checkConnectivity();
-    _subscription = connectivity.onConnectivityChanged.listen((
-      List<ConnectivityResult> connectivityResult,
-    ) async {
+    _subscription = connectivity.onConnectivityChanged.listen((List<ConnectivityResult> connectivityResult) async {
       if (_currentResult.toString() == connectivityResult.toString()) return;
       _currentResult = connectivityResult;
       'Connectivity 网络状态变化 $_currentResult'.log(crossLine: false);
@@ -94,22 +86,16 @@ class ConnectivityPlus {
   }
 
   /// 移除 需要根据网络变化执行的方案
-  bool removeListener(ConnectivityListenCallback callback) =>
-      _listenerList.remove(callback);
+  bool removeListener(ConnectivityListenCallback callback) => _listenerList.remove(callback);
 
   ConnectivityListenCallback? _overlayCallback;
 
   ExtendedOverlayEntry? _connectivityOverlay;
 
   /// 网络不可用 时 弹出 Overlay 禁止操作
-  Future<bool> showOverlayWhenUnavailableNetwork(
-    UnavailableNetworkAlertBuilder popupUnavailableNetwork,
-  ) async {
+  Future<bool> showOverlayWhenUnavailableNetwork(UnavailableNetworkAlertBuilder popupUnavailableNetwork) async {
     if (!networkAvailability) {
-      _connectivityOverlay ??= popupUnavailableNetwork(
-        networkAvailability,
-        _currentResult,
-      );
+      _connectivityOverlay ??= popupUnavailableNetwork(networkAvailability, _currentResult);
     } else {
       _connectivityOverlay?.removeEntry();
       _connectivityOverlay = null;

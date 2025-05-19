@@ -217,25 +217,24 @@ class BasePageView extends StatelessWidget {
       pauseAutoPlayOnManualNavigate: pauseAutoPlayOnManualNavigate,
       pauseAutoPlayOnScrolling: pauseAutoPlayOnScrolling,
       builder:
-          (FlPageViewController pageController, int? itemCount) =>
-              PageView.builder(
-                allowImplicitScrolling: allowImplicitScrolling,
-                scrollDirection: scrollDirection,
-                reverse: reverse,
-                physics: physics,
-                pageSnapping: pageSnapping,
-                onPageChanged: onPageChanged,
-                findChildIndexCallback: findChildIndexCallback,
-                dragStartBehavior: dragStartBehavior,
-                restorationId: restorationId,
-                clipBehavior: clipBehavior,
-                hitTestBehavior: hitTestBehavior,
-                scrollBehavior: scrollBehavior,
-                padEnds: padEnds,
-                controller: pageController,
-                itemCount: itemCount,
-                itemBuilder: itemBuilder,
-              ),
+          (FlPageViewController pageController, int? itemCount) => PageView.builder(
+            allowImplicitScrolling: allowImplicitScrolling,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            physics: physics,
+            pageSnapping: pageSnapping,
+            onPageChanged: onPageChanged,
+            findChildIndexCallback: findChildIndexCallback,
+            dragStartBehavior: dragStartBehavior,
+            restorationId: restorationId,
+            clipBehavior: clipBehavior,
+            hitTestBehavior: hitTestBehavior,
+            scrollBehavior: scrollBehavior,
+            padEnds: padEnds,
+            controller: pageController,
+            itemCount: itemCount,
+            itemBuilder: itemBuilder,
+          ),
     );
   }
 }

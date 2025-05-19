@@ -8,11 +8,7 @@ abstract class HiveBox {
   bool _lazy = false;
   bool _isOpen = false;
 
-  Future<void> initialize(
-    String name, {
-    String? subDir,
-    bool lazy = false,
-  }) async {
+  Future<void> initialize(String name, {String? subDir, bool lazy = false}) async {
     if (!isInitialize) {
       _name = name;
       _lazy = lazy;
@@ -140,8 +136,7 @@ abstract class HiveBox {
   String? getString(dynamic key) => getObject<String>(key);
 
   /// set string
-  Future<bool> setString(dynamic key, String value) =>
-      setObject<String>(key, value);
+  Future<bool> setString(dynamic key, String value) => setObject<String>(key, value);
 
   /// get bool
   bool? getBool(dynamic key) => getObject<bool>(key);
@@ -159,8 +154,7 @@ abstract class HiveBox {
   double? getDouble(dynamic key) => getObject<double>(key);
 
   /// set double
-  Future<bool> setDouble(dynamic key, double value) =>
-      setObject<double>(key, value);
+  Future<bool> setDouble(dynamic key, double value) => setObject<double>(key, value);
 
   /// get map
   Map? getMap(dynamic key) => getObject<Map>(key);
@@ -176,8 +170,7 @@ abstract class HiveBox {
   }
 
   /// set map and encode  常用于多层map嵌套
-  Future<bool> setEncodeMap(dynamic key, Map<String, dynamic> value) =>
-      setObject<String>(key, jsonEncode(value));
+  Future<bool> setEncodeMap(dynamic key, Map<String, dynamic> value) => setObject<String>(key, jsonEncode(value));
 
   /// get list and decode  常用于 list 嵌套 map
   List? getDecodeList(dynamic key) {
@@ -187,15 +180,13 @@ abstract class HiveBox {
   }
 
   /// set list and encode  常用于 list 嵌套 map
-  Future<bool> setEncodeList(dynamic key, List value) =>
-      setObject<String>(key, jsonEncode(value));
+  Future<bool> setEncodeList(dynamic key, List value) => setObject<String>(key, jsonEncode(value));
 
   /// get string list
   List<String> getStringList(dynamic key) => getObject<List<String>>(key) ?? [];
 
   /// set string list
-  Future<bool> setStringList(dynamic key, List<String> value) =>
-      setObject<List<String>>(key, value);
+  Future<bool> setStringList(dynamic key, List<String> value) => setObject<List<String>>(key, value);
 }
 
 /// Preferences 配置信息存储

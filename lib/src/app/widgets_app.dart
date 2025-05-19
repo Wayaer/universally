@@ -29,10 +29,7 @@ class BaseWidgetsApp extends StatelessWidget {
       GlobalWidgetsLocalizations.delegate,
     ],
     this.locale = const Locale('zh'),
-    this.supportedLocales = const <Locale>[
-      Locale('zh', 'CH'),
-      Locale('en', 'US'),
-    ],
+    this.supportedLocales = const <Locale>[Locale('zh', 'CH'), Locale('en', 'US')],
     this.shortcuts,
     this.actions,
     this.onGenerateInitialRoutes,
@@ -142,8 +139,7 @@ class BaseWidgetsApp extends StatelessWidget {
   final bool debugShowCheckedModeBanner;
 
   /// onNavigationNotification
-  final NotificationListenerCallback<NavigationNotification>?
-  onNavigationNotification;
+  final NotificationListenerCallback<NavigationNotification>? onNavigationNotification;
 
   /// shortcuts
   final Map<LogicalKeySet, Intent>? shortcuts;

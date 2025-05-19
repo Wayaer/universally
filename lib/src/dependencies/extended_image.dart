@@ -299,12 +299,7 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.file(
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+  }) : super.file(loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
 
   BaseImage.memory(
     super.bytes, {
@@ -352,12 +347,7 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.memory(
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+  }) : super.memory(loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
 
   BaseImage.asset(
     String? name, {
@@ -409,10 +399,7 @@ class BaseImage extends ExtendedImage {
     Widget? loading,
   }) : super.asset(
          name ?? 'asset name is null',
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
+         loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading),
        );
 
   BaseImage.network(
@@ -471,18 +458,9 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.network(
-         url ?? 'url is null',
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
-       );
+  }) : super.network(url ?? 'url is null', loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
 
-  static LoadStateChanged buildLoadStateChanged({
-    Widget? failed,
-    Widget? loading,
-  }) => (ExtendedImageState state) {
+  static LoadStateChanged buildLoadStateChanged({Widget? failed, Widget? loading}) => (ExtendedImageState state) {
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
         return loading ?? const ImageLoading(size: 16);
@@ -606,20 +584,12 @@ class BaseImage extends ExtendedImage {
            bundle: bundle,
            package: package,
          ),
-         loadStateChanged: buildLoadStateChanged(
-           failed: failed,
-           loading: loading,
-         ),
+         loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading),
        );
 }
 
 class PreviewImage extends StatelessWidget {
-  const PreviewImage({
-    super.key,
-    this.initialPage,
-    required this.itemCount,
-    required this.itemBuilder,
-  });
+  const PreviewImage({super.key, this.initialPage, required this.itemCount, required this.itemBuilder});
 
   final int? itemCount;
   final IndexedWidgetBuilder itemBuilder;

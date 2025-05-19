@@ -20,8 +20,7 @@ export 'package:fl_dio/fl_dio.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:keframe/keframe.dart';
 export 'package:extended_image/extended_image.dart' hide MultipartFile;
-export 'package:extended_image_library/extended_image_library.dart'
-    hide MultipartFile;
+export 'package:extended_image_library/extended_image_library.dart' hide MultipartFile;
 export 'package:window_manager/window_manager.dart';
 export 'package:hive_flutter/hive_flutter.dart';
 export 'package:hive/hive.dart';

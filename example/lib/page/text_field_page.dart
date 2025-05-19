@@ -175,8 +175,8 @@ class TextFieldPage extends StatelessWidget {
               maintainSize: true,
               positioned: DecoratorPendantPosition.outer,
               needValue:
-                  (TextEditingValue? value) =>
-                      value?.text.contains('1') ?? false,
+                  (TextEditingController? controller) =>
+                      controller?.text.contains('1') ?? false,
             ),
           ],
           headers: const [

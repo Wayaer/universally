@@ -32,7 +32,7 @@ dependencies:
   hive: ^2.2.3
 
   flutter_curiosity: ^6.7.0
-  flutter_waya: ^11.2.3
+  flutter_waya: ^11.2.4
   fl_extended: ^1.7.3
   fl_list_wheel: ^0.0.3
   fl_scroll_view: ^1.0.1

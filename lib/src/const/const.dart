@@ -65,8 +65,7 @@ class UIS {
 }
 
 class _IconData extends IconData {
-  const _IconData(super.codePoint)
-    : super(fontFamily: 'Universally', fontPackage: 'universally');
+  const _IconData(super.codePoint) : super(fontFamily: 'Universally', fontPackage: 'universally');
 }
 
 class UCS {

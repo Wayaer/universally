@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class SwitchApiButton extends StatelessWidget {
-  const SwitchApiButton({
-    super.key,
-    this.unifiedButtonCategory = UnifiedButtonCategory.elevated,
-  });
+  const SwitchApiButton({super.key, this.unifiedButtonCategory = UnifiedButtonCategory.elevated});
 
   final UnifiedButtonCategory? unifiedButtonCategory;
 
@@ -39,8 +36,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
   @override
   Widget build(BuildContext context) {
     httpStr = 'http${isHttps ? 's' : ''}://';
-    final defaultUrl =
-        isBeta ? Universally().config.betaApi : Universally().config.releaseApi;
+    final defaultUrl = isBeta ? Universally().config.betaApi : Universally().config.releaseApi;
     return BaseScaffold(
       isScroll: true,
       safeBottom: true,
@@ -76,11 +72,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           width: double.infinity,
           margin: const EdgeInsets.only(top: 10),
           borderType: BorderType.outline,
-          prefixes:
-              SizedBox(
-                width: 50,
-                child: TextMedium(httpStr),
-              ).toTextFieldPendant().toList,
+          prefixes: SizedBox(width: 50, child: TextMedium(httpStr)).toTextFieldPendant().toList,
           maxLength: 30,
           controller: ip,
           hintText: '请输入IP地址',
@@ -90,11 +82,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           enableClearIcon: true,
           margin: const EdgeInsets.only(top: 10),
           borderType: BorderType.outline,
-          prefixes:
-              const SizedBox(
-                width: 50,
-                child: TextMedium('端口: '),
-              ).toTextFieldPendant().toList,
+          prefixes: const SizedBox(width: 50, child: TextMedium('端口: ')).toTextFieldPendant().toList,
           maxLength: 10,
           controller: port,
           hintText: '请输入端口',
@@ -122,11 +110,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           text: '重置为默认服务器并重启APP',
           onTap: () => saveApi(defaultUrl),
         ),
-        UButton(
-          width: double.infinity,
-          text: '切换正式服务器并重启APP',
-          onTap: () => saveApi(Universally().config.releaseApi),
-        ),
+        UButton(width: double.infinity, text: '切换正式服务器并重启APP', onTap: () => saveApi(Universally().config.releaseApi)),
         const USpacing(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,11 +126,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             ),
           ],
         ),
-        TextMedium(
-          '*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启',
-          maxLines: 3,
-          color: context.theme.primaryColor,
-        ),
+        TextMedium('*开启此开关后，切换正式服后将无法使用切换API功能，其本质与正式包一样，请确认后再开启', maxLines: 3, color: context.theme.primaryColor),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

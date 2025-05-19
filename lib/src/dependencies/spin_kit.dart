@@ -122,12 +122,7 @@ class SpinKit extends StatelessWidget {
           controller: controller,
         );
       case SpinKitStyle.wanderingCubes:
-        return SpinKitWanderingCubes(
-          color: color,
-          size: size,
-          duration: duration,
-          itemBuilder: itemBuilder,
-        );
+        return SpinKitWanderingCubes(color: color, size: size, duration: duration, itemBuilder: itemBuilder);
       case SpinKitStyle.fadingFour:
         return SpinKitFadingFour(
           color: color,
@@ -154,12 +149,7 @@ class SpinKit extends StatelessWidget {
           controller: controller,
         );
       case SpinKitStyle.chasingDots:
-        return SpinKitChasingDots(
-          color: color,
-          size: size,
-          duration: duration,
-          itemBuilder: itemBuilder,
-        );
+        return SpinKitChasingDots(color: color, size: size, duration: duration, itemBuilder: itemBuilder);
       case SpinKitStyle.threeBounce:
         return SpinKitThreeBounce(
           color: color,
@@ -209,12 +199,7 @@ class SpinKit extends StatelessWidget {
           controller: controller,
         );
       case SpinKitStyle.hourGlass:
-        return SpinKitHourGlass(
-          color: color,
-          size: size,
-          duration: duration,
-          controller: controller,
-        );
+        return SpinKitHourGlass(color: color, size: size, duration: duration, controller: controller);
       case SpinKitStyle.pouringHourGlass:
         return SpinKitPouringHourGlass(
           color: color,

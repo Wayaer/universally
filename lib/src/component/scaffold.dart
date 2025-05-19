@@ -322,27 +322,19 @@ class BaseScaffold extends StatelessWidget {
         ? ExtendedPopScope<dynamic>(
           canPop: !hasPopScope,
           isCloseOverlay: isCloseOverlay,
-          onPopInvokedWithResult: (
-            bool didPop,
-            dynamic result,
-            bool didCloseOverlay,
-          ) {
+          onPopInvokedWithResult: (bool didPop, dynamic result, bool didCloseOverlay) {
             onPopInvoked?.call(didPop, didCloseOverlay);
             onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
             if (didCloseOverlay || didPop) return;
             if (enableDoubleClickExit) {
               final now = DateTime.now();
-              if (_dateTime != null &&
-                  now.difference(_dateTime!).inMilliseconds < 2500) {
+              if (_dateTime != null && now.difference(_dateTime!).inMilliseconds < 2500) {
                 Curiosity.native.exitApp();
               } else {
                 _dateTime = now;
                 showToast(
                   doubleClickExitPrompt,
-                  options: const ToastOptions(
-                    alignment: Alignment.center,
-                    duration: Duration(milliseconds: 1500),
-                  ),
+                  options: const ToastOptions(alignment: Alignment.center, duration: Duration(milliseconds: 1500)),
                 );
               }
             } else if (onPopInvoked == null) {
@@ -365,9 +357,7 @@ class BaseScaffold extends StatelessWidget {
             ? AppBar(
               actions: appBarActions,
               bottom: appBarBottom,
-              title:
-                  appBarTitle ??
-                  (appBarTitleText == null ? null : Text(appBarTitleText!)),
+              title: appBarTitle ?? (appBarTitleText == null ? null : Text(appBarTitleText!)),
               leading: appBarLeading,
               iconTheme: appBarIconTheme,
               backgroundColor: appBarBackgroundColor,
@@ -397,10 +387,7 @@ class BaseScaffold extends StatelessWidget {
             )
             : null);
     if (current == null) return null;
-    return PreferredSize(
-      preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10),
-      child: current,
-    );
+    return PreferredSize(preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10), child: current);
   }
 
   Universal get universal => Universal(

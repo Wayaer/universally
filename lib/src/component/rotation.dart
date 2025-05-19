@@ -72,21 +72,11 @@ class BaseExpansionTiles extends StatelessWidget {
     return ExpansionTiles(
       icon:
           icon ??
-          (bool isExpanded) => Icon(
-            iconData,
-            color:
-                isExpanded
-                    ? context.theme.primaryColor
-                    : context.theme.disabledColor,
-          ),
+          (bool isExpanded) =>
+              Icon(iconData, color: isExpanded ? context.theme.primaryColor : context.theme.disabledColor),
       builder:
           builder ??
-          (
-            BuildContext context,
-            VoidCallback expand,
-            bool isExpanded,
-            Widget? rotation,
-          ) => ListTile(
+          (BuildContext context, VoidCallback expand, bool isExpanded, Widget? rotation) => ListTile(
             onTap: expand,
             leading: leading,
             title: title ?? TextLarge(titleText),
@@ -209,18 +199,8 @@ class BasePopupMenuButton<T> extends StatelessWidget {
     T? selected = initialValue;
     return PopupMenuButtonRotateBuilder(
       icon:
-          icon ??
-          Icon(
-            iconData,
-            color: context.theme.textTheme.bodyMedium?.color,
-            size: 22,
-          ).toToggleRotateIconBuilder,
-      builder: (
-        BuildContext context,
-        Widget rotateIcon,
-        VoidCallback onOpened,
-        VoidCallback onClosed,
-      ) {
+          icon ?? Icon(iconData, color: context.theme.textTheme.bodyMedium?.color, size: 22).toToggleRotateIconBuilder,
+      builder: (BuildContext context, Widget rotateIcon, VoidCallback onOpened, VoidCallback onClosed) {
         return PopupMenuButton<T>(
           initialValue: initialValue,
           offset: offset,
@@ -249,11 +229,7 @@ class BasePopupMenuButton<T> extends StatelessWidget {
           splashRadius: splashRadius,
           style: style,
           popUpAnimationStyle: popUpAnimationStyle,
-          itemBuilder:
-              (_) => list.builder(
-                (item) =>
-                    PopupMenuItem<T>(value: item, child: itemBuilder(item)),
-              ),
+          itemBuilder: (_) => list.builder((item) => PopupMenuItem<T>(value: item, child: itemBuilder(item))),
           child: builder(selected, rotateIcon),
         );
       },

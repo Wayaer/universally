@@ -96,10 +96,7 @@ class Gif extends StatefulWidget {
     this.centerSlice,
     this.matchTextDirection = false,
     this.useCache = true,
-  }) : assert(
-         fps == null || duration == null,
-         'only one of the two can be set [fps] [duration]',
-       ),
+  }) : assert(fps == null || duration == null, 'only one of the two can be set [fps] [duration]'),
        assert(fps == null || fps > 0, 'fps must be greater than 0');
 
   @override
@@ -136,8 +133,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   int frameIndex = 0;
 
   /// Current rendered frame.
-  ImageInfo? get frame =>
-      frames.length > frameIndex ? frames[frameIndex] : null;
+  ImageInfo? get frame => frames.length > frameIndex ? frames[frameIndex] : null;
 
   @override
   void initState() {
@@ -190,9 +186,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   }
 
   void initController() {
-    controller =
-        widget.controller ??
-        AnimationController(vsync: this, duration: widget.duration);
+    controller = widget.controller ?? AnimationController(vsync: this, duration: widget.duration);
     controller.addListener(listener);
   }
 
@@ -241,8 +235,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   /// and the [Duration] of [AnimationController].
   void listener() {
     if (frames.isNotEmpty && mounted) {
-      frameIndex =
-          frames.isEmpty ? 0 : (frames.length * controller.value).floor();
+      frameIndex = frames.isEmpty ? 0 : (frames.length * controller.value).floor();
       if (frameIndex >= frames.length) frameIndex = frames.length - 1;
       setState(() {});
     }
@@ -253,14 +246,9 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   /// When [frames] is updated [onFetchCompleted] is called.
   Future<void> loadFrames() async {
     if (!mounted) return;
-    final useCache =
-        Gif.cache.caches.containsKey(getImageKey(widget.image)) &&
-        widget.useCache;
+    final useCache = Gif.cache.caches.containsKey(getImageKey(widget.image)) && widget.useCache;
 
-    GifInfo? gif =
-        useCache
-            ? Gif.cache.caches[getImageKey(widget.image)]!
-            : await fetchFrames(widget.image);
+    GifInfo? gif = useCache ? Gif.cache.caches[getImageKey(widget.image)]! : await fetchFrames(widget.image);
     if (gif == null) return;
     if (useCache) {
       Gif.cache.caches.putIfAbsent(getImageKey(widget.image), () => gif);
@@ -268,9 +256,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
     frames = gif.frames;
     controller.duration =
         widget.fps != null
-            ? Duration(
-              milliseconds: (frames.length / widget.fps! * 1000).round(),
-            )
+            ? Duration(milliseconds: (frames.length / widget.fps! * 1000).round())
             : widget.duration ?? gif.duration;
     if (widget.onFetchCompleted != null) {
       widget.onFetchCompleted!();
@@ -284,9 +270,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
     if (provider is NetworkImage) {
       try {
         final options = Options(headers: {}, responseType: ResponseType.bytes);
-        provider.headers?.forEach(
-          (String name, String value) => options.headers?.addAll({name: value}),
-        );
+        provider.headers?.forEach((String name, String value) => options.headers?.addAll({name: value}));
         final data = await Dio().get(provider.url, options: options);
         if (data.statusCode == 200) {
           bytes = Uint8List.fromList(data.data);
@@ -295,9 +279,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
         debugPrint('Gif network image error:$e');
       }
     } else if (provider is AssetImage) {
-      AssetBundleImageKey key = await provider.obtainKey(
-        const ImageConfiguration(),
-      );
+      AssetBundleImageKey key = await provider.obtainKey(const ImageConfiguration());
       bytes = (await key.bundle.load(key.name)).buffer.asUint8List();
     } else if (provider is FileImage) {
       bytes = await provider.file.readAsBytes();
@@ -322,9 +304,7 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
         .resolve(const ImageConfiguration())
         .addListener(
           ImageStreamListener((ImageInfo info, bool syncCall) {
-            info.image.toByteData(format: ImageByteFormat.rawRgba).then((
-              byteData,
-            ) {
+            info.image.toByteData(format: ImageByteFormat.rawRgba).then((byteData) {
               completer.complete(Uint8List.view(byteData!.buffer));
             });
           }),

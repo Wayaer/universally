@@ -67,8 +67,7 @@ class UrlLauncher {
   /// platform implementation.
   /// If this returns false, [closeInAppWebView] will not work when launching
   /// URLs with [mode].
-  Future<bool> supportsClose(LaunchMode mode) =>
-      supportsCloseForLaunchMode(mode);
+  Future<bool> supportsClose(LaunchMode mode) => supportsCloseForLaunchMode(mode);
 
   /// 拨打电话
   /// Make a phone call
@@ -105,10 +104,7 @@ class UrlLauncher {
     } else if (isAndroid && packageName.isNotEmptyOrNull) {
       final String url = 'market://details?id=$packageName';
       if (androidUseIntent) {
-        await AndroidAppMarketIntent(
-          packageName: packageName!,
-          package: marketPackageName,
-        ).launch();
+        await AndroidAppMarketIntent(packageName: packageName!, package: marketPackageName).launch();
         return true;
       } else {
         return await openUrl(
@@ -170,10 +166,7 @@ class UrlLauncher {
             titleText: '温馨提示',
             contentText: '您还未安装$name，是否跳转应用商店安装？',
             onConfirmTap: () async {
-              return await UrlLauncher().openAppStore(
-                packageName: androidPackageName,
-                appId: iosAppId,
-              );
+              return await UrlLauncher().openAppStore(packageName: androidPackageName, appId: iosAppId);
             },
           ).show();
       return data ?? false;
@@ -181,10 +174,7 @@ class UrlLauncher {
 
     if (isAndroid) {
       if (!result && androidSchemes != null) {
-        result = await UrlLauncher().openUrl(
-          androidSchemes,
-          mode: LaunchMode.externalNonBrowserApplication,
-        );
+        result = await UrlLauncher().openUrl(androidSchemes, mode: LaunchMode.externalNonBrowserApplication);
       }
       if (!result && androidPackageName != null) {
         result = await UrlLauncher().openUrl(androidPackageName);
@@ -196,10 +186,7 @@ class UrlLauncher {
         result = await UrlLauncher().openUrl(extraAndroidPackageName);
       }
       if (!result && uri != null) {
-        result = await UrlLauncher().openUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
+        result = await UrlLauncher().openUrl(uri, mode: LaunchMode.externalApplication);
       }
       if (!result && androidPackageName != null) {
         result = await openStoreDialog(androidPackageName);
@@ -212,10 +199,7 @@ class UrlLauncher {
         result = await UrlLauncher().openUrl(extraIOSSchemes);
       }
       if (!result && uri != null) {
-        result = await UrlLauncher().openUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
+        result = await UrlLauncher().openUrl(uri, mode: LaunchMode.externalApplication);
       }
       if (!result && iosAppId != null) result = await openStoreDialog(iosAppId);
     }

@@ -42,10 +42,7 @@ extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
       return true;
     } else {
       final result = await popupDialog(
-        options: const DialogOptions(
-          fromStyle: PopupFromStyle.fromCenter,
-          barrierDismissible: false,
-        ),
+        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
       );
       return result == true;
     }
@@ -92,20 +89,12 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
                     '《隐私政策》',
                     '了解我们收集、使用、存储个人信息的情况，以及对您个人隐私的保护措施。$name客户端深知个人信息对您的重要性，我们将以最高标准遵守法律法规要求，尽全力保护您的个人信息安全。\n\n如您同意，请点击“同意”开始接受',
                   ],
-                  style: const TStyle(height: 1.4)
-                      .merge(context.theme.textTheme.bodyMedium)
-                      .copyWith(color: textColor),
+                  style: const TStyle(height: 1.4).merge(context.theme.textTheme.bodyMedium).copyWith(color: textColor),
                   styles: [
                     null,
-                    TStyle(
-                      height: 1.4,
-                      color: context.theme.primaryColor,
-                    ).copyWith(color: highlightColor),
+                    TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
                     null,
-                    TStyle(
-                      height: 1.4,
-                      color: context.theme.primaryColor,
-                    ).copyWith(color: highlightColor),
+                    TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
                     null,
                   ],
                   recognizers: [
@@ -128,24 +117,17 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
         (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: context.theme.textTheme.bodyMedium?.color?.withValues(
-              alpha: 0.05,
-            ),
+            color: context.theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.05),
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8)),
           ),
-          child: TextMedium(
-            cancelText,
-            style: context.theme.textTheme.bodyMedium,
-          ),
+          child: TextMedium(cancelText, style: context.theme.textTheme.bodyMedium),
         ),
     confirm:
         (_) => Universal(
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.theme.primaryColor,
-            borderRadius: const BorderRadius.only(
-              bottomRight: Radius.circular(6),
-            ),
+            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(6)),
           ),
           child: TextMedium(confirmText, color: UCS.white),
         ),
@@ -158,10 +140,7 @@ extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
       return true;
     } else {
       final result = await popupDialog(
-        options: const DialogOptions(
-          fromStyle: PopupFromStyle.fromCenter,
-          barrierDismissible: false,
-        ),
+        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
       );
       if (result == true) return true;
     }
@@ -196,11 +175,7 @@ class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
     options: options,
     titleText: titleText,
     cancelText: cancelText,
-    confirm:
-        (_) => TextMedium(
-          confirmText,
-          color: highlightColor ?? context.theme.primaryColor,
-        ),
+    confirm: (_) => TextMedium(confirmText, color: highlightColor ?? context.theme.primaryColor),
     dividerColor: dividerColor,
     onConfirmTap: () {
       onConsentTap?.call();
@@ -210,20 +185,12 @@ class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
     content:
         (_) => _RTextWithRecognizers(
           texts: contentTexts,
-          style: const TStyle(height: 1.4)
-              .merge(context.theme.textTheme.bodyMedium)
-              .copyWith(color: textColor),
+          style: const TStyle(height: 1.4).merge(context.theme.textTheme.bodyMedium).copyWith(color: textColor),
           styles: [
             null,
-            TStyle(
-              height: 1.4,
-              color: context.theme.primaryColor,
-            ).copyWith(color: highlightColor),
+            TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
             null,
-            TStyle(
-              height: 1.4,
-              color: context.theme.primaryColor,
-            ).copyWith(color: highlightColor),
+            TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
           ],
           recognizers: [
             null,
@@ -280,20 +247,15 @@ class UserPrivacyCheckbox extends StatelessWidget {
           maxLines: 2,
           textAlign: TextAlign.start,
           texts: texts,
-          style: TStyle(height: 1.4, fontSize: fontSize)
-              .merge(context.theme.textTheme.bodyMedium)
-              .copyWith(color: textColor),
+          style: TStyle(
+            height: 1.4,
+            fontSize: fontSize,
+          ).merge(context.theme.textTheme.bodyMedium).copyWith(color: textColor),
           styles: [
             null,
-            TStyle(
-              height: 1.4,
-              color: context.theme.primaryColor,
-            ).copyWith(color: highlightColor),
+            TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
             null,
-            TStyle(
-              height: 1.4,
-              color: context.theme.primaryColor,
-            ).copyWith(color: highlightColor),
+            TStyle(height: 1.4, color: context.theme.primaryColor).copyWith(color: highlightColor),
             null,
           ],
           recognizers: [

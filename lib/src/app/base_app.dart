@@ -41,8 +41,7 @@ class BaseApp extends StatefulWidget {
   final ValueCallbackFutureTV<bool, BuildContext>? didPopRoute;
 
   /// didPushRouteInformation
-  final ValueTwoCallbackFutureT<bool, BuildContext, RouteInformation>?
-  didPushRouteInformation;
+  final ValueTwoCallbackFutureT<bool, BuildContext, RouteInformation>? didPushRouteInformation;
 
   /// didChangeMetrics
   final ValueCallback<BuildContext>? didChangeMetrics;
@@ -57,8 +56,7 @@ class BaseApp extends StatefulWidget {
   final ValueTwoCallback<BuildContext, List<Locale>?>? didChangeLocales;
 
   /// didChangeAppLifecycleState
-  final ValueTwoCallback<BuildContext, AppLifecycleState>?
-  didChangeAppLifecycleState;
+  final ValueTwoCallback<BuildContext, AppLifecycleState>? didChangeAppLifecycleState;
 
   /// didRequestAppExit
   final ValueCallbackFutureTV<AppExitResponse, BuildContext>? didRequestAppExit;

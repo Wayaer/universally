@@ -22,25 +22,13 @@ class BottomPadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Universal(
     color: color,
-    padding: EdgeInsets.fromLTRB(
-      left,
-      top,
-      right,
-      context.bottomNavigationBarHeight + bottom,
-    ),
+    padding: EdgeInsets.fromLTRB(left, top, right, context.bottomNavigationBarHeight + bottom),
     child: child,
   );
 }
 
 class BaseDivider extends Divider {
-  const BaseDivider({
-    super.color,
-    super.key,
-    super.endIndent,
-    super.indent,
-    super.thickness = 0.5,
-    super.height = 1,
-  });
+  const BaseDivider({super.color, super.key, super.endIndent, super.indent, super.thickness = 0.5, super.height = 1});
 }
 
 class BaseError extends StatelessWidget {
@@ -64,11 +52,7 @@ class BaseError extends StatelessWidget {
 }
 
 class BasePlaceholder extends StatelessWidget {
-  const BasePlaceholder({
-    super.key,
-    this.onTap,
-    this.padding = const EdgeInsets.only(top: 100),
-  });
+  const BasePlaceholder({super.key, this.onTap, this.padding = const EdgeInsets.only(top: 100)});
 
   final GestureTapCallback? onTap;
   final EdgeInsetsGeometry padding;
@@ -81,11 +65,7 @@ class BasePlaceholder extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       direction: Axis.vertical,
       spacing: 10,
-      widget: Icon(
-        UIS.empty,
-        size: 80,
-        color: context.theme.textTheme.bodyMedium?.color,
-      ),
+      widget: Icon(UIS.empty, size: 80, color: context.theme.textTheme.bodyMedium?.color),
       label: const TextSmall('什么也没有哎~', fontWeight: FontWeights.medium),
     ),
   );
@@ -136,14 +116,11 @@ class UButton extends Universal {
     GestureTapCallback? onTap,
   }) : super(
          heroTag: text,
-         child:
-             child ?? BText(text ?? '', style: const TStyle(color: UCS.white)),
+         child: child ?? BText(text ?? '', style: const TStyle(color: UCS.white)),
          onTap: enabled ? onTap : null,
          decoration: BoxDecoration(
            border:
-               Universally.to.getTheme() != null
-                   ? Border.all(color: Universally.to.getTheme()!.primaryColor)
-                   : null,
+               Universally.to.getTheme() != null ? Border.all(color: Universally.to.getTheme()!.primaryColor) : null,
            color: color ?? Universally.to.getTheme()?.primaryColor,
            borderRadius: BorderRadius.circular(8),
          ),
@@ -151,14 +128,7 @@ class UButton extends Universal {
 }
 
 class USpacing extends StatelessWidget {
-  const USpacing({
-    super.key,
-    this.spacing = 6,
-    this.horizontal = false,
-    this.color,
-    this.height,
-    this.width,
-  });
+  const USpacing({super.key, this.spacing = 6, this.horizontal = false, this.color, this.height, this.width});
 
   final double? spacing;
   final bool horizontal;
@@ -167,9 +137,6 @@ class USpacing extends StatelessWidget {
   final double? width;
 
   @override
-  Widget build(BuildContext context) => Container(
-    color: color,
-    height: height ?? (horizontal ? 0 : spacing),
-    width: width ?? (horizontal ? spacing : 0),
-  );
+  Widget build(BuildContext context) =>
+      Container(color: color, height: height ?? (horizontal ? 0 : spacing), width: width ?? (horizontal ? spacing : 0));
 }

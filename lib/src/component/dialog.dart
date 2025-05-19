@@ -4,15 +4,10 @@ import 'package:universally/universally.dart';
 
 extension ExtensionConfirmActionDialog on ConfirmActionDialog {
   Future<T?> bottomSheet<T>({BottomSheetOptions? options}) =>
-      popupBottomSheet<T>(
-        options: const BottomSheetOptions(
-          backgroundColor: Colors.transparent,
-        ).merge(options),
-      );
+      popupBottomSheet<T>(options: const BottomSheetOptions(backgroundColor: Colors.transparent).merge(options));
 
-  Future<T?> show<T>({DialogOptions? options}) => popupDialog<T>(
-    options: const DialogOptions(barrierLabel: '').merge(options),
-  );
+  Future<T?> show<T>({DialogOptions? options}) =>
+      popupDialog<T>(options: const DialogOptions(barrierLabel: '').merge(options));
 }
 
 /// text builder
@@ -113,28 +108,18 @@ class ConfirmActionDialog extends StatelessWidget {
     if (contentText != null) current = TextMedium(contentText, maxLines: 20);
     if (content != null) current = content!(current);
     return Universal(
-      margin:
-          isCupertino
-              ? const EdgeInsets.only(top: 10)
-              : const EdgeInsets.fromLTRB(16, 2, 16, 20),
+      margin: isCupertino ? const EdgeInsets.only(top: 10) : const EdgeInsets.fromLTRB(16, 2, 16, 20),
       child: current,
     );
   }
 
   @override
-  Widget build(BuildContext context) =>
-      isCupertino
-          ? buildCupertinoActionDialog(context)
-          : buildActionDialog(context);
+  Widget build(BuildContext context) => isCupertino ? buildCupertinoActionDialog(context) : buildActionDialog(context);
 
   Widget buildActionDialog(BuildContext context) {
     Widget? current;
     if (titleText != null) {
-      current = TextLarge(
-        titleText,
-        maxLines: 10,
-        style: context.theme.textTheme.titleLarge,
-      );
+      current = TextLarge(titleText, maxLines: 10, style: context.theme.textTheme.titleLarge);
     }
     if (title != null) current = title!(current);
     if (current != null) {
@@ -154,10 +139,7 @@ class ConfirmActionDialog extends StatelessWidget {
       constraints: constraints ?? BoxConstraints(maxWidth: context.width - 60),
       options: FlExtended().modalOptions
           .merge(options)
-          .copyWith(
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            borderRadius: BorderRadius.circular(6),
-          ),
+          .copyWith(resizeToAvoidBottomInset: resizeToAvoidBottomInset, borderRadius: BorderRadius.circular(6)),
       actionsMaxHeight: 40,
     );
   }
@@ -165,18 +147,10 @@ class ConfirmActionDialog extends StatelessWidget {
   Widget buildCupertinoActionDialog(BuildContext context) {
     Widget? current;
     if (titleText != null) {
-      current = TextLarge(
-        titleText,
-        maxLines: 10,
-        style: context.theme.textTheme.titleLarge,
-      );
+      current = TextLarge(titleText, maxLines: 10, style: context.theme.textTheme.titleLarge);
     }
     if (title != null) current = title!(current);
-    return CupertinoAlertDialog(
-      title: current,
-      content: buildContent,
-      actions: buildActions(context),
-    );
+    return CupertinoAlertDialog(title: current, content: buildContent, actions: buildActions(context));
   }
 
   List<Widget> buildActions(BuildContext context) {
@@ -406,9 +380,7 @@ class TextFieldDialog extends StatelessWidget {
       hasFocusedChangeBorder: false,
       borderType: BorderType.outline,
       contentPadding: contentPadding,
-      borderSide:
-          borderSide ??
-          BorderSide(color: CupertinoColors.separator, width: 0.8),
+      borderSide: borderSide ?? BorderSide(color: CupertinoColors.separator, width: 0.8),
       controller: controller,
       width: double.infinity,
       maxLines: maxLines,

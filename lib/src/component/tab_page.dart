@@ -65,10 +65,7 @@ class TabPageBar extends StatelessWidget {
     builder: (_, __) {
       return Universal(
         direction: Axis.horizontal,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: borderSide != null ? Border(top: borderSide!) : null,
-        ),
+        decoration: BoxDecoration(color: backgroundColor, border: borderSide != null ? Border(top: borderSide!) : null),
         clipper: clipper,
         height: context.padding.bottom + kToolbarHeight,
         padding: EdgeInsets.only(bottom: context.padding.bottom),
@@ -105,11 +102,7 @@ class TabPage extends PageView {
     bool enableScroll = true,
     ScrollPhysics? physics,
   }) : super.builder(
-         physics:
-             physics ??
-             (enableScroll
-                 ? const ClampingScrollPhysics()
-                 : const NeverScrollableScrollPhysics()),
+         physics: physics ?? (enableScroll ? const ClampingScrollPhysics() : const NeverScrollableScrollPhysics()),
          itemCount: children.length,
          itemBuilder: (_, int index) => children[index],
        );
@@ -131,11 +124,5 @@ class TabPage extends PageView {
     super.padEnds = true,
     bool enableScroll = true,
     ScrollPhysics? physics,
-  }) : super(
-         physics:
-             physics ??
-             (enableScroll
-                 ? const ClampingScrollPhysics()
-                 : const NeverScrollableScrollPhysics()),
-       );
+  }) : super(physics: physics ?? (enableScroll ? const ClampingScrollPhysics() : const NeverScrollableScrollPhysics()));
 }

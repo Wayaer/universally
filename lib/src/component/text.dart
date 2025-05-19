@@ -615,41 +615,27 @@ class TStyle extends TextStyle {
 
   /// smallest text style
   /// 获取预先设置的 bodySmall
-  static TextStyle get smallest =>
-      TStyle.small.copyWith(fontSize: (TStyle.small.fontSize ?? 12) - 2);
+  static TextStyle get smallest => TStyle.small.copyWith(fontSize: (TStyle.small.fontSize ?? 12) - 2);
 
   /// small text style
   /// 获取预先设置的 bodySmall
-  static TextStyle get small =>
-      Universally.to.getTheme()?.textTheme.bodySmall ??
-      const TStyle(fontSize: 12);
+  static TextStyle get small => Universally.to.getTheme()?.textTheme.bodySmall ?? const TStyle(fontSize: 12);
 
   /// medium text style
   /// 获取预先设置的 bodyMedium
-  static TextStyle get medium =>
-      Universally.to.getTheme()?.textTheme.bodyMedium ??
-      const TStyle(fontSize: 14);
+  static TextStyle get medium => Universally.to.getTheme()?.textTheme.bodyMedium ?? const TStyle(fontSize: 14);
 
   /// large text style
   /// 获取预先设置的 bodyLarge
-  static TextStyle get large =>
-      Universally.to.getTheme()?.textTheme.bodyLarge ??
-      const TStyle(fontSize: 16);
+  static TextStyle get large => Universally.to.getTheme()?.textTheme.bodyLarge ?? const TStyle(fontSize: 16);
 
   /// extra large text style
   /// 获取预先设置的 large
-  static TextStyle get extraLarge =>
-      TStyle.large.copyWith(fontSize: (TStyle.large.fontSize ?? 16) + 2);
+  static TextStyle get extraLarge => TStyle.large.copyWith(fontSize: (TStyle.large.fontSize ?? 16) + 2);
 }
 
 class TextBoxPage extends StatelessWidget {
-  const TextBoxPage({
-    super.key,
-    required this.text,
-    this.color,
-    this.appBarTitleText,
-    this.toastText = '复制成功',
-  });
+  const TextBoxPage({super.key, required this.text, this.color, this.appBarTitleText, this.toastText = '复制成功'});
 
   final String? appBarTitleText;
   final String toastText;

@@ -6,9 +6,7 @@ class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
     : super(
         valueColor: AlwaysStoppedAnimation<Color>(
-          color ??
-              Universally.to.getTheme()?.primaryColor ??
-              Colors.transparent,
+          color ?? Universally.to.getTheme()?.primaryColor ?? Colors.transparent,
         ),
         backgroundColor: UCS.transparent,
       );
@@ -75,11 +73,7 @@ class BaseList extends FlScrollListGrid {
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(
-           refreshConfig: refreshConfig,
-           onRefresh: onRefresh,
-           onLoad: onLoad,
-         ),
+         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -140,11 +134,7 @@ class BaseList extends FlScrollListGrid {
   }) : super.count(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(
-           refreshConfig: refreshConfig,
-           onRefresh: onRefresh,
-           onLoad: onLoad,
-         ),
+         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -208,11 +198,7 @@ class BaseList extends FlScrollListGrid {
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(
-           refreshConfig: refreshConfig,
-           onRefresh: onRefresh,
-           onLoad: onLoad,
-         ),
+         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
          placeholder: placeholder ?? Universally.to.config.placeholder,
        );
 
@@ -240,11 +226,7 @@ class BaseList extends FlScrollListGrid {
   }) : super(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(
-           refreshConfig: refreshConfig,
-           onRefresh: onRefresh,
-           onLoad: onLoad,
-         ),
+         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
        );
 
   /// 构建刷新配置

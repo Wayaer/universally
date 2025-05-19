@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-const _defaultBottomSheetOptions = BottomSheetOptions(
-  backgroundColor: Colors.transparent,
-);
+const _defaultBottomSheetOptions = BottomSheetOptions(backgroundColor: Colors.transparent);
 
 extension ExtensionPermissionStatus on PermissionStatus {
   bool get authorized => isGranted || isLimited || isProvisional;
@@ -12,9 +10,7 @@ extension ExtensionPermissionStatus on PermissionStatus {
 /// check permission
 Future<bool> checkPermission(Permission permission) async {
   final permissionStatus = await permission.status;
-  return permissionStatus.isGranted ||
-      permissionStatus.isLimited ||
-      permissionStatus.isProvisional;
+  return permissionStatus.isGranted || permissionStatus.isLimited || permissionStatus.isProvisional;
 }
 
 /// check permissions
@@ -93,22 +89,13 @@ Future<bool> checkRequestPermissions(
 }
 
 class PermissionDialog extends StatelessWidget {
-  const PermissionDialog({
-    super.key,
-    required this.title,
-    required this.content,
-  });
+  const PermissionDialog({super.key, required this.title, required this.content});
 
   final String title;
   final String content;
 
-  static Future<void> show({
-    String title = '权限申请说明',
-    required String content,
-  }) => PermissionDialog(
-    title: title,
-    content: content,
-  ).popupBottomSheet(options: _defaultBottomSheetOptions);
+  static Future<void> show({String title = '权限申请说明', required String content}) =>
+      PermissionDialog(title: title, content: content).popupBottomSheet(options: _defaultBottomSheetOptions);
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +109,7 @@ class PermissionDialog extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(16),
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextLarge(title).setWidth(double.infinity),
-            10.heightBox,
-            TextMedium(content, maxLines: 10),
-          ],
+          children: [TextLarge(title).setWidth(double.infinity), 10.heightBox, TextMedium(content, maxLines: 10)],
         ),
       ],
     );
@@ -145,11 +128,7 @@ Future<List<Permission>> photosPermission({
 }) async {
   if (isAndroid) {
     if (await DeviceInfoPlus().androidAbove(33)) {
-      return [
-        Permission.photos,
-        if (includeAudio) Permission.audio,
-        if (includeVideos) Permission.videos,
-      ];
+      return [Permission.photos, if (includeAudio) Permission.audio, if (includeVideos) Permission.videos];
     } else {
       return [Permission.storage];
     }
