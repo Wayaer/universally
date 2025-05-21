@@ -13,7 +13,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
       borderSide: BorderSide(color: Colors.deepPurpleAccent),
     ),
   ),
-  tabBarTheme: const TabBarTheme(
+  tabBarTheme: const TabBarThemeData(
     labelColor: Colors.deepPurpleAccent,
     indicator: UnderlineTabIndicator(
       borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.0),
@@ -34,7 +34,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
       borderSide: BorderSide(color: Colors.deepPurpleAccent),
     ),
   ),
-  tabBarTheme: const TabBarTheme(
+  tabBarTheme: const TabBarThemeData(
     labelColor: Colors.deepPurpleAccent,
     indicator: UnderlineTabIndicator(
       borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.0),
