@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-/// ExtendedScaffold
-class BaseScaffold extends StatelessWidget {
+/// BaseScaffold
+class BaseScaffold<T> extends StatelessWidget {
   const BaseScaffold({
     super.key,
     this.body,
@@ -39,8 +39,8 @@ class BaseScaffold extends StatelessWidget {
     this.physics,
 
     /// ****** [PopScope] ****** ///
-    this.onPopInvoked,
-    this.isCloseOverlay = false,
+    this.canPop = true,
+    this.canHideOverlay = true,
     this.enableDoubleClickExit = false,
     this.doubleClickExitPrompt = '再次点击返回键退出',
 
@@ -165,11 +165,10 @@ class BaseScaffold extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Decoration? decoration;
 
-  /// true 点击android实体返回按键先关闭Overlay【toast loading ...】但不pop 当前页面
-  /// false 点击android实体返回按键先关闭Overlay【toast loading ...】并pop 当前页面
-  final bool isCloseOverlay;
-  final PopInvokedWithOverlayCallback? onPopInvoked;
-  final PopInvokedWithResultAndOverlayCallback<dynamic>? onPopInvokedWithResult;
+  /// [canHideOverlay]=true [pop] 先关闭 [FlOverlayEntry],[toast, loading ...]
+  final bool canHideOverlay;
+  final bool canPop;
+  final PopInvokedWithResultAndOverlayCallback<T>? onPopInvokedWithResult;
   final bool enableDoubleClickExit;
   final String doubleClickExitPrompt;
 
@@ -313,37 +312,32 @@ class BaseScaffold extends StatelessWidget {
       body: body ?? universal,
       persistentFooterAlignment: persistentFooterAlignment,
     );
-    final hasPopScope =
-        onPopInvoked != null ||
-        isCloseOverlay ||
-        enableDoubleClickExit ||
-        (Universally().config.isCloseOverlay == true);
-    return hasPopScope
-        ? ExtendedPopScope<dynamic>(
-          canPop: !hasPopScope,
-          isCloseOverlay: isCloseOverlay,
-          onPopInvokedWithResult: (bool didPop, dynamic result, bool didCloseOverlay) {
-            onPopInvoked?.call(didPop, didCloseOverlay);
-            onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
-            if (didCloseOverlay || didPop) return;
-            if (enableDoubleClickExit) {
-              final now = DateTime.now();
-              if (_dateTime != null && now.difference(_dateTime!).inMilliseconds < 2500) {
-                Curiosity.native.exitApp();
-              } else {
-                _dateTime = now;
-                showToast(
-                  doubleClickExitPrompt,
-                  options: const ToastOptions(alignment: Alignment.center, duration: Duration(milliseconds: 1500)),
-                );
-              }
-            } else if (onPopInvoked == null) {
-              pop();
-            }
-          },
-          child: scaffold,
-        )
-        : scaffold;
+    return buildPopScope(scaffold);
+  }
+
+  Widget buildPopScope(Widget current) {
+    final enablePopScope = canHideOverlay || onPopInvokedWithResult != null || enableDoubleClickExit;
+    if (!enablePopScope) return current;
+    return FlPopScope<T>(
+      canPop: !enableDoubleClickExit && canPop,
+      canHideOverlay: canHideOverlay,
+      onPopInvokedWithResult: (bool didPop, T? result, bool didCloseOverlay) {
+        onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
+        if (enableDoubleClickExit) {
+          final now = DateTime.now();
+          if (_dateTime != null && now.difference(_dateTime!).inMilliseconds < 2500) {
+            Curiosity.native.exitApp();
+          } else {
+            _dateTime = now;
+            showToast(
+              doubleClickExitPrompt,
+              options: const ToastOptions(alignment: Alignment.center, duration: Duration(milliseconds: 1500)),
+            );
+          }
+        }
+      },
+      child: current,
+    );
   }
 
   PreferredSizeWidget? buildAppBar(BuildContext context) {

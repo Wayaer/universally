@@ -674,20 +674,20 @@ class BaseDio {
     return _handleResponse(res, tag);
   }
 
-  ExtendedOverlayEntry? loadingEntry;
+  FlOverlayEntry? _loadingEntry;
 
   void _addLoading(bool? loading) {
     bool enableLoading = loading ?? baseDioOptions.enableLoading;
     if (enableLoading && baseDioOptions.enablePullHideLoading) {
       enableLoading = !(pullDown || pullUp);
     }
-    if (enableLoading && loadingEntry == null) loadingEntry = showLoading();
+    if (enableLoading && _loadingEntry == null) _loadingEntry = showLoading();
   }
 
   void _removeLoading() {
-    200.milliseconds.delayed(() {
-      loadingEntry?.removeEntry();
-      loadingEntry = null;
+    120.milliseconds.delayed(() {
+      _loadingEntry?.remove();
+      _loadingEntry = null;
     });
   }
 

@@ -23,11 +23,7 @@ import 'page/lucky_draw_page.dart';
 Future<void> main() async {
   isBeta = true;
   await Universally().setConfig(
-    UConfig(
-      isCloseOverlay: false,
-      betaApi: '这是设置测试Api',
-      releaseApi: '这里设置发布版Api',
-    ),
+    UConfig(betaApi: '这是设置测试Api', releaseApi: '这里设置发布版Api'),
     windowOptions: WindowOptions(
       size: WindowsSize.iPhone5P8.value,
       minimumSize: WindowsSize.iPhone4P7.value,

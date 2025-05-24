@@ -6,7 +6,7 @@ import 'package:universally/universally.dart';
 /// 返回 true 继续执行其他方法
 typedef ConnectivityListenCallback = Future<bool> Function(bool status, List<ConnectivityResult> result);
 
-typedef UnavailableNetworkAlertBuilder = ExtendedOverlayEntry? Function(bool status, List<ConnectivityResult> result);
+typedef UnavailableNetworkAlertBuilder = FlOverlayEntry? Function(bool status, List<ConnectivityResult> result);
 
 /// 网络状态变化管理
 class ConnectivityPlus {
@@ -90,14 +90,14 @@ class ConnectivityPlus {
 
   ConnectivityListenCallback? _overlayCallback;
 
-  ExtendedOverlayEntry? _connectivityOverlay;
+  FlOverlayEntry? _connectivityOverlay;
 
   /// 网络不可用 时 弹出 Overlay 禁止操作
   Future<bool> showOverlayWhenUnavailableNetwork(UnavailableNetworkAlertBuilder popupUnavailableNetwork) async {
     if (!networkAvailability) {
       _connectivityOverlay ??= popupUnavailableNetwork(networkAvailability, _currentResult);
     } else {
-      _connectivityOverlay?.removeEntry();
+      _connectivityOverlay?.remove();
       _connectivityOverlay = null;
     }
     return true;
