@@ -62,7 +62,7 @@ class TabPageBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: controller,
-    builder: (_, __) {
+    builder: (_, _) {
       return Universal(
         direction: Axis.horizontal,
         decoration: BoxDecoration(color: backgroundColor, border: borderSide != null ? Border(top: borderSide!) : null),

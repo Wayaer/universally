@@ -448,7 +448,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       margin: widget.margin,
       child: buildDecoratorBox(
         widget.enableEye
-            ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, __) => buildTextField)
+            ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, _) => buildTextField)
             : buildTextField,
       ),
     );
@@ -521,7 +521,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       onValue: () => controller,
       child:
           widget.enableEye
-              ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, __) => buildTextField)
+              ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, _) => buildTextField)
               : buildTextField,
     );
   }
@@ -745,7 +745,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     },
     child: ValueListenableBuilder(
       valueListenable: obscureText,
-      builder: (_, bool value, __) {
+      builder: (_, bool value, _) {
         return (widget.eyeIconBuilder ?? Universally.to.config.textField?.eyeIconBuilder)?.call(value) ??
             Icon(value ? UIS.eyeClose : UIS.eyeOpen, color: context.theme.textTheme.bodyMedium?.color, size: 20);
       },

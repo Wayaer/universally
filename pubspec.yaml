@@ -1,11 +1,11 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 9.7.0
+version: 10.0.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
-  flutter: '>=3.29.0'
+  flutter: '>=3.32.0'
 
 dependencies:
   flutter:
@@ -39,7 +39,7 @@ dependencies:
   fl_dio: ^1.5.1
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
