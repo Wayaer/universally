@@ -1,3 +1,4 @@
+import 'package:app/page/cancelable_page.dart';
 import 'package:app/page/overlay_page.dart';
 import 'package:app/page/base_list_page.dart';
 import 'package:app/page/changed_builder_page.dart';
@@ -117,22 +118,10 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
           Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
-          Button(
-            onTap: () => push(const UrlLauncherPage()),
-            text: 'UrlLauncher',
-          ),
-          Button(
-            onTap: () => push(const ProgressIndicatorPage()),
-            text: 'ProgressIndicator',
-          ),
-          Button(
-            onTap: () => push(const ChangedBuilderWidgetPage()),
-            text: 'ChangedBuilder',
-          ),
-          Button(
-            onTap: () => push(const HivePreferencesPage()),
-            text: 'BasePreferences',
-          ),
+          Button(onTap: () => push(const UrlLauncherPage()), text: 'UrlLauncher'),
+          Button(onTap: () => push(const ProgressIndicatorPage()), text: 'ProgressIndicator'),
+          Button(onTap: () => push(const ChangedBuilderWidgetPage()), text: 'ChangedBuilder'),
+          Button(onTap: () => push(const HivePreferencesPage()), text: 'BasePreferences'),
           Button(
             onTap: () {
               push(const SpinKitPage());
@@ -140,6 +129,12 @@ class HomePage extends StatelessWidget {
             text: 'SpinKit',
           ),
           Button(onTap: pushLuckyDrawPage, text: 'LuckyDraw'),
+          Button(
+            onTap: () {
+              push(CancelableOperationsPage());
+            },
+            text: 'CancelableOperations',
+          ),
         ],
       ),
     );
@@ -164,13 +159,7 @@ class Button extends StatelessWidget {
 }
 
 class Partition extends StatelessWidget {
-  const Partition(
-    this.title, {
-    super.key,
-    this.onTap,
-    this.textFontSize = TextFontSize.normal,
-    this.marginTop = 20,
-  });
+  const Partition(this.title, {super.key, this.onTap, this.textFontSize = TextFontSize.normal, this.marginTop = 20});
 
   final String title;
   final GestureTapCallback? onTap;
@@ -185,12 +174,7 @@ class Partition extends StatelessWidget {
     alignment: Alignment.center,
     padding: const EdgeInsets.all(10),
     margin: EdgeInsets.only(top: marginTop, bottom: 20),
-    child: BaseText(
-      title,
-      textFontSize: textFontSize,
-      textAlign: TextAlign.center,
-      fontWeight: FontWeight.bold,
-    ),
+    child: BaseText(title, textFontSize: textFontSize, textAlign: TextAlign.center, fontWeight: FontWeight.bold),
   );
 }
 

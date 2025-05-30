@@ -24,6 +24,7 @@ export 'package:extended_image_library/extended_image_library.dart' hide Multipa
 export 'package:window_manager/window_manager.dart';
 export 'package:hive_flutter/hive_flutter.dart';
 export 'package:hive/hive.dart';
+export 'package:async/async.dart';
 
 /// app
 export 'src/app/base_app.dart';
@@ -60,6 +61,7 @@ export 'src/component/page_view.dart';
 export 'src/dependencies/extended_image.dart';
 export 'src/dependencies/spin_kit.dart';
 export 'src/dependencies/path.dart';
+export 'src/dependencies/cancelable_operation.dart';
 
 /// dependencies/plugin
 export 'src/dependencies/plugin/permission_handler.dart';
