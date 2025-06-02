@@ -9,7 +9,6 @@ import 'package:app/page/hive_preferences.dart';
 import 'package:app/page/permission_page.dart';
 import 'package:app/page/picker_page.dart';
 import 'package:app/page/progress_indicator_page.dart';
-import 'package:app/page/semicircle_page.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
