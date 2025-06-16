@@ -21,7 +21,7 @@ dependencies:
   package_info_plus: ^8.3.0
   connectivity_plus: ^6.1.4
   android_intent_plus: ^5.3.0
-  device_info_plus: ^11.4.0
+  device_info_plus: ^11.5.0
   async: ^2.13.0
 
   flutter_spinkit: ^5.2.1
