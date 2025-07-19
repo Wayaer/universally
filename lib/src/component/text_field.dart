@@ -8,13 +8,21 @@ import 'package:universally/universally.dart';
 class TextFieldPendant extends DecoratorPendant<TextEditingController> {
   const TextFieldPendant({
     super.child,
+    super.positioned = DecoratorPendantPosition.inner,
+    super.maintainSize = false,
+    super.needValue,
+    super.needFocus,
+    super.needEditing,
+  });
+
+  const TextFieldPendant.builder({
     super.builder,
     super.positioned = DecoratorPendantPosition.inner,
     super.maintainSize = false,
     super.needValue,
     super.needFocus,
     super.needEditing,
-  }) : super();
+  }) : super.builder();
 }
 
 extension ExtensionWidgetTextFieldPendant on Widget {
@@ -26,6 +34,21 @@ extension ExtensionWidgetTextFieldPendant on Widget {
     DecoratorPendantValueCallback<TextEditingController?>? needValue,
   }) => TextFieldPendant(
     child: this,
+    maintainSize: maintainSize,
+    positioned: positioned,
+    needValue: needValue,
+    needEditing: needEditing,
+    needFocus: needFocus,
+  );
+
+  TextFieldPendant toTextFieldPendantBuilder({
+    DecoratorPendantPosition positioned = DecoratorPendantPosition.outer,
+    bool maintainSize = false,
+    bool? needFocus,
+    bool? needEditing,
+    DecoratorPendantValueCallback<TextEditingController?>? needValue,
+  }) => TextFieldPendant.builder(
+    builder: (_) => this,
     maintainSize: maintainSize,
     positioned: positioned,
     needValue: needValue,
