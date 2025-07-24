@@ -73,6 +73,9 @@ validate_parameters() {
   if [ -z "$app_name" ]; then
     echo -e "${YELLOW}警告: 应用名称为空，将影响输出文件命名${NC}"
   fi
+
+  # 验证ios目录存在
+  [ -d "ios" ] || { echo -e "${RED}错误: ios目录不存在，请确认在Flutter项目根目录执行此脚本${NC}" >&2; exit 1; }
 }
 
 # 提取版本号
@@ -84,7 +87,7 @@ extract_version() {
 
 # 主执行函数
 main() {
-  echo -e "\n${BLUE}========== 💪 开始打包iOS 💪 ==========${NC}"
+  echo -e "${BLUE}========== 💪 开始打包iOS 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
@@ -98,7 +101,8 @@ main() {
   export_method_arg="--export-method $export_method"
 
   # 显示打包信息
-  echo -e "\n${YELLOW}┌---------------------------------------------------------------${NC}
+  echo -e "
+ ${YELLOW}┌---------------------------------------------------------------${NC}
  ${YELLOW}|    版本: $version${NC}
  ${YELLOW}|    输出名称: $app_name${NC}
  ${YELLOW}|    渠道: $channel${NC}
@@ -109,15 +113,15 @@ main() {
 
   # 执行打包命令
   build_command="flutter build ipa --$build_type --analyze-size $export_method_arg $dart_define -t $main_path"
-  echo -e "\n${BLUE}执行命令:${NC} $build_command"
+  echo -e "${BLUE}执行命令:${NC} $build_command"
   eval "$build_command"
 
   # 准备输出目录
   output_dir="app/ios/$build_type/"
   mkdir -p "$output_dir"
-  echo -e "\n${BLUE}输出目录: $output_dir${NC}"
+  echo -e "${BLUE}输出目录: $output_dir${NC}"
 
-  # 移动打包产物
+  # 打包输出
   src="build/ios/ipa/$app_name.ipa"
   dest="$output_dir${app_name}-${channel}-${export_method}-v${version}-${current_date}.ipa"
 
@@ -127,8 +131,8 @@ main() {
     echo -e "${RED}错误: 未找到IPA文件 $src${NC}" >&2; exit 1
   fi
 
-  echo -e "\n${GREEN}========== ✅ iOS打包完成 ✅ ==========${NC}"
-  echo -e "${GREEN}输出目录: $output_dir${NC}\n"
+  echo -e "${GREEN}========== ✅ iOS打包完成 ✅ ==========${NC}"
+  echo -e "${GREEN}输出目录: $output_dir${NC}"
 }
 
 # 启动主函数

@@ -54,6 +54,13 @@ fi
 
 # 参数验证
 validate_parameters() {
+  # 验证windows目录是否存在
+  if [ ! -d "windows" ]; then
+    echo -e "${RED}错误: 未找到windows目录，请确认当前目录是Flutter项目根目录且已配置windows平台${NC}" >&2
+    echo -e "${YELLOW}提示: 可以使用 'flutter create --platforms windows .' 命令添加windows平台支持${NC}" >&2
+    exit 1
+  fi
+
   # 验证构建类型
   if ! [[ $build_type =~ ^(release|profile|debug)$ ]]; then
     echo -e "${RED}错误: 构建类型必须是 release, profile 或 debug${NC}" >&2; exit 1
@@ -66,6 +73,7 @@ validate_parameters() {
   if [ -z "$app_name" ]; then
     echo -e "${YELLOW}警告: 应用名称为空，将影响输出文件命名${NC}"
   fi
+
 }
 
 # 提取版本号
@@ -77,7 +85,7 @@ extract_version() {
 
 # 主执行函数
 main() {
-  echo -e "\n${BLUE}========== 💪 开始打包Windows 💪 ==========${NC}"
+  echo -e "${BLUE}========== 💪 开始打包Windows 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
@@ -99,15 +107,15 @@ main() {
 
   # 执行打包命令
   build_command="flutter build windows --$build_type --analyze-size $dart_define -t $main_path"
-  echo -e "\n${BLUE}执行命令:${NC} $build_command"
+  echo -e "${BLUE}执行命令:${NC} $build_command"
   eval "$build_command"
 
   # 准备输出目录
   output_dir="app/windows/$build_type/"
   mkdir -p "$output_dir"
-  echo -e "\n${BLUE}输出目录: $output_dir${NC}"
+  echo -e "${BLUE}输出目录: $output_dir${NC}"
 
-  # 移动打包产物
+  # 打包输出
   src="build/windows/x64/runner/$build_type"
   dest="$output_dir${app_name}-${channel}-v${version}-${current_date}"
 
@@ -122,8 +130,8 @@ main() {
     echo -e "${RED}错误: 未找到应用目录 $src${NC}" >&2; exit 1
   fi
 
-  echo -e "\n${GREEN}========== ✅ Windows打包完成 ✅ ==========${NC}"
-  echo -e "${GREEN}输出目录: $output_dir${NC}\n"
+  echo -e "${GREEN}========== ✅ Windows打包完成 ✅ ==========${NC}"
+  echo -e "${GREEN}输出目录: $output_dir${NC}"
 }
 
 # 启动主函数

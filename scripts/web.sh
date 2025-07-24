@@ -14,10 +14,10 @@ show_help() {
   echo -e "${GREEN}用法:${NC} $0 [选项]"
   echo
   echo -e "${GREEN}选项:${NC}"
-  echo -e "  -b build_type    ${GREEN}构建类型${NC} [release(default), profile, debug]"
-  echo -e "  -p main_path     ${GREEN}入口文件路径${NC} (默认: lib/main.dart)"
-  echo -e "  -c channel       ${GREEN}渠道名${NC} (默认: web)"
-  echo -e "  -h               ${GREEN}仅显示帮助信息并退出${NC}"
+  echo -e "${GREEN}  -b build_type    构建类型${NC} [release(default), profile, debug]"
+  echo -e "${GREEN}  -p main_path     入口文件路径${NC} (默认: lib/main.dart)"
+  echo -e "${GREEN}  -c channel       渠道名${NC} (默认: web)"
+  echo -e "${GREEN}  -h               仅显示帮助信息并退出${NC}"
   echo
 }
 
@@ -58,6 +58,9 @@ validate_parameters() {
 
   # 验证入口文件存在
   [ -f "$main_path" ] || { echo -e "${RED}错误: 入口文件 $main_path 不存在${NC}" >&2; exit 1; }
+
+  # 验证当前目录是Flutter项目
+  [ -f "pubspec.yaml" ] || { echo -e "${RED}错误: 当前目录不是Flutter项目（未找到pubspec.yaml）${NC}" >&2; exit 1; }
 }
 
 # 提取版本号
@@ -69,7 +72,7 @@ extract_version() {
 
 # 主执行函数
 main() {
-  echo -e "\n${BLUE}========== 💪 开始打包Web 💪 ==========${NC}"
+  echo -e "${BLUE}========== 💪 开始打包Web 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
@@ -88,40 +91,63 @@ main() {
  ${YELLOW}|    入口: $main_path
  ${YELLOW}└---------------------------------------------------------------${NC}"
 
-  # 清理旧版本
-  echo -e "\n${BLUE}清理旧版本文件...${NC}"
-  rm -rf "app/web"
-  echo -e "${GREEN}旧版本文件清理完成${NC}"
-
   # 获取依赖包
-  echo -e "\n${BLUE}开始获取 packages 插件资源...${NC}"
-  flutter packages get
+  echo -e "${BLUE}开始获取 packages 插件资源...${NC}"
+  if ! flutter packages get; then
+    echo -e "${RED}错误: 获取插件资源失败${NC}" >&2; exit 1
+  fi
   echo -e "${GREEN}插件资源获取完成${NC}"
 
-  # 执行构建命令
-  echo -e "\n${BLUE}开始构建 Web 应用...${NC}"
-  build_command="flutter build web --$build_type $dart_define -t $main_path"
-  echo -e "${BLUE}执行命令:${NC} $build_command"
-  eval "$build_command"
-
-  # 准备输出目录
-  output_dir="app/web"
-  mkdir -p "$output_dir"
-
-  # 移动构建产物
-  echo -e "\n${BLUE}移动构建产物...${NC}"
-  if [ -d "build/web" ]; then
-    mv -v "build/web" "$output_dir"
-    # 重命名主目录以包含版本信息
-    mv -v "$output_dir" "${output_dir}-${channel}-v${version}-${current_date}"
-    ln -sfn "${output_dir}-${channel}-v${version}-${current_date}" "$output_dir"
-    echo -e "${GREEN}产物移动完成${NC}"
-  else
-    echo -e "${RED}错误: 未找到Web构建产物目录 build/web${NC}" >&2; exit 1
+  # 确保web平台已启用
+  echo -e "${BLUE}检查并启用web平台...${NC}"
+  if ! flutter config --enable-web; then
+    echo -e "${YELLOW}警告: 启用web平台时出现问题，尝试继续...${NC}"
   fi
 
-  echo -e "\n${GREEN}========== ✅ Web打包完成 ✅ ==========${NC}"
-  echo -e "${GREEN}输出目录: $(readlink -f "$output_dir")${NC}\n"
+  # 执行构建命令
+  echo -e "${BLUE}开始构建 Web 应用...${NC}"
+  build_command="flutter build web --$build_type $dart_define -t $main_path"
+  echo -e "${BLUE}执行命令:${NC} $build_command"
+
+  # 执行构建并检查结果
+  if ! eval "$build_command"; then
+    echo -e "${RED}错误: Flutter Web构建失败${NC}" >&2; exit 1
+  fi
+
+  # 验证构建结果
+  echo -e "${BLUE}验证构建结果...${NC}"
+  if [ ! -d "build/web" ]; then
+    echo -e "${RED}错误: 构建目录 build/web 不存在${NC}" >&2; exit 1
+  fi
+
+  if [ ! -f "build/web/index.html" ]; then
+    echo -e "${RED}错误: 缺少 index.html 文件，构建可能不完整${NC}" >&2; exit 1
+  fi
+
+  echo -e "${GREEN}构建结果验证通过，index.html 存在${NC}"
+
+  # 定义两个目标目录
+  versioned_dir="app/web/version/${version}-${current_date}"
+  web_dir="app/web/web"
+
+  # 处理构建结果
+  echo -e "${BLUE}处理构建结果...${NC}"
+
+  # 确保目标目录的父目录存在
+  mkdir -p "$(dirname "$versioned_dir")"
+  mkdir -p "$(dirname "$web_dir")"
+
+  # 复制第一份到版本-时间命名的目录
+  cp -R "build/web" "$versioned_dir" || { echo -e "${RED}错误: 复制到版本目录失败${NC}" >&2; exit 1; }
+  echo -e "${GREEN}已生成版本化目录: $versioned_dir${NC}"
+
+  # 复制第二份到web目录
+  cp -R "build/web" "$web_dir" || { echo -e "${RED}错误: 复制到web目录失败${NC}" >&2; exit 1; }
+  echo -e "${GREEN}已生成web目录: $web_dir${NC}"
+
+  echo -e "${GREEN}========== ✅ Web打包完成 ✅ ==========${NC}"
+  echo -e "${GREEN}版本时间目录: $(readlink -f "$versioned_dir")${NC}"
+  echo -e "${GREEN}Web目录: $(readlink -f "$web_dir")${NC}"
 }
 
 # 启动主函数

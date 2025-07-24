@@ -14,13 +14,13 @@ show_help() {
   echo -e "${GREEN}Flutter Android打包脚本"
   echo
   echo -e "${GREEN}选项:"
-  echo -e "${GREEN}  -n app_name         应用名称 (默认: 空)"
-  echo -e "${GREEN}  -c channel          渠道名 (默认: android)"
-  echo -e "${GREEN}  -o output_type      输出类型 [apk(default), appbundle, aar]"
-  echo -e "${GREEN}  -t target_platform  目标平台 [0:arm64, 1:arm, 2:arm+arm64, 3:arm+arm64+x64]"
-  echo -e "${GREEN}  -b build_type       构建类型 [release(default), profile, debug]"
-  echo -e "${GREEN}  -p main_path        入口文件路径 (默认: lib/main.dart)"
-  echo -e "${GREEN}  -s                  不拆分ABI (默认: 拆分)"
+  echo -e "${GREEN}  -n app_name         应用名称 ${NC}(默认: 空)"
+  echo -e "${GREEN}  -c channel          渠道名 ${NC}(默认: android)"
+  echo -e "${GREEN}  -o output_type      输出类型 ${NC}[apk(default), appbundle, aar]"
+  echo -e "${GREEN}  -t target_platform  目标平台 ${NC}[0:arm64, 1:arm, 2:arm+arm64, 3:arm+arm64+x64]"
+  echo -e "${GREEN}  -b build_type       构建类型 ${NC}[release(default), profile, debug]"
+  echo -e "${GREEN}  -p main_path        入口文件路径 ${NC}(默认: lib/main.dart)"
+  echo -e "${GREEN}  -s                  不拆分ABI ${NC}(默认: 拆分)"
   echo -e "${GREEN}  -h                  显示帮助信息"
   echo
 }
@@ -73,6 +73,9 @@ validate_parameters() {
 
   # 验证入口文件存在
   [ -f "$main_path" ] || { echo -e "${RED}错误: 入口文件 $main_path 不存在${NC}" >&2; exit 1; }
+
+  # 新增：验证android目录存在
+  [ -d "android" ] || { echo -e "${RED}错误: android目录不存在，请确认在Flutter项目根目录执行此脚本${NC}" >&2; exit 1; }
 }
 
 # 提取版本号
@@ -111,7 +114,7 @@ move_apk_file() {
 
 # 主执行函数
 main() {
-  echo -e "\n${BLUE}========== 💪 开始打包Android 💪 ==========${NC}"
+  echo -e "${BLUE}========== 💪 开始打包Android 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
@@ -132,7 +135,8 @@ main() {
   fi
 
   # 显示打包信息（每行单独显示）
-  echo -e "\n${YELLOW}┌---------------------------------------------------------------${NC}
+  echo -e "
+ ${YELLOW}┌---------------------------------------------------------------${NC}
  ${YELLOW}|    版本: $version
  ${YELLOW}|    输出名称: $app_name
  ${YELLOW}|    渠道: $channel
@@ -145,13 +149,13 @@ main() {
 
   # 执行打包命令
   build_command="flutter build $output_type --$build_type $split_abi_flag $target_platform_args $channel_arguments -t $main_path"
-  echo -e "\n${BLUE}执行命令:${NC} $build_command"
+  echo -e "${BLUE}执行命令:${NC} $build_command"
   eval "$build_command"
 
   # 准备输出目录
   output_dir="app/android/$build_type/"
   mkdir -p "$output_dir"
-  echo -e "\n${BLUE}输出目录: $output_dir${NC}"
+  echo -e "${BLUE}输出目录: $output_dir${NC}"
 
   # 移动打包
   if [ "$output_type" = "apk" ]; then
@@ -174,8 +178,8 @@ main() {
     mv -v "$src" "$dest"
   fi
 
-  echo -e "\n${GREEN}========== ✅ 打包完成 ✅ ==========${NC}"
-  echo -e "${GREEN}输出目录: $output_dir${NC}\n"
+  echo -e "${GREEN}========== ✅ 打包完成 ✅ ==========${NC}"
+  echo -e "${GREEN}输出目录: $output_dir${NC}"
 }
 
 # 启动主函数
