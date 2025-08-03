@@ -293,7 +293,7 @@ class _RTextWithRecognizers extends StatefulWidget {
 
 class _RTextWithRecognizersState extends State<_RTextWithRecognizers> {
   @override
-  Widget build(BuildContext context) => RText(
+  Widget build(BuildContext context) => BaseText.richText(
     maxLines: widget.maxLines,
     textAlign: widget.textAlign,
     texts: widget.texts,

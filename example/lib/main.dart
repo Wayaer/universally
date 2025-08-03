@@ -164,7 +164,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Universal(
       onPressed: onTap,
-      unifiedButtonCategory: UnifiedButtonCategory.elevated,
+      buttonCategory: FlButtonCategory.elevated,
       child: child ?? Text(text ?? '', textAlign: TextAlign.center),
     );
   }

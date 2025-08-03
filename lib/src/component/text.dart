@@ -17,7 +17,7 @@ extension FontWeights on FontWeight {
   static const FontWeight bold = FontWeight.bold;
 }
 
-enum TextFontSize { smallest, small, normal, large, extraLarge }
+enum TextFontSize { extraSmall, small, normal, large, extraLarge }
 
 /// Large font
 class TextLarge extends BaseText {
@@ -197,40 +197,39 @@ class TextSmall extends BaseText {
 
 class BaseText extends StatelessWidget {
   static TextStyle? _mergeStyle(TextStyle? firstStyle, TextStyle? secondStyle) {
-    if (firstStyle != null) {
-      return firstStyle.merge(secondStyle);
-    }
+    if (firstStyle != null) return firstStyle.merge(secondStyle);
     return secondStyle;
   }
 
   const BaseText(
-    this.text, {
+    this.data, {
     super.key,
     this.usePrimaryColor = false,
     this.textFontSize,
-    this.useStyleFirst = false,
+    this.useStyleFirst = true,
 
     /// [TextSpan]
-    this.style,
     this.recognizer,
-    this.semanticsLabel,
     this.mouseCursor,
     this.onEnter,
     this.onExit,
     this.spellOut,
 
     /// [Text]
-    this.locale,
+    this.style,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
+    this.locale,
     this.softWrap,
     this.overflow = TextOverflow.ellipsis,
+    this.textScaler,
     this.maxLines,
+    this.semanticsLabel,
+    this.semanticsIdentifier,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-    this.textScaler = TextScaler.noScaling,
 
     /// [TextStyle]
     this.inherit = true,
@@ -257,54 +256,31 @@ class BaseText extends StatelessWidget {
     this.fontFeatures,
     this.leadingDistribution,
     this.fontVariations,
-  }) : texts = const [],
-       styles = const [],
-       recognizers = const [],
-       semanticsLabels = const [],
-       mouseCursors = const [],
-       onEnters = const [],
-       onExits = const [],
-       locales = const [],
-       spellOuts = const [];
+  }) : inlineSpan = null,
+       inlineSpans = null;
 
-  /// 与 [RText] 一致，仅增加 主题适配
-  const BaseText.rich({
+  const BaseText.rich(
+    InlineSpan this.inlineSpan, {
     super.key,
     this.usePrimaryColor = false,
     this.textFontSize,
     this.useStyleFirst = false,
 
-    /// [TextSpan]
-    this.text = '',
-    this.texts = const [],
-    this.style,
-    this.styles = const [],
-    this.recognizer,
-    this.recognizers = const [],
-    this.semanticsLabel,
-    this.semanticsLabels = const [],
-    this.mouseCursor,
-    this.mouseCursors = const [],
-    this.onEnter,
-    this.onEnters = const [],
-    this.onExit,
-    this.onExits = const [],
-    this.locale,
-    this.locales = const [],
-    this.spellOut,
-    this.spellOuts = const [],
-
     /// [Text]
+    this.style,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
+    this.locale,
     this.softWrap,
-    this.overflow = TextOverflow.ellipsis,
+    this.overflow,
+    this.textScaler,
     this.maxLines,
+    this.semanticsLabel,
+    this.semanticsIdentifier,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-    this.textScaler = TextScaler.noScaling,
 
     /// [TextStyle]
     this.inherit = true,
@@ -331,7 +307,150 @@ class BaseText extends StatelessWidget {
     this.fontFeatures,
     this.leadingDistribution,
     this.fontVariations,
-  });
+  }) : data = null,
+       inlineSpans = null,
+       recognizer = null,
+       mouseCursor = null,
+       onEnter = null,
+       onExit = null,
+       spellOut = null;
+
+  const BaseText.richSpans(
+    List<InlineSpan> this.inlineSpans, {
+    super.key,
+    this.usePrimaryColor = false,
+    this.textFontSize,
+    this.useStyleFirst = false,
+
+    /// [TextSpan]
+    this.recognizer,
+    this.mouseCursor,
+    this.onEnter,
+    this.onExit,
+    this.spellOut,
+
+    /// [Text]
+    this.style,
+    this.strutStyle,
+    this.textAlign,
+    this.textDirection,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaler,
+    this.maxLines,
+    this.semanticsLabel,
+    this.semanticsIdentifier,
+    this.textWidthBasis,
+    this.textHeightBehavior,
+    this.selectionColor,
+
+    /// [TextStyle]
+    this.inherit = true,
+    this.color,
+    this.backgroundColor,
+    this.fontFamily,
+    this.fontFamilyFallback,
+    this.package,
+    this.fontSize,
+    this.fontWeight,
+    this.fontStyle,
+    this.letterSpacing,
+    this.wordSpacing,
+    this.textBaseline,
+    this.height,
+    this.foreground,
+    this.background,
+    this.decoration = TextDecoration.none,
+    this.decorationColor,
+    this.decorationStyle,
+    this.decorationThickness,
+    this.debugLabel,
+    this.shadows,
+    this.fontFeatures,
+    this.leadingDistribution,
+    this.fontVariations,
+  }) : data = null,
+       inlineSpan = null;
+
+  BaseText.richText({
+    super.key,
+    this.usePrimaryColor = false,
+    this.textFontSize,
+    this.useStyleFirst = false,
+
+    /// [TextSpan]
+    this.recognizer,
+    this.mouseCursor,
+    this.onEnter,
+    this.onExit,
+    this.spellOut,
+
+    /// [TextSpan.children]
+    required List<String> texts,
+    List<TextStyle?> styles = const [],
+    List<GestureRecognizer?> recognizers = const [],
+    List<String?> semanticsLabels = const [],
+    List<MouseCursor?> mouseCursors = const [],
+    List<PointerEnterEventListener?> onEnters = const [],
+    List<PointerExitEventListener?> onExits = const [],
+    List<Locale?> locales = const [],
+    List<bool?> spellOuts = const [],
+
+    /// [Text]
+    this.style,
+    this.strutStyle,
+    this.textAlign,
+    this.textDirection,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaler,
+    this.maxLines,
+    this.semanticsLabel,
+    this.semanticsIdentifier,
+    this.textWidthBasis,
+    this.textHeightBehavior,
+    this.selectionColor,
+
+    /// [TextStyle]
+    this.inherit = true,
+    this.color,
+    this.backgroundColor,
+    this.fontFamily,
+    this.fontFamilyFallback,
+    this.package,
+    this.fontSize,
+    this.fontWeight,
+    this.fontStyle,
+    this.letterSpacing,
+    this.wordSpacing,
+    this.textBaseline,
+    this.height,
+    this.foreground,
+    this.background,
+    this.decoration = TextDecoration.none,
+    this.decorationColor,
+    this.decorationStyle,
+    this.decorationThickness,
+    this.debugLabel,
+    this.shadows,
+    this.fontFeatures,
+    this.leadingDistribution,
+    this.fontVariations,
+  }) : data = null,
+       inlineSpans = FlRichText.buildTextSpans(
+         texts: texts,
+         styles: styles,
+         recognizers: recognizers,
+         semanticsLabels: semanticsLabels,
+         mouseCursors: mouseCursors,
+         onEnters: onEnters,
+         onExits: onExits,
+         locales: locales,
+         spellOuts: spellOuts,
+       ),
+       inlineSpan = null;
 
   /// 使用主色调设置字体颜色
   final bool usePrimaryColor;
@@ -414,30 +533,8 @@ class BaseText extends StatelessWidget {
 
   final TextLeadingDistribution? leadingDistribution;
 
-  /// ---------- [TextSpan] ----------
-
-  final String? text;
-
   /// 所有[texts]默认样式
   final TextStyle? style;
-
-  /// [text]手势
-  final GestureRecognizer? recognizer;
-
-  /// [text]语义 - 语义描述标签，相当于此text的别名
-  final String? semanticsLabel;
-
-  /// [mouseCursor]
-  final MouseCursor? mouseCursor;
-
-  /// [onEnter]
-  final PointerEnterEventListener? onEnter;
-
-  /// [onExit]
-  final PointerExitEventListener? onExit;
-
-  /// [spellOut]
-  final bool? spellOut;
 
   /// ---------- [Text] ----------
   /// How the text should be aligned horizontally.
@@ -473,47 +570,47 @@ class BaseText extends StatelessWidget {
   /// The color to use when painting the selection.
   final Color? selectionColor;
 
-  /// ---------- [BText.rich] ----------
-  /// 排在第一个[text]后面
-  final List<String> texts;
+  /// data
+  final String? data;
 
-  /// [texts]内样式
-  final List<TextStyle> styles;
+  /// The text to display as a [InlineSpan].
+  ///
+  /// This will be null if [data] is provided instead.
+  final InlineSpan? inlineSpan;
 
-  /// [texts]内手势
-  final List<GestureRecognizer?> recognizers;
+  /// 多个[InlineSpan]
+  final List<InlineSpan>? inlineSpans;
 
-  /// [texts]内语义 - 语义描述标签，相当于此text的别名
-  final List<String> semanticsLabels;
+  /// ---------- [TextSpan] ----------
 
-  /// [mouseCursors]
-  final List<MouseCursor?> mouseCursors;
+  /// [text]手势
+  final GestureRecognizer? recognizer;
 
-  /// [onEnters]
-  final List<PointerEnterEventListener?> onEnters;
+  /// [text]语义 - 语义描述标签，相当于此text的别名
+  final String? semanticsLabel;
+  final String? semanticsIdentifier;
 
-  /// [onExits]
-  final List<PointerExitEventListener?> onExits;
+  /// [mouseCursor]
+  final MouseCursor? mouseCursor;
 
-  /// [locales]
-  final List<Locale?> locales;
+  /// [onEnter]
+  final PointerEnterEventListener? onEnter;
 
-  /// [spellOuts]
-  final List<bool?> spellOuts;
+  /// [onExit]
+  final PointerExitEventListener? onExit;
+
+  /// [spellOut]
+  final bool? spellOut;
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? textStyle = _mergeStyle(_getStyle(context), style);
-    return BText.rich(
+    final textStyle = _mergeStyle(_getStyle(context), style);
+    return FlText.custom(
       useStyleFirst: usePrimaryColor ? false : useStyleFirst,
-      text: text,
-      texts: texts,
+      data: data,
+      inlineSpan: inlineSpan,
+      inlineSpans: inlineSpans,
       style: textStyle,
-      styles: styles,
-      recognizer: recognizer,
-      recognizers: recognizers,
-      semanticsLabel: semanticsLabel,
-      semanticsLabels: semanticsLabels,
       inherit: inherit,
       color: usePrimaryColor ? context.theme.primaryColor : color,
       foreground: foreground,
@@ -547,17 +644,14 @@ class BaseText extends StatelessWidget {
       textHeightBehavior: textHeightBehavior,
       textWidthBasis: textWidthBasis,
       maxLines: maxLines,
+      textAlign: textAlign,
+      strutStyle: strutStyle,
       mouseCursor: mouseCursor,
       onEnter: onEnter,
       onExit: onExit,
-      mouseCursors: mouseCursors,
-      onEnters: onEnters,
-      onExits: onExits,
-      locales: locales,
       spellOut: spellOut,
-      spellOuts: spellOuts,
-      textAlign: textAlign,
-      strutStyle: strutStyle,
+      recognizer: recognizer,
+      semanticsLabel: semanticsLabel,
     );
   }
 
@@ -565,7 +659,7 @@ class BaseText extends StatelessWidget {
     switch (textFontSize) {
       case null:
         return context.textTheme.bodyMedium;
-      case TextFontSize.smallest:
+      case TextFontSize.extraSmall:
         final style = context.textTheme.bodySmall;
         return style?.copyWith(fontSize: (style.fontSize ?? 12) - 2);
       case TextFontSize.small:

@@ -33,7 +33,7 @@ class _HivePreferencesPageState extends State<HivePreferencesPage> {
             borderRadius: BorderRadius.circular(4),
           ),
           width: double.infinity,
-          child: BText(text),
+          child: FlText(text),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

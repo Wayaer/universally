@@ -177,7 +177,7 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
 
   @override
   Widget build(BuildContext context) {
-    return ExtendedListenableBuilder<ValueListenable>(
+    return FlListenableBuilder<ValueListenable>(
       listenable: listenable,
       dispose: (_) {
         if (disposeNotifier && listenable is ChangeNotifier) {

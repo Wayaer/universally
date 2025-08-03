@@ -18,13 +18,13 @@ class TextPage extends StatelessWidget {
           children: [
             const Partition('默认不加属性', marginTop: 0),
             const BaseText('BaseText'),
-            const BaseText.rich(text: 'Base', texts: ['Text', '*', 'rich']),
+            BaseText.richText(texts: ['Text', '*', 'rich']),
             const TextSmall('TextSmall'),
             const TextMedium('TextMedium'),
             const TextLarge('TextLarge'),
             const Partition(
               'UsePrimaryColor',
-              textFontSize: TextFontSize.smallest,
+              textFontSize: TextFontSize.extraSmall,
             ),
             const TextLarge('TextLarge', usePrimaryColor: true),
             Text('TStyle', style: TStyle.small),
@@ -41,8 +41,7 @@ class TextPage extends StatelessWidget {
           children: [
             const Partition('外层覆盖默认', marginTop: 0),
             const BaseText('BaseText', color: Colors.blue),
-            const BaseText.rich(
-              text: 'Base',
+            BaseText.richText(
               color: Colors.blue,
               texts: ['Text', '*', 'rich'],
               styles: [
@@ -55,7 +54,7 @@ class TextPage extends StatelessWidget {
             const TextLarge('TextLarge', color: Colors.blue),
             const Partition(
               'UsePrimaryColor',
-              textFontSize: TextFontSize.smallest,
+              textFontSize: TextFontSize.extraSmall,
             ),
             const TextMedium(
               'TextMedium',
@@ -81,10 +80,9 @@ class TextPage extends StatelessWidget {
               color: Colors.blue,
               style: TStyle(color: Colors.red),
             ),
-            const BaseText.rich(
+            BaseText.richText(
               useStyleFirst: true,
               color: Colors.blue,
-              text: 'Base',
               style: TStyle(color: Colors.red),
               texts: ['Text', '*', 'rich'],
               styles: [
@@ -112,7 +110,7 @@ class TextPage extends StatelessWidget {
             ),
             const Partition(
               'UsePrimaryColor',
-              textFontSize: TextFontSize.smallest,
+              textFontSize: TextFontSize.extraSmall,
             ),
             const TextSmall(
               'TextSmall',

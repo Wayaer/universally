@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class SwitchApiButton extends StatelessWidget {
-  const SwitchApiButton({super.key, this.unifiedButtonCategory = UnifiedButtonCategory.elevated});
+  const SwitchApiButton({super.key, this.buttonCategory = FlButtonCategory.elevated});
 
-  final UnifiedButtonCategory? unifiedButtonCategory;
+  final FlButtonCategory? buttonCategory;
 
   @override
   Widget build(BuildContext context) {
     if (!(isBeta || isDebug)) return const SizedBox();
     return IconLabel(
       icon: UIS.settingApi,
-      unifiedButtonCategory: unifiedButtonCategory,
+      buttonCategory: buttonCategory,
       size: 14,
       onTap: () => push(const _SwitchApiPage()),
       label: Text('切换API', style: TextStyle(fontSize: 12)),

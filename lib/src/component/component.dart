@@ -116,7 +116,7 @@ class UButton extends Universal {
     GestureTapCallback? onTap,
   }) : super(
          heroTag: text,
-         child: child ?? BText(text ?? '', style: const TStyle(color: UCS.white)),
+         child: child ?? FlText(text ?? '', style: const TStyle(color: UCS.white)),
          onTap: enabled ? onTap : null,
          decoration: BoxDecoration(
            border:
