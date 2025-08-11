@@ -34,7 +34,7 @@ dependencies:
 
   flutter_curiosity: ^6.7.0
   flutter_waya: ^11.2.6
-  fl_extended: ^2.0.1
+  fl_extended: ^2.0.2
   fl_list_wheel: ^0.0.3
   fl_scroll_view: ^1.0.1
   fl_dio: ^1.5.1
