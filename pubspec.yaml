@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 10.1.0
+version: 10.2.0
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -23,6 +23,7 @@ dependencies:
   android_intent_plus: ^5.3.0
   device_info_plus: ^11.5.0
   async: ^2.13.0
+  decimal: ^3.2.4
 
   flutter_spinkit: ^5.2.1
   keframe: ^3.0.0
