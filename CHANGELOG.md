@@ -1,10 +1,10 @@
+## 11.0.0
+
+* 迁移至 Flutter 3.35
+
 ## 10.2.0
 
 * 新增`Decimal`扩展
-
-## 10.1.0
-
-* 更新依赖
 
 ## 10.0.1
 
@@ -16,10 +16,6 @@
 * `BaseList` 的 `onLoading` 改为 `onLoad`
 * `BaseList` 的 `onRefresh` 和 `onLoad`增加 `EasyRefreshController`回调参数
 * `BaseScaffold` 删除 `onRefresh`、`onLoading`、`onRefreshConfig`
-
-## 9.6.0
-
-* 更新依赖
 
 ## 9.5.2
 
