@@ -42,8 +42,8 @@ dependencies:
       url: https://gitcode.com/openharmony-tpc/flutter_packages
       path: packages/shared_preferences/shared_preferences
 
-  extended_image: ^10.0.1
-  extended_image_library: ^5.0.1
+  extended_image: ^9.1.0
+  extended_image_library: ^4.0.6
   window_manager: ^0.5.1
   flutter_curiosity: ^6.8.0
 
