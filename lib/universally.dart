@@ -29,14 +29,12 @@ export 'src/app/base_app.dart';
 export 'src/app/cupertino_app.dart';
 export 'src/app/material_app.dart';
 export 'src/app/widgets_app.dart';
-
 /// component
 export 'src/component/arrow_shape.dart';
 export 'src/component/cache.dart';
 export 'src/component/changed_builder.dart';
 export 'src/component/component.dart';
 export 'src/component/dialog.dart';
-export 'src/component/extension.dart';
 export 'src/component/gif.dart';
 export 'src/component/icon.dart';
 export 'src/component/page_view.dart';
@@ -51,13 +49,11 @@ export 'src/component/tab_page.dart';
 export 'src/component/text.dart';
 export 'src/component/text_field.dart';
 export 'src/component/user_privacy.dart';
-
 /// const
 export 'src/const/const.dart';
 export 'src/const/desktop.dart';
 export 'src/const/ios_macos_setting.dart';
 export 'src/dependencies/cancelable_operation.dart';
-
 /// dependencies
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/extended_image.dart';
@@ -68,18 +64,16 @@ export 'src/dependencies/plugin/connectivity.dart';
 export 'src/dependencies/plugin/device_info.dart';
 export 'src/dependencies/plugin/package_info.dart';
 export 'src/dependencies/plugin/path_provider.dart';
-
 /// dependencies/plugin
 export 'src/dependencies/plugin/permission_handler.dart';
 export 'src/dependencies/plugin/url_launcher.dart';
 export 'src/dependencies/spin_kit.dart';
 export 'src/dependencies/svg.dart';
-
 /// extension
 export 'src/extension/decimal_extension.dart';
+export 'src/extension/widget_extension.dart';
 
 /// global
 export 'src/global.dart';
-
 /// utils
 export 'src/utils/task_queue.dart';
