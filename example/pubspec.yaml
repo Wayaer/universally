@@ -24,7 +24,10 @@ dependency_overrides:
     git:
       url: https://gitcode.com/openharmony-tpc/flutter_packages
       path: packages/shared_preferences/shared_preferences
-
+  path_provider:
+    git:
+      url: https://gitcode.com/openharmony-tpc/flutter_packages
+      path: packages/path_provider/path_provider
 
 flutter:
   uses-material-design: true
