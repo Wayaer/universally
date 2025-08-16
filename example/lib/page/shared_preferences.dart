@@ -2,21 +2,15 @@ import 'package:app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class HivePreferencesPage extends StatefulWidget {
-  const HivePreferencesPage({super.key});
+class SharedPreferencesPage extends StatefulWidget {
+  const SharedPreferencesPage({super.key});
 
   @override
-  State<HivePreferencesPage> createState() => _HivePreferencesPageState();
+  State<SharedPreferencesPage> createState() => _SharedPreferencesPageState();
 }
 
-class _HivePreferencesPageState extends State<HivePreferencesPage> {
+class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
   String text = '';
-
-  @override
-  void initState() {
-    super.initState();
-    BasePreferences().box().path.log();
-  }
 
   @override
   Widget build(BuildContext context) {

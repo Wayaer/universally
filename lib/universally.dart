@@ -14,13 +14,12 @@ export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:flutter_spinkit/flutter_spinkit.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_waya/flutter_waya.dart';
-export 'package:hive/hive.dart';
-export 'package:hive_flutter/hive_flutter.dart';
 export 'package:keframe/keframe.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:provider/provider.dart';
+export 'package:shared_preferences/shared_preferences.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:window_manager/window_manager.dart';
 
@@ -29,6 +28,7 @@ export 'src/app/base_app.dart';
 export 'src/app/cupertino_app.dart';
 export 'src/app/material_app.dart';
 export 'src/app/widgets_app.dart';
+
 /// component
 export 'src/component/arrow_shape.dart';
 export 'src/component/cache.dart';
@@ -49,31 +49,36 @@ export 'src/component/tab_page.dart';
 export 'src/component/text.dart';
 export 'src/component/text_field.dart';
 export 'src/component/user_privacy.dart';
+
 /// const
 export 'src/const/const.dart';
 export 'src/const/desktop.dart';
 export 'src/const/ios_macos_setting.dart';
 export 'src/dependencies/cancelable_operation.dart';
+
 /// dependencies
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/extended_image.dart';
-export 'src/dependencies/hive.dart';
 export 'src/dependencies/path.dart';
 export 'src/dependencies/plugin/android_intent.dart';
 export 'src/dependencies/plugin/connectivity.dart';
 export 'src/dependencies/plugin/device_info.dart';
 export 'src/dependencies/plugin/package_info.dart';
 export 'src/dependencies/plugin/path_provider.dart';
+
 /// dependencies/plugin
 export 'src/dependencies/plugin/permission_handler.dart';
+export 'src/dependencies/plugin/shared_preferences.dart';
 export 'src/dependencies/plugin/url_launcher.dart';
 export 'src/dependencies/spin_kit.dart';
 export 'src/dependencies/svg.dart';
+
 /// extension
 export 'src/extension/decimal_extension.dart';
 export 'src/extension/widget_extension.dart';
 
 /// global
 export 'src/global.dart';
+
 /// utils
 export 'src/utils/task_queue.dart';

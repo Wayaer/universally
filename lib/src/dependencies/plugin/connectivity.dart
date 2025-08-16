@@ -20,24 +20,15 @@ class ConnectivityPlus {
 
   final List<ConnectivityListenCallback> _listenerList = [];
 
-  StreamSubscription<List<ConnectivityResult>>? _subscription;
+  StreamSubscription<ConnectivityResult>? _subscription;
 
-  List<ConnectivityResult> _currentResult = [];
+  ConnectivityResult _currentResult = ConnectivityResult.none;
 
   /// 当前网络状态
-  List<ConnectivityResult> get current => _currentResult;
+  ConnectivityResult get current => _currentResult;
 
   /// 网络是否可用
-  bool get networkAvailability {
-    bool availability = false;
-    for (var element in _currentResult) {
-      if (element != ConnectivityResult.none) {
-        availability = true;
-        continue;
-      }
-    }
-    return availability;
-  }
+  bool get networkAvailability => _currentResult != ConnectivityResult.none;
 
   /// 订阅网络监听
   Future<void> subscription({
@@ -54,7 +45,7 @@ class ConnectivityPlus {
       _listenerList.add(_overlayCallback!);
     }
     await checkConnectivity();
-    _subscription = connectivity.onConnectivityChanged.listen((List<ConnectivityResult> connectivityResult) async {
+    _subscription = connectivity.onConnectivityChanged.listen((ConnectivityResult connectivityResult) async {
       if (_currentResult.toString() == connectivityResult.toString()) return;
       _currentResult = connectivityResult;
       'Connectivity 网络状态变化 $_currentResult'.log(crossLine: false);
@@ -73,7 +64,7 @@ class ConnectivityPlus {
 
   Future<void> _callListenerList() async {
     for (var element in _listenerList) {
-      final value = await element.call(networkAvailability, _currentResult);
+      final value = await element.call(networkAvailability, [_currentResult]);
       if (!value) break;
     }
   }
@@ -96,7 +87,7 @@ class ConnectivityPlus {
   /// 网络不可用 时 弹出 Overlay 禁止操作
   Future<bool> showOverlayWhenUnavailableNetwork(UnavailableNetworkAlertBuilder popupUnavailableNetwork) async {
     if (!networkAvailability) {
-      _connectivityOverlay ??= popupUnavailableNetwork(networkAvailability, _currentResult);
+      _connectivityOverlay ??= popupUnavailableNetwork(networkAvailability, [_currentResult]);
     } else {
       _connectivityOverlay?.remove();
       _connectivityOverlay = null;

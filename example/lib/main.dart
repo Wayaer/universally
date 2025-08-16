@@ -5,7 +5,7 @@ import 'package:app/page/changed_builder_page.dart';
 import 'package:app/page/component_page.dart';
 import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
-import 'package:app/page/hive_preferences.dart';
+import 'package:app/page/shared_preferences.dart';
 import 'package:app/page/permission_page.dart';
 import 'package:app/page/picker_page.dart';
 import 'package:app/page/progress_indicator_page.dart';
@@ -131,7 +131,7 @@ class HomePage extends StatelessWidget {
             text: 'ChangedBuilder',
           ),
           Button(
-            onTap: () => push(const HivePreferencesPage()),
+            onTap: () => push(const SharedPreferencesPage()),
             text: 'BasePreferences',
           ),
           Button(

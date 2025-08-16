@@ -1,26 +1,10 @@
-## 11.0.0
-
-* 迁移至 Flutter 3.35
-
-## 10.2.0
+## 9.4.1
 
 * 新增`Decimal`扩展
-
-## 10.0.1
-
-* 迁移至 Flutter 3.32
-
-## 9.7.0
-
 * 更新 `fl_scroll_view`
 * `BaseList` 的 `onLoading` 改为 `onLoad`
 * `BaseList` 的 `onRefresh` 和 `onLoad`增加 `EasyRefreshController`回调参数
 * `BaseScaffold` 删除 `onRefresh`、`onLoading`、`onRefreshConfig`
-
-## 9.5.2
-
-* 迁移至 Flutter 3.29
-* 更新依赖
 
 ## 9.4.0
 
@@ -315,15 +299,6 @@
 ## 1.3.1+1
 
 * Add `RefreshControllers()`
-
-## 1.3.0+3
-
-* Add `ApiCache()`
-
-## 1.3.0+2
-
-* Use Hive as the persistent storage tool
-* Replace SP() with BHP()
 
 ## 1.2.0
 

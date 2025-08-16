@@ -114,6 +114,8 @@ class UStyle {
   );
 }
 
+bool isOhos = defaultTargetPlatform == TargetPlatform.ohos;
+
 /// 下拉刷新
 bool pullDown = false;
 

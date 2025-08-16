@@ -25,6 +25,8 @@ class DeviceInfoPlus {
         return macOS;
       case TargetPlatform.windows:
         return windows;
+      case TargetPlatform.ohos:
+        return ohos;
     }
   }
 
@@ -41,6 +43,13 @@ class DeviceInfoPlus {
       return android != null && android.version.sdkInt >= version;
     }
     return false;
+  }
+
+  Future<OhosDeviceInfo?> get ohos async {
+    if (isIOS && !isWeb) {
+      return await _deviceInfoPlugin.ohosInfo;
+    }
+    return null;
   }
 
   Future<IosDeviceInfo?> get ios async {
@@ -207,8 +216,8 @@ extension ExtensionAndroidDeviceInfo on AndroidDeviceInfo {
     'isPhysicalDevice': isPhysicalDevice,
     'systemFeatures': systemFeatures,
     'serialNumber': serialNumber,
-    'isLowRamDevice': isLowRamDevice,
-  };
+        // 'isLowRamDevice': isLowRamDevice,
+      };
 }
 
 extension ExtensionAndroidBuildVersion on AndroidBuildVersion {
@@ -221,4 +230,43 @@ extension ExtensionAndroidBuildVersion on AndroidBuildVersion {
     'previewSdkInt': previewSdkInt,
     'securityPatch': securityPatch,
   };
+}
+extension ExtensionOhosDeviceInfo on OhosDeviceInfo {
+  Map<String, dynamic> get map => {
+        'deviceType': deviceType,
+        'manufacture': manufacture,
+        'brand': brand,
+        'marketName': marketName,
+        'productSeries': productSeries,
+        'productModel': productModel,
+        'softwareModel': softwareModel,
+        'hardwareModel': hardwareModel,
+        'hardwareProfile': hardwareProfile,
+        'serial': serial,
+        'bootloaderVersion': bootloaderVersion,
+        'abiList': abiList,
+        'securityPatchTag': securityPatchTag,
+        'displayVersion': displayVersion,
+        'incrementalVersion': incrementalVersion,
+        'osReleaseType': osReleaseType,
+        'osFullName': osFullName,
+        'majorVersion': majorVersion,
+        'seniorVersion': seniorVersion,
+        'featureVersion': featureVersion,
+        'buildVersion': buildVersion,
+        'sdkApiVersion': sdkApiVersion,
+        'firstApiVersion': firstApiVersion,
+        'versionId': versionId,
+        'buildType': buildType,
+        'buildUser': buildUser,
+        'buildHost': buildHost,
+        'buildTime': buildTime,
+        'buildRootHash': buildRootHash,
+        'udid': udid,
+        'distributionOSName': distributionOSName,
+        'distributionOSVersion': distributionOSVersion,
+        'distributionOSApiVersion': distributionOSApiVersion,
+        'distributionOSReleaseType': distributionOSReleaseType,
+        'odID': odID,
+      };
 }
