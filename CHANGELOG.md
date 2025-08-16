@@ -1,3 +1,7 @@
+## 11.1.0
+
+* 移除 Hive 使用 `shared_preferences` 作为持久化存储工具
+
 ## 11.0.0
 
 * 迁移至 Flutter 3.35
@@ -315,15 +319,6 @@
 ## 1.3.1+1
 
 * Add `RefreshControllers()`
-
-## 1.3.0+3
-
-* Add `ApiCache()`
-
-## 1.3.0+2
-
-* Use Hive as the persistent storage tool
-* Replace SP() with BHP()
 
 ## 1.2.0
 
