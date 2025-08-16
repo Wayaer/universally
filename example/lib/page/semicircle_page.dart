@@ -65,10 +65,9 @@ class _SemicircleTurntableState extends State<SemicircleTurntable> {
     // 初始化与items长度相关的参数
     _divisions = items.length;
     _anglePerDivision = circleAngle / _divisions;
-    _topSectorIndex =
-        isOdd
-            ? (widget.items.length / 2).floor()
-            : ((widget.items.length / 2).floor() - 1);
+    _topSectorIndex = isOdd
+        ? (widget.items.length / 2).floor()
+        : ((widget.items.length / 2).floor() - 1);
     _rotation += (isOdd ? 0 : (_anglePerDivision / 2));
     onSelected();
   }

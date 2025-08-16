@@ -49,7 +49,8 @@ class ConnectivityPlus {
 
     /// 添加模态框
     if (popupUnavailableNetwork != null) {
-      _overlayCallback ??= (_, _) => showOverlayWhenUnavailableNetwork(popupUnavailableNetwork);
+      _overlayCallback ??= (bool status, List<ConnectivityResult> result) =>
+          showOverlayWhenUnavailableNetwork(popupUnavailableNetwork);
       _listenerList.add(_overlayCallback!);
     }
     await checkConnectivity();

@@ -167,11 +167,11 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
         : widget.excludeFromSemantics
         ? image
         : Semantics(
-          container: widget.semanticLabel != null,
-          image: true,
-          label: widget.semanticLabel ?? '',
-          child: image,
-        );
+            container: widget.semanticLabel != null,
+            image: true,
+            label: widget.semanticLabel ?? '',
+            child: image,
+          );
   }
 
   @override
@@ -254,10 +254,9 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
       Gif.cache.caches.putIfAbsent(getImageKey(widget.image), () => gif);
     }
     frames = gif.frames;
-    controller.duration =
-        widget.fps != null
-            ? Duration(milliseconds: (frames.length / widget.fps! * 1000).round())
-            : widget.duration ?? gif.duration;
+    controller.duration = widget.fps != null
+        ? Duration(milliseconds: (frames.length / widget.fps! * 1000).round())
+        : widget.duration ?? gif.duration;
     if (widget.onFetchCompleted != null) {
       widget.onFetchCompleted!();
     }

@@ -343,43 +343,43 @@ class BaseScaffold<T> extends StatelessWidget {
   PreferredSizeWidget? buildAppBar(BuildContext context) {
     Widget? current =
         (appBarTitleText != null ||
-                appBarTitle != null ||
-                appBarBottom != null ||
-                appBarActions != null ||
-                appBarFlexibleSpace != null ||
-                appBarLeading != null
-            ? AppBar(
-              actions: appBarActions,
-              bottom: appBarBottom,
-              title: appBarTitle ?? (appBarTitleText == null ? null : Text(appBarTitleText!)),
-              leading: appBarLeading,
-              iconTheme: appBarIconTheme,
-              backgroundColor: appBarBackgroundColor,
-              primary: appBarPrimary,
-              foregroundColor: appBarForegroundColor,
-              flexibleSpace: appBarFlexibleSpace,
-              systemOverlayStyle: systemOverlayStyle,
-              elevation: elevation,
-              centerTitle: centerTitle,
-              actionsIconTheme: actionsIconTheme,
-              automaticallyImplyLeading: automaticallyImplyLeading,
-              bottomOpacity: bottomOpacity,
-              excludeHeaderSemantics: excludeHeaderSemantics,
-              leadingWidth: leadingWidth,
-              notificationPredicate: notificationPredicate,
-              scrolledUnderElevation: scrolledUnderElevation,
-              shadowColor: shadowColor,
-              shape: shape,
-              surfaceTintColor: surfaceTintColor,
-              titleSpacing: titleSpacing,
-              titleTextStyle: titleTextStyle,
-              toolbarHeight: toolbarHeight,
-              toolbarOpacity: toolbarOpacity,
-              toolbarTextStyle: toolbarTextStyle,
-              forceMaterialTransparency: forceMaterialTransparency,
-              clipBehavior: clipBehavior,
-            )
-            : null);
+            appBarTitle != null ||
+            appBarBottom != null ||
+            appBarActions != null ||
+            appBarFlexibleSpace != null ||
+            appBarLeading != null
+        ? AppBar(
+            actions: appBarActions,
+            bottom: appBarBottom,
+            title: appBarTitle ?? (appBarTitleText == null ? null : Text(appBarTitleText!)),
+            leading: appBarLeading,
+            iconTheme: appBarIconTheme,
+            backgroundColor: appBarBackgroundColor,
+            primary: appBarPrimary,
+            foregroundColor: appBarForegroundColor,
+            flexibleSpace: appBarFlexibleSpace,
+            systemOverlayStyle: systemOverlayStyle,
+            elevation: elevation,
+            centerTitle: centerTitle,
+            actionsIconTheme: actionsIconTheme,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            bottomOpacity: bottomOpacity,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            leadingWidth: leadingWidth,
+            notificationPredicate: notificationPredicate,
+            scrolledUnderElevation: scrolledUnderElevation,
+            shadowColor: shadowColor,
+            shape: shape,
+            surfaceTintColor: surfaceTintColor,
+            titleSpacing: titleSpacing,
+            titleTextStyle: titleTextStyle,
+            toolbarHeight: toolbarHeight,
+            toolbarOpacity: toolbarOpacity,
+            toolbarTextStyle: toolbarTextStyle,
+            forceMaterialTransparency: forceMaterialTransparency,
+            clipBehavior: clipBehavior,
+          )
+        : null);
     if (current == null) return null;
     return PreferredSize(preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10), child: current);
   }

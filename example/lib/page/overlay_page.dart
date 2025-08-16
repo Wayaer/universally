@@ -13,11 +13,7 @@ class OverlayPage extends StatelessWidget {
       appBarTitleText: 'Overlay',
       canPop: false,
       canHideOverlay: true,
-      onPopInvokedWithResult: (
-        bool didPop,
-        dynamic result,
-        bool didCloseOverlay,
-      ) {
+      onPopInvokedWithResult: (bool didPop, dynamic result, bool didCloseOverlay) {
         log(
           'OverlayPage onPopInvokedWithResult didPop=$didPop result=$result didCloseOverlay=$didCloseOverlay',
         );

@@ -177,35 +177,35 @@ class BaseResizeImage extends ExtendedResizeImage {
     } else if (value is String) {
       return value.startsWith('http') || value.startsWith('blob:http')
           ? BaseResizeImage.network(
-            value,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            scale: scale,
-            headers: headers,
-            cache: cache,
-            cancelToken: cancelToken,
-            retries: retries,
-            timeRetry: timeRetry,
-            timeLimit: timeLimit,
-            cacheKey: cacheKey,
-            printError: printError,
-            cacheMaxAge: cacheMaxAge,
-          )
+              value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              scale: scale,
+              headers: headers,
+              cache: cache,
+              cancelToken: cancelToken,
+              retries: retries,
+              timeRetry: timeRetry,
+              timeLimit: timeLimit,
+              cacheKey: cacheKey,
+              printError: printError,
+              cacheMaxAge: cacheMaxAge,
+            )
           : BaseResizeImage.asset(
-            value,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
-            maxBytes: maxBytes,
-            compressionRatio: compressionRatio,
-            cacheRawData: cacheRawData,
-            imageCacheName: imageCacheName,
-            bundle: bundle,
-            package: package,
-          );
+              value,
+              cacheWidth: cacheWidth,
+              cacheHeight: cacheHeight,
+              maxBytes: maxBytes,
+              compressionRatio: compressionRatio,
+              cacheRawData: cacheRawData,
+              imageCacheName: imageCacheName,
+              bundle: bundle,
+              package: package,
+            );
     }
     return BaseResizeImage.asset('');
   }
@@ -299,7 +299,9 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.file(loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
+  }) : super.file(
+         loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading),
+       );
 
   BaseImage.memory(
     super.bytes, {
@@ -347,7 +349,9 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.memory(loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
+  }) : super.memory(
+         loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading),
+       );
 
   BaseImage.asset(
     String? name, {
@@ -458,7 +462,10 @@ class BaseImage extends ExtendedImage {
     super.layoutInsets = EdgeInsets.zero,
     Widget? failed,
     Widget? loading,
-  }) : super.network(url ?? 'url is null', loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading));
+  }) : super.network(
+         url ?? 'url is null',
+         loadStateChanged: buildLoadStateChanged(failed: failed, loading: loading),
+       );
 
   static LoadStateChanged buildLoadStateChanged({Widget? failed, Widget? loading}) => (ExtendedImageState state) {
     switch (state.extendedImageLoadState) {

@@ -62,10 +62,13 @@ class TabPageBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: controller,
-    builder: (_, _) {
+    builder: (BuildContext context, Widget? child) {
       return Universal(
         direction: Axis.horizontal,
-        decoration: BoxDecoration(color: backgroundColor, border: borderSide != null ? Border(top: borderSide!) : null),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          border: borderSide != null ? Border(top: borderSide!) : null,
+        ),
         clipper: clipper,
         height: context.padding.bottom + kToolbarHeight,
         padding: EdgeInsets.only(bottom: context.padding.bottom),
@@ -104,7 +107,7 @@ class TabPage extends PageView {
   }) : super.builder(
          physics: physics ?? (enableScroll ? const ClampingScrollPhysics() : const NeverScrollableScrollPhysics()),
          itemCount: children.length,
-         itemBuilder: (_, int index) => children[index],
+         itemBuilder: (BuildContext context, int index) => children[index],
        );
 
   TabPage.items({

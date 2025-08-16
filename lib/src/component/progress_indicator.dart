@@ -179,12 +179,12 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   Widget build(BuildContext context) {
     return FlListenableBuilder<ValueListenable>(
       listenable: listenable,
-      dispose: (_) {
+      dispose: (BuildContext context) {
         if (disposeNotifier && listenable is ChangeNotifier) {
           (listenable as ChangeNotifier).dispose();
         }
       },
-      builder: (_, ValueListenable value) {
+      builder: (BuildContext context, ValueListenable value) {
         return ProgressIndicatorOptions(
           width: width,
           height: height,

@@ -185,30 +185,28 @@ class Universally {
   }
 
   /// 当前项目 全局使用的 刷新Header
-  CallbackT<Header> pullDownHeader =
-      () => const ClassicHeader(
-        dragText: '请尽情拉我',
-        armedText: '可以松开我了',
-        readyText: '我要开始刷新了',
-        processingText: '我在拼命刷新中',
-        processedText: '我已经刷新完成了',
-        failedText: '我刷新失败了唉',
-        noMoreText: '没有更多了',
-        showMessage: false,
-      );
+  CallbackT<Header> pullDownHeader = () => const ClassicHeader(
+    dragText: '请尽情拉我',
+    armedText: '可以松开我了',
+    readyText: '我要开始刷新了',
+    processingText: '我在拼命刷新中',
+    processedText: '我已经刷新完成了',
+    failedText: '我刷新失败了唉',
+    noMoreText: '没有更多了',
+    showMessage: false,
+  );
 
   /// 当前项目 全局使用的 刷新Footer
-  CallbackT<Footer> pullUpFooter =
-      () => const ClassicFooter(
-        dragText: '请尽情拉我',
-        armedText: '可以松开我了',
-        readyText: '我要准备加载了',
-        processingText: '我在拼命加载中',
-        processedText: '我已经加载完成了',
-        failedText: '我加载失败了唉',
-        noMoreText: '没有更多了哦',
-        showMessage: false,
-      );
+  CallbackT<Footer> pullUpFooter = () => const ClassicFooter(
+    dragText: '请尽情拉我',
+    armedText: '可以松开我了',
+    readyText: '我要准备加载了',
+    processingText: '我在拼命加载中',
+    processedText: '我已经加载完成了',
+    failedText: '我加载失败了唉',
+    noMoreText: '没有更多了哦',
+    showMessage: false,
+  );
 
   /// 获取主题
   ThemeData? getTheme({BuildContext? context}) {

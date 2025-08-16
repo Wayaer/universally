@@ -48,7 +48,7 @@ extension ExtensionWidgetTextFieldPendant on Widget {
     bool? needEditing,
     DecoratorPendantValueCallback<TextEditingController?>? needValue,
   }) => TextFieldPendant.builder(
-    builder: (_) => this,
+    builder: (DecoratorBoxStatus<TextEditingController> status) => this,
     maintainSize: maintainSize,
     positioned: positioned,
     needValue: needValue,
@@ -471,7 +471,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
       margin: widget.margin,
       child: buildDecoratorBox(
         widget.enableEye
-            ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, _) => buildTextField)
+            ? ValueListenableBuilder(
+                valueListenable: obscureText,
+                builder: (BuildContext context, bool value, Widget? child) => buildTextField,
+              )
             : buildTextField,
       ),
     );
@@ -521,20 +524,19 @@ class _BaseTextFieldState extends State<BaseTextField> {
         footers.where((e) => e.needChangedState).isNotEmpty;
     return DecoratorBox<TextEditingController>(
       listenable: useListenable ? Listenable.merge([focusNode, controller]) : null,
-      decoration:
-          (Widget child, DecoratorBoxStatus<TextEditingController> status) => Universal(
-            constraints: widget.constraints,
-            padding: widget.padding,
-            borderRadius: widget.borderRadius,
-            isClipRRect: widget.borderRadius != null,
-            decoration: BoxDecoration(
-              border: widget.borderType.toBorder(
-                status.hasFocus && widget.hasFocusedChangeBorder ? focusedBorderSide ?? borderSide : borderSide,
-              ),
-              color: widget.fillColor,
-            ),
-            child: child,
+      decoration: (Widget child, DecoratorBoxStatus<TextEditingController> status) => Universal(
+        constraints: widget.constraints,
+        padding: widget.padding,
+        borderRadius: widget.borderRadius,
+        isClipRRect: widget.borderRadius != null,
+        decoration: BoxDecoration(
+          border: widget.borderType.toBorder(
+            status.hasFocus && widget.hasFocusedChangeBorder ? focusedBorderSide ?? borderSide : borderSide,
           ),
+          color: widget.fillColor,
+        ),
+        child: child,
+      ),
       headers: headers,
       footers: footers,
       suffixes: suffixes,
@@ -542,10 +544,12 @@ class _BaseTextFieldState extends State<BaseTextField> {
       onFocus: () => focusNode.hasFocus,
       onEditing: () => controller.text.isNotEmpty,
       onValue: () => controller,
-      child:
-          widget.enableEye
-              ? ValueListenableBuilder(valueListenable: obscureText, builder: (_, bool value, _) => buildTextField)
-              : buildTextField,
+      child: widget.enableEye
+          ? ValueListenableBuilder(
+              valueListenable: obscureText,
+              builder: (BuildContext context, bool value, Widget? child) => buildTextField,
+            )
+          : buildTextField,
     );
   }
 
@@ -629,29 +633,26 @@ class _BaseTextFieldState extends State<BaseTextField> {
     onTapUpOutside: widget.onTapUpOutside,
   );
 
-  ValueChanged<String>? get onSubmitted =>
-      widget.onSubmitted == null && widget.onSubmittedWith == null
-          ? null
-          : (String value) {
-            widget.onSubmitted?.call(value);
-            widget.onSubmittedWith?.call(controller, focusNode);
-          };
+  ValueChanged<String>? get onSubmitted => widget.onSubmitted == null && widget.onSubmittedWith == null
+      ? null
+      : (String value) {
+          widget.onSubmitted?.call(value);
+          widget.onSubmittedWith?.call(controller, focusNode);
+        };
 
-  VoidCallback? get onEditingComplete =>
-      widget.onEditingComplete == null && widget.onEditingCompleteWith == null
-          ? null
-          : () {
-            widget.onEditingComplete?.call();
-            widget.onEditingCompleteWith?.call(controller, focusNode);
-          };
+  VoidCallback? get onEditingComplete => widget.onEditingComplete == null && widget.onEditingCompleteWith == null
+      ? null
+      : () {
+          widget.onEditingComplete?.call();
+          widget.onEditingCompleteWith?.call(controller, focusNode);
+        };
 
-  GestureTapCallback? get onTap =>
-      widget.onTap == null && widget.onTapWith == null
-          ? null
-          : () {
-            widget.onTap?.call();
-            widget.onTapWith?.call(controller, focusNode);
-          };
+  GestureTapCallback? get onTap => widget.onTap == null && widget.onTapWith == null
+      ? null
+      : () {
+          widget.onTap?.call();
+          widget.onTapWith?.call(controller, focusNode);
+        };
 
   StrutStyle? get strutStyle => widget.strutStyle ?? Universally.to.config.textField?.strutStyle;
 
@@ -716,9 +717,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
       margin: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       value: widget.sendVerificationCodeDuration,
       builder: (SendState state, int i) {
-        final current = (widget.sendVerificationCodeTextBuilder ??
-                Universally.to.config.textField?.sendVerificationCodeTextBuilder)
-            ?.call(state, i);
+        final current =
+            (widget.sendVerificationCodeTextBuilder ?? Universally.to.config.textField?.sendVerificationCodeTextBuilder)
+                ?.call(state, i);
         if (current != null) return current;
         switch (state) {
           case SendState.none:
@@ -741,7 +742,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
         widget.searchIcon ??
         Universally.to.config.textField?.searchIcon ??
         Icon(UIS.search, size: 20, color: context.theme.textTheme.bodyMedium?.color);
-    return Padding(padding: EdgeInsets.only(left: widget.interval), child: current);
+    return Padding(
+      padding: EdgeInsets.only(left: widget.interval),
+      child: current,
+    );
   }
 
   /// 清除
@@ -768,7 +772,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     },
     child: ValueListenableBuilder(
       valueListenable: obscureText,
-      builder: (_, bool value, _) {
+      builder: (BuildContext context, bool value, Widget? child) {
         return (widget.eyeIconBuilder ?? Universally.to.config.textField?.eyeIconBuilder)?.call(value) ??
             Icon(value ? UIS.eyeClose : UIS.eyeOpen, color: context.theme.textTheme.bodyMedium?.color, size: 20);
       },

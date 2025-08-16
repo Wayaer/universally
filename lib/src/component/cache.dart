@@ -90,7 +90,7 @@ class _PushStateState extends State<PushSwitchState> {
   @override
   void initState() {
     super.initState();
-    addPostFrameCallback((_) {
+    addPostFrameCallback((duration) {
       push = BasePreferences().getBool(UConst.isPush) ?? false;
       setState(() {});
     });

@@ -18,26 +18,22 @@ class _BaseListPageState extends State<BaseListPage> {
       child: BaseList(
         itemCount: list.length,
         placeholder: const Center(child: Text('请先下拉刷新')),
-        onRefresh: (_) async {
+        onRefresh: (EasyRefreshController controller) async {
           pullDown = true;
           await 1.seconds.delayed();
           setRefreshStatus();
           list = Colors.accents;
           setState(() {});
         },
-        onLoad: (_) async {
+        onLoad: (EasyRefreshController controller) async {
           pullUp = true;
           await 1.seconds.delayed();
           setRefreshStatus();
           list.addAll(Colors.accents);
           setState(() {});
         },
-        itemBuilder:
-            (_, int index) => Container(
-              height: 30,
-              width: double.infinity,
-              color: list[index],
-            ),
+        itemBuilder: (BuildContext context, int index) =>
+            Container(height: 30, width: double.infinity, color: list[index]),
       ),
     );
   }

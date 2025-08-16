@@ -29,6 +29,7 @@ export 'src/app/base_app.dart';
 export 'src/app/cupertino_app.dart';
 export 'src/app/material_app.dart';
 export 'src/app/widgets_app.dart';
+
 /// component
 export 'src/component/arrow_shape.dart';
 export 'src/component/cache.dart';
@@ -79,5 +80,6 @@ export 'src/extension/decimal_extension.dart';
 
 /// global
 export 'src/global.dart';
+
 /// utils
 export 'src/utils/task_queue.dart';

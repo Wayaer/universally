@@ -174,9 +174,8 @@ class TextFieldPage extends StatelessWidget {
               child: Row(children: [FlText('footer error')]),
               maintainSize: true,
               positioned: DecoratorPendantPosition.outer,
-              needValue:
-                  (TextEditingController? controller) =>
-                      controller?.text.contains('1') ?? false,
+              needValue: (TextEditingController? controller) =>
+                  controller?.text.contains('1') ?? false,
             ),
           ],
           headers: const [

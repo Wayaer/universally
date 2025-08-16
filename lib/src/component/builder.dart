@@ -15,9 +15,9 @@ class BaseFutureBuilder<T> extends CustomFutureBuilder<T> {
     super.dispose,
     ValueTwoCallbackT<Widget, BuildContext, Function()>? onNone,
   }) : super(
-         onNone: onNone ?? (_, _) => const Center(child: BasePlaceholder()),
-         onWaiting: (_) => const Center(child: BaseLoading()),
-         onError: (_, _, reset) => BaseError(onTap: reset),
+         onNone: onNone ?? (BuildContext context, Function() reset) => const Center(child: BasePlaceholder()),
+         onWaiting: (BuildContext context) => const Center(child: BaseLoading()),
+         onError: (BuildContext context, Object? error, reset) => BaseError(onTap: reset),
        );
 }
 
@@ -37,8 +37,8 @@ class BaseStreamBuilder<T> extends CustomStreamBuilder<T> {
     super.dispose,
     ValueCallbackTV<Widget, BuildContext>? onNone,
   }) : super(
-         onNone: onNone ?? (_) => const Center(child: BasePlaceholder()),
-         onWaiting: (_) => const Center(child: BaseLoading()),
-         onError: (_, _) => const BaseError(),
+         onNone: onNone ?? (BuildContext context) => const Center(child: BasePlaceholder()),
+         onWaiting: (BuildContext context) => const Center(child: BaseLoading()),
+         onError: (BuildContext context, Object? error) => const BaseError(),
        );
 }

@@ -229,7 +229,8 @@ class BasePopupMenuButton<T> extends StatelessWidget {
           splashRadius: splashRadius,
           style: style,
           popUpAnimationStyle: popUpAnimationStyle,
-          itemBuilder: (_) => list.builder((item) => PopupMenuItem<T>(value: item, child: itemBuilder(item))),
+          itemBuilder: (BuildContext context) =>
+              list.builder((item) => PopupMenuItem<T>(value: item, child: itemBuilder(item))),
           child: builder(selected, rotateIcon),
         );
       },

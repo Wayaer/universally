@@ -47,13 +47,12 @@ Future<bool> checkRequestPermission(
     if (beforeRequestPrompt != null) pop();
   }
   if (!(status.authorized) && jumpSettingsPrompt != null) {
-    final result =
-        await ConfirmCancelActionDialog(
-          titleText: '权限申请说明',
-          contentText: jumpSettingsPrompt,
-          onConfirmTap: () => true,
-          onCancelTap: onCancelTap,
-        ).show();
+    final result = await ConfirmCancelActionDialog(
+      titleText: '权限申请说明',
+      contentText: jumpSettingsPrompt,
+      onConfirmTap: () => true,
+      onCancelTap: onCancelTap,
+    ).show();
     if (result == true) await openAppSettings();
   }
   return status.authorized;

@@ -17,7 +17,10 @@ Future<void> pushLuckyDrawPage() async {
     prizes.add(
       LuckyPrizes(
         backgroundColor: i.isEven ? Colors.red : Colors.green,
-        textSpan: TextSpan(text: '$i', style: TStyle(color: Colors.white)),
+        textSpan: TextSpan(
+          text: '$i',
+          style: TStyle(color: Colors.white),
+        ),
         image: fi.image,
       ),
     );

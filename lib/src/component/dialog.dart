@@ -354,7 +354,7 @@ class TextFieldDialog extends StatelessWidget {
         cancelTapPop: cancelTapPop,
         onCancelTap: onCancelTap,
         titleText: titleText,
-        content: (_) => buildTextField(context),
+        content: (Widget? text) => buildTextField(context),
       );
     }
     return ConfirmCancelActionDialog(
@@ -366,7 +366,7 @@ class TextFieldDialog extends StatelessWidget {
       onCancelTap: onCancelTap,
       titleText: titleText,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      content: (_) => buildTextField(context),
+      content: (Widget? text) => buildTextField(context),
     );
   }
 
