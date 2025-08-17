@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:universally/universally.dart';
 
 class DeviceInfoPlus {
@@ -10,21 +9,21 @@ class DeviceInfoPlus {
 
   final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
 
-  Future<dynamic> get platform async {
-    if (isWeb) return webBrowserInfo;
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-        return android;
-      case TargetPlatform.fuchsia:
-        return null;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.linux:
-        return linux;
-      case TargetPlatform.macOS:
-        return macOS;
-      case TargetPlatform.windows:
-        return windows;
+  Future<dynamic> get platform {
+    if (isWeb) {
+      return webBrowserInfo;
+    } else if (isAndroid) {
+      return android;
+    } else if (isIOS) {
+      return ios;
+    } else if (isMacOS) {
+      return macOS;
+    } else if (isWindows) {
+      return windows;
+    } else if (isLinux) {
+      return linux;
+    } else {
+      return Future.value(null);
     }
   }
 
