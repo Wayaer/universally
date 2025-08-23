@@ -327,7 +327,7 @@ class BaseScaffold<T> extends StatelessWidget {
           final now = DateTime.now();
           if (_lastExitDateTime != null && now.difference(_lastExitDateTime!).inMilliseconds < 2500) {
             Curiosity.native.exitApp();
-          } else {
+          } else if (result != noDoubleClickExit) {
             _lastExitDateTime = now;
             showToast(
               doubleClickExitPrompt,
@@ -407,3 +407,5 @@ class BaseScaffold<T> extends StatelessWidget {
     child: child,
   );
 }
+
+const noDoubleClickExit = 'NoDoubleClickExit';
