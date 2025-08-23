@@ -34,7 +34,7 @@ dependencies:
   flutter_spinkit: ^5.2.2
   keframe: ^3.0.0
 
-  flutter_waya: ^11.3.0
+  flutter_waya: ^11.4.0
   fl_extended: ^3.0.1
   fl_list_wheel: ^0.0.3
   fl_scroll_view: ^1.0.1
