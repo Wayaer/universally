@@ -281,7 +281,7 @@ class BaseScaffold<T> extends StatelessWidget {
   final bool forceMaterialTransparency;
   final Clip? clipBehavior;
 
-  static DateTime? _dateTime;
+  static DateTime? _lastExitDateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -325,10 +325,10 @@ class BaseScaffold<T> extends StatelessWidget {
         onPopInvokedWithResult?.call(didPop, result, didCloseOverlay);
         if (enableDoubleClickExit) {
           final now = DateTime.now();
-          if (_dateTime != null && now.difference(_dateTime!).inMilliseconds < 2500) {
+          if (_lastExitDateTime != null && now.difference(_lastExitDateTime!).inMilliseconds < 2500) {
             Curiosity.native.exitApp();
           } else {
-            _dateTime = now;
+            _lastExitDateTime = now;
             showToast(
               doubleClickExitPrompt,
               options: const ToastOptions(alignment: Alignment.center, duration: Duration(milliseconds: 1500)),
