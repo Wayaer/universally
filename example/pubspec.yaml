@@ -5,8 +5,8 @@ app_name: 'Universally'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
-  flutter: '>=3.35.0'
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: '>=3.27.0'
 
 dependencies:
   universally:
@@ -14,10 +14,10 @@ dependencies:
   flutter:
     sdk: flutter
   crypto: ^3.0.6
-  device_preview_minus: ^1.3.0
+  device_preview_minus: ^1.2.0
 
 dev_dependencies:
-  flutter_lints: ^6.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true

@@ -15,7 +15,6 @@ class UrlLauncher {
     String url, {
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
-    BrowserConfiguration browserConfiguration = const BrowserConfiguration(),
     String? webOnlyWindowName,
   }) async {
     if (await canLaunch(Uri.parse(url))) {
@@ -23,7 +22,6 @@ class UrlLauncher {
         Uri.parse(url),
         mode: mode,
         webOnlyWindowName: webOnlyWindowName,
-        browserConfiguration: browserConfiguration,
         webViewConfiguration: webViewConfiguration,
       );
     } else {
@@ -58,18 +56,6 @@ class UrlLauncher {
   /// This works only if [supportsCloseForLaunchMode] returns true for the mode
   /// that was used by [launchUrl].
   Future<void> closeWebView() => closeInAppWebView();
-
-  /// Returns true if [mode] is supported by the current platform implementation.
-  /// Calling [launchUrl] with an unsupported mode will fall back to a supported
-  /// mode, so calling this method is only necessary for cases where the caller
-  /// needs to know which mode will be used.
-  Future<bool> supports(LaunchMode mode) => supportsLaunchMode(mode);
-
-  /// Returns true if [closeInAppWebView] is supported for [mode] in the current
-  /// platform implementation.
-  /// If this returns false, [closeInAppWebView] will not work when launching
-  /// URLs with [mode].
-  Future<bool> supportsClose(LaunchMode mode) => supportsCloseForLaunchMode(mode);
 
   /// 拨打电话
   /// Make a phone call

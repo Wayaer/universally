@@ -1,35 +1,11 @@
-## 11.1.2
-
-* 更新依赖
-* `BaseText` 调整
-
-## 11.1.0
-
-* 移除 Hive 使用 `shared_preferences` 作为持久化存储工具
-
-## 11.0.0
-
-* 迁移至 Flutter 3.35
-
-## 10.2.0
+## 9.4.3-oh
 
 * 新增`Decimal`扩展
-
-## 10.0.1
-
-* 迁移至 Flutter 3.32
-
-## 9.7.0
-
 * 更新 `fl_scroll_view`
 * `BaseList` 的 `onLoading` 改为 `onLoad`
 * `BaseList` 的 `onRefresh` 和 `onLoad`增加 `EasyRefreshController`回调参数
 * `BaseScaffold` 删除 `onRefresh`、`onLoading`、`onRefreshConfig`
-
-## 9.5.2
-
-* 迁移至 Flutter 3.29
-* 更新依赖
+* 支持 HarmonyOS
 
 ## 9.4.0
 

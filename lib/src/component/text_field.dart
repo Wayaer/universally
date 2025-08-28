@@ -142,7 +142,6 @@ class BaseTextField extends StatefulWidget {
     this.autofillHints = const [],
     this.clipBehavior = Clip.hardEdge,
     this.restorationId,
-    this.stylusHandwritingEnabled = EditableText.defaultStylusHandwritingEnabled,
     this.enableIMEPersonalizedLearning = true,
     this.textInputType = TextInputLimitFormatter.text,
     this.keyboardType,
@@ -163,7 +162,6 @@ class BaseTextField extends StatefulWidget {
     this.interval = 8,
     this.cursorErrorColor,
     this.groupId = EditableText,
-    this.onTapUpOutside,
     this.decoration,
   });
 
@@ -367,8 +365,6 @@ class BaseTextField extends StatefulWidget {
   /// {@macro flutter.material.textfield.restorationId}
   final String? restorationId;
 
-  /// {@macro flutter.widgets.editableText.stylusHandwritingEnabled}
-  final bool stylusHandwritingEnabled;
 
   /// {@macro flutter.services.TextInputConfiguration.enableIMEPersonalizedLearning}
   final bool enableIMEPersonalizedLearning;
@@ -442,8 +438,6 @@ class BaseTextField extends StatefulWidget {
   /// {@macro flutter.widgets.editableText.groupId}
   final Object groupId;
 
-  /// {@macro flutter.widgets.editableText.onTapUpOutside}
-  final TapRegionUpCallback? onTapUpOutside;
 
   @override
   State<BaseTextField> createState() => _BaseTextFieldState();
@@ -604,7 +598,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
     expands: widget.expands,
     readOnly: widget.readOnly,
     restorationId: widget.restorationId,
-    stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
     scrollController: widget.scrollController,
     scrollPadding: widget.scrollPadding,
     scrollPhysics: widget.scrollPhysics,
@@ -630,7 +623,6 @@ class _BaseTextFieldState extends State<BaseTextField> {
     statesController: widget.statesController,
     cursorErrorColor: widget.cursorErrorColor,
     groupId: widget.groupId,
-    onTapUpOutside: widget.onTapUpOutside,
   );
 
   ValueChanged<String>? get onSubmitted => widget.onSubmitted == null && widget.onSubmittedWith == null
