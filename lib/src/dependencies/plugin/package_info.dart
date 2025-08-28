@@ -7,6 +7,8 @@ class PackageInfoPlus {
 
   static PackageInfoPlus? _singleton;
 
+  static PackageInfoPlus get instance => PackageInfoPlus();
+
   PackageInfo? _packageInfo;
 
   Future<PackageInfo> initialize() async => _packageInfo ??= (await PackageInfo.fromPlatform());

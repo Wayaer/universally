@@ -81,6 +81,8 @@ class Universally {
 
   static Universally? _singleton;
 
+  static Universally get instance => Universally();
+
   /// 全局 [navigatorKey]
   late GlobalKey<NavigatorState> navigatorKey;
 

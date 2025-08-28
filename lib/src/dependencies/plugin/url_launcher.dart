@@ -7,6 +7,8 @@ class UrlLauncher {
 
   static UrlLauncher? _singleton;
 
+  static UrlLauncher get instance => UrlLauncher();
+
   /// 打开连接
   /// Open the url
   Future<bool> openUrl(

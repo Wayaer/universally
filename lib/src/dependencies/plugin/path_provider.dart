@@ -10,6 +10,8 @@ class PathProvider {
 
   static PathProvider? _singleton;
 
+  static PathProvider get instance => PathProvider();
+
   /// Android	iOS	Linux	macOS	Windows
   Future<Directory?> getTemporaryDirectory() async => isWeb ? null : await path.getTemporaryDirectory();
 

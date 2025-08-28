@@ -12,14 +12,21 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  permission_handler: ^12.0.1
-  path_provider: ^2.1.5
-  url_launcher: ^6.3.2
-  package_info_plus: ^8.3.1
-  connectivity_plus: ^6.1.5
   android_intent_plus: ^5.3.1
+  permission_handler: ^12.0.1
+  permission_handler_harmonyos: ^0.0.1
+  path_provider: ^2.1.5
+  path_provider_harmonyos: ^0.0.1
+  url_launcher: ^6.3.2
+  url_launcher_harmonyos: ^0.0.1
+  package_info_plus: ^8.3.1
+  package_info_plus_harmonyos: ^0.0.1
+  connectivity_plus: ^6.1.5
+  connectivity_plus_harmonyos: ^0.0.1
   device_info_plus: ^11.5.0
+  device_info_plus_harmonyos: ^0.0.2
   shared_preferences: ^2.5.3
+  shared_preferences_harmonyos: ^0.0.1
 
   extended_image: ^10.0.1
   extended_image_library: ^5.0.1

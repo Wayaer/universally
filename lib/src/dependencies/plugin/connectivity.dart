@@ -16,6 +16,8 @@ class ConnectivityPlus {
 
   static ConnectivityPlus? _singleton;
 
+  static ConnectivityPlus get instance => ConnectivityPlus();
+
   final connectivity = Connectivity();
 
   final List<ConnectivityListenCallback> _listenerList = [];

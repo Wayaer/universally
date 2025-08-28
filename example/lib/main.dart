@@ -1,25 +1,23 @@
-import 'package:app/page/cancelable_page.dart';
-import 'package:app/page/overlay_page.dart';
 import 'package:app/page/base_list_page.dart';
+import 'package:app/page/cancelable_page.dart';
 import 'package:app/page/changed_builder_page.dart';
 import 'package:app/page/component_page.dart';
 import 'package:app/page/dialog_page.dart';
 import 'package:app/page/gif_page.dart';
-import 'package:app/page/shared_preferences.dart';
-import 'package:app/page/permission_page.dart';
+import 'package:app/page/overlay_page.dart';
 import 'package:app/page/picker_page.dart';
 import 'package:app/page/progress_indicator_page.dart';
 import 'package:app/page/spin_kit_page.dart';
 import 'package:app/page/tab_bar.dart';
 import 'package:app/page/text_field_page.dart';
 import 'package:app/page/text_page.dart';
-import 'package:app/page/url_lanuncher_page.dart';
 import 'package:app/theme.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 import 'page/lucky_draw_page.dart';
+import 'page/plugin/plugin_page.dart';
 
 Future<void> main() async {
   isBeta = true;
@@ -60,29 +58,7 @@ class _App extends StatelessWidget {
         theme: lightTheme,
         initState: (context) async {
           ConnectivityPlus().addListener((status, result) async {
-            switch (result.first) {
-              case ConnectivityResult.wifi:
-                showToast('use wifi');
-                break;
-              case ConnectivityResult.ethernet:
-                showToast('use ethernet');
-                break;
-              case ConnectivityResult.mobile:
-                showToast('use Cellular networks');
-                break;
-              case ConnectivityResult.none:
-                showToast('none networks');
-                break;
-              case ConnectivityResult.bluetooth:
-                showToast('use bluetooth');
-                break;
-              case ConnectivityResult.vpn:
-                showToast('use vpn');
-                break;
-              case ConnectivityResult.other:
-                showToast('use other');
-                break;
-            }
+            showToast(result.builder((e) => e.name).join('\n'));
             return true;
           });
         },
@@ -108,6 +84,7 @@ class HomePage extends StatelessWidget {
         spacing: 12,
         children: [
           SwitchApiButton(),
+          Button(onTap: () => push(const PluginPage()), text: 'Plugin'),
           Button(onTap: () => push(const TextPage()), text: 'Text'),
           Button(onTap: () => push(const ComponentPage()), text: 'Component'),
           Button(onTap: () => push(const GifPage()), text: 'Gif'),
@@ -117,11 +94,6 @@ class HomePage extends StatelessWidget {
           Button(onTap: () => push(const PickerPage()), text: 'Picker'),
           Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
           Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
-          Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
-          Button(
-            onTap: () => push(const UrlLauncherPage()),
-            text: 'UrlLauncher',
-          ),
           Button(
             onTap: () => push(const ProgressIndicatorPage()),
             text: 'ProgressIndicator',
@@ -130,10 +102,7 @@ class HomePage extends StatelessWidget {
             onTap: () => push(const ChangedBuilderWidgetPage()),
             text: 'ChangedBuilder',
           ),
-          Button(
-            onTap: () => push(const SharedPreferencesPage()),
-            text: 'BasePreferences',
-          ),
+
           Button(
             onTap: () {
               push(const SpinKitPage());

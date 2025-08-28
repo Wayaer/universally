@@ -166,6 +166,8 @@ class BaseDio {
 
   static BaseDio? _singleton;
 
+  static BaseDio get instance => BaseDio();
+
   late ExtendedDio dio;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();

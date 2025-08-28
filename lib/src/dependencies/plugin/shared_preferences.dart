@@ -10,6 +10,8 @@ class BasePreferences {
 
   static BasePreferences? _singleton;
 
+  static BasePreferences get instance => BasePreferences();
+
   bool get _isInitialize => _sharedPreferences != null;
 
   SharedPreferences? _sharedPreferences;
