@@ -22,3 +22,4 @@
 **/libs/**/libapp.so
 **/libs/**/libflutter.so
 **/libs/**/libvmservice_snapshot.so
+/entry/src/main/resources/rawfile/
