@@ -23,3 +23,4 @@
 **/libs/**/libflutter.so
 **/libs/**/libvmservice_snapshot.so
 /entry/src/main/resources/rawfile/flutter_assets/
+/entry/src/main/ets/plugins/
