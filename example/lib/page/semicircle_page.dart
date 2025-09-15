@@ -38,11 +38,7 @@ class SemicirclePage extends StatelessWidget {
 }
 
 class SemicircleTurntable extends StatefulWidget {
-  const SemicircleTurntable({
-    super.key,
-    required this.items,
-    required this.onSelected,
-  });
+  const SemicircleTurntable({super.key, required this.items, required this.onSelected});
 
   final List<String> items;
 
@@ -65,9 +61,7 @@ class _SemicircleTurntableState extends State<SemicircleTurntable> {
     // 初始化与items长度相关的参数
     _divisions = items.length;
     _anglePerDivision = circleAngle / _divisions;
-    _topSectorIndex = isOdd
-        ? (widget.items.length / 2).floor()
-        : ((widget.items.length / 2).floor() - 1);
+    _topSectorIndex = isOdd ? (widget.items.length / 2).floor() : ((widget.items.length / 2).floor() - 1);
     _rotation += (isOdd ? 0 : (_anglePerDivision / 2));
     onSelected();
   }
@@ -98,8 +92,7 @@ class _SemicircleTurntableState extends State<SemicircleTurntable> {
     final distanceToNextStart = (normalizedAngle - nextStartAngle).abs();
 
     // 如果距离下一个区间起始角度更近，使用下一个区间的中间角度
-    if (distanceToNextStart < distanceToMiddle &&
-        divisionIndex < _divisions - 1) {
+    if (distanceToNextStart < distanceToMiddle && divisionIndex < _divisions - 1) {
       return _normalizeAngle(nextStartAngle);
     }
 
@@ -142,14 +135,10 @@ class _SemicircleTurntableState extends State<SemicircleTurntable> {
 
     for (int i = 0; i < _divisions; i++) {
       // 计算扇形的中间角度
-      final sectorMiddleAngle = _normalizeAngle(
-        i * _anglePerDivision + (isOdd ? 0 : (_anglePerDivision / 2)),
-      );
+      final sectorMiddleAngle = _normalizeAngle(i * _anglePerDivision + (isOdd ? 0 : (_anglePerDivision / 2)));
 
       // 计算扇形中间角度旋转后的实际角度
-      final actualAngle = _normalizeAngle(
-        sectorMiddleAngle + normalizedRotation,
-      );
+      final actualAngle = _normalizeAngle(sectorMiddleAngle + normalizedRotation);
 
       // 计算扇形中间角度与圆正上方角度的距离
       final distance = (actualAngle - topAngle).abs();
@@ -212,9 +201,7 @@ class _SemicircleTurntableState extends State<SemicircleTurntable> {
                 items: items.builderIV(
                   (k, v) => TextSpan(
                     text: v,
-                    style: TextStyle(
-                      color: k == _topSectorIndex ? Colors.red : Colors.black,
-                    ),
+                    style: TextStyle(color: k == _topSectorIndex ? Colors.red : Colors.black),
                   ),
                 ),
               ),
@@ -253,13 +240,7 @@ class _SemicircleTurntable extends CustomPainter {
       paint.color = i.isEven ? Colors.greenAccent : Colors.amber;
 
       // 绘制扇形
-      canvas.drawArc(
-        Rect.fromCircle(center: center, radius: radius),
-        startAngle,
-        anglePerDivision,
-        true,
-        paint,
-      );
+      canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, anglePerDivision, true, paint);
 
       // 计算文字位置和角度
       final double textAngle = startAngle + anglePerDivision / 2;
@@ -269,21 +250,14 @@ class _SemicircleTurntable extends CustomPainter {
       // 创建文字
       final textSpan = items[i];
 
-      final textPainter = TextPainter(
-        text: textSpan,
-        textAlign: TextAlign.center,
-        textDirection: TextDirection.ltr,
-      );
+      final textPainter = TextPainter(text: textSpan, textAlign: TextAlign.center, textDirection: TextDirection.ltr);
 
       // 使用矩阵变换来旋转文字
       canvas.save();
       canvas.translate(textX, textY);
       canvas.rotate(textAngle + pi / 2); // 加上90度使文字上边对准扇形外边
       textPainter.layout();
-      textPainter.paint(
-        canvas,
-        Offset(-textPainter.width / 2, -textPainter.height / 2),
-      );
+      textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
       canvas.restore();
     }
   }

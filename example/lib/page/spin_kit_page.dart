@@ -16,13 +16,7 @@ class SpinKitPage extends StatelessWidget {
         crossAxisSpacing: 10,
         itemBuilder: (BuildContext context, int index) {
           return Card(
-            child: Column(
-              children: [
-                SpinKit(styles[index]).expanded,
-                TextLarge(styles[index].name),
-                4.heightBox,
-              ],
-            ),
+            child: Column(children: [SpinKit(styles[index]).expanded, TextLarge(styles[index].name), 4.heightBox]),
           );
         },
         itemCount: styles.length,

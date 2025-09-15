@@ -18,14 +18,8 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    assetController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
-    networkController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
+    assetController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    networkController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
   }
 
   @override
@@ -36,18 +30,9 @@ class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
       appBarTitleText: 'GIF Image',
       children: [
         const TextLarge('NetworkImage'),
-        Gif(
-          autostart: Autostart.loop,
-          controller: networkController,
-          useCache: false,
-          image: NetworkImage(url),
-        ),
+        Gif(autostart: Autostart.loop, controller: networkController, useCache: false, image: NetworkImage(url)),
         const TextLarge('AssetImage'),
-        Gif(
-          autostart: Autostart.loop,
-          controller: assetController,
-          image: const AssetImage('assets/gif.gif'),
-        ),
+        Gif(autostart: Autostart.loop, controller: assetController, image: const AssetImage('assets/gif.gif')),
         const SizedBox(height: 30),
       ],
     );

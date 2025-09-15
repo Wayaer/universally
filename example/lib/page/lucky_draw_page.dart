@@ -73,12 +73,7 @@ class LuckyPrizes {
 }
 
 class LuckyDraw extends StatefulWidget {
-  const LuckyDraw({
-    super.key,
-    required this.prizes,
-    required this.turnDuration,
-    required this.finalIndex,
-  });
+  const LuckyDraw({super.key, required this.prizes, required this.turnDuration, required this.finalIndex});
 
   /// 奖品
   final List<LuckyPrizes> prizes;
@@ -93,8 +88,7 @@ class LuckyDraw extends StatefulWidget {
   State<LuckyDraw> createState() => _LuckyDrawState();
 }
 
-class _LuckyDrawState extends State<LuckyDraw>
-    with SingleTickerProviderStateMixin {
+class _LuckyDrawState extends State<LuckyDraw> with SingleTickerProviderStateMixin {
   late AnimationController controller;
 
   @override
@@ -115,27 +109,26 @@ class _LuckyDrawState extends State<LuckyDraw>
   }
 
   void initAnimationController() {
-    controller =
-        AnimationController(value: 0, vsync: this, duration: getTotalDuration())
-          ..addListener(() {
-            setState(() {});
-          })
-          ..addStatusListener((status) {
-            // if (status == AnimationStatus.completed) {
-            //   currentRotationCount++;
-            //   if (currentRotationCount < widget.turnDuration.length) {
-            //     controller.duration = widget.turnDuration[currentRotationCount];
-            //     controller.forward(from: 0.0);
-            //   } else {
-            //     if (controller.value == 1) controller.value = 0;
-            //     final endValue =
-            //         (widget.finalIndex * 2 / (widget.prizes.length * 2)) +
-            //             stepValue;
-            //     controller.animateTo(endValue,
-            //         duration: const Duration(milliseconds: 1000));
-            //   }
-            // }
-          });
+    controller = AnimationController(value: 0, vsync: this, duration: getTotalDuration())
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        // if (status == AnimationStatus.completed) {
+        //   currentRotationCount++;
+        //   if (currentRotationCount < widget.turnDuration.length) {
+        //     controller.duration = widget.turnDuration[currentRotationCount];
+        //     controller.forward(from: 0.0);
+        //   } else {
+        //     if (controller.value == 1) controller.value = 0;
+        //     final endValue =
+        //         (widget.finalIndex * 2 / (widget.prizes.length * 2)) +
+        //             stepValue;
+        //     controller.animateTo(endValue,
+        //         duration: const Duration(milliseconds: 1000));
+        //   }
+        // }
+      });
   }
 
   @override
@@ -165,10 +158,7 @@ class _LuckyDrawState extends State<LuckyDraw>
               controller.reset();
               controller.forward();
             },
-            decoration: BoxDecoration(
-              color: context.theme.primaryColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: context.theme.primaryColor, shape: BoxShape.circle),
             padding: EdgeInsets.all(4),
             child: Icon(Icons.ac_unit),
           ),
@@ -203,13 +193,7 @@ class LuckyDrawPaint extends CustomPainter {
       double startAngle = i * angleStep - (angleStep * 1.75);
       final item = prizes[i];
       if (item.backgroundColor != null) paint.color = item.backgroundColor!;
-      canvas.drawArc(
-        Rect.fromCircle(center: center, radius: radius),
-        startAngle,
-        angleStep,
-        true,
-        paint,
-      );
+      canvas.drawArc(Rect.fromCircle(center: center, radius: radius), startAngle, angleStep, true, paint);
 
       if (item.textSpan != null) {
         final TextPainter tp = TextPainter(
@@ -239,13 +223,8 @@ class LuckyDrawPaint extends CustomPainter {
         double imageX = center.dx + radius * p * cos(imageAngle);
         double imageY = center.dy + radius * p * sin(imageAngle);
         // 加载图片
-        double imageSize =
-            radius * (item.textSpan == null ? 0.38 : 0.28); // 图片大小为半径的40%
-        Rect imageRect = Rect.fromCenter(
-          center: const Offset(0, 0),
-          width: imageSize,
-          height: imageSize,
-        );
+        double imageSize = radius * (item.textSpan == null ? 0.38 : 0.28); // 图片大小为半径的40%
+        Rect imageRect = Rect.fromCenter(center: const Offset(0, 0), width: imageSize, height: imageSize);
         canvas.save();
         canvas.translate(imageX, imageY);
         canvas.rotate(imageAngle + pi / 2); // 加上90度使图片上边对准扇形外边

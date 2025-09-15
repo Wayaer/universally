@@ -9,8 +9,7 @@ class ProgressIndicatorPage extends StatefulWidget {
   State<ProgressIndicatorPage> createState() => _ProgressIndicatorPageState();
 }
 
-class _ProgressIndicatorPageState extends State<ProgressIndicatorPage>
-    with SingleTickerProviderStateMixin {
+class _ProgressIndicatorPageState extends State<ProgressIndicatorPage> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   Animation<Color?>? animationColor;
 
@@ -18,10 +17,7 @@ class _ProgressIndicatorPageState extends State<ProgressIndicatorPage>
   void initState() {
     super.initState();
     controller = AnimationController(vsync: this, duration: 10.seconds);
-    animationColor = ColorTween(
-      begin: Colors.red,
-      end: Colors.blue,
-    ).animate(controller);
+    animationColor = ColorTween(begin: Colors.red, end: Colors.blue).animate(controller);
     controller.repeat();
   }
 

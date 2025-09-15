@@ -21,23 +21,13 @@ class PluginPage extends StatelessWidget {
       padding: EdgeInsets.all(10),
       isScroll: true,
       children: [
-        if (isMobile)
-          Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
-        Button(
-          onTap: () => push(const ConnectivityPlusPage()),
-          text: 'ConnectivityPlus',
-        ),
+        if (isMobile) Button(onTap: () => push(const PermissionPage()), text: 'Permission'),
+        Button(onTap: () => push(const ConnectivityPlusPage()), text: 'ConnectivityPlus'),
         Button(onTap: () => push(const UrlLauncherPage()), text: 'UrlLauncher'),
-        Button(
-          onTap: () => push(const PathProviderPage()),
-          text: 'PathProvider',
-        ),
+        Button(onTap: () => push(const PathProviderPage()), text: 'PathProvider'),
         Button(onTap: () => push(const DeviceInfoPage()), text: 'DeviceInfo'),
         Button(onTap: () => push(const PackageInfoPage()), text: 'PackageInfo'),
-        Button(
-          onTap: () => push(const SharedPreferencesPage()),
-          text: 'SharedPreferences',
-        ),
+        Button(onTap: () => push(const SharedPreferencesPage()), text: 'SharedPreferences'),
       ],
     );
   }

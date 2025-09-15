@@ -23,18 +23,14 @@ class PickerPage extends StatelessWidget {
         ),
         Button(
           onTap: () async {
-            final result = await DateTimePicker(
-              options: BasePickerOptions<DateTime>(),
-            ).show();
+            final result = await DateTimePicker(options: BasePickerOptions<DateTime>()).show();
             showToast(result.toString());
           },
           text: 'DateTimePicker',
         ),
         Button(
           onTap: () async {
-            final result = await DatePicker(
-              options: BasePickerOptions<DateTime>(),
-            ).show();
+            final result = await DatePicker(options: BasePickerOptions<DateTime>()).show();
             showToast(result.toString());
           },
           text: 'DatePicker',
@@ -43,8 +39,7 @@ class PickerPage extends StatelessWidget {
           onTap: () async {
             final result = await SingleListWheelPicker(
               options: BasePickerOptions<int>(),
-              itemBuilder: (BuildContext context, int index) =>
-                  Center(child: TextLarge(numberList[index].toString())),
+              itemBuilder: (BuildContext context, int index) => Center(child: TextLarge(numberList[index].toString())),
               itemCount: numberList.length,
             ).show();
             showToast(result.toString());
@@ -71,8 +66,7 @@ class PickerPage extends StatelessWidget {
     4,
     (index) => PickerItem(
       itemCount: numberList.length,
-      itemBuilder: (BuildContext context, int index) =>
-          Center(child: TextLarge(numberList[index])),
+      itemBuilder: (BuildContext context, int index) => Center(child: TextLarge(numberList[index])),
     ),
   );
 }

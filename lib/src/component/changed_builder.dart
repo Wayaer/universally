@@ -204,7 +204,7 @@ class BaseCupertinoSwitch extends ChangedBuilder<bool> {
 class BaseCheckbox extends ChangedBuilder<bool?> {
   BaseCheckbox({
     super.key,
-    required super.value,
+    super.value,
     super.onChanged,
     super.onWaitChanged,
     super.initState,
@@ -255,7 +255,7 @@ class BaseCheckbox extends ChangedBuilder<bool?> {
 
   BaseCheckbox.adaptive({
     super.key,
-    required super.value,
+    super.value,
     super.onChanged,
     super.onWaitChanged,
     super.initState,

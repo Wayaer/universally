@@ -9,8 +9,7 @@ class BaseTabBarPage extends StatefulWidget {
   State<BaseTabBarPage> createState() => _BaseTabBarPageState();
 }
 
-class _BaseTabBarPageState extends State<BaseTabBarPage>
-    with SingleTickerProviderStateMixin {
+class _BaseTabBarPageState extends State<BaseTabBarPage> with SingleTickerProviderStateMixin {
   late TabController controller;
   List<int> tabs = 10.generate((index) => index);
 
@@ -35,21 +34,12 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
         ),
         20.heightBox,
         const Partition('BaseTabBar.fill'),
-        BaseTabBar.fill(
-          isScrollable: true,
-          controller: controller,
-          list: tabs.builder((index) => '$index'),
-        ),
+        BaseTabBar.fill(isScrollable: true, controller: controller, list: tabs.builder((index) => '$index')),
         20.heightBox,
         const Partition('CustomTabBar TabBar'),
         CustomTabBar(
           itemBuilder: (int selected, int index) {
-            return Universal(
-              children: [
-                Text('$index'),
-                if (selected == index) const Icon(Icons.arrow_drop_down),
-              ],
-            );
+            return Universal(children: [Text('$index'), if (selected == index) const Icon(Icons.arrow_drop_down)]);
           },
           builder: (List<Widget> tabs) => TabBar(
             tabAlignment: TabAlignment.start,
@@ -66,17 +56,10 @@ class _BaseTabBarPageState extends State<BaseTabBarPage>
           itemBuilder: (int selected, int index) {
             return Universal(
               padding: const EdgeInsets.symmetric(vertical: 4),
-              children: [
-                Text('$index'),
-                if (selected == index) const Icon(Icons.arrow_drop_down),
-              ],
+              children: [Text('$index'), if (selected == index) const Icon(Icons.arrow_drop_down)],
             );
           },
-          builder: (List<Widget> tabs) => BaseTabBar.fill(
-            isScrollable: true,
-            controller: controller,
-            tabs: tabs,
-          ),
+          builder: (List<Widget> tabs) => BaseTabBar.fill(isScrollable: true, controller: controller, tabs: tabs),
           controller: controller,
         ),
       ],

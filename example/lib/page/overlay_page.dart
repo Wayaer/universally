@@ -14,9 +14,7 @@ class OverlayPage extends StatelessWidget {
       canPop: false,
       canHideOverlay: true,
       onPopInvokedWithResult: (bool didPop, dynamic result, bool didCloseOverlay) {
-        log(
-          'OverlayPage onPopInvokedWithResult didPop=$didPop result=$result didCloseOverlay=$didCloseOverlay',
-        );
+        log('OverlayPage onPopInvokedWithResult didPop=$didPop result=$result didCloseOverlay=$didCloseOverlay');
         if (didCloseOverlay || didPop) return;
         pop();
       },

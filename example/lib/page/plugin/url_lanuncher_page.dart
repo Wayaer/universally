@@ -26,10 +26,7 @@ class UrlLauncherPage extends StatelessWidget {
           ),
           Button(
             onTap: () {
-              UrlLauncher().openAppStore(
-                packageName: 'com.tencent.mobileqq',
-                appId: isIOS ? '444934666' : '451108668',
-              );
+              UrlLauncher().openAppStore(packageName: 'com.tencent.mobileqq', appId: isIOS ? '444934666' : '451108668');
             },
             text: 'openAppStore',
           ),
@@ -53,9 +50,7 @@ class UrlLauncherPage extends StatelessWidget {
       ? [
           Button(
             onTap: () async {
-              final result = await UrlLauncher().isInstalledApp(
-                packageName: 'com.tencent.mobileqq',
-              );
+              final result = await UrlLauncher().isInstalledApp(packageName: 'com.tencent.mobileqq');
               showToast(result.toString());
             },
             text: 'isInstalledApp (QQ)',

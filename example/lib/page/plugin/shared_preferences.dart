@@ -22,10 +22,7 @@ class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
         Container(
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(4),
-          ),
+          decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(4)),
           width: double.infinity,
           child: FlText(text),
         ),
@@ -35,9 +32,7 @@ class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
             Button(
               text: 'setString',
               onTap: () {
-                BasePreferences().setString('String Key', 'String value').then((
-                  value,
-                ) {
+                BasePreferences().setString('String Key', 'String value').then((value) {
                   text = 'call setString() result: $value';
                   setState(() {});
                 });
@@ -129,12 +124,10 @@ class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
             Button(
               text: 'setMap',
               onTap: () {
-                BasePreferences()
-                    .setMap('map Key', {'1': 'value1', '2': 'value2'})
-                    .then((value) {
-                      text = 'call setMap() result: $value';
-                      setState(() {});
-                    });
+                BasePreferences().setMap('map Key', {'1': 'value1', '2': 'value2'}).then((value) {
+                  text = 'call setMap() result: $value';
+                  setState(() {});
+                });
               },
             ),
             const SizedBox(width: 20),
@@ -154,21 +147,17 @@ class _SharedPreferencesPageState extends State<SharedPreferencesPage> {
             Button(
               text: 'setStringList',
               onTap: () {
-                BasePreferences()
-                    .setStringList('list<String> Key', ['1', '2', '3'])
-                    .then((value) {
-                      text = 'call setStringList() result: $value';
-                      setState(() {});
-                    });
+                BasePreferences().setStringList('list<String> Key', ['1', '2', '3']).then((value) {
+                  text = 'call setStringList() result: $value';
+                  setState(() {});
+                });
               },
             ),
             const SizedBox(width: 20),
             Button(
               text: 'getStringList',
               onTap: () {
-                final value = BasePreferences().getStringList(
-                  'list<String> Key',
-                );
+                final value = BasePreferences().getStringList('list<String> Key');
                 text = 'call getStringList() result: $value';
                 setState(() {});
               },

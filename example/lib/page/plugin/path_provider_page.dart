@@ -24,16 +24,14 @@ class _PathProviderPageState extends State<PathProviderPage> {
     _directories.addAll({
       'getTemporaryDirectory': [temp.path],
     });
-    final appSupport = await PathProvider.instance
-        .getApplicationSupportDirectory();
+    final appSupport = await PathProvider.instance.getApplicationSupportDirectory();
     if (appSupport != null) {
       _directories.addAll({
         'getApplicationSupportDirectory': [appSupport.path],
       });
     }
 
-    final appDocuments = await PathProvider.instance
-        .getApplicationDocumentsDirectory();
+    final appDocuments = await PathProvider.instance.getApplicationDocumentsDirectory();
 
     if (appDocuments != null) {
       _directories.addAll({
@@ -46,8 +44,7 @@ class _PathProviderPageState extends State<PathProviderPage> {
         'getApplicationCacheDirectory': [appCache.path],
       });
     }
-    final externalDocuments = await PathProvider.instance
-        .getExternalStorageDirectory();
+    final externalDocuments = await PathProvider.instance.getExternalStorageDirectory();
     if (externalDocuments != null) {
       _directories.addAll({
         'getExternalStorageDirectory': [externalDocuments.path],
@@ -59,29 +56,18 @@ class _PathProviderPageState extends State<PathProviderPage> {
         'getDownloadsDirectory': [downloads.path],
       });
     }
-    final externalCache = await PathProvider.instance
-        .getExternalCacheDirectories();
+    final externalCache = await PathProvider.instance.getExternalCacheDirectories();
     if (externalCache != null) {
-      _directories.addAll({
-        'getExternalCacheDirectories': externalCache.builder((e) => e.path),
-      });
+      _directories.addAll({'getExternalCacheDirectories': externalCache.builder((e) => e.path)});
     }
-    final externalStorage = await PathProvider.instance
-        .getExternalStorageDirectories();
+    final externalStorage = await PathProvider.instance.getExternalStorageDirectories();
     if (externalStorage != null) {
-      _directories.addAll({
-        'getExternalStorageDirectories': externalStorage.builder((e) => e.path),
-      });
+      _directories.addAll({'getExternalStorageDirectories': externalStorage.builder((e) => e.path)});
     }
     for (final value in StorageDirectory.values) {
-      final directories = await PathProvider.instance
-          .getExternalStorageDirectories(type: value);
+      final directories = await PathProvider.instance.getExternalStorageDirectories(type: value);
       if (directories != null) {
-        _directories.addAll({
-          'getExternalStorageDirectories $value': directories.builder(
-            (e) => e.path,
-          ),
-        });
+        _directories.addAll({'getExternalStorageDirectories $value': directories.builder((e) => e.path)});
       }
     }
     setState(() {});
@@ -96,9 +82,7 @@ class _PathProviderPageState extends State<PathProviderPage> {
           spacing: 10,
           children: [
             TextLarge(k, maxLines: 2, textAlign: TextAlign.center),
-            ...v.builder(
-              (e) => TextMedium(e, maxLines: 10, textAlign: TextAlign.center),
-            ),
+            ...v.builder((e) => TextMedium(e, maxLines: 10, textAlign: TextAlign.center)),
             Divider(),
           ],
         ),

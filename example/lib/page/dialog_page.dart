@@ -38,11 +38,7 @@ class DialogPage extends StatelessWidget {
         ),
         Button(
           onTap: () {
-            const ConfirmActionDialog(
-              titleText: 'Title',
-              contentText: 'Content',
-              confirmText: 'Confirm',
-            ).show();
+            const ConfirmActionDialog(titleText: 'Title', contentText: 'Content', confirmText: 'Confirm').show();
           },
           text: 'ConfirmActionDialog',
         ),

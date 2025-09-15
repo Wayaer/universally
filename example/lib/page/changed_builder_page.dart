@@ -15,23 +15,14 @@ class ChangedBuilderWidgetPage extends StatelessWidget {
         const Partition('Switch', marginTop: 0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            BaseXSwitch(value: false),
-            BaseSwitch(value: false),
-            BaseSwitch.adaptive(value: false),
-          ],
+          children: [BaseXSwitch(value: false), BaseSwitch(value: false), BaseSwitch.adaptive(value: false)],
         ),
         const Partition('Checkbox'),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             BaseCheckbox(value: false),
-            BaseCheckbox(
-              value: false,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
+            BaseCheckbox(value: false, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
             BaseCheckbox.adaptive(value: false),
           ],
         ),

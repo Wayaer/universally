@@ -39,10 +39,7 @@ class _ConnectivityPlusPageState extends ExtendedState<ConnectivityPlusPage> {
       appBarTitleText: 'ConnectivityPlus',
       spacing: 20,
       padding: EdgeInsets.all(20),
-      children: [
-        TextLarge('当前网络状态:'),
-        ...result.builder((e) => TextMedium('$e')),
-      ],
+      children: [TextLarge('当前网络状态:'), ...result.builder((e) => TextMedium('$e'))],
     );
   }
 }

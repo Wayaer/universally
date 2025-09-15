@@ -5,12 +5,10 @@ class CancelableOperationsPage extends StatefulWidget {
   const CancelableOperationsPage({super.key});
 
   @override
-  State<CancelableOperationsPage> createState() =>
-      _CancelableOperationsPageState();
+  State<CancelableOperationsPage> createState() => _CancelableOperationsPageState();
 }
 
-class _CancelableOperationsPageState extends State<CancelableOperationsPage>
-    with CancelableOperationsMixin {
+class _CancelableOperationsPageState extends State<CancelableOperationsPage> with CancelableOperationsMixin {
   @override
   void initState() {
     super.initState();
@@ -32,10 +30,7 @@ class _CancelableOperationsPageState extends State<CancelableOperationsPage>
     return BaseScaffold(
       appBarTitleText: 'CancelableOperations',
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextLarge('add cancelable operation'),
-        TextLarge('cancel all operation'),
-      ],
+      children: [TextLarge('add cancelable operation'), TextLarge('cancel all operation')],
     );
   }
 
