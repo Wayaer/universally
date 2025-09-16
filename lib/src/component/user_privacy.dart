@@ -81,7 +81,6 @@ class UserPrivacyDialog extends _UserPrivacyStatelessWidget {
         content ??
             _RTextWithRecognizers(
               textAlign: TextAlign.start,
-              maxLines: 40,
               texts: [
                 '欢迎您使用$name客户端!\n为了更好地为您提供相关服务，我们会根据您使用服务的具体功能需要，收集必要的用户信息。您可通过阅读',
                 '《用户协议》',
@@ -182,7 +181,6 @@ class UserPrivacyCheckDialog extends _UserPrivacyStatelessWidget {
     constraints: BoxConstraints(maxWidth: 280),
     content: (Widget? text) => _RTextWithRecognizers(
       texts: contentTexts,
-      maxLines: 10,
       style: const TStyle(height: 1.4).merge(context.theme.textTheme.bodyMedium).copyWith(color: textColor),
       styles: [
         null,
@@ -242,7 +240,6 @@ class UserPrivacyCheckbox extends StatelessWidget {
           onChanged: onChanged,
         ),
         _RTextWithRecognizers(
-          maxLines: 5,
           textAlign: TextAlign.start,
           texts: texts,
           style: TStyle(
@@ -270,7 +267,6 @@ class UserPrivacyCheckbox extends StatelessWidget {
 
 class _RTextWithRecognizers extends StatefulWidget {
   const _RTextWithRecognizers({
-    this.maxLines,
     this.textAlign = TextAlign.center,
     required this.texts,
     this.style,
@@ -278,7 +274,6 @@ class _RTextWithRecognizers extends StatefulWidget {
     this.recognizers = const [],
   });
 
-  final int? maxLines;
   final TextAlign textAlign;
   final List<String> texts;
   final TextStyle? style;
@@ -292,7 +287,6 @@ class _RTextWithRecognizers extends StatefulWidget {
 class _RTextWithRecognizersState extends State<_RTextWithRecognizers> {
   @override
   Widget build(BuildContext context) => BaseText.richText(
-    maxLines: widget.maxLines,
     textAlign: widget.textAlign,
     texts: widget.texts,
     style: widget.style,

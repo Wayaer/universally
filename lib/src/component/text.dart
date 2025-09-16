@@ -106,7 +106,7 @@ class TextMedium extends BaseText {
     super.textWidthBasis,
     super.textHeightBehavior,
     super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.textScaler,
 
     /// [TextStyle]
     super.inherit = true,
@@ -165,7 +165,7 @@ class TextSmall extends BaseText {
     super.textWidthBasis,
     super.textHeightBehavior,
     super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.textScaler,
 
     /// [TextStyle]
     super.inherit = true,
@@ -183,7 +183,7 @@ class TextSmall extends BaseText {
     super.height,
     super.foreground,
     super.background,
-    super.decoration = TextDecoration.none,
+    super.decoration,
     super.decorationColor,
     super.decorationStyle,
     super.decorationThickness,
@@ -222,7 +222,7 @@ class BaseText extends StatelessWidget {
     this.textDirection,
     this.locale,
     this.softWrap,
-    this.overflow = TextOverflow.ellipsis,
+    this.overflow,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -247,7 +247,7 @@ class BaseText extends StatelessWidget {
     this.height,
     this.foreground,
     this.background,
-    this.decoration = TextDecoration.none,
+    this.decoration,
     this.decorationColor,
     this.decorationStyle,
     this.decorationThickness,
@@ -298,7 +298,7 @@ class BaseText extends StatelessWidget {
     this.height,
     this.foreground,
     this.background,
-    this.decoration = TextDecoration.none,
+    this.decoration,
     this.decorationColor,
     this.decorationStyle,
     this.decorationThickness,
@@ -361,7 +361,7 @@ class BaseText extends StatelessWidget {
     this.height,
     this.foreground,
     this.background,
-    this.decoration = TextDecoration.none,
+    this.decoration,
     this.decorationColor,
     this.decorationStyle,
     this.decorationThickness,
@@ -429,7 +429,7 @@ class BaseText extends StatelessWidget {
     this.height,
     this.foreground,
     this.background,
-    this.decoration = TextDecoration.none,
+    this.decoration,
     this.decorationColor,
     this.decorationStyle,
     this.decorationThickness,
@@ -510,7 +510,7 @@ class BaseText extends StatelessWidget {
   /// [TextDecoration.underline] 下划线
   /// [TextDecoration.overline] 上划线
   /// [TextDecoration.lineThrough] 中间的线（删除线）
-  final TextDecoration decoration;
+  final TextDecoration? decoration;
 
   /// [decoration]划线的颜色
   final Color? decorationColor;
@@ -605,6 +605,10 @@ class BaseText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = _mergeStyle(_getStyle(context), style);
+    TextOverflow? overflow = this.overflow;
+    if (maxLines != null && maxLines! > 1 && overflow == null) {
+      overflow = TextOverflow.ellipsis;
+    }
     return FlText.custom(
       useStyleFirst: usePrimaryColor ? false : useStyleFirst,
       data: data,
@@ -691,20 +695,20 @@ class TStyle extends TextStyle {
     super.foreground,
     super.background,
     super.height,
-    super.textBaseline = TextBaseline.ideographic,
+    super.textBaseline,
     super.inherit = true,
     super.package,
     super.locale,
     super.fontFeatures,
     super.fontVariations,
     super.shadows,
-    super.decoration = TextDecoration.none,
+    super.decoration,
     super.decorationColor,
     super.decorationStyle,
     super.decorationThickness,
     super.debugLabel,
     super.leadingDistribution,
-    super.overflow = TextOverflow.ellipsis,
+    super.overflow,
   });
 
   /// smallest text style
