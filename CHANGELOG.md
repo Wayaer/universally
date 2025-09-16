@@ -1,3 +1,8 @@
+## 11.1.1
+
+* 更新依赖
+* `BaseText` 调整
+
 ## 11.1.0
 
 * 移除 Hive 使用 `shared_preferences` 作为持久化存储工具
