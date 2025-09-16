@@ -115428,9 +115428,7 @@ A.dg.prototype={}
 A.q9.prototype={}
 A.mu.prototype={
 E(a){var s,r,q=this,p=A.bc5(q.aic(a),q.k2),o=q.p3,n=q.p4
-if(n!=null)s=n>1
-else s=!1
-if(s)o=B.bM
+if(n!=null)o=B.bM
 s=q.c
 r=s?!1:q.e
 s=s?A.G(a).dx:q.r

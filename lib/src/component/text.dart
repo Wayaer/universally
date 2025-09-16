@@ -606,7 +606,7 @@ class BaseText extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = _mergeStyle(_getStyle(context), style);
     TextOverflow? overflow = this.overflow;
-    if (maxLines != null && maxLines! > 1 && overflow == null) {
+    if (maxLines != null && overflow == null) {
       overflow = TextOverflow.ellipsis;
     }
     return FlText.custom(
