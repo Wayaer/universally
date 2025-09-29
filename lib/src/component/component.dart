@@ -108,7 +108,6 @@ class UButton extends Universal {
     super.margin,
     super.width = double.infinity,
     super.height = 45,
-    super.visible = true,
     super.alignment = Alignment.center,
     bool enabled = true,
     Widget? child,

@@ -1,11 +1,11 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 11.1.2
+version: 10.1.0-oh
 repository: https://github.com/Wayaer/universally.git
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
-  flutter: '>=3.35.0'
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: ">=3.32.0 <=3.32.10"
 
 dependencies:
   flutter:
@@ -23,7 +23,7 @@ dependencies:
   package_info_plus_harmonyos: ^0.0.1
   connectivity_plus: ^7.0.0
   connectivity_plus_harmonyos: ^0.0.1
-  device_info_plus: ^12.1.0
+  device_info_plus: ^11.3.0
   device_info_plus_harmonyos: ^0.0.3
   shared_preferences: ^2.5.3
   shared_preferences_harmonyos: ^0.0.1
@@ -42,7 +42,7 @@ dependencies:
   keframe: ^3.0.0
 
   flutter_waya: ^11.4.0
-  fl_extended: ^3.0.3
+  fl_extended: ^2.2.0
   fl_list_wheel: ^0.0.3
   fl_scroll_view: ^1.0.1
   fl_dio: ^1.5.2
