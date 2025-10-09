@@ -41,6 +41,7 @@ export 'src/component/page_view.dart';
 export 'src/component/picker.dart';
 export 'src/component/progress_indicator.dart';
 export 'src/component/rotation.dart';
+export 'src/component/row_text_layout_builder.dart';
 export 'src/component/scaffold.dart';
 export 'src/component/scroll_list.dart';
 export 'src/component/switch_api.dart';
