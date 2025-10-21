@@ -22,7 +22,7 @@ class UConfig {
     this.textField,
     this.toastOptions,
     this.generalDialogOptions,
-    this.bottomSheetOptions,
+    this.modalBottomSheetOptions,
     this.modalOptions,
     this.wheelOptions,
     this.loadingOptions,
@@ -60,10 +60,10 @@ class UConfig {
   ModalBoxOptions? modalOptions;
 
   /// 全局 [BottomSheetOptions] 配置信息
-  BottomSheetOptions? bottomSheetOptions;
+  ModalBottomSheetOptions? modalBottomSheetOptions;
 
-  /// 全局 [DialogOptions] 配置信息
-  DialogOptions? generalDialogOptions;
+  /// 全局 [GeneralDialogOptions] 配置信息
+  GeneralDialogOptions? generalDialogOptions;
 
   /// 全局 [WheelOptions] 配置信息
   WheelOptions? wheelOptions;
@@ -152,12 +152,12 @@ class Universally {
 
     /// 全局 [DialogOptions] 配置信息
     if (_config.generalDialogOptions != null) {
-      FlExtended().dialogOptions = _config.generalDialogOptions!;
+      FlExtended().generalDialogOptions = _config.generalDialogOptions!;
     }
 
     /// 全局 [BottomSheetOptions] 配置信息
-    if (_config.bottomSheetOptions != null) {
-      FlExtended().bottomSheetOptions = _config.bottomSheetOptions!;
+    if (_config.modalBottomSheetOptions != null) {
+      FlExtended().modalBottomSheetOptions = _config.modalBottomSheetOptions!;
     }
 
     /// 全局 [WheelOptions] 配置信息
@@ -178,7 +178,7 @@ class Universally {
     FlExtended().pushStyle = config.pushStyle;
 
     /// list wheel
-    FlListWheel.push = (Widget picker) => picker.popupBottomSheet();
+    FlListWheel.push = (Widget picker) => picker.popupModalBottomSheet();
     FlListWheel.pop = (dynamic value) => pop(value);
 
     /// 默认刷新组件配置

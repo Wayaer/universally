@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-const _defaultBottomSheetOptions = BottomSheetOptions(backgroundColor: Colors.transparent);
+const _defaultBottomSheetOptions = ModalBottomSheetOptions(backgroundColor: Colors.transparent);
 
 extension ExtensionPermissionStatus on PermissionStatus {
   bool get authorized => isGranted || isLimited || isProvisional;
@@ -79,7 +79,7 @@ Future<bool> checkRequestPermissions(
         contentText: jumpSettingsPrompt,
         onConfirmTap: () => true,
         onCancelTap: onCancelTap,
-      ).popupBottomSheet(options: _defaultBottomSheetOptions);
+      ).popupModalBottomSheet(options: _defaultBottomSheetOptions);
       if (result == true) await openAppSettings();
     }
     return permissionsStatus.isEmpty;
@@ -94,7 +94,7 @@ class PermissionDialog extends StatelessWidget {
   final String content;
 
   static Future<void> show({String title = '权限申请说明', required String content}) =>
-      PermissionDialog(title: title, content: content).popupBottomSheet(options: _defaultBottomSheetOptions);
+      PermissionDialog(title: title, content: content).popupModalBottomSheet(options: _defaultBottomSheetOptions);
 
   @override
   Widget build(BuildContext context) {

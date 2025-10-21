@@ -21,8 +21,8 @@ class BasePickerOptions<T> extends PickerOptions<T> {
 }
 
 extension ExtensionBaseCupertinoActionSheet on BaseCupertinoActionSheet {
-  Future<int?> show({BottomSheetOptions? options}) =>
-      popupBottomSheet<int?>(options: const BottomSheetOptions(backgroundColor: UCS.transparent).merge(options));
+  Future<int?> show({ModalBottomSheetOptions? options}) =>
+      popupModalBottomSheet<int?>(options: const ModalBottomSheetOptions(backgroundColor: UCS.transparent).merge(options));
 }
 
 /// 底部有取消的单选

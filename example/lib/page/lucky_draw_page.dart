@@ -134,7 +134,6 @@ class _LuckyDrawState extends State<LuckyDraw> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     if (widget.prizes.isEmpty) return const SizedBox();
-    log('==${controller.value}');
     return Universal(
       isStack: true,
       size: const Size(240, 240),

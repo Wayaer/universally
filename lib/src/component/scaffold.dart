@@ -32,8 +32,6 @@ class BaseScaffold<T> extends StatelessWidget {
     this.spacing = 0.0,
     this.padding,
     this.decoration,
-    this.useSingleChildScrollView = true,
-    this.useListView = false,
     this.margin,
     this.clipBehavior,
     this.physics,
@@ -163,7 +161,7 @@ class BaseScaffold<T> extends StatelessWidget {
   final double spacing;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
-  final Decoration? decoration;
+  final BoxDecoration? decoration;
 
   /// [canHideOverlay]=true [pop] 先关闭 [FlOverlayEntry],[toast, loading ...]
   final bool canHideOverlay;
@@ -174,8 +172,6 @@ class BaseScaffold<T> extends StatelessWidget {
 
   final ScrollPhysics? physics;
 
-  final bool useSingleChildScrollView;
-  final bool useListView;
 
   /// 在不设置AppBar的时候 修改状态栏颜色
   final SystemUiOverlayStyle? systemOverlayStyle;
@@ -389,8 +385,6 @@ class BaseScaffold<T> extends StatelessWidget {
     margin: margin,
     spacing: spacing,
     systemOverlayStyle: systemOverlayStyle,
-    useSingleChildScrollView: useSingleChildScrollView,
-    useListView: useListView,
     padding: padding,
     isScroll: isScroll,
     safeLeft: safeLeft,

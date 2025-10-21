@@ -1,5 +1,7 @@
 ## 11.2.0
 
+* 兼容 Flutter 3.32 和 3.35
+* 支持 HarmonyOS
 * 更新依赖
 * 新增 `RowTextLayoutBuilder`
 

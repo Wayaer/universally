@@ -41,8 +41,8 @@ extension ExtensionUserPrivacyDialog on UserPrivacyDialog {
       onConsentTap?.call();
       return true;
     } else {
-      final result = await popupDialog(
-        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
+      final result = await popupGeneralDialog(
+        options: const GeneralDialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
       );
       return result == true;
     }
@@ -136,8 +136,8 @@ extension ExtensionUserPrivacyCheckDialog on UserPrivacyCheckDialog {
     if (isCheck) {
       return true;
     } else {
-      final result = await popupDialog(
-        options: const DialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
+      final result = await popupGeneralDialog(
+        options: const GeneralDialogOptions(fromStyle: PopupFromStyle.fromCenter, barrierDismissible: false),
       );
       if (result == true) return true;
     }
