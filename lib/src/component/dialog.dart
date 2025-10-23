@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 extension ExtensionConfirmActionDialog on ConfirmActionDialog {
-  Future<T?> bottomSheet<T>({ModalBottomSheetOptions? options}) =>
-      popupModalBottomSheet<T>(options: const ModalBottomSheetOptions(backgroundColor: Colors.transparent).merge(options));
+  Future<T?> bottomSheet<T>({ModalBottomSheetOptions? options}) => popupModalBottomSheet<T>(
+    options: const ModalBottomSheetOptions(backgroundColor: Colors.transparent).merge(options),
+  );
 
   Future<T?> show<T>({GeneralDialogOptions? options}) =>
       popupGeneralDialog<T>(options: const GeneralDialogOptions(barrierLabel: '').merge(options));

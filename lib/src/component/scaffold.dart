@@ -172,7 +172,6 @@ class BaseScaffold<T> extends StatelessWidget {
 
   final ScrollPhysics? physics;
 
-
   /// 在不设置AppBar的时候 修改状态栏颜色
   final SystemUiOverlayStyle? systemOverlayStyle;
 
