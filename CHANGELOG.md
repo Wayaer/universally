@@ -1,3 +1,7 @@
+## 11.2.1
+
+* `UrlLauncher()` 的 `openAppStore`、`isInstalledApp`、`launchOtherApp`支持 HarmonyOS
+
 ## 11.2.0
 
 * 兼容 Flutter 3.32 和 3.35

@@ -80,17 +80,22 @@ class UrlLauncher {
   Future<bool> openSMS(String phone) => openUrl('sms:$phone');
 
   Future<bool> openAppStore({
-    /// android use
+    /// android  use
     String? packageName,
 
-    /// 指定打开应用商店的报名
+    /// android 指定打开应用商店的报名
     String? marketPackageName,
 
     /// android use intent launch
     bool androidUseIntent = true,
 
-    ///  ios macos use
+    /// ios macos use
     String? appId,
+
+    /// harmony os use
+    String? bundleName,
+
+    /// common use
     LaunchMode mode = LaunchMode.platformDefault,
     WebViewConfiguration webViewConfiguration = const WebViewConfiguration(),
     String? webOnlyWindowName,
@@ -116,6 +121,14 @@ class UrlLauncher {
           webViewConfiguration: webViewConfiguration,
         );
       }
+    } else if (isHarmonyOS && bundleName.isNotEmptyOrNull) {
+      final String url = 'store://appgallery.huawei.com/app/detail?id=$packageName';
+      return await openUrl(
+        url,
+        mode: mode,
+        webOnlyWindowName: webOnlyWindowName,
+        webViewConfiguration: webViewConfiguration,
+      );
     }
     return false;
   }
@@ -127,6 +140,9 @@ class UrlLauncher {
 
     /// ios macos use
     String? appId,
+
+    /// harmony os use
+    String? bundleName,
   }) async {
     if ((isIOS || isMacOS) && appId.isNotEmptyOrNull) {
       return await canLaunchUrl(Uri.parse(appId!));
@@ -140,6 +156,8 @@ class UrlLauncher {
         }
       }
       return installed;
+    } else if (isHarmonyOS && bundleName.isNotEmptyOrNull) {
+      return await canLaunchUrl(Uri.parse(bundleName!));
     }
     return false;
   }
@@ -157,6 +175,10 @@ class UrlLauncher {
     String? iosAppId,
     String? iosSchemes,
     String? extraIOSSchemes,
+
+    /// harmony os use
+    String? harmonyBundleName,
+    String? extraHarmonyBundleName,
 
     /// app 名称
     required String name,
@@ -203,6 +225,13 @@ class UrlLauncher {
         result = await UrlLauncher().openUrl(uri, mode: LaunchMode.externalApplication);
       }
       if (!result && iosAppId != null) result = await openStoreDialog(iosAppId);
+    } else if (isHarmonyOS) {
+      if (!result && harmonyBundleName != null) {
+        result = await UrlLauncher().openUrl(harmonyBundleName);
+      }
+      if (!result && extraHarmonyBundleName != null) {
+        result = await UrlLauncher().openUrl(extraHarmonyBundleName);
+      }
     }
     return result;
   }
