@@ -160,19 +160,20 @@ class BaseDioOptions extends BaseOptions {
 }
 
 class BaseDio {
-  factory BaseDio() => _singleton ??= BaseDio._();
+  factory BaseDio() => instance;
 
   BaseDio._();
 
-  static BaseDio? _singleton;
-
-  static BaseDio get instance => BaseDio();
+  static final BaseDio instance = BaseDio._();
 
   late ExtendedDio dio;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
+  bool _isInit = false;
+
   BaseDio initialize({BaseDioOptions? options, List<InterceptorsWrapper> interceptors = const []}) {
+    _isInit = true;
     if (options != null) baseDioOptions = options;
     dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
     if (isDebugger || isDebug) {
@@ -205,7 +206,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -228,7 +229,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -253,7 +254,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -280,7 +281,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -307,7 +308,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -334,7 +335,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -359,7 +360,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -382,7 +383,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -407,7 +408,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -434,7 +435,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -459,7 +460,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -482,7 +483,7 @@ class BaseDio {
     Options? options,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -507,7 +508,7 @@ class BaseDio {
     ProgressCallback? onReceiveProgress,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -534,7 +535,7 @@ class BaseDio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);
@@ -561,7 +562,7 @@ class BaseDio {
     dynamic tag,
     CancelToken? cancelToken,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.post<T>(
@@ -589,7 +590,7 @@ class BaseDio {
     Duration receiveTimeout = const Duration(seconds: 40),
     Duration sendTimeout = const Duration(seconds: 40),
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     final res = await dio.postUri<T>(
@@ -623,7 +624,7 @@ class BaseDio {
     String lengthHeader = Headers.contentLengthHeader,
     FileAccessMode fileAccessMode = FileAccessMode.write,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraPathData(path, data);
@@ -658,7 +659,7 @@ class BaseDio {
     String lengthHeader = Headers.contentLengthHeader,
     FileAccessMode fileAccessMode = FileAccessMode.write,
   }) async {
-    assert(_singleton != null, '请先调用 initialize');
+    assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
     _addLoading(loading);
     data = _onExtraUriData(uri, data);

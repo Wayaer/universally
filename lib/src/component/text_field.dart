@@ -654,14 +654,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
           widget.onTapWith?.call(controller, focusNode);
         };
 
-  StrutStyle? get strutStyle => widget.strutStyle ?? Universally.to.config.textField?.strutStyle;
+  StrutStyle? get strutStyle => widget.strutStyle ?? Universally.get.config.textField?.strutStyle;
 
   TextStyle get hintStyle => const TStyle(
     fontSize: 13,
   ).merge(context.theme.inputDecorationTheme.hintStyle ?? context.theme.textTheme.bodySmall).merge(widget.hintStyle);
 
   TextStyle get style => const TStyle()
-      .merge(Universally.to.config.textField?.style ?? context.theme.textTheme.bodyMedium)
+      .merge(Universally.get.config.textField?.style ?? context.theme.textTheme.bodyMedium)
       .merge(widget.style);
 
   int? get maxLength {
@@ -697,9 +697,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
   /// 搜索
   Widget get buildSearchText {
     bool isLeft =
-        (Universally.to.config.textField?.searchTextPosition ?? widget.searchTextPosition) !=
+        (Universally.get.config.textField?.searchTextPosition ?? widget.searchTextPosition) !=
         DecoratorPendantPosition.inner;
-    final current = widget.searchText ?? Universally.to.config.textField?.searchText ?? const TextMedium('搜索');
+    final current = widget.searchText ?? Universally.get.config.textField?.searchText ?? const TextMedium('搜索');
     return Universal(
       padding: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       onTap: () => widget.searchTextTap?.call(controller.text),
@@ -711,14 +711,15 @@ class _BaseTextFieldState extends State<BaseTextField> {
   /// 发送验证码
   Widget get buildSendSMS {
     bool isLeft =
-        (Universally.to.config.textField?.sendVerificationCodePosition ?? widget.sendVerificationCodePosition) !=
+        (Universally.get.config.textField?.sendVerificationCodePosition ?? widget.sendVerificationCodePosition) !=
         DecoratorPendantPosition.inner;
     return SendVerificationCode(
       margin: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       value: widget.sendVerificationCodeDuration,
       builder: (SendState state, int i) {
         final current =
-            (widget.sendVerificationCodeTextBuilder ?? Universally.to.config.textField?.sendVerificationCodeTextBuilder)
+            (widget.sendVerificationCodeTextBuilder ??
+                    Universally.get.config.textField?.sendVerificationCodeTextBuilder)
                 ?.call(state, i);
         if (current != null) return current;
         switch (state) {
@@ -740,7 +741,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildSearchIcon {
     final current =
         widget.searchIcon ??
-        Universally.to.config.textField?.searchIcon ??
+        Universally.get.config.textField?.searchIcon ??
         Icon(UIS.search, size: 20, color: context.theme.textTheme.bodyMedium?.color);
     return Padding(
       padding: EdgeInsets.only(left: widget.interval),
@@ -752,7 +753,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildClearIcon {
     final current =
         widget.clearIcon ??
-        Universally.to.config.textField?.clearIcon ??
+        Universally.get.config.textField?.clearIcon ??
         Icon(UIS.clear, size: 18, color: context.theme.textTheme.bodyMedium?.color);
     return Universal(
       onTap: () {
@@ -773,7 +774,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     child: ValueListenableBuilder(
       valueListenable: obscureText,
       builder: (BuildContext context, bool value, Widget? child) {
-        return (widget.eyeIconBuilder ?? Universally.to.config.textField?.eyeIconBuilder)?.call(value) ??
+        return (widget.eyeIconBuilder ?? Universally.get.config.textField?.eyeIconBuilder)?.call(value) ??
             Icon(value ? UIS.eyeClose : UIS.eyeOpen, color: context.theme.textTheme.bodyMedium?.color, size: 20);
       },
     ),

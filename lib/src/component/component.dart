@@ -118,10 +118,10 @@ class UButton extends Universal {
          child: child ?? FlText(text ?? '', style: const TStyle(color: UCS.white)),
          onTap: enabled ? onTap : null,
          decoration: BoxDecoration(
-           border: Universally.to.getTheme() != null
-               ? Border.all(color: Universally.to.getTheme()!.primaryColor)
+           border: Universally.get.getTheme() != null
+               ? Border.all(color: Universally.get.getTheme()!.primaryColor)
                : null,
-           color: color ?? Universally.to.getTheme()?.primaryColor,
+           color: color ?? Universally.get.getTheme()?.primaryColor,
            borderRadius: BorderRadius.circular(8),
          ),
        );

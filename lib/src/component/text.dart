@@ -717,15 +717,15 @@ class TStyle extends TextStyle {
 
   /// small text style
   /// 获取预先设置的 bodySmall
-  static TextStyle get small => Universally.to.getTheme()?.textTheme.bodySmall ?? const TStyle(fontSize: 12);
+  static TextStyle get small => Universally.get.getTheme()?.textTheme.bodySmall ?? const TStyle(fontSize: 12);
 
   /// medium text style
   /// 获取预先设置的 bodyMedium
-  static TextStyle get medium => Universally.to.getTheme()?.textTheme.bodyMedium ?? const TStyle(fontSize: 14);
+  static TextStyle get medium => Universally.get.getTheme()?.textTheme.bodyMedium ?? const TStyle(fontSize: 14);
 
   /// large text style
   /// 获取预先设置的 bodyLarge
-  static TextStyle get large => Universally.to.getTheme()?.textTheme.bodyLarge ?? const TStyle(fontSize: 16);
+  static TextStyle get large => Universally.get.getTheme()?.textTheme.bodyLarge ?? const TStyle(fontSize: 16);
 
   /// extra large text style
   /// 获取预先设置的 large

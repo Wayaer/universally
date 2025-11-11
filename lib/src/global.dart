@@ -73,15 +73,13 @@ class UConfig {
 }
 
 class Universally {
-  static Universally to = Universally();
-
-  factory Universally() => _singleton ??= Universally._();
+  factory Universally() => instance;
 
   Universally._();
 
-  static Universally? _singleton;
+  static final Universally instance = Universally._();
 
-  static Universally get instance => Universally();
+  static Universally get get => instance;
 
   /// 全局 [navigatorKey]
   late GlobalKey<NavigatorState> navigatorKey;
@@ -212,7 +210,7 @@ class Universally {
 
   /// 获取主题
   ThemeData? getTheme({BuildContext? context}) {
-    final mContext = context ?? Universally.to.navigatorKey.currentContext;
+    final mContext = context ?? Universally.get.navigatorKey.currentContext;
     if (mContext == null) return null;
     return mContext.theme;
   }

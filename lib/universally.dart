@@ -20,6 +20,7 @@ export 'package:path_provider/path_provider.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:provider/provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
+export 'package:synchronized/synchronized.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:window_manager/window_manager.dart';
 
@@ -60,7 +61,7 @@ export 'src/dependencies/cancelable_operation.dart';
 /// dependencies
 export 'src/dependencies/dio.dart';
 export 'src/dependencies/extended_image.dart';
-export 'src/dependencies/path.dart';
+export 'src/extension/path_extension.dart';
 export 'src/dependencies/plugin/android_intent.dart';
 export 'src/dependencies/plugin/connectivity.dart';
 export 'src/dependencies/plugin/device_info.dart';
@@ -82,4 +83,5 @@ export 'src/extension/widget_extension.dart';
 export 'src/global.dart';
 
 /// utils
+export 'src/utils/future.dart';
 export 'src/utils/task_queue.dart';

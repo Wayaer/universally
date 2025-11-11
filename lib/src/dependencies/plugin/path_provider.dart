@@ -4,13 +4,11 @@ import 'package:path_provider/path_provider.dart' as path;
 import 'package:universally/universally.dart';
 
 class PathProvider {
-  factory PathProvider() => _singleton ??= PathProvider._();
+  factory PathProvider() => instance;
 
   PathProvider._();
 
-  static PathProvider? _singleton;
-
-  static PathProvider get instance => PathProvider();
+  static final PathProvider instance = PathProvider._();
 
   /// Android	iOS	Linux	macOS	Windows
   Future<Directory?> getTemporaryDirectory() async => isWeb ? null : await path.getTemporaryDirectory();

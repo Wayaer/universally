@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart' hide FileImage;
 import 'package:universally/universally.dart';
 
@@ -636,7 +637,7 @@ class ImageFailed extends StatelessWidget {
       padding: failed == null ? const EdgeInsets.all(4) : EdgeInsets.zero,
       alignment: alignment,
       color: background,
-      child: failed ?? Universally.to.config.imageFailed,
+      child: failed ?? Universally.get.config.imageFailed,
     );
   }
 }

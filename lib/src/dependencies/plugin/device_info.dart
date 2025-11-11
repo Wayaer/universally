@@ -2,13 +2,11 @@ import 'package:device_info_plus_harmonyos/device_info_plus_harmonyos.dart';
 import 'package:universally/universally.dart';
 
 class DeviceInfoPlus {
-  factory DeviceInfoPlus() => _singleton ??= DeviceInfoPlus._();
+  factory DeviceInfoPlus() => instance;
 
   DeviceInfoPlus._();
 
-  static DeviceInfoPlus? _singleton;
-
-  static DeviceInfoPlus get instance => DeviceInfoPlus();
+  static final DeviceInfoPlus instance = DeviceInfoPlus._();
 
   final DeviceInfoPlusPlugin _deviceInfoPlugin = DeviceInfoPlusPlugin();
 

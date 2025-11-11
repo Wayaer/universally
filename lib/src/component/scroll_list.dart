@@ -6,7 +6,7 @@ class BaseMaterialHeader extends MaterialHeader {
   BaseMaterialHeader({Color? color})
     : super(
         valueColor: AlwaysStoppedAnimation<Color>(
-          color ?? Universally.to.getTheme()?.primaryColor ?? Colors.transparent,
+          color ?? Universally.get.getTheme()?.primaryColor ?? Colors.transparent,
         ),
         backgroundColor: UCS.transparent,
       );
@@ -74,7 +74,7 @@ class BaseList extends FlScrollListGrid {
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
          refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
-         placeholder: placeholder ?? Universally.to.config.placeholder,
+         placeholder: placeholder ?? Universally.get.config.placeholder,
        );
 
   BaseList.count({
@@ -135,7 +135,7 @@ class BaseList extends FlScrollListGrid {
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
          refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
-         placeholder: placeholder ?? Universally.to.config.placeholder,
+         placeholder: placeholder ?? Universally.get.config.placeholder,
        );
 
   BaseList.waterfall({
@@ -199,7 +199,7 @@ class BaseList extends FlScrollListGrid {
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
          refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
-         placeholder: placeholder ?? Universally.to.config.placeholder,
+         placeholder: placeholder ?? Universally.get.config.placeholder,
        );
 
   BaseList.custom({

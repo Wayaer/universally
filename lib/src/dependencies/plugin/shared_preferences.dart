@@ -4,13 +4,11 @@ import 'package:universally/universally.dart';
 
 /// Preferences 配置信息存储
 class BasePreferences {
-  factory BasePreferences() => _singleton ??= BasePreferences._();
+  factory BasePreferences() => instance;
 
   BasePreferences._();
 
-  static BasePreferences? _singleton;
-
-  static BasePreferences get instance => BasePreferences();
+  static final BasePreferences instance = BasePreferences._();
 
   bool get _isInitialize => _sharedPreferences != null;
 
