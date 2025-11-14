@@ -43,7 +43,7 @@ dependencies:
   synchronized: ^3.4.0
 
   flutter_waya: ^11.4.0
-  fl_extended: ^3.2.1
+  fl_extended: ^3.2.2
   fl_list_wheel: ^0.0.3
   fl_scroll_view: ^1.0.1
   fl_dio: ^1.5.2
