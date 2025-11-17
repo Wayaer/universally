@@ -164,7 +164,9 @@ class BaseDio {
 
   BaseDio._();
 
-  static final BaseDio instance = BaseDio._();
+  static BaseDio? _singleton;
+
+  static BaseDio get instance => _singleton ??= BaseDio._();
 
   late ExtendedDio dio;
 

@@ -5,7 +5,9 @@ class UrlLauncher {
 
   UrlLauncher._();
 
-  static final UrlLauncher instance = UrlLauncher._();
+  static UrlLauncher? _singleton;
+
+  static UrlLauncher get instance => _singleton ??= UrlLauncher._();
 
   /// 打开连接
   /// Open the url

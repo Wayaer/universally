@@ -77,7 +77,9 @@ class Universally {
 
   Universally._();
 
-  static final Universally instance = Universally._();
+  static Universally? _singleton;
+
+  static Universally get instance => _singleton ??= Universally._();
 
   static Universally get get => instance;
 

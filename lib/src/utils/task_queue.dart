@@ -15,7 +15,9 @@ class TaskQueue {
 
   TaskQueue._();
 
-  static final TaskQueue instance = TaskQueue._();
+  static TaskQueue? _singleton;
+
+  static TaskQueue get instance => _singleton ??= TaskQueue._();
 
   /// 队列
   final List<TaskDetail> _queue = [];

@@ -9,7 +9,9 @@ class FutureCancelable {
 
   FutureCancelable._();
 
-  static final FutureCancelable instance = FutureCancelable._();
+  static FutureCancelable? _singleton;
+
+  static FutureCancelable get instance => _singleton ??= FutureCancelable._();
 
   /// 全局的 Future 任务取消映射
   final Map<Object, CancelableOperation> _cancelableOpMap = {};
@@ -46,7 +48,9 @@ class FutureLock {
 
   FutureLock._();
 
-  static final FutureLock instance = FutureLock._();
+  static FutureLock? _singleton;
+
+  static FutureLock get instance => _singleton ??= FutureLock._();
 
   /// 全局的 Future 任务lock映射
   final Map<Object, Lock> _lockMap = {};

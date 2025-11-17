@@ -14,7 +14,9 @@ class ConnectivityPlus {
 
   ConnectivityPlus._();
 
-  static final ConnectivityPlus instance = ConnectivityPlus._();
+  static ConnectivityPlus? _singleton;
+
+  static ConnectivityPlus get instance => _singleton ??= ConnectivityPlus._();
 
   final connectivity = Connectivity();
 

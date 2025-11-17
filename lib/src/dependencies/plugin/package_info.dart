@@ -5,7 +5,9 @@ class PackageInfoPlus {
 
   PackageInfoPlus._();
 
-  static final PackageInfoPlus instance = PackageInfoPlus._();
+  static PackageInfoPlus? _singleton;
+
+  static PackageInfoPlus get instance => _singleton ??= PackageInfoPlus._();
 
   PackageInfo? _packageInfo;
 

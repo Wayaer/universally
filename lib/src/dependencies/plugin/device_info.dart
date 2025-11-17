@@ -6,7 +6,9 @@ class DeviceInfoPlus {
 
   DeviceInfoPlus._();
 
-  static final DeviceInfoPlus instance = DeviceInfoPlus._();
+  static DeviceInfoPlus? _singleton;
+
+  static DeviceInfoPlus get instance => _singleton ??= DeviceInfoPlus._();
 
   final DeviceInfoPlusPlugin _deviceInfoPlugin = DeviceInfoPlusPlugin();
 

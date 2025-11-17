@@ -8,7 +8,9 @@ class BasePreferences {
 
   BasePreferences._();
 
-  static final BasePreferences instance = BasePreferences._();
+  static BasePreferences? _singleton;
+
+  static BasePreferences get instance => _singleton ??= BasePreferences._();
 
   bool get _isInitialize => _sharedPreferences != null;
 
