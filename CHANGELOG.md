@@ -1,3 +1,8 @@
+## 11.2.2
+
+* 修复 `BaseTextField` 的 菜单不展示问题
+* 更新依赖
+
 ## 11.2.1
 
 * `UrlLauncher()` 的 `openAppStore`、`isInstalledApp`、`launchOtherApp`支持 HarmonyOS

@@ -1,5 +1,6 @@
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,6 +59,13 @@ extension ExtensionWidgetTextFieldPendant on Widget {
 }
 
 class BaseTextField extends StatefulWidget {
+  static Widget defaultTextFieldContextMenuBuilder(BuildContext context, EditableTextState editableTextState) {
+    if (defaultTargetPlatform == TargetPlatform.iOS && SystemContextMenu.isSupported(context)) {
+      return SystemContextMenu.editableText(editableTextState: editableTextState);
+    }
+    return AdaptiveTextSelectionToolbar.editableText(editableTextState: editableTextState);
+  }
+
   const BaseTextField({
     super.key,
     this.value,
@@ -146,7 +154,7 @@ class BaseTextField extends StatefulWidget {
     this.enableIMEPersonalizedLearning = true,
     this.textInputType = TextInputLimitFormatter.text,
     this.keyboardType,
-    this.contextMenuBuilder,
+    this.contextMenuBuilder = defaultTextFieldContextMenuBuilder,
     this.magnifierConfiguration,
     this.onTapOutside,
     this.spellCheckConfiguration,
