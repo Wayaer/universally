@@ -46,7 +46,7 @@ class TextFieldPage extends StatelessWidget {
                 return TextMedium('$i s', color: context.theme.primaryColor);
             }
           },
-          enableEye: true,
+          obscureText: true,
           prefixes: [const FlText('prefix').toTextFieldPendant(positioned: DecoratorPendantPosition.outer)],
           suffixes: [const FlText('suffix').toTextFieldPendant(positioned: DecoratorPendantPosition.outer)],
           borderType: BorderType.outline,

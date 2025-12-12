@@ -1,3 +1,9 @@
+## 11.3.0
+
+* 更新依赖
+* `enableEye` 改为 `obscureText`
+* `textInputType` 改为 `inputLimitFormatter`
+
 ## 11.2.3
 
 * 修复 `BaseTextField` 的 菜单不展示问题

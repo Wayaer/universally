@@ -275,7 +275,7 @@ class TextFieldDialog extends StatelessWidget {
     this.hintText = '请输入内容',
     this.onCancelTap,
     this.maxLength = 30,
-    this.textInputType = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = TextInputLimitFormatter.text,
     this.value,
     this.resizeToAvoidBottomInset = true,
     this.maxLines,
@@ -296,7 +296,7 @@ class TextFieldDialog extends StatelessWidget {
     this.hintText = '请输入内容',
     this.onCancelTap,
     this.maxLength = 30,
-    this.textInputType = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = TextInputLimitFormatter.text,
     this.value,
     this.maxLines,
     this.minLines,
@@ -325,7 +325,7 @@ class TextFieldDialog extends StatelessWidget {
   final String hintText;
   final String? value;
   final int maxLength;
-  final TextInputLimitFormatter textInputType;
+  final TextInputLimitFormatter inputLimitFormatter;
 
   /// 输入框填充色
   final Color? fillColor;
@@ -374,7 +374,7 @@ class TextFieldDialog extends StatelessWidget {
   Widget buildTextField(BuildContext context) => Material(
     color: Colors.transparent,
     child: BaseTextField(
-      textInputType: textInputType,
+      inputLimitFormatter: inputLimitFormatter,
       value: value,
       margin: const EdgeInsets.all(12),
       hintText: hintText,

@@ -147,15 +147,13 @@ class UrlLauncher {
     if ((isIOS || isMacOS) && appId.isNotEmptyOrNull) {
       return await canLaunchUrl(Uri.parse(appId!));
     } else if (isAndroid && packageName.isNotEmptyOrNull) {
-      final appList = await Curiosity.native.getInstalledApps;
-      bool installed = false;
-      for (var element in appList) {
-        if (element.packageName == packageName) {
-          installed = true;
-          break;
-        }
+      try {
+        final packageInfo = await Curiosity.native.getPackageInfo(packageName!);
+        return packageInfo != null;
+      } catch (e) {
+        log('isInstalledApp error: $e');
       }
-      return installed;
+      return false;
     } else if (isHarmonyOS && bundleName.isNotEmptyOrNull) {
       return await canLaunchUrl(Uri.parse(bundleName!));
     }

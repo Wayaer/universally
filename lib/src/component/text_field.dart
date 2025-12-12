@@ -77,7 +77,7 @@ class BaseTextField extends StatefulWidget {
     this.sendVerificationCodeTextBuilder,
     this.sendVerificationCodePosition = DecoratorPendantPosition.outer,
     this.sendVerificationCodeDuration = const Duration(seconds: 60),
-    this.enableEye = false,
+    this.obscureText,
     this.eyeIconBuilder,
     this.enableClearIcon = false,
     this.clearIcon,
@@ -152,7 +152,7 @@ class BaseTextField extends StatefulWidget {
     this.restorationId,
     this.stylusHandwritingEnabled = EditableText.defaultStylusHandwritingEnabled,
     this.enableIMEPersonalizedLearning = true,
-    this.textInputType = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = TextInputLimitFormatter.text,
     this.keyboardType,
     this.contextMenuBuilder = defaultTextFieldContextMenuBuilder,
     this.magnifierConfiguration,
@@ -197,9 +197,9 @@ class BaseTextField extends StatefulWidget {
   /// 验证码等待时间
   final Duration sendVerificationCodeDuration;
 
-  /// **** 👁显示 ****
-  /// 开启 显示和隐藏 eye
-  final bool enableEye;
+  /// **** 密码可见性 ****
+  /// 是否显示密码可见性
+  final bool? obscureText;
 
   final ValueCallbackTV<Widget, bool>? eyeIconBuilder;
 
@@ -336,8 +336,8 @@ class BaseTextField extends StatefulWidget {
   /// TextCapitalization.words,///  在输入每个单词的第一个字母时，键盘大写形式，输入其他字母时键盘小写形式
   final TextCapitalization textCapitalization;
 
-  /// 设置[textInputType]可同时开启 [keyboardType]和[inputFormatters]
-  final TextInputLimitFormatter textInputType;
+  /// 设置[inputLimitFormatter]可同时开启 [keyboardType]和[inputFormatters]
+  final TextInputLimitFormatter inputLimitFormatter;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
 
@@ -459,13 +459,16 @@ class BaseTextField extends StatefulWidget {
 
 class _BaseTextFieldState extends State<BaseTextField> {
   late TextEditingController controller;
-  ValueNotifier<bool> obscureText = ValueNotifier(true);
+  ValueNotifier<bool>? obscureTextNotifier;
   late FocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
     controller = widget.controller ?? TextEditingController();
+    if (widget.obscureText != null) {
+      obscureTextNotifier = ValueNotifier(widget.obscureText!);
+    }
     if (widget.value != null) controller.text = widget.value!;
     focusNode = widget.focusNode ?? FocusNode();
   }
@@ -477,23 +480,16 @@ class _BaseTextFieldState extends State<BaseTextField> {
       width: widget.width,
       height: widget.height,
       margin: widget.margin,
-      child: buildDecoratorBox(
-        widget.enableEye
-            ? ValueListenableBuilder(
-                valueListenable: obscureText,
-                builder: (BuildContext context, bool value, Widget? child) => buildTextField,
-              )
-            : buildTextField,
-      ),
+      child: buildDecoratorBox,
     );
   }
 
-  Widget buildDecoratorBox(Widget current) {
+  Widget get buildDecoratorBox {
     /// 后缀
     final suffixes = [
       if (widget.enableClearIcon)
         TextFieldPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildClearIcon),
-      if (widget.enableEye)
+      if (obscureTextNotifier != null)
         TextFieldPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildEyeIcon),
       if (widget.sendVerificationCodeTap != null)
         TextFieldPendant(positioned: widget.sendVerificationCodePosition, child: buildSendSMS),
@@ -552,9 +548,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
       onFocus: () => focusNode.hasFocus,
       onEditing: () => controller.text.isNotEmpty,
       onValue: () => controller,
-      child: widget.enableEye
+      child: obscureTextNotifier != null
           ? ValueListenableBuilder(
-              valueListenable: obscureText,
+              valueListenable: obscureTextNotifier!,
               builder: (BuildContext context, bool value, Widget? child) => buildTextField,
             )
           : buildTextField,
@@ -569,13 +565,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       isDense: true,
       hintText: widget.hintText,
       hintStyle: hintStyle,
-      border: InputBorder.none,
-      focusedBorder: InputBorder.none,
-      focusedErrorBorder: InputBorder.none,
-      disabledBorder: InputBorder.none,
-      enabledBorder: InputBorder.none,
-      errorBorder: InputBorder.none,
-    ).merge(widget.decoration),
+    ).noneBorder.merge(widget.decoration),
     style: style,
     keyboardType: keyboardType,
     inputFormatters: inputFormatters,
@@ -584,7 +574,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
     textCapitalization: widget.textCapitalization,
     enabled: widget.enabled,
     autofocus: widget.autoFocus,
-    obscureText: widget.enableEye && obscureText.value,
+    obscureText: obscureText,
     obscuringCharacter: widget.obscuringCharacter,
     maxLines: maxLines,
     minLines: minLines,
@@ -678,21 +668,23 @@ class _BaseTextFieldState extends State<BaseTextField> {
   }
 
   List<TextInputFormatter> get inputFormatters {
-    final list = widget.textInputType.toTextInputFormatter();
+    final list = widget.inputLimitFormatter.toTextInputFormatter();
     if (widget.inputFormatters != null) {
       list.addAll(widget.inputFormatters!);
     }
-    if (widget.maxLengthUseInputFormatters) {
+    if (widget.maxLengthUseInputFormatters && widget.maxLength != null) {
       list.add(LengthLimitingTextInputFormatter(widget.maxLength));
     }
     return list;
   }
 
-  TextInputType get keyboardType => widget.keyboardType ?? widget.textInputType.toKeyboardType();
+  TextInputType get keyboardType => widget.keyboardType ?? widget.inputLimitFormatter.toKeyboardType();
 
-  int? get minLines => (widget.enableEye && obscureText.value) ? 1 : widget.minLines;
+  int? get minLines => obscureText ? 1 : widget.minLines;
 
-  int? get maxLines => (widget.enableEye && obscureText.value) ? 1 : widget.maxLines;
+  int? get maxLines => obscureText ? 1 : widget.maxLines;
+
+  bool get obscureText => obscureTextNotifier?.value == true;
 
   TextAlign get textAlign {
     TextAlign align = widget.textAlign;
@@ -777,10 +769,11 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildEyeIcon => Universal(
     padding: EdgeInsets.only(right: widget.interval),
     onTap: () {
-      obscureText.value = !obscureText.value;
+      if (obscureTextNotifier == null) return;
+      obscureTextNotifier!.value = !obscureTextNotifier!.value;
     },
     child: ValueListenableBuilder(
-      valueListenable: obscureText,
+      valueListenable: obscureTextNotifier!,
       builder: (BuildContext context, bool value, Widget? child) {
         return (widget.eyeIconBuilder ?? Universally.get.config.textField?.eyeIconBuilder)?.call(value) ??
             Icon(value ? UIS.eyeClose : UIS.eyeOpen, color: context.theme.textTheme.bodyMedium?.color, size: 20);
@@ -796,7 +789,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   @override
   void dispose() {
-    obscureText.dispose();
+    obscureTextNotifier?.dispose();
     super.dispose();
     if (widget.disposeController) controller.dispose();
   }
