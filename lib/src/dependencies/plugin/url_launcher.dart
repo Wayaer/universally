@@ -139,13 +139,13 @@ class UrlLauncher {
     String? packageName,
 
     /// ios macos use
-    String? appId,
+    String? scheme,
 
     /// harmony os use
     String? bundleName,
   }) async {
-    if ((isIOS || isMacOS) && appId.isNotEmptyOrNull) {
-      return await canLaunchUrl(Uri.parse(appId!));
+    if ((isIOS || isMacOS) && scheme.isNotEmptyOrNull) {
+      return await canLaunchUrl(Uri.parse(scheme!));
     } else if (isAndroid && packageName.isNotEmptyOrNull) {
       try {
         final packageInfo = await Curiosity.native.getPackageInfo(packageName!);
