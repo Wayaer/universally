@@ -1,4 +1,4 @@
-## 11.3.0
+## 11.3.1
 
 * 更新依赖
 * `enableEye` 改为 `obscureText`

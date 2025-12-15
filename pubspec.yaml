@@ -1,6 +1,6 @@
 name: universally
 description: It depends on universally plug and can update the latest available version in time
-version: 11.3.0
+version: 11.3.1
 repository: https://github.com/Wayaer/universally.git
 
 environment:
@@ -25,7 +25,7 @@ dependencies:
   connectivity_plus_harmonyos: ^0.0.1
   device_info_plus: ^12.3.0
   device_info_plus_harmonyos: ^0.0.5
-  shared_preferences: ^2.5.4
+  shared_preferences: ^2.5.3
   shared_preferences_harmonyos: ^0.0.1
 
   extended_image: ^10.0.1
