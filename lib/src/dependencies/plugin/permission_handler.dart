@@ -116,11 +116,11 @@ class PermissionDialog extends StatelessWidget {
 }
 
 Future<List<Permission>> photosPermission({
-  /// 是否包含 videos 权限  android sdkInt >= 33
-  bool includeVideos = true,
+  /// 是否包含 photos 权限  android sdkInt >= 33
+  bool includePhotos = true,
 
   /// 是否包含 videos 权限  android sdkInt >= 33
-  bool includePhotos = true,
+  bool includeVideos = true,
 
   /// 是否包含 audio 权限  android sdkInt >= 33
   bool includeAudio = false,
@@ -131,10 +131,8 @@ Future<List<Permission>> photosPermission({
     } else {
       return [Permission.storage];
     }
-  } else if (isIOS) {
-    return [Permission.photos];
   }
-  return [];
+  return [Permission.photos];
 }
 
 Future<Permission?> storagePermission() async {
