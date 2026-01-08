@@ -9,8 +9,7 @@ extension ExtensionPermissionStatus on PermissionStatus {
 
 /// check permission
 Future<bool> checkPermission(Permission permission) async {
-  final permissionStatus = await permission.status;
-  return permissionStatus.isGranted || permissionStatus.isLimited || permissionStatus.isProvisional;
+  return (await permission.status).authorized;
 }
 
 /// check permissions
