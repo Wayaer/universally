@@ -1,13 +1,13 @@
 import 'package:universally/universally.dart';
 
 class UrlLauncher {
-  factory UrlLauncher() => instance;
+  factory UrlLauncher() => _instance;
 
   UrlLauncher._();
 
-  static UrlLauncher? _singleton;
+  static final UrlLauncher _instance = UrlLauncher._();
 
-  static UrlLauncher get instance => _singleton ??= UrlLauncher._();
+  static UrlLauncher get instance => _instance;
 
   /// 打开连接
   /// Open the url

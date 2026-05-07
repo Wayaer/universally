@@ -1,13 +1,13 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
 class PackageInfoPlus {
-  factory PackageInfoPlus() => instance;
+  factory PackageInfoPlus() => _instance;
 
   PackageInfoPlus._();
 
-  static PackageInfoPlus? _singleton;
+  static final PackageInfoPlus _instance = PackageInfoPlus._();
 
-  static PackageInfoPlus get instance => _singleton ??= PackageInfoPlus._();
+  static PackageInfoPlus get instance => _instance;
 
   PackageInfo? _packageInfo;
 

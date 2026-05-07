@@ -5,13 +5,13 @@ import 'package:synchronized/synchronized.dart';
 
 /// 全局的 Future 任务取消管理类
 class FutureCancelable {
-  factory FutureCancelable() => instance;
+  factory FutureCancelable() => _instance;
 
   FutureCancelable._();
 
-  static FutureCancelable? _singleton;
+  static final FutureCancelable _instance = FutureCancelable._();
 
-  static FutureCancelable get instance => _singleton ??= FutureCancelable._();
+  static FutureCancelable get instance => _instance;
 
   /// 全局的 Future 任务取消映射
   final Map<Object, CancelableOperation> _cancelableOpMap = {};
@@ -44,13 +44,13 @@ extension FutureCancelableExtension<T> on Future<T> {
 
 /// 全局的 Future 任务lock管理类
 class FutureLock {
-  factory FutureLock() => instance;
+  factory FutureLock() => _instance;
 
   FutureLock._();
 
-  static FutureLock? _singleton;
+  static final FutureLock _instance = FutureLock._();
 
-  static FutureLock get instance => _singleton ??= FutureLock._();
+  static FutureLock get instance => _instance;
 
   /// 全局的 Future 任务lock映射
   final Map<Object, Lock> _lockMap = {};

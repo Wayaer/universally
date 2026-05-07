@@ -10,13 +10,13 @@ typedef UnavailableNetworkAlertBuilder = FlOverlayEntry? Function(bool status, L
 
 /// 网络状态变化管理
 class ConnectivityPlus {
-  factory ConnectivityPlus() => instance;
+  factory ConnectivityPlus() => _instance;
 
   ConnectivityPlus._();
 
-  static ConnectivityPlus? _singleton;
+  static final ConnectivityPlus _instance = ConnectivityPlus._();
 
-  static ConnectivityPlus get instance => _singleton ??= ConnectivityPlus._();
+  static ConnectivityPlus get instance => _instance;
 
   final connectivity = Connectivity();
 

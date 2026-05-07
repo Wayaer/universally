@@ -11,13 +11,13 @@ class TaskDetail {
 }
 
 class TaskQueue {
-  factory TaskQueue() => instance;
+  factory TaskQueue() => _instance;
 
   TaskQueue._();
 
-  static TaskQueue? _singleton;
+  static final TaskQueue _instance = TaskQueue._();
 
-  static TaskQueue get instance => _singleton ??= TaskQueue._();
+  static TaskQueue get instance => _instance;
 
   /// 队列
   final List<TaskDetail> _queue = [];

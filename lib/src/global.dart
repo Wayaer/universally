@@ -73,15 +73,15 @@ class UConfig {
 }
 
 class Universally {
-  factory Universally() => instance;
+  factory Universally() => _instance;
 
   Universally._();
 
-  static Universally? _singleton;
+  static final Universally _instance = Universally._();
 
-  static Universally get instance => _singleton ??= Universally._();
+  static Universally get instance => _instance;
 
-  static Universally get get => instance;
+  static Universally get get => _instance;
 
   /// 全局 [navigatorKey]
   late GlobalKey<NavigatorState> navigatorKey;

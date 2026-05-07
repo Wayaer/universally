@@ -160,13 +160,13 @@ class BaseDioOptions extends BaseOptions {
 }
 
 class BaseDio {
-  factory BaseDio() => instance;
+  factory BaseDio() => _instance;
 
   BaseDio._();
 
-  static BaseDio? _singleton;
+  static final BaseDio _instance = BaseDio._();
 
-  static BaseDio get instance => _singleton ??= BaseDio._();
+  static BaseDio get instance => _instance;
 
   late ExtendedDio dio;
 
