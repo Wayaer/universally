@@ -295,10 +295,21 @@ class _RTextWithRecognizersState extends State<_RTextWithRecognizers> {
   );
 
   @override
+  void didUpdateWidget(covariant _RTextWithRecognizers oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 父组件每次 build 都会创建新的 recognizers，旧的需要及时释放
+    if (oldWidget.recognizers != widget.recognizers) {
+      for (final e in oldWidget.recognizers) {
+        e?.dispose();
+      }
+    }
+  }
+
+  @override
   void dispose() {
-    super.dispose();
-    for (var e in widget.recognizers) {
+    for (final e in widget.recognizers) {
       e?.dispose();
     }
+    super.dispose();
   }
 }

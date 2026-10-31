@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -14,8 +16,8 @@ Future<bool> checkPermission(Permission permission) async {
 
 /// check permissions
 Future<List<Permission>> checkPermissions(List<Permission> permissions) async {
-  List<Permission> unauthorized = [];
-  for (var element in permissions) {
+  final List<Permission> unauthorized = [];
+  for (final element in permissions) {
     if (await checkPermission(element)) {
       continue;
     }
@@ -39,11 +41,17 @@ Future<bool> checkRequestPermission(
 }) async {
   PermissionStatus status = await permission.status;
   if (!status.authorized) {
+    // 提示弹窗不会阻塞权限请求，同时记录其是否仍显示，避免误 pop 掉当前页面
+    bool promptVisible = false;
     if (beforeRequestPrompt != null) {
-      PermissionDialog.show(content: beforeRequestPrompt);
+      promptVisible = true;
+      unawaited(PermissionDialog.show(content: beforeRequestPrompt).whenComplete(() => promptVisible = false));
     }
-    status = await permission.request();
-    if (beforeRequestPrompt != null) pop();
+    try {
+      status = await permission.request();
+    } finally {
+      if (promptVisible) pop();
+    }
   }
   if (!(status.authorized) && jumpSettingsPrompt != null) {
     final result = await ConfirmCancelActionDialog(
@@ -66,12 +74,18 @@ Future<bool> checkRequestPermissions(
 }) async {
   final unauthorized = await checkPermissions(permissions);
   if (unauthorized.isNotEmpty) {
+    bool promptVisible = false;
     if (beforeRequestPrompt != null) {
-      PermissionDialog.show(content: beforeRequestPrompt);
+      promptVisible = true;
+      unawaited(PermissionDialog.show(content: beforeRequestPrompt).whenComplete(() => promptVisible = false));
     }
-    final permissionsStatus = await unauthorized.request();
+    final Map<Permission, PermissionStatus> permissionsStatus;
+    try {
+      permissionsStatus = await unauthorized.request();
+    } finally {
+      if (promptVisible) pop();
+    }
     permissionsStatus.removeWhere((key, value) => value.authorized);
-    if (beforeRequestPrompt != null) pop();
     if (permissionsStatus.isNotEmpty && jumpSettingsPrompt != null) {
       final result = await ConfirmCancelActionDialog(
         titleText: '权限申请说明',

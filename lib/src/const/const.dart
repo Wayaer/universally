@@ -55,17 +55,13 @@ class UIS {
   static const IconData androidBack = Icons.arrow_back;
 
   /// 空数据
-  static const IconData empty = _IconData(0xe621);
+  static const IconData empty = IconData(0xe621, fontFamily: 'Universally', fontPackage: 'universally');
 
   /// 眼睛关闭
-  static const IconData eyeClose = _IconData(0xe65b);
+  static const IconData eyeClose = IconData(0xe65b, fontFamily: 'Universally', fontPackage: 'universally');
 
   /// 眼睛打开
-  static const IconData eyeOpen = _IconData(0xe659);
-}
-
-class _IconData extends IconData {
-  const _IconData(super.codePoint) : super(fontFamily: 'Universally', fontPackage: 'universally');
+  static const IconData eyeOpen = IconData(0xe659, fontFamily: 'Universally', fontPackage: 'universally');
 }
 
 class UCS {
@@ -98,17 +94,16 @@ class UStyle {
   static List<BoxShadow> getBoxShadow({
     int num = 1,
     Color color = Colors.black12,
-    double? radius,
     BlurStyle blurStyle = BlurStyle.normal,
-    double blurRadius = 0.05,
-    double spreadRadius = 0.05,
+    double blurRadius = 3.0,
+    double spreadRadius = 0.0,
     Offset? offset,
   }) => num.generate(
     (index) => BoxShadow(
       color: color,
       blurStyle: blurStyle,
-      blurRadius: radius ?? blurRadius,
-      spreadRadius: radius ?? spreadRadius,
+      blurRadius: blurRadius,
+      spreadRadius: spreadRadius,
       offset: offset ?? const Offset(0, 0),
     ),
   );

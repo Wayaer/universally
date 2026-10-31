@@ -65,11 +65,44 @@ class UConfig {
   /// 全局 [GeneralDialogOptions] 配置信息
   GeneralDialogOptions? generalDialogOptions;
 
-  /// 全局 [WheelOptions] 配置信息
-  WheelOptions? wheelOptions;
+  /// 全局 [FlWheelOptions] 配置信息
+  FlWheelOptions? wheelOptions;
 
   /// loading 样式
   LoadingOptions? loadingOptions;
+
+  /// 复制一份配置，仅覆盖显式传入的非空字段
+  UConfig copyWith({
+    String? betaApi,
+    String? releaseApi,
+    RoutePushStyle? pushStyle,
+    String? cachePath,
+    bool? logCrossLine,
+    Widget? placeholder,
+    Widget? imageFailed,
+    TextFieldConfig? textField,
+    ToastOptions? toastOptions,
+    GeneralDialogOptions? generalDialogOptions,
+    ModalBottomSheetOptions? modalBottomSheetOptions,
+    ModalBoxOptions? modalOptions,
+    FlWheelOptions? wheelOptions,
+    LoadingOptions? loadingOptions,
+  }) => UConfig(
+    betaApi: betaApi ?? this.betaApi,
+    releaseApi: releaseApi ?? this.releaseApi,
+    pushStyle: pushStyle ?? this.pushStyle,
+    cachePath: cachePath ?? this.cachePath,
+    logCrossLine: logCrossLine ?? this.logCrossLine,
+    placeholder: placeholder ?? this.placeholder,
+    imageFailed: imageFailed ?? this.imageFailed,
+    textField: textField ?? this.textField,
+    toastOptions: toastOptions ?? this.toastOptions,
+    generalDialogOptions: generalDialogOptions ?? this.generalDialogOptions,
+    modalBottomSheetOptions: modalBottomSheetOptions ?? this.modalBottomSheetOptions,
+    modalOptions: modalOptions ?? this.modalOptions,
+    wheelOptions: wheelOptions ?? this.wheelOptions,
+    loadingOptions: loadingOptions ?? this.loadingOptions,
+  );
 }
 
 class Universally {
@@ -84,10 +117,14 @@ class Universally {
   static Universally get get => _instance;
 
   /// 全局 [navigatorKey]
-  late GlobalKey<NavigatorState> navigatorKey;
+  GlobalKey<NavigatorState>? _navigatorKey;
+
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey ??= GlobalKey<NavigatorState>();
+
+  set navigatorKey(GlobalKey<NavigatorState> value) => _navigatorKey = value;
 
   /// 当前项目使用的 url
-  late String _baseApi;
+  String _baseApi = '';
 
   String get baseApi => _baseApi;
 
@@ -107,11 +144,12 @@ class Universally {
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
     if (isDesktop && !isWeb) {
-      await windowManager.ensureInitialized();
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        await windowManager.show();
-        await windowManager.focus();
-      });
+      final window = WindowManager.instance.getCurrent();
+      if (window != null) {
+        if (windowOptions != null) _applyWindowOptions(window, windowOptions);
+        window.show();
+        window.focus();
+      }
     }
     _config = config;
 
@@ -130,19 +168,20 @@ class Universally {
 
     final bool isRelease = BasePreferences().getBool(UConst.isRelease) ?? false;
     if (isBeta && !isRelease) {
-      _baseApi = config.betaApi;
+      _baseApi = _config.betaApi;
       final String? localApi = BasePreferences().getString(UConst.localApi);
       if (localApi != null && localApi.length > 5) _baseApi = localApi;
       isDebugger = BasePreferences().getBool(UConst.isDebugger) ?? true;
     } else {
       isBeta = false;
-      _baseApi = config.releaseApi;
+      _baseApi = _config.releaseApi;
     }
 
     /// 设置toast
     /// Set the toast
+    /// 以默认 [ToastOptions.extended] 为基底合并，避免传入部分配置时丢失默认背景色等样式
     if (_config.toastOptions != null) {
-      FlExtended().toastOptions = _config.toastOptions!;
+      FlExtended().toastOptions = const ToastOptions.extended().merge(_config.toastOptions);
     }
 
     /// 设置全局 [ModalBox] 组件配置信息
@@ -160,7 +199,7 @@ class Universally {
       FlExtended().modalBottomSheetOptions = _config.modalBottomSheetOptions!;
     }
 
-    /// 全局 [WheelOptions] 配置信息
+    /// 全局 [FlWheelOptions] 配置信息
     if (_config.wheelOptions != null) {
       FlListWheel.wheelOptions = _config.wheelOptions!;
     }
@@ -171,19 +210,51 @@ class Universally {
     }
 
     /// 设置全局log 是否显示 分割线
-    FlExtended().logCrossLine = config.logCrossLine;
+    FlExtended().logCrossLine = _config.logCrossLine;
 
     /// 设置页面转场样式
     /// Set the page transition style
-    FlExtended().pushStyle = config.pushStyle;
+    FlExtended().pushStyle = _config.pushStyle;
 
     /// list wheel
-    FlListWheel.push = (Widget picker) => picker.popupModalBottomSheet();
-    FlListWheel.pop = (dynamic value) => pop(value);
+    FlListWheel.presenter = FlBottomSheetPickerPresenter(context: () => navigatorKey.currentContext!);
 
     /// 默认刷新组件配置
     EasyRefresh.defaultHeaderBuilder = pullDownHeader;
     EasyRefresh.defaultFooterBuilder = pullUpFooter;
+  }
+
+  /// 窗口显示前应用桌面窗口参数
+  void _applyWindowOptions(Window window, WindowOptions options) {
+    final titleBarStyle = options.titleBarStyle;
+    if (titleBarStyle != null) {
+      window.titleBarStyle = titleBarStyle;
+      window.isWindowControlButtonsVisible = options.windowButtonVisibility ?? true;
+    }
+    if (window.isFullScreen) window.isFullScreen = false;
+    if (window.isMaximized) window.unmaximize();
+    if (window.isMinimized) window.restore();
+
+    final size = options.size;
+    if (size != null) window.setSize(size.toNative(), false);
+    if (options.center == true) window.center();
+
+    final minimumSize = options.minimumSize;
+    if (minimumSize != null) window.minimumSize = minimumSize.toNative();
+    final maximumSize = options.maximumSize;
+    if (maximumSize != null) window.maximumSize = maximumSize.toNative();
+
+    final alwaysOnTop = options.alwaysOnTop;
+    if (alwaysOnTop != null) window.isAlwaysOnTop = alwaysOnTop;
+    final fullScreen = options.fullScreen;
+    if (fullScreen != null) window.isFullScreen = fullScreen;
+
+    final backgroundColor = options.backgroundColor;
+    if (backgroundColor != null) window.backgroundColor = backgroundColor.toNative();
+    final skipTaskbar = options.skipTaskbar;
+    if (skipTaskbar != null) window.isVisibleInTaskbar = !skipTaskbar;
+    final title = options.title;
+    if (title != null) window.title = title;
   }
 
   /// 当前项目 全局使用的 刷新Header

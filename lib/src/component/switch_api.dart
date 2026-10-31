@@ -27,11 +27,24 @@ class _SwitchApiPage extends StatefulWidget {
 }
 
 class _SwitchApiPageState extends State<_SwitchApiPage> {
-  TextEditingController ip = TextEditingController();
-  TextEditingController port = TextEditingController();
+  final TextEditingController ip = TextEditingController();
+  final TextEditingController port = TextEditingController();
   bool isHttps = false;
   bool isRelease = false;
   String httpStr = '';
+
+  @override
+  void initState() {
+    super.initState();
+    isRelease = BasePreferences().getBool(UConst.isRelease) ?? false;
+  }
+
+  @override
+  void dispose() {
+    ip.dispose();
+    port.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +69,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const TextMedium('使用https：'),
-                XSwitch(
+                FlSwitch(
                   value: isHttps,
                   activeColor: context.theme.primaryColor,
-                  onChanged: (bool? value) {
-                    isHttps = !isHttps;
+                  onChanged: (bool value) {
+                    isHttps = value;
                     setState(() {});
                   },
                 ),
@@ -71,7 +84,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
         BaseTextField(
           width: double.infinity,
           margin: const EdgeInsets.only(top: 10),
-          borderType: BorderType.outline,
+          borderType: FlBorderType.outline,
           prefixes: SizedBox(width: 50, child: TextMedium(httpStr)).toTextFieldPendant().toList,
           maxLength: 30,
           controller: ip,
@@ -81,7 +94,7 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           width: double.infinity,
           enableClearIcon: true,
           margin: const EdgeInsets.only(top: 10),
-          borderType: BorderType.outline,
+          borderType: FlBorderType.outline,
           prefixes: const SizedBox(width: 50, child: TextMedium('端口: ')).toTextFieldPendant().toList,
           maxLength: 10,
           controller: port,
@@ -111,16 +124,16 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           onTap: () => saveApi(defaultUrl),
         ),
         UButton(width: double.infinity, text: '切换正式服务器并重启APP', onTap: () => saveApi(Universally().config.releaseApi)),
-        const USpacing(),
+        const SizedBox(height: 6),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const TextMedium('始终使用正式服务器').expanded,
-            XSwitch(
+            FlSwitch(
               value: isRelease,
               activeColor: context.theme.primaryColor,
-              onChanged: (bool? value) {
-                isRelease = !isRelease;
+              onChanged: (bool value) {
+                isRelease = value;
                 setState(() {});
               },
             ),
@@ -131,11 +144,11 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const TextMedium('开启接口请求日志打印：'),
-            XSwitch(
+            FlSwitch(
               value: isDebugger,
               activeColor: context.theme.primaryColor,
-              onChanged: (bool? value) async {
-                isDebugger = !isDebugger;
+              onChanged: (bool value) async {
+                isDebugger = value;
                 setState(() {});
                 await BasePreferences().setBool(UConst.isDebugger, isDebugger);
                 await showToast('修改成功,请重新打开APP');
@@ -144,21 +157,18 @@ class _SwitchApiPageState extends State<_SwitchApiPage> {
             ),
           ],
         ),
-        const USpacing(),
+        const SizedBox(height: 6),
         const Row(children: [TextMedium('正式服IP：', maxLines: 2, height: 1.5)]),
         buildApi(Universally().config.releaseApi),
-        const USpacing(),
+        const SizedBox(height: 6),
       ],
     );
   }
 
   Future<void> saveApi(String api) async {
     context.requestFocus();
-    if (isRelease) {
-      await BasePreferences().setBool(UConst.isRelease, isRelease);
-    } else {
-      await BasePreferences().setString(UConst.localApi, api);
-    }
+    await BasePreferences().setBool(UConst.isRelease, isRelease);
+    if (!isRelease) await BasePreferences().setString(UConst.localApi, api);
     await showToast('修改成功,请重新打开APP');
     Curiosity.native.exitApp();
   }

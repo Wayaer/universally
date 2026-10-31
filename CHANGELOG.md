@@ -1,3 +1,18 @@
+## 12.0.0
+
+* 升级到 Flutter 3.47 / Dart 3.13，库最低版本要求同步为 `flutter >=3.47.0`、`sdk >=3.13.0`
+* 所有第三方依赖升级到最新版本并适配新 API
+  * `flutter_waya` 12：公共类型统一增加 `Fl` 前缀（`XSwitch` → `FlSwitch`、`DecoratorBox` → `FlDecoratorBox` 等）
+  * `fl_extended` 5：`LogType` 调整、`sortedWith` 等扩展方法更名
+  * `fl_dio` 2：`ExtendedDio` → `FlDio`、`ExtendedResponse` → `FlResponse`
+  * `fl_list_wheel` 1：`WheelOptions` → `FlWheelOptions`、`PickerOptions` → `FlPickerOptions`，移除 `FlListWheel.push/pop`，改用 `FlListWheel.presenter`
+  * `fl_scroll_view` 2：`BaseList` 改用 `ListGridLayout`，移除 `GridStyle` 与全局 `FlEasyRefreshControllers`
+  * `device_info_plus` 13、`package_info_plus` 10、`permission_handler` 13、`connectivity_plus` 7 等插件 API 适配
+* 鸿蒙插件 `device_info_plus_harmonyos`、`package_info_plus_harmonyos` 依赖旧版平台接口，与最新插件不兼容，已移除依赖
+* `DeviceInfoPlus` 移除 HarmonyOS 设备信息读取
+* 示例程序基于 Flutter 3.47 重新生成 Android、iOS、Web、macOS 平台工程，保留原包名 `com.universally.example` 与 APP 名称 `Universally`
+* 示例程序全面重写，覆盖组件、布局、输入框、弹窗、选择器、图片、进度、动画、网络、工具扩展、隐私协议与全部原生插件
+
 ## 11.4.0
 
 * 更新依赖

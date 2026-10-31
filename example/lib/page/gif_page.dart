@@ -1,3 +1,4 @@
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -8,40 +9,87 @@ class GifPage extends StatefulWidget {
   State<GifPage> createState() => _GifPageState();
 }
 
-class _GifPageState extends State<GifPage> with TickerProviderStateMixin {
-  late AnimationController assetController;
-  late AnimationController networkController;
-
-  String url =
-      'https://raw.githubusercontent.com/Wayaer/universally/3fb3808d9b275c60303d1ca09b1f14b8aa47b69d/example/assets/gif1.gif';
-
-  @override
-  void initState() {
-    super.initState();
-    assetController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    networkController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-  }
+class _GifPageState extends State<GifPage> {
+  bool loop = true;
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      isScroll: true,
-      padding: const EdgeInsets.all(12),
-      appBarTitleText: 'GIF Image',
+    return DemoScaffold(
+      title: 'Gif 动图',
       children: [
-        const TextLarge('NetworkImage'),
-        Gif(autostart: Autostart.loop, controller: networkController, useCache: false, image: NetworkImage(url)),
-        const TextLarge('AssetImage'),
-        Gif(autostart: Autostart.loop, controller: assetController, image: const AssetImage('assets/gif.gif')),
-        const SizedBox(height: 30),
+        DemoSection(
+          title: '循环与单次播放',
+          description: 'autostart 控制是否自动播放，once 只播放一次，loop 循环播放。',
+          children: [
+            Wrap(
+              spacing: 24,
+              runSpacing: 16,
+              children: [
+                _GifItem(
+                  label: 'Autostart.loop',
+                  child: Gif(
+                    image: const AssetImage('assets/gif.gif'),
+                    width: 96,
+                    height: 96,
+                    autostart: Autostart.loop,
+                  ),
+                ),
+                _GifItem(
+                  label: 'Autostart.once / fps: 12',
+                  child: Gif(
+                    image: const AssetImage('assets/gif1.gif'),
+                    width: 96,
+                    height: 96,
+                    autostart: Autostart.once,
+                    fps: 12,
+                  ),
+                ),
+                _GifItem(
+                  label: 'Autostart.no',
+                  child: Gif(image: const AssetImage('assets/gif.gif'), width: 96, height: 96, autostart: Autostart.no),
+                ),
+              ],
+            ),
+          ],
+        ),
+        DemoSection(
+          title: '动态切换 autostart',
+          description: 'autostart 变化后组件会重新构建并应用新的播放策略。',
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const TextMedium('循环播放'),
+                BaseFlSwitch(value: loop, onChanged: (bool value) => setState(() => loop = value)),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Gif(
+              image: const AssetImage('assets/gif.gif'),
+              width: 96,
+              height: 96,
+              autostart: loop ? Autostart.loop : Autostart.once,
+            ),
+          ],
+        ),
       ],
     );
   }
+}
+
+class _GifItem extends StatelessWidget {
+  const _GifItem({required this.label, required this.child});
+
+  final String label;
+  final Widget child;
 
   @override
-  void dispose() {
-    assetController.dispose();
-    networkController.dispose();
-    super.dispose();
-  }
+  Widget build(BuildContext context) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      child,
+      const SizedBox(height: 6),
+      TextSmall(label, color: context.theme.hintColor),
+    ],
+  );
 }

@@ -281,7 +281,6 @@ class BaseScaffold<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget scaffold = Scaffold(
-      key: key,
       primary: primary,
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -376,7 +375,10 @@ class BaseScaffold<T> extends StatelessWidget {
           )
         : null);
     if (current == null) return null;
-    return PreferredSize(preferredSize: Size.fromHeight(appBarHeight ?? kToolbarHeight - 10), child: current);
+    // 默认高度需与实际 AppBar 高度一致，避免 PreferredSize 小于 AppBar 导致内容被裁切
+    final double preferredHeight =
+        appBarHeight ?? (toolbarHeight ?? kToolbarHeight) + (appBarBottom?.preferredSize.height ?? 0);
+    return PreferredSize(preferredSize: Size.fromHeight(preferredHeight), child: current);
   }
 
   Universal get universal => Universal(

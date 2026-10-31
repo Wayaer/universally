@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:async/async.dart';
 
 extension CancelableOperationExtensionWithFuture<T> on Future<T> {
@@ -32,7 +33,7 @@ mixin CancelableOperationsMixin {
   }
 
   void cancelAllOperation() {
-    for (var cancelableOperation in _cancelableOperations) {
+    for (final cancelableOperation in _cancelableOperations) {
       if (!cancelableOperation.isCanceled) {
         cancelableOperation.cancel();
       }

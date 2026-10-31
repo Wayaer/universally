@@ -119,7 +119,7 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   const BaseProgressIndicatorListenable.linear({
     super.key,
     required this.listenable,
-    this.disposeNotifier = true,
+    this.disposeNotifier = false,
     super.value,
     super.width = double.infinity,
     super.height = 4,
@@ -135,7 +135,7 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   const BaseProgressIndicatorListenable.circular({
     super.key,
     required this.listenable,
-    this.disposeNotifier = true,
+    this.disposeNotifier = false,
     super.value,
     super.width = 100,
     super.height = 100,
@@ -152,7 +152,7 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   const BaseProgressIndicatorListenable.refresh({
     super.key,
     required this.listenable,
-    this.disposeNotifier = true,
+    this.disposeNotifier = false,
     super.value,
     super.width = 100,
     super.height = 100,
@@ -172,7 +172,8 @@ class BaseProgressIndicatorListenable extends BaseProgressIndicator {
   ///  [ValueListenable]
   final ValueListenable listenable;
 
-  /// 当 [listenable] 是 [ChangeNotifier],dispose 时是否 dispose [ChangeNotifier]
+  /// 当 [listenable] 是 [ChangeNotifier], dispose 时是否一并 dispose [ChangeNotifier]
+  /// 默认 false：外部传入的 notifier 生命周期由调用方负责，组件不主动接管
   final bool disposeNotifier;
 
   @override

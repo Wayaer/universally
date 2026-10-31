@@ -27,7 +27,7 @@ class BaseExpansionTiles extends StatelessWidget {
   final IconData iconData;
 
   /// 旋转的图标
-  final ExpansionTilesRotationIconBuilder? icon;
+  final FlExpansionTilesRotationIconBuilder? icon;
 
   /// [ListTile.title]
   final String? titleText;
@@ -53,7 +53,7 @@ class BaseExpansionTiles extends StatelessWidget {
   final Widget? child;
 
   /// 构造器
-  final ExpansionTilesBuilderListTile? builder;
+  final FlExpansionTilesBuilderListTile? builder;
 
   /// 展开时的背景颜色，
   final Color? backgroundColor;
@@ -69,7 +69,7 @@ class BaseExpansionTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTiles(
+    return FlExpansionTiles(
       icon:
           icon ??
           (bool isExpanded) =>
@@ -144,7 +144,7 @@ class BasePopupMenuButton<T> extends StatelessWidget {
   final IconData iconData;
 
   /// 旋转的icon
-  final ToggleRotateIconBuilder? icon;
+  final FlToggleRotateIconBuilder? icon;
 
   /// 选择后回调
   final PopupMenuItemSelected<T>? onSelected;
@@ -197,7 +197,7 @@ class BasePopupMenuButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     T? selected = initialValue;
-    return PopupMenuButtonRotateBuilder(
+    return FlPopupMenuButtonRotateBuilder(
       icon:
           icon ?? Icon(iconData, color: context.theme.textTheme.bodyMedium?.color, size: 22).toToggleRotateIconBuilder,
       builder: (BuildContext context, Widget rotateIcon, VoidCallback onOpened, VoidCallback onClosed) {
@@ -218,7 +218,7 @@ class BasePopupMenuButton<T> extends StatelessWidget {
             onClosed();
             onSelected?.call(value);
           },
-          shape: shape ?? ArrowShape(borderRadius: BorderRadius.circular(6)),
+          shape: shape ?? BubbleShape(borderRadius: BorderRadius.circular(6)),
           constraints: constraints,
           enableFeedback: enableFeedback,
           tooltip: tooltip,

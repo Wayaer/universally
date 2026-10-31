@@ -30,8 +30,8 @@ class TaskQueue {
 
   /// 添加任务到队列
   void add(TaskDetail task) {
-    bool exists = _queue.where((e) => e.id == task.id).isNotEmpty;
-    if (!exists) _queue.add(task);
+    if (_queue.any((e) => e.id == task.id)) return;
+    _queue.add(task);
     _processQueue();
   }
 
@@ -44,11 +44,19 @@ class TaskQueue {
   Future<void> _processQueue() async {
     if (_isProcessing) return;
     _isProcessing = true;
-    while (_queue.isNotEmpty) {
-      TaskDetail task = _queue.first;
-      await task.onExecute();
-      _queue.remove(task);
+    try {
+      while (_queue.isNotEmpty) {
+        final task = _queue.first;
+        try {
+          await task.onExecute();
+        } catch (error, stack) {
+          'TaskQueue execute error: $error\n$stack'.log();
+        } finally {
+          _queue.remove(task);
+        }
+      }
+    } finally {
+      _isProcessing = false;
     }
-    _isProcessing = false;
   }
 }

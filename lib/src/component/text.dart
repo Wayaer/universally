@@ -26,6 +26,7 @@ class TextLarge extends BaseText {
     super.key,
     super.usePrimaryColor = false,
     super.useStyleFirst = false,
+    super.autoSizeOptions,
 
     /// [TextSpan]
     super.style,
@@ -47,7 +48,7 @@ class TextLarge extends BaseText {
     super.textWidthBasis,
     super.textHeightBehavior,
     super.selectionColor,
-    super.textScaler = TextScaler.noScaling,
+    super.textScaler,
 
     /// [TextStyle]
     super.inherit = true,
@@ -85,6 +86,7 @@ class TextMedium extends BaseText {
     super.key,
     super.usePrimaryColor = false,
     super.useStyleFirst = false,
+    super.autoSizeOptions,
 
     /// [TextSpan]
     super.style,
@@ -144,6 +146,7 @@ class TextSmall extends BaseText {
     super.key,
     super.usePrimaryColor = false,
     super.useStyleFirst = false,
+    super.autoSizeOptions,
 
     /// [TextSpan]
     super.style,
@@ -207,6 +210,7 @@ class BaseText extends StatelessWidget {
     this.usePrimaryColor = false,
     this.textFontSize,
     this.useStyleFirst = true,
+    this.autoSizeOptions,
 
     /// [TextSpan]
     this.recognizer,
@@ -265,6 +269,7 @@ class BaseText extends StatelessWidget {
     this.usePrimaryColor = false,
     this.textFontSize,
     this.useStyleFirst = false,
+    this.autoSizeOptions,
 
     /// [Text]
     this.style,
@@ -321,6 +326,7 @@ class BaseText extends StatelessWidget {
     this.usePrimaryColor = false,
     this.textFontSize,
     this.useStyleFirst = false,
+    this.autoSizeOptions,
 
     /// [TextSpan]
     this.recognizer,
@@ -378,6 +384,7 @@ class BaseText extends StatelessWidget {
     this.usePrimaryColor = false,
     this.textFontSize,
     this.useStyleFirst = false,
+    this.autoSizeOptions,
 
     /// [TextSpan]
     this.recognizer,
@@ -462,6 +469,9 @@ class BaseText extends StatelessWidget {
   /// [useStyleFirst]=true 优先使用style,
   /// [useStyleFirst]=false 优先使用外层,
   final bool useStyleFirst;
+
+  /// 文本自动缩放配置，非 null 时字号会根据可用空间自动调整
+  final FlAutoSizeOptions? autoSizeOptions;
 
   /// ---------- [TextStyle] ----------
   /// 默认样式会继承层级最为接近的 DefaultTextStyle，为true 表示继承，false 表示完全重写
@@ -611,6 +621,7 @@ class BaseText extends StatelessWidget {
     }
     return FlText.custom(
       useStyleFirst: usePrimaryColor ? false : useStyleFirst,
+      autoSizeOptions: autoSizeOptions,
       data: data,
       inlineSpan: inlineSpan,
       inlineSpans: inlineSpans,

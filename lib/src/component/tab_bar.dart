@@ -129,18 +129,27 @@ class _CustomTabBarState extends State<CustomTabBar> {
   @override
   void didUpdateWidget(covariant CustomTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    widget.controller.removeListener(listener);
-    widget.controller.addListener(listener);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(listener);
+      widget.controller.addListener(listener);
+      final index = clampIndex(widget.controller.index);
+      if (index != selected) {
+        selected = index;
+        setState(() {});
+      }
+    }
+  }
+
+  int clampIndex(int index) {
+    final maxLength = widget.controller.length;
+    if (maxLength <= 0) return selected;
+    if (index < 0) return 0;
+    if (index >= maxLength) return maxLength - 1;
+    return index;
   }
 
   void listener() {
-    var index = widget.controller.index;
-    final maxLength = widget.controller.length;
-    if (index < 0) {
-      index = 0;
-    } else if (index > maxLength) {
-      index = maxLength;
-    }
+    final index = clampIndex(widget.controller.index);
     if (index == selected) return;
     selected = index;
     setState(() {});
@@ -148,8 +157,8 @@ class _CustomTabBarState extends State<CustomTabBar> {
 
   @override
   void dispose() {
-    super.dispose();
     widget.controller.removeListener(listener);
+    super.dispose();
   }
 
   @override

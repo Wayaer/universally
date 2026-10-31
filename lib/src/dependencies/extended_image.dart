@@ -615,7 +615,7 @@ class PreviewImage extends StatelessWidget {
           child: const CloseButton(color: UCS.white),
         ),
         ExtendedImageGesturePageView.builder(
-          controller: ExtendedPageController(initialPage: initialPage ?? 1),
+          controller: ExtendedPageController(initialPage: initialPage ?? 0),
           itemCount: itemCount,
           itemBuilder: itemBuilder,
         ).expanded,

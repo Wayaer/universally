@@ -3,8 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class BaseXSwitch extends ChangedBuilder<bool> {
-  BaseXSwitch({
+class BaseFlSwitch extends ChangedBuilder<bool> {
+  BaseFlSwitch({
     super.key,
     required super.value,
     super.onChanged,
@@ -22,7 +22,7 @@ class BaseXSwitch extends ChangedBuilder<bool> {
     Duration duration = const Duration(milliseconds: 250),
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   }) : super(
-         builder: (bool value, onChanged) => XSwitch(
+         builder: (bool value, onChanged) => FlSwitch(
            activeColor: activeColor,
            radius: radius,
            size: size,
@@ -75,7 +75,7 @@ class BaseSwitch extends ChangedBuilder<bool> {
            trackColor: trackColor,
            thumbColor: thumbColor,
            activeTrackColor: activeTrackColor,
-           activeColor: activeThumbColor,
+           activeThumbColor: activeThumbColor,
            value: value,
            onChanged: onChanged,
            inactiveThumbColor: inactiveThumbColor,
@@ -139,7 +139,7 @@ class BaseSwitch extends ChangedBuilder<bool> {
            trackColor: trackColor,
            thumbColor: thumbColor,
            activeTrackColor: activeTrackColor,
-           activeColor: activeThumbColor,
+           activeThumbColor: activeThumbColor,
            value: value,
            onChanged: onChanged,
            inactiveThumbColor: inactiveThumbColor,

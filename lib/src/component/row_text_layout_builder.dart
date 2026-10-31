@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 typedef RowTextLayoutBuilderTextBuilder = Widget Function(Widget widget);
 
-typedef RowTextLayoutBuilderRowBuilder =
-    Widget Function(
-      List<TextSpan> leading,
-      RowTextLayoutBuilderTextBuilder leadingBuilder,
-      List<TextSpan> trailing,
-      RowTextLayoutBuilderTextBuilder trailingBuilder,
-    );
+typedef RowTextLayoutBuilderRowBuilder = Widget Function(
+  List<TextSpan> leading,
+  RowTextLayoutBuilderTextBuilder leadingBuilder,
+  List<TextSpan> trailing,
+  RowTextLayoutBuilderTextBuilder trailingBuilder,
+);
 
 /// Row 中展示两段文本
 /// 动态计算两段文本长短 优化展示效果
@@ -90,7 +89,7 @@ class RowTextLayoutBuilder extends StatelessWidget {
   double getTextSpanWidth(BuildContext context, List<TextSpan> textSpans, double maxWidth) {
     try {
       double width = 0;
-      for (var textSpan in textSpans) {
+      for (final textSpan in textSpans) {
         width += getTextWidth(context, textSpan);
       }
       return width;
@@ -106,8 +105,9 @@ class RowTextLayoutBuilder extends StatelessWidget {
       textScaler: MediaQuery.of(context).textScaler,
       textHeightBehavior: DefaultTextHeightBehavior.maybeOf(context),
       textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
-    );
-    textPainter.layout(maxWidth: double.infinity);
-    return textPainter.size.width;
+    )..layout(maxWidth: double.infinity);
+    final width = textPainter.size.width;
+    textPainter.dispose();
+    return width;
   }
 }

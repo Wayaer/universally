@@ -13,9 +13,9 @@ class AndroidAppMarketIntent extends AndroidIntent {
     List<int>? flags,
     super.type,
   }) : super(
-         action: 'action_view',
+         action: 'android.intent.action.VIEW',
          data: 'market://details?id=$packageName',
-         flags: [Flag.FLAG_ACTIVITY_NEW_TASK, if (flags != null) ...flags],
+         flags: [Flag.FLAG_ACTIVITY_NEW_TASK, ...?flags],
        );
 }
 
@@ -34,7 +34,7 @@ class AndroidSystemSettingIntent extends AndroidIntent {
   }) : super(
          action: intent.value,
          arguments: {
-           if (arguments != null) ...arguments,
+           ...?arguments,
            if (intent == SettingIntent.notification && package != null) 'android.provider.extra.APP_PACKAGE': package,
          },
        );
@@ -56,6 +56,9 @@ enum SettingIntent {
 
   /// 密码安全
   passwordSecurity('android.settings.SECURITY_SETTINGS'),
+
+  /// 应用权限管理
+  appPermissions('android.settings.APPLICATION_SETTINGS'),
 
   /// 蓝牙
   bluetooth('android.settings.BLUETOOTH_SETTINGS'),

@@ -1,28 +1,20 @@
-import 'package:app/page/base_list_page.dart';
-import 'package:app/page/cancelable_page.dart';
-import 'package:app/page/changed_builder_page.dart';
-import 'package:app/page/component_page.dart';
-import 'package:app/page/dialog_page.dart';
-import 'package:app/page/gif_page.dart';
-import 'package:app/page/overlay_page.dart';
-import 'package:app/page/picker_page.dart';
-import 'package:app/page/progress_indicator_page.dart';
-import 'package:app/page/spin_kit_page.dart';
-import 'package:app/page/tab_bar.dart';
-import 'package:app/page/text_field_page.dart';
-import 'package:app/page/text_page.dart';
+import 'package:app/page/home_page.dart';
 import 'package:app/theme.dart';
+import 'package:app/utils/demo.dart';
 import 'package:device_preview_minus/device_preview_minus.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-import 'page/lucky_draw_page.dart';
-import 'page/plugin/plugin_page.dart';
-
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   isBeta = true;
   await Universally().setConfig(
-    UConfig(betaApi: '这是设置测试Api', releaseApi: '这里设置发布版Api'),
+    UConfig(
+      betaApi: 'https://beta.example.com',
+      releaseApi: 'https://api.example.com',
+      logCrossLine: true,
+      toastOptions: const ToastOptions(alignment: Alignment.center),
+    ),
     windowOptions: WindowOptions(
       size: WindowsSize.iPhone5P8.value,
       minimumSize: WindowsSize.iPhone4P7.value,
@@ -32,18 +24,18 @@ Future<void> main() async {
       title: 'Universally',
     ),
   );
-  PackageInfoPlus().initialize();
+  await PackageInfoPlus().initialize();
   runApp(
     DevicePreview(
       enabled: isDesktop || isWeb,
       defaultDevice: Devices.ios.iPhone13Mini,
-      builder: (context) => const _App(),
+      builder: (BuildContext context) => const App(),
     ),
   );
 }
 
-class _App extends StatelessWidget {
-  const _App();
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,100 +48,23 @@ class _App extends StatelessWidget {
         builder: DevicePreview.appBuilder,
         darkTheme: darkTheme,
         theme: lightTheme,
-        initState: (context) async {
-          ConnectivityPlus().addListener((status, result) async {
-            showToast(result.builder((e) => e.name).join('\n'));
+        initState: (BuildContext context) {
+          ConnectivityPlus().subscription().then((_) {
+            DemoLog.instance.add('网络状态：${ConnectivityPlus().current.builder((e) => e.name).join(', ')}');
+          });
+          ConnectivityPlus().addListener((bool status, List<ConnectivityResult> result) async {
+            DemoLog.instance.add('网络状态变化：${result.builder((e) => e.name).join(', ')}');
             return true;
           });
         },
+        onResumed: (_) => DemoLog.instance.add('App onResumed'),
+        onPaused: (_) => DemoLog.instance.add('App onPaused'),
+        onInactive: (_) => DemoLog.instance.add('App onInactive'),
+        onDetached: (_) => DemoLog.instance.add('App onDetached'),
+        onHidden: (_) => DemoLog.instance.add('App onHidden'),
       ),
     );
   }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBarTitleText: 'Universally',
-      safeBottom: true,
-      enableDoubleClickExit: true,
-      padding: EdgeInsets.all(10),
-      isScroll: true,
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        runSpacing: 12,
-        spacing: 12,
-        children: [
-          SwitchApiButton(),
-          Button(onTap: () => push(const PluginPage()), text: 'Plugin'),
-          Button(onTap: () => push(const TextPage()), text: 'Text'),
-          Button(onTap: () => push(const ComponentPage()), text: 'Component'),
-          Button(onTap: () => push(const GifPage()), text: 'Gif'),
-          Button(onTap: () => push(const TextFieldPage()), text: 'TextField'),
-          Button(onTap: () => push(const BaseListPage()), text: 'BaseList'),
-          Button(onTap: () => push(const BaseTabBarPage()), text: 'BaseTabBar'),
-          Button(onTap: () => push(const PickerPage()), text: 'Picker'),
-          Button(onTap: () => push(const DialogPage()), text: 'Dialog'),
-          Button(onTap: () => push(const OverlayPage()), text: 'Overlay'),
-          Button(onTap: () => push(const ProgressIndicatorPage()), text: 'ProgressIndicator'),
-          Button(onTap: () => push(const ChangedBuilderWidgetPage()), text: 'ChangedBuilder'),
-          Button(
-            onTap: () {
-              push(const SpinKitPage());
-            },
-            text: 'SpinKit',
-          ),
-          Button(onTap: pushLuckyDrawPage, text: 'LuckyDraw'),
-          Button(
-            onTap: () {
-              push(CancelableOperationsPage());
-            },
-            text: 'CancelableOperations',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  const Button({super.key, this.child, this.text, this.onTap});
-
-  final Widget? child;
-  final String? text;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Universal(
-      onPressed: onTap,
-      buttonCategory: FlButtonCategory.elevated,
-      child: child ?? Text(text ?? '', textAlign: TextAlign.center),
-    );
-  }
-}
-
-class Partition extends StatelessWidget {
-  const Partition(this.title, {super.key, this.onTap, this.textFontSize = TextFontSize.normal, this.marginTop = 20});
-
-  final String title;
-  final GestureTapCallback? onTap;
-  final TextFontSize textFontSize;
-  final double marginTop;
-
-  @override
-  Widget build(BuildContext context) => Universal(
-    onTap: onTap,
-    width: double.infinity,
-    color: Colors.grey.withValues(alpha: 0.2),
-    alignment: Alignment.center,
-    padding: const EdgeInsets.all(10),
-    margin: EdgeInsets.only(top: marginTop, bottom: 20),
-    child: BaseText(title, textFontSize: textFontSize, textAlign: TextAlign.center, fontWeight: FontWeight.bold),
-  );
 }
 
 class AppState with ChangeNotifier {}

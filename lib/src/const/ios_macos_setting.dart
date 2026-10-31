@@ -50,13 +50,13 @@ enum MacOSSettingUrl {
   securityPrivacyAccessibility('.security?Privacy_Accessibility'),
 
   /// 安全&隐私相关-完全磁盘访问权限
-  securityPrivacyAssistive('.security?Privacy_Accessibility'),
+  securityPrivacyAllFiles('.security?Privacy_AllFiles'),
 
-  /// 文件和文件夹
-  securityPrivacyAllFiles('.security?Privacy_Assistive'),
+  /// 安全&隐私相关-文件和文件夹
+  securityPrivacyFilesAndFolders('.security?Privacy_FilesAndFolders'),
 
   /// 安全&隐私相关-定位
-  securityPrivacyLocationServices('.security?Privacy_AllFiles'),
+  securityPrivacyLocationServices('.security?Privacy_LocationServices'),
 
   /// 安全&隐私相关-通讯录
   securityPrivacyContacts('.security?Privacy_Contacts'),
@@ -70,6 +70,21 @@ enum MacOSSettingUrl {
   /// 安全&隐私相关-提醒事项
   securityPrivacyReminders('.security?Privacy_Reminders'),
 
+  /// 安全&隐私相关-相机
+  securityPrivacyCamera('.security?Privacy_Camera'),
+
+  /// 安全&隐私相关-麦克风
+  securityPrivacyMicrophone('.security?Privacy_Microphone'),
+
+  /// 安全&隐私相关-照片
+  securityPrivacyPhotos('.security?Privacy_Photos'),
+
+  /// 安全&隐私相关-蓝牙
+  securityPrivacyBluetooth('.security?Privacy_Bluetooth'),
+
+  /// 安全&隐私相关-自动化
+  securityPrivacyAutomation('.security?Privacy_Automation'),
+
   /// 键盘-听写
   speechDictation('.speech?Dictation'),
 
@@ -77,7 +92,7 @@ enum MacOSSettingUrl {
   speechTextToSpeech('.speech?TTS'),
 
   /// 共享
-  /// 共享-更目录
+  /// 共享-根目录
   sharingMain('s.sharing'),
 
   /// 共享-屏幕共享

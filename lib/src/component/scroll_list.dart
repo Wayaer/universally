@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -12,7 +11,9 @@ class BaseMaterialHeader extends MaterialHeader {
       );
 }
 
+/// 带下拉刷新 / 上拉加载的列表组件
 class BaseList extends FlScrollListGrid {
+  /// 大量数据时使用，按需构建子项
   BaseList({
     super.key,
     required super.itemBuilder,
@@ -23,60 +24,41 @@ class BaseList extends FlScrollListGrid {
     Widget? footer,
     FlEasyRefreshCallback? onRefresh,
     FlEasyRefreshCallback? onLoad,
-    super.reverse = false,
+    super.reverse,
     super.shrinkWrap,
-    super.noScrollBehavior = false,
+    super.noScrollBehavior,
     super.primary,
-    super.scrollDirection = Axis.vertical,
-    super.clipBehavior = Clip.hardEdge,
-    super.dragStartBehavior = DragStartBehavior.start,
+    super.scrollDirection,
+    super.clipBehavior,
+    super.dragStartBehavior,
     super.restorationId,
+    super.cacheExtent,
     super.physics,
     super.padding,
     super.controller,
     super.findChildIndexCallback,
-    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
-    super.addAutomaticKeepALives = true,
-    super.addRepaintBoundaries = true,
-    super.addSemanticIndexes = true,
-    super.gridStyle = GridStyle.none,
+    super.addRepaintBoundaries,
+    super.addSemanticIndexes,
+    ListGridLayout? layout,
     super.separatorBuilder,
-
-    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.itemExtent,
-
-    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.prototypeItem,
-
-    /// 横轴子元素的数量 自适应最大像素
-    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
-    super.crossAxisCount = 1,
-
-    /// 横轴元素最大像素 自适应列数
-    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
-    super.maxCrossAxisExtent,
-
-    /// 主轴方向子元素的间距
-    super.mainAxisSpacing = 0,
-
-    /// 横轴方向子元素的间距
-    super.crossAxisSpacing = 0,
-
-    /// 子元素在横轴长度和主轴长度的比例
-    super.childAspectRatio = 1,
-
-    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
-    super.mainAxisExtent,
-    super.cacheExtent,
     super.placeholderFill,
+    double? itemExtent,
+    Widget? prototypeItem,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           controller: refreshController,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.get.config.placeholder,
+         layout: layout ?? ListGridLayout.list(itemExtent: itemExtent, prototypeItem: prototypeItem),
        );
 
+  /// 少量数据时使用，直接传入子组件列表
   BaseList.count({
     super.key,
     required super.children,
@@ -86,122 +68,89 @@ class BaseList extends FlScrollListGrid {
     Widget? footer,
     FlEasyRefreshCallback? onRefresh,
     FlEasyRefreshCallback? onLoad,
-    super.reverse = false,
+    super.reverse,
     super.shrinkWrap,
-    super.noScrollBehavior = false,
+    super.noScrollBehavior,
     super.primary,
-    super.scrollDirection = Axis.vertical,
-    super.clipBehavior = Clip.hardEdge,
-    super.dragStartBehavior = DragStartBehavior.start,
+    super.scrollDirection,
+    super.clipBehavior,
+    super.dragStartBehavior,
     super.restorationId,
+    super.cacheExtent,
     super.physics,
     super.padding,
     super.controller,
-    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
-    super.addAutomaticKeepALives = true,
-    super.addRepaintBoundaries = true,
-    super.addSemanticIndexes = true,
-    super.gridStyle = GridStyle.none,
-    super.cacheExtent,
-
-    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.itemExtent,
-
-    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.prototypeItem,
-
-    /// 横轴子元素的数量 自适应最大像素
-    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
-    super.crossAxisCount = 1,
-
-    /// 横轴元素最大像素 自适应列数
-    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
-    super.maxCrossAxisExtent,
-
-    /// 主轴方向子元素的间距
-    super.mainAxisSpacing = 0,
-
-    /// 横轴方向子元素的间距
-    super.crossAxisSpacing = 0,
-
-    /// 子元素在横轴长度和主轴长度的比例
-    super.childAspectRatio = 1,
-
-    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
-    super.mainAxisExtent,
+    super.addRepaintBoundaries,
+    super.addSemanticIndexes,
+    ListGridLayout? layout,
     super.placeholderFill,
+    double? itemExtent,
+    Widget? prototypeItem,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.count(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           controller: refreshController,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.get.config.placeholder,
+         layout: layout ?? ListGridLayout.list(itemExtent: itemExtent, prototypeItem: prototypeItem),
        );
 
+  /// 瀑布流
   BaseList.waterfall({
     super.key,
     required super.itemBuilder,
-    required super.itemCount,
+    required int super.itemCount,
     EasyRefreshController? refreshController,
     Widget? placeholder,
     Widget? header,
     Widget? footer,
     FlEasyRefreshCallback? onRefresh,
     FlEasyRefreshCallback? onLoad,
-    super.reverse = false,
+    int crossAxisCount = 2,
+    double mainAxisSpacing = 0,
+    double crossAxisSpacing = 0,
+    double? maxCrossAxisExtent,
+    super.reverse,
     super.shrinkWrap,
-    super.noScrollBehavior = false,
+    super.noScrollBehavior,
     super.primary,
-    super.scrollDirection = Axis.vertical,
-    super.clipBehavior = Clip.hardEdge,
-    super.dragStartBehavior = DragStartBehavior.start,
+    super.scrollDirection,
+    super.clipBehavior,
+    super.dragStartBehavior,
     super.restorationId,
+    super.cacheExtent,
     super.physics,
     super.padding,
     super.controller,
     super.findChildIndexCallback,
-    super.semanticIndexCallback = kDefaultSemanticIndexCallback,
-    super.addAutomaticKeepALives = true,
-    super.addRepaintBoundaries = true,
-    super.addSemanticIndexes = true,
-    super.gridStyle = GridStyle.masonry,
-    super.separatorBuilder,
-
-    /// use [SliverFixedExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.itemExtent,
-
-    /// use [SliverPrototypeExtentList]、[itemExtent] 优先 [prototypeItem]
-    super.prototypeItem,
-
-    /// 横轴子元素的数量 自适应最大像素
-    /// use [SliverGridDelegateWithFixedCrossAxisCount] or [SliverSimpleGridDelegateWithFixedCrossAxisCount]
-    super.crossAxisCount = 1,
-
-    /// 横轴元素最大像素 自适应列数
-    /// use [SliverGridDelegateWithMaxCrossAxisExtent] or [SliverSimpleGridDelegateWithMaxCrossAxisExtent]
-    super.maxCrossAxisExtent,
-
-    /// 主轴方向子元素的间距
-    super.mainAxisSpacing = 0,
-
-    /// 横轴方向子元素的间距
-    super.crossAxisSpacing = 0,
-
-    /// 子元素在横轴长度和主轴长度的比例
-    super.childAspectRatio = 1,
-
-    /// 子元素在主轴上的长度。[mainAxisExtent] 优先 [childAspectRatio]
-    super.mainAxisExtent,
-    super.cacheExtent,
+    super.addRepaintBoundaries,
+    super.addSemanticIndexes,
     super.placeholderFill,
     FlEasyRefreshConfig? refreshConfig,
   }) : super.builder(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           controller: refreshController,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
          placeholder: placeholder ?? Universally.get.config.placeholder,
+         layout: ListGridLayout.masonry(
+           crossAxisCount: crossAxisCount,
+           maxCrossAxisExtent: maxCrossAxisExtent,
+           mainAxisSpacing: mainAxisSpacing,
+           crossAxisSpacing: crossAxisSpacing,
+         ),
        );
 
+  /// 自行组合多个 sliver
   BaseList.custom({
     super.key,
     required super.sliver,
@@ -210,36 +159,42 @@ class BaseList extends FlScrollListGrid {
     Widget? footer,
     FlEasyRefreshCallback? onRefresh,
     FlEasyRefreshCallback? onLoad,
-    super.physics,
-    super.controller,
-    super.padding,
-    super.shrinkWrap,
-    super.scrollDirection = Axis.vertical,
     super.reverse,
+    super.shrinkWrap,
+    super.noScrollBehavior,
     super.primary,
+    super.scrollDirection,
     super.clipBehavior,
     super.dragStartBehavior,
-    super.noScrollBehavior,
     super.restorationId,
     super.cacheExtent,
+    super.physics,
+    super.padding,
+    super.controller,
     FlEasyRefreshConfig? refreshConfig,
   }) : super(
          header: header?.toSliverBox,
          footer: footer?.toSliverBox,
-         refreshConfig: builderRefreshConfig(refreshConfig: refreshConfig, onRefresh: onRefresh, onLoad: onLoad),
+         refreshConfig: builderRefreshConfig(
+           refreshConfig: refreshConfig,
+           controller: refreshController,
+           onRefresh: onRefresh,
+           onLoad: onLoad,
+         ),
        );
 
   /// 构建刷新配置
   static FlEasyRefreshConfig? builderRefreshConfig({
     FlEasyRefreshConfig? refreshConfig,
+    EasyRefreshController? controller,
     FlEasyRefreshCallback? onRefresh,
     FlEasyRefreshCallback? onLoad,
   }) {
-    if (refreshConfig != null) {
-      return refreshConfig.copyWith(onRefresh: onRefresh, onLoad: onLoad);
-    } else if (onRefresh != null || onLoad != null) {
-      return FlEasyRefreshConfig(onRefresh: onRefresh, onLoad: onLoad);
-    }
-    return null;
+    if (refreshConfig == null && controller == null && (onRefresh == null && onLoad == null)) return null;
+    return (refreshConfig ?? const FlEasyRefreshConfig()).copyWith(
+      controller: controller,
+      onRefresh: onRefresh,
+      onLoad: onLoad,
+    );
   }
 }

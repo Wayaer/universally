@@ -1,72 +1,105 @@
-import 'package:app/main.dart';
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class PickerPage extends StatelessWidget {
+class PickerPage extends StatefulWidget {
   const PickerPage({super.key});
 
   @override
+  State<PickerPage> createState() => _PickerPageState();
+}
+
+class _PickerPageState extends State<PickerPage> {
+  final List<String> items = ['北京', '上海', '广州', '深圳', '杭州', '成都'];
+  int wheelIndex = 2;
+
+  @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      isScroll: true,
-      padding: const EdgeInsets.all(12),
-      appBarTitleText: 'Picker',
+    return DemoScaffold(
+      title: '列表选择器',
       children: [
-        Button(
-          onTap: () async {
-            final list = ['第1个', '第2个', '第3个'];
-            final result = await BaseCupertinoActionSheet(list).show();
-            if (result == null) return;
-            showToast(list[result]);
-          },
-          text: 'BaseCupertinoActionSheet',
+        DemoSection(
+          title: 'FlListWheel',
+          description: '通用滚轮组件，支持 Material / Cupertino 全局样式与单次覆盖。',
+          children: [
+            Universal(
+              height: 180,
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: FlListWheel.count(
+                children: items.map((String item) => Center(child: TextMedium(item))).toList(),
+                onSelectedItemChanged: (int index) => setState(() => wheelIndex = index),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextSmall('当前选中：${items[wheelIndex]}'),
+          ],
         ),
-        Button(
-          onTap: () async {
-            final result = await DateTimePicker(options: BasePickerOptions<DateTime>()).show();
-            showToast(result.toString());
-          },
-          text: 'DateTimePicker',
+        DemoSection(
+          title: 'FlSingleListWheelPicker',
+          description: '单列滚轮选择器，show() 返回选中下标。',
+          children: [
+            DemoButton(
+              text: '单列滚轮选择',
+              onTap: () async {
+                final int? result = await FlSingleListWheelPicker(
+                  initialIndex: wheelIndex,
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) => Center(child: TextMedium(items[index])),
+                  options: BasePickerOptions<int>(titleText: '选择城市'),
+                ).show();
+                if (result != null) setState(() => wheelIndex = result);
+                showToast('选择下标：$result');
+              },
+            ),
+          ],
         ),
-        Button(
-          onTap: () async {
-            final result = await DatePicker(options: BasePickerOptions<DateTime>()).show();
-            showToast(result.toString());
-          },
-          text: 'DatePicker',
-        ),
-        Button(
-          onTap: () async {
-            final result = await SingleListWheelPicker(
-              options: BasePickerOptions<int>(),
-              itemBuilder: (BuildContext context, int index) => Center(child: TextLarge(numberList[index].toString())),
-              itemCount: numberList.length,
-            ).show();
-            showToast(result.toString());
-          },
-          text: 'SingleListWheelPicker',
-        ),
-        Button(
-          onTap: () async {
-            final result = await MultiListWheelPicker(
-              options: BasePickerOptions<List<int>>(),
-              items: multiListWheelList,
-            ).show();
-            showToast(result.toString());
-          },
-          text: 'MultiListWheelPicker',
+        DemoSection(
+          title: 'FlSingleListPicker',
+          description: '基于 ListView 的列表选择器，支持单选与多选。',
+          children: [
+            DemoButton(
+              text: '列表单选',
+              onTap: () async {
+                final List<int>? result = await FlSingleListPicker(
+                  itemCount: items.length,
+                  initialIndex: [wheelIndex],
+                  singleListPickerOptions: const FlSingleListPickerOptions(
+                    allowedMultipleChoice: false,
+                    isCustomGestureTap: true,
+                  ),
+                  options: BasePickerOptions<List<int>>(titleText: '列表单选'),
+                  itemBuilder: (BuildContext context, int index, bool selected, change) => ListTile(
+                    title: TextMedium(items[index]),
+                    trailing: selected ? const Icon(Icons.check, color: Colors.green) : null,
+                    onTap: () => change(index),
+                  ),
+                ).show();
+                showToast('选择：$result');
+              },
+            ),
+            DemoButton(
+              text: '列表多选',
+              onTap: () async {
+                final List<int>? result = await FlSingleListPicker(
+                  itemCount: items.length,
+                  initialIndex: const [0, 2],
+                  singleListPickerOptions: const FlSingleListPickerOptions(isCustomGestureTap: true),
+                  options: BasePickerOptions<List<int>>(titleText: '列表多选'),
+                  itemBuilder: (BuildContext context, int index, bool selected, change) => ListTile(
+                    title: TextMedium(items[index]),
+                    trailing: selected ? const Icon(Icons.check, color: Colors.green) : null,
+                    onTap: () => change(index),
+                  ),
+                ).show();
+                showToast('选择：$result');
+              },
+            ),
+          ],
         ),
       ],
     );
   }
-
-  final numberList = const ['一', '二', '三', '四', '五', '六', '七', '八', '十'];
-
-  List<PickerItem> get multiListWheelList => List.generate(
-    4,
-    (index) => PickerItem(
-      itemCount: numberList.length,
-      itemBuilder: (BuildContext context, int index) => Center(child: TextLarge(numberList[index])),
-    ),
-  );
 }

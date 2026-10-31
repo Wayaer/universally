@@ -80,7 +80,7 @@ class BasePreferences {
       await _sharedPreferences?.setStringList(key, value) ?? false;
 
   /// set map
-  Future<bool> setMap(String key, Map value) async {
+  Future<bool> setMap(String key, Map<String, dynamic> value) async {
     try {
       final json = jsonEncode(value);
       return await setString(key, json);
@@ -91,10 +91,10 @@ class BasePreferences {
   }
 
   /// get map
-  Map? getMap(String key) {
+  Map<String, dynamic>? getMap(String key) {
     try {
       final json = getString(key);
-      if (json != null) return jsonDecode(json);
+      if (json != null) return jsonDecode(json) as Map<String, dynamic>;
     } catch (e) {
       log('Preferences get map error: $e');
     }

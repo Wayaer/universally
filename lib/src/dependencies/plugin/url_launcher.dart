@@ -122,7 +122,7 @@ class UrlLauncher {
         );
       }
     } else if (isHarmonyOS && bundleName.isNotEmptyOrNull) {
-      final String url = 'store://appgallery.huawei.com/app/detail?id=$packageName';
+      final String url = 'store://appgallery.huawei.com/app/detail?id=$bundleName';
       return await openUrl(
         url,
         mode: mode,

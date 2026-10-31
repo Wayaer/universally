@@ -265,8 +265,8 @@ extension ExtensionTextFieldDialog on TextFieldDialog {
 }
 
 /// 弹出输入框组件  确定 和 取消
-class TextFieldDialog extends StatelessWidget {
-  TextFieldDialog({
+class TextFieldDialog extends StatefulWidget {
+  const TextFieldDialog({
     super.key,
     this.onConfirmTap,
     this.titleText = '内容',
@@ -275,7 +275,7 @@ class TextFieldDialog extends StatelessWidget {
     this.hintText = '请输入内容',
     this.onCancelTap,
     this.maxLength = 30,
-    this.inputLimitFormatter = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = FlTextInputLimitFormatter.text,
     this.value,
     this.resizeToAvoidBottomInset = true,
     this.maxLines,
@@ -287,7 +287,7 @@ class TextFieldDialog extends StatelessWidget {
     this.confirmTapPop = true,
   }) : isCupertino = false;
 
-  TextFieldDialog.cupertino({
+  const TextFieldDialog.cupertino({
     super.key,
     this.onConfirmTap,
     this.titleText = '内容',
@@ -296,7 +296,7 @@ class TextFieldDialog extends StatelessWidget {
     this.hintText = '请输入内容',
     this.onCancelTap,
     this.maxLength = 30,
-    this.inputLimitFormatter = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = FlTextInputLimitFormatter.text,
     this.value,
     this.maxLines,
     this.minLines,
@@ -318,14 +318,13 @@ class TextFieldDialog extends StatelessWidget {
   /// resize ToAvoid Bottom Inset
   final bool resizeToAvoidBottomInset;
 
-  final TextEditingController controller = TextEditingController();
   final String titleText;
   final String confirmText;
   final String cancelText;
   final String hintText;
   final String? value;
   final int maxLength;
-  final TextInputLimitFormatter inputLimitFormatter;
+  final FlTextInputLimitFormatter inputLimitFormatter;
 
   /// 输入框填充色
   final Color? fillColor;
@@ -345,28 +344,42 @@ class TextFieldDialog extends StatelessWidget {
   final bool cancelTapPop;
 
   @override
+  State<TextFieldDialog> createState() => _TextFieldDialogState();
+}
+
+class _TextFieldDialogState extends State<TextFieldDialog> {
+  /// 由当前弹窗持有，弹出结束后统一释放
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (isCupertino) {
+    if (widget.isCupertino) {
       return ConfirmCancelActionDialog.cupertino(
-        confirmText: confirmText,
+        confirmText: widget.confirmText,
         onConfirmTap: checkInput,
-        confirmTapPop: confirmTapPop,
-        cancelText: cancelText,
-        cancelTapPop: cancelTapPop,
-        onCancelTap: onCancelTap,
-        titleText: titleText,
+        confirmTapPop: false,
+        cancelText: widget.cancelText,
+        cancelTapPop: widget.cancelTapPop,
+        onCancelTap: widget.onCancelTap,
+        titleText: widget.titleText,
         content: (Widget? text) => buildTextField(context),
       );
     }
     return ConfirmCancelActionDialog(
-      confirmText: confirmText,
+      confirmText: widget.confirmText,
       onConfirmTap: checkInput,
-      confirmTapPop: confirmTapPop,
-      cancelText: cancelText,
-      cancelTapPop: cancelTapPop,
-      onCancelTap: onCancelTap,
-      titleText: titleText,
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      confirmTapPop: false,
+      cancelText: widget.cancelText,
+      cancelTapPop: widget.cancelTapPop,
+      onCancelTap: widget.onCancelTap,
+      titleText: widget.titleText,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       content: (Widget? text) => buildTextField(context),
     );
   }
@@ -374,29 +387,33 @@ class TextFieldDialog extends StatelessWidget {
   Widget buildTextField(BuildContext context) => Material(
     color: Colors.transparent,
     child: BaseTextField(
-      inputLimitFormatter: inputLimitFormatter,
-      value: value,
+      inputLimitFormatter: widget.inputLimitFormatter,
+      value: widget.value,
       margin: const EdgeInsets.all(12),
-      hintText: hintText,
+      hintText: widget.hintText,
       hasFocusedChangeBorder: false,
-      borderType: BorderType.outline,
-      contentPadding: contentPadding,
-      borderSide: borderSide ?? BorderSide(color: CupertinoColors.separator, width: 0.8),
+      borderType: FlBorderType.outline,
+      contentPadding: widget.contentPadding,
+      borderSide: widget.borderSide ?? BorderSide(color: CupertinoColors.separator, width: 0.8),
       controller: controller,
+      disposeController: false,
       width: double.infinity,
-      maxLines: maxLines,
-      minLines: minLines,
-      maxLength: maxLength,
-      fillColor: fillColor,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      fillColor: widget.fillColor,
       autoFocus: true,
     ),
   );
 
+  /// 输入为空时不关闭弹窗，只有 [widget.confirmTapPop] 为 true 且校验通过时才关闭
   dynamic checkInput() {
     if (controller.text.isEmpty) {
-      showToast(hintText);
-      return;
+      showToast(widget.hintText);
+      return null;
     }
-    return onConfirmTap?.call(controller.text) ?? controller.text;
+    final dynamic result = widget.onConfirmTap?.call(controller.text) ?? controller.text;
+    if (widget.confirmTapPop) pop(result);
+    return result;
   }
 }

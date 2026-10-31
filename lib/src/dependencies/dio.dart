@@ -72,7 +72,7 @@ typedef BaseDioErrorIntercept = List<InterceptorError> Function(String path, dyn
 
 enum BaseDioState {
   /// 无网络
-  noNotwork,
+  noNetwork,
 }
 
 typedef BaseDioBuildBaseModelState = BaseModel Function(BaseDioState state);
@@ -168,7 +168,7 @@ class BaseDio {
 
   static BaseDio get instance => _instance;
 
-  late ExtendedDio dio;
+  late FlDio dio;
 
   BaseDioOptions baseDioOptions = BaseDioOptions();
 
@@ -177,7 +177,7 @@ class BaseDio {
   BaseDio initialize({BaseDioOptions? options, List<InterceptorsWrapper> interceptors = const []}) {
     _isInit = true;
     if (options != null) baseDioOptions = options;
-    dio = ExtendedDio(baseDioOptions)..interceptors.addAll(interceptors);
+    dio = FlDio(baseDioOptions)..interceptors.addAll(interceptors);
     if (isDebugger || isDebug) {
       JsonParse.toastBuilder = (String content) {
         showToast('已复制');
@@ -210,16 +210,18 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.get<T>(
-      _onExtraPath(path),
-      data: dataToJson ? jsonEncode(data) : data,
-      options: _mergeOptions(options, path),
-      cancelToken: cancelToken,
-      queryParameters: _onExtraPathParams(path, params),
+    return _execute(
+      () => dio.get<T>(
+        _onExtraPath(path),
+        data: dataToJson ? jsonEncode(data) : data,
+        options: _mergeOptions(options, path),
+        cancelToken: cancelToken,
+        queryParameters: _onExtraPathParams(path, params),
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> getUri<T>(
@@ -233,15 +235,17 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.getUri<T>(
-      _onExtraUri(uri),
-      data: dataToJson ? jsonEncode(data) : data,
-      cancelToken: cancelToken,
-      options: _mergeOptions(options, uri.path),
+    return _execute(
+      () => dio.getUri<T>(
+        _onExtraUri(uri),
+        data: dataToJson ? jsonEncode(data) : data,
+        cancelToken: cancelToken,
+        options: _mergeOptions(options, uri.path),
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> post<T>(
@@ -258,18 +262,20 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.post<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      queryParameters: _onExtraPathParams(path, params),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.post<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        queryParameters: _onExtraPathParams(path, params),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> postUri<T>(
@@ -285,17 +291,19 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.postUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.postUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> put<T>(
@@ -312,18 +320,20 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.put<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      queryParameters: _onExtraPathParams(path, params),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.put<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        queryParameters: _onExtraPathParams(path, params),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> putUri<T>(
@@ -339,17 +349,19 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.putUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.putUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> delete<T>(
@@ -364,16 +376,18 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.delete<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      queryParameters: _onExtraPathParams(path, params),
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.delete<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        queryParameters: _onExtraPathParams(path, params),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> deleteUri<T>(
@@ -387,15 +401,17 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.deleteUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.deleteUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> patch<T>(
@@ -412,18 +428,20 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.patch<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      queryParameters: _onExtraPathParams(path, params),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.patch<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        queryParameters: _onExtraPathParams(path, params),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> patchUri<T>(
@@ -439,17 +457,19 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.patchUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.patchUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> head<T>(
@@ -464,16 +484,18 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.head<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      queryParameters: _onExtraPathParams(path, params),
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.head<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        queryParameters: _onExtraPathParams(path, params),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> headUri<T>(
@@ -487,15 +509,17 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.headUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.headUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> request<T>(
@@ -512,18 +536,20 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.request<T>(
-      _onExtraPath(path),
-      options: _mergeOptions(options, path),
-      onSendProgress: onSendProgress,
-      onReceiveProgress: onReceiveProgress,
-      queryParameters: _onExtraPathParams(path, params),
-      cancelToken: cancelToken,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.request<T>(
+        _onExtraPath(path),
+        options: _mergeOptions(options, path),
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+        queryParameters: _onExtraPathParams(path, params),
+        cancelToken: cancelToken,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   Future<BaseModel> requestUri<T>(
@@ -539,17 +565,19 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.requestUri<T>(
-      _onExtraUri(uri),
-      options: _mergeOptions(options, uri.path),
-      cancelToken: cancelToken,
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
-      data: dataToJson ? jsonEncode(data) : data,
+    return _execute(
+      () => dio.requestUri<T>(
+        _onExtraUri(uri),
+        options: _mergeOptions(options, uri.path),
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+        data: dataToJson ? jsonEncode(data) : data,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   /// 文件上传
@@ -566,16 +594,18 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
-    final res = await dio.post<T>(
-      _onExtraPath(path),
-      data: _onExtraPathData(path, data),
-      options: _mergeOptions(options, path),
-      cancelToken: cancelToken,
-      onReceiveProgress: onReceiveProgress,
-      onSendProgress: onSendProgress,
+    return _execute(
+      () => dio.post<T>(
+        _onExtraPath(path),
+        data: _onExtraPathData(path, data),
+        options: _mergeOptions(options, path),
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        onSendProgress: onSendProgress,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   /// 文件上传
@@ -594,19 +624,21 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
-    final res = await dio.postUri<T>(
-      _onExtraUri(uri),
-      data: _onExtraUriData(uri, data),
-      options: (_mergeOptions(options, uri.path) ?? Options()).copyWith(
-        receiveTimeout: receiveTimeout,
-        sendTimeout: sendTimeout,
+    return _execute(
+      () => dio.postUri<T>(
+        _onExtraUri(uri),
+        data: _onExtraUriData(uri, data),
+        options: (_mergeOptions(options, uri.path) ?? Options()).copyWith(
+          receiveTimeout: receiveTimeout,
+          sendTimeout: sendTimeout,
+        ),
+        onReceiveProgress: onReceiveProgress,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
       ),
-      onReceiveProgress: onReceiveProgress,
-      cancelToken: cancelToken,
-      onSendProgress: onSendProgress,
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   /// 文件下载
@@ -628,20 +660,22 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraPathData(path, data);
-    final res = await dio.download(
-      path,
-      savePath,
-      fileAccessMode: fileAccessMode,
-      onReceiveProgress: onReceiveProgress,
-      options: _mergeOptions(options, path),
-      data: dataToJson ? jsonEncode(data) : data,
-      deleteOnError: deleteOnError,
-      lengthHeader: lengthHeader,
-      cancelToken: cancelToken,
+    return _execute(
+      () => dio.download(
+        _onExtraPath(path),
+        savePath,
+        fileAccessMode: fileAccessMode,
+        onReceiveProgress: onReceiveProgress,
+        options: _mergeOptions(options, path),
+        data: dataToJson ? jsonEncode(data) : data,
+        deleteOnError: deleteOnError,
+        lengthHeader: lengthHeader,
+        cancelToken: cancelToken,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   /// 文件下载
@@ -663,34 +697,48 @@ class BaseDio {
   }) async {
     assert(_isInit, '请先调用 initialize');
     if (await checkNetwork) return buildBaseModel;
-    _addLoading(loading);
     data = _onExtraUriData(uri, data);
-    final res = await dio.downloadUri(
-      _onExtraUri(uri),
-      savePath,
-      fileAccessMode: fileAccessMode,
-      onReceiveProgress: onReceiveProgress,
-      options: _mergeOptions(options, uri.path),
-      data: dataToJson ? jsonEncode(data) : data,
-      deleteOnError: deleteOnError,
-      lengthHeader: lengthHeader,
-      cancelToken: cancelToken,
+    return _execute(
+      () => dio.downloadUri(
+        _onExtraUri(uri),
+        savePath,
+        fileAccessMode: fileAccessMode,
+        onReceiveProgress: onReceiveProgress,
+        options: _mergeOptions(options, uri.path),
+        data: dataToJson ? jsonEncode(data) : data,
+        deleteOnError: deleteOnError,
+        lengthHeader: lengthHeader,
+        cancelToken: cancelToken,
+      ),
+      tag,
+      loading,
     );
-    return _handleResponse(res, tag);
   }
 
   FlOverlayEntry? _loadingEntry;
 
-  void _addLoading(bool? loading) {
+  /// 并发请求时 loading 的引用计数
+  int _loadingCount = 0;
+
+  /// 返回本次请求是否真正添加了 loading
+  bool _addLoading(bool? loading) {
     bool enableLoading = loading ?? baseDioOptions.enableLoading;
     if (enableLoading && baseDioOptions.enablePullHideLoading) {
       enableLoading = !(pullDown || pullUp);
     }
-    if (enableLoading && _loadingEntry == null) _loadingEntry = showLoading();
+    if (!enableLoading) return false;
+    _loadingCount++;
+    // 返回键会通过 FlOverlay.hideAll 关闭 Loading，此时旧 entry 已被移除，
+    // 需要重新创建，避免后续请求复用一个不可见的 entry。
+    if (_loadingEntry?.mounted != true) _loadingEntry = showLoading();
+    return true;
   }
 
   void _removeLoading() {
+    if (_loadingCount > 0) _loadingCount--;
+    if (_loadingCount > 0) return;
     120.milliseconds.delayed(() {
+      if (_loadingCount > 0) return;
       _loadingEntry?.remove();
       _loadingEntry = null;
     });
@@ -699,9 +747,8 @@ class BaseDio {
   Future<bool> get checkNetwork async {
     if (baseDioOptions.enableCheckNetwork) {
       await ConnectivityPlus().checkConnectivity();
-      var network = ConnectivityPlus().networkAvailability;
+      final network = ConnectivityPlus().networkAvailability;
       if (!network) {
-        _removeLoading();
         1.seconds.delayed(_sendRefreshStatus);
       }
       return !network;
@@ -710,17 +757,17 @@ class BaseDio {
   }
 
   BaseModel get buildBaseModel =>
-      baseDioOptions.buildBaseModelState?.call(BaseDioState.noNotwork) ??
+      baseDioOptions.buildBaseModelState?.call(BaseDioState.noNetwork) ??
       BaseModel(data: null, code: '500', msg: '无法连接服务器');
 
   void _sendRefreshStatus() {
     if (pullDown) {
       pullDown = false;
-      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.refreshSuccess);
+      // EasyRefresh 4 由 FlEasyRefresh 自动结束刷新状态
     }
     if (pullUp) {
       pullUp = false;
-      FlEasyRefreshControllers().last?.call(FlEasyRefreshResult.loadingSuccess);
+      // EasyRefresh 4 由 FlEasyRefresh 自动结束加载状态
     }
   }
 
@@ -736,13 +783,24 @@ class BaseDio {
     return (options ?? Options()).copyWith(headers: headers);
   }
 
-  BaseModel _handleResponse(ExtendedResponse res, dynamic tag) {
-    _removeLoading();
-    _sendRefreshStatus();
+  /// 执行请求，并保证本次请求添加的 loading 只会被关闭一次
+  Future<BaseModel> _execute(Future<FlResponse> Function() request, dynamic tag, bool? loading) async {
+    final bool loadingAdded = _addLoading(loading);
+    try {
+      return _handleResponse(await request(), tag);
+    } catch (error) {
+      _sendRefreshStatus();
+      rethrow;
+    } finally {
+      if (loadingAdded) _removeLoading();
+    }
+  }
+
+  BaseModel _handleResponse(FlResponse res, dynamic tag) {
     BaseModel baseModel = BaseModel(
       headers: res.headers.map,
       code: '${res.statusCode}',
-      msg: buildBaseModel.msg,
+      msg: res.statusMessage ?? '',
       statusCode: res.statusCode,
       statusMessage: res.statusMessage,
       data: res.data,
@@ -753,7 +811,7 @@ class BaseDio {
       return BaseModel(
         headers: data.headers,
         code: '${data.statusCode}',
-        msg: data.statusMessage ?? buildBaseModel.msg,
+        msg: data.statusMessage ?? '',
         statusCode: data.statusCode,
         statusMessage: data.statusMessage,
         data: res.data,
@@ -771,10 +829,10 @@ class BaseDio {
     } else if (data is Map) {
       baseModel = BaseModel.fromJson(data as Map<String, dynamic>?, res);
     }
-    var errorIntercepts = baseDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
+    final errorIntercepts = baseDioOptions.errorIntercept?.call(res.realUri.toString(), tag);
     if (errorIntercepts?.isNotEmpty ?? false) {
       bool pass = true;
-      for (var element in errorIntercepts!) {
+      for (final element in errorIntercepts!) {
         if (baseModel.code == element.errorCode) {
           pass = element.callback();
           if (!pass) break;
@@ -799,7 +857,7 @@ class BaseModel {
     this.headers,
   });
 
-  BaseModel.fromJson(Map<String, dynamic>? json, ExtendedResponse response) {
+  BaseModel.fromJson(Map<String, dynamic>? json, FlResponse response) {
     statusCode = response.statusCode;
     statusMessage = response.statusMessage;
     code = statusCode.toString();
@@ -833,7 +891,7 @@ class BaseModel {
   String? statusMessage;
 
   /// 网络请求返回的原始数据
-  ExtendedResponse? original;
+  FlResponse? original;
 
   /// 后台定义的 code
   late String code;

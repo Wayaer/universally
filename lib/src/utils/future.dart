@@ -61,7 +61,14 @@ class FutureLock {
   /// 运行指定 id 的 Future 任务，等待锁释放后执行
   Future<T> runLock<T>(Object id, FutureOr<T> computation, {Duration? timeout}) async {
     final lock = _lockMap.putIfAbsent(id, () => Lock());
-    return await lock.synchronized(() async => await computation, timeout: timeout);
+    try {
+      return await lock.synchronized(() async => await computation, timeout: timeout);
+    } finally {
+      /// 队列清空后自动移除该 id 的锁，避免锁对象无限累积
+      if (!lock.locked && identical(_lockMap[id], lock)) {
+        _lockMap.remove(id);
+      }
+    }
   }
 
   /// 判断指定 id 的锁是否被占用

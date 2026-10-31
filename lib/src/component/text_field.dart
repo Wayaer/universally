@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universally/universally.dart';
 
-class TextFieldPendant extends DecoratorPendant<TextEditingController> {
+class TextFieldPendant extends FlDecoratorPendant<TextEditingController> {
   const TextFieldPendant({
     super.child,
-    super.positioned = DecoratorPendantPosition.inner,
+    super.positioned = FlDecoratorPendantPosition.inner,
     super.maintainSize = false,
     super.needValue,
     super.needFocus,
@@ -18,7 +18,7 @@ class TextFieldPendant extends DecoratorPendant<TextEditingController> {
 
   const TextFieldPendant.builder({
     super.builder,
-    super.positioned = DecoratorPendantPosition.inner,
+    super.positioned = FlDecoratorPendantPosition.inner,
     super.maintainSize = false,
     super.needValue,
     super.needFocus,
@@ -28,11 +28,11 @@ class TextFieldPendant extends DecoratorPendant<TextEditingController> {
 
 extension ExtensionWidgetTextFieldPendant on Widget {
   TextFieldPendant toTextFieldPendant({
-    DecoratorPendantPosition positioned = DecoratorPendantPosition.outer,
+    FlDecoratorPendantPosition positioned = FlDecoratorPendantPosition.outer,
     bool maintainSize = false,
     bool? needFocus,
     bool? needEditing,
-    DecoratorPendantValueCallback<TextEditingController?>? needValue,
+    FlDecoratorPendantValueCallback<TextEditingController?>? needValue,
   }) => TextFieldPendant(
     child: this,
     maintainSize: maintainSize,
@@ -43,13 +43,13 @@ extension ExtensionWidgetTextFieldPendant on Widget {
   );
 
   TextFieldPendant toTextFieldPendantBuilder({
-    DecoratorPendantPosition positioned = DecoratorPendantPosition.outer,
+    FlDecoratorPendantPosition positioned = FlDecoratorPendantPosition.outer,
     bool maintainSize = false,
     bool? needFocus,
     bool? needEditing,
-    DecoratorPendantValueCallback<TextEditingController?>? needValue,
+    FlDecoratorPendantValueCallback<TextEditingController?>? needValue,
   }) => TextFieldPendant.builder(
-    builder: (DecoratorBoxStatus<TextEditingController> status) => this,
+    builder: (FlDecoratorBoxStatus<TextEditingController> status) => this,
     maintainSize: maintainSize,
     positioned: positioned,
     needValue: needValue,
@@ -72,10 +72,10 @@ class BaseTextField extends StatefulWidget {
     this.controller,
     this.searchText,
     this.searchTextTap,
-    this.searchTextPosition = DecoratorPendantPosition.outer,
+    this.searchTextPosition = FlDecoratorPendantPosition.outer,
     this.sendVerificationCodeTap,
     this.sendVerificationCodeTextBuilder,
-    this.sendVerificationCodePosition = DecoratorPendantPosition.outer,
+    this.sendVerificationCodePosition = FlDecoratorPendantPosition.outer,
     this.sendVerificationCodeDuration = const Duration(seconds: 60),
     this.obscureText,
     this.eyeIconBuilder,
@@ -91,7 +91,7 @@ class BaseTextField extends StatefulWidget {
     this.hintStyle,
     this.focusNode,
     this.heroTag,
-    this.disposeController = true,
+    this.disposeController = false,
     this.hasFocusedChangeBorder = true,
     this.fillColor,
     this.headers = const [],
@@ -100,7 +100,7 @@ class BaseTextField extends StatefulWidget {
     this.prefixes = const [],
     this.constraints,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.borderType = BorderType.outline,
+    this.borderType = FlBorderType.outline,
     this.borderSide,
     this.focusedBorderSide,
     this.contentPadding = const EdgeInsets.all(6),
@@ -152,7 +152,7 @@ class BaseTextField extends StatefulWidget {
     this.restorationId,
     this.stylusHandwritingEnabled = EditableText.defaultStylusHandwritingEnabled,
     this.enableIMEPersonalizedLearning = true,
-    this.inputLimitFormatter = TextInputLimitFormatter.text,
+    this.inputLimitFormatter = FlTextInputLimitFormatter.text,
     this.keyboardType,
     this.contextMenuBuilder = defaultTextFieldContextMenuBuilder,
     this.magnifierConfiguration,
@@ -186,13 +186,13 @@ class BaseTextField extends StatefulWidget {
   /// 添加 搜索文字 点击事件
   final ValueCallback<String>? searchTextTap;
   final Widget? searchText;
-  final DecoratorPendantPosition searchTextPosition;
+  final FlDecoratorPendantPosition searchTextPosition;
 
   /// **** 发送验证码 ****
   /// 添加 发送验证码 点击事件
-  final SendVerificationCodeValueCallback? sendVerificationCodeTap;
-  final ValueTwoCallbackT<Widget, SendState, int>? sendVerificationCodeTextBuilder;
-  final DecoratorPendantPosition sendVerificationCodePosition;
+  final FlSendVerificationCodeValueCallback? sendVerificationCodeTap;
+  final ValueTwoCallbackT<Widget, FlSendState, int>? sendVerificationCodeTextBuilder;
+  final FlDecoratorPendantPosition sendVerificationCodePosition;
 
   /// 验证码等待时间
   final Duration sendVerificationCodeDuration;
@@ -231,7 +231,7 @@ class BaseTextField extends StatefulWidget {
 
   /// 边框样式
   final BorderRadius? borderRadius;
-  final BorderType borderType;
+  final FlBorderType borderType;
   final bool hasFocusedChangeBorder;
   final BorderSide? borderSide;
   final BorderSide? focusedBorderSide;
@@ -248,7 +248,9 @@ class BaseTextField extends StatefulWidget {
   /// 高度
   final double? height;
 
-  /// dispose 时调用 controller 的 dispose
+  /// dispose 时是否调用外部传入 controller 的 dispose。
+  /// 内部创建的 controller 始终由组件自己释放；外部传入的默认由调用方管理，
+  /// 避免调用方与组件重复 dispose 同一个 controller。
   final bool disposeController;
 
   /// ***** [TextField] *****
@@ -337,7 +339,7 @@ class BaseTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   /// 设置[inputLimitFormatter]可同时开启 [keyboardType]和[inputFormatters]
-  final TextInputLimitFormatter inputLimitFormatter;
+  final FlTextInputLimitFormatter inputLimitFormatter;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
 
@@ -462,6 +464,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
   ValueNotifier<bool>? obscureTextNotifier;
   late FocusNode focusNode;
 
+  /// [focusNode] 是否由当前组件创建，只有自己创建的才需要释放
+  bool ownsFocusNode = false;
+
   @override
   void initState() {
     super.initState();
@@ -470,6 +475,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
       obscureTextNotifier = ValueNotifier(widget.obscureText!);
     }
     if (widget.value != null) controller.text = widget.value!;
+    ownsFocusNode = widget.focusNode == null;
     focusNode = widget.focusNode ?? FocusNode();
   }
 
@@ -488,9 +494,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
     /// 后缀
     final suffixes = [
       if (widget.enableClearIcon)
-        TextFieldPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildClearIcon),
+        TextFieldPendant(needEditing: true, positioned: FlDecoratorPendantPosition.inner, child: buildClearIcon),
       if (obscureTextNotifier != null)
-        TextFieldPendant(needEditing: true, positioned: DecoratorPendantPosition.inner, child: buildEyeIcon),
+        TextFieldPendant(needEditing: true, positioned: FlDecoratorPendantPosition.inner, child: buildEyeIcon),
       if (widget.sendVerificationCodeTap != null)
         TextFieldPendant(positioned: widget.sendVerificationCodePosition, child: buildSendSMS),
       if (widget.searchTextTap != null) TextFieldPendant(positioned: widget.searchTextPosition, child: buildSearchText),
@@ -499,7 +505,8 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
     /// 前缀
     final prefixes = [
-      if (widget.enableSearchIcon) TextFieldPendant(positioned: DecoratorPendantPosition.inner, child: buildSearchIcon),
+      if (widget.enableSearchIcon)
+        TextFieldPendant(positioned: FlDecoratorPendantPosition.inner, child: buildSearchIcon),
       ...widget.prefixes,
     ];
 
@@ -526,9 +533,9 @@ class _BaseTextFieldState extends State<BaseTextField> {
         prefixes.where((e) => e.needChangedState).isNotEmpty ||
         headers.where((e) => e.needChangedState).isNotEmpty ||
         footers.where((e) => e.needChangedState).isNotEmpty;
-    return DecoratorBox<TextEditingController>(
+    return FlDecoratorBox<TextEditingController>(
       listenable: useListenable ? Listenable.merge([focusNode, controller]) : null,
-      decoration: (Widget child, DecoratorBoxStatus<TextEditingController> status) => Universal(
+      decoration: (Widget child, FlDecoratorBoxStatus<TextEditingController> status) => Universal(
         constraints: widget.constraints,
         padding: widget.padding,
         borderRadius: widget.borderRadius,
@@ -654,9 +661,10 @@ class _BaseTextFieldState extends State<BaseTextField> {
 
   StrutStyle? get strutStyle => widget.strutStyle ?? Universally.get.config.textField?.strutStyle;
 
-  TextStyle get hintStyle => const TStyle(
-    fontSize: 13,
-  ).merge(context.theme.inputDecorationTheme.hintStyle ?? context.theme.textTheme.bodySmall).merge(widget.hintStyle);
+  TextStyle get hintStyle =>
+      const TStyle(fontSize: 13)
+          .merge(context.theme.inputDecorationTheme.hintStyle ?? context.theme.textTheme.bodySmall)
+          .merge(widget.hintStyle);
 
   TextStyle get style => const TStyle()
       .merge(Universally.get.config.textField?.style ?? context.theme.textTheme.bodyMedium)
@@ -678,7 +686,14 @@ class _BaseTextFieldState extends State<BaseTextField> {
     return list;
   }
 
-  TextInputType get keyboardType => widget.keyboardType ?? widget.inputLimitFormatter.toKeyboardType();
+  TextInputType get keyboardType {
+    final TextInputType type = widget.keyboardType ?? widget.inputLimitFormatter.toKeyboardType();
+    final bool isMultiline = widget.expands || (maxLines != null && maxLines! > 1);
+    if (isMultiline && widget.textInputAction == TextInputAction.newline && type == TextInputType.text) {
+      return TextInputType.multiline;
+    }
+    return type;
+  }
 
   int? get minLines => obscureText ? 1 : widget.minLines;
 
@@ -698,7 +713,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildSearchText {
     bool isLeft =
         (Universally.get.config.textField?.searchTextPosition ?? widget.searchTextPosition) !=
-        DecoratorPendantPosition.inner;
+        FlDecoratorPendantPosition.inner;
     final current = widget.searchText ?? Universally.get.config.textField?.searchText ?? const TextMedium('搜索');
     return Universal(
       padding: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
@@ -712,24 +727,24 @@ class _BaseTextFieldState extends State<BaseTextField> {
   Widget get buildSendSMS {
     bool isLeft =
         (Universally.get.config.textField?.sendVerificationCodePosition ?? widget.sendVerificationCodePosition) !=
-        DecoratorPendantPosition.inner;
-    return SendVerificationCode(
+        FlDecoratorPendantPosition.inner;
+    return FlSendVerificationCode(
       margin: EdgeInsets.only(left: isLeft ? widget.interval : 0, right: isLeft ? 0 : widget.interval),
       value: widget.sendVerificationCodeDuration,
-      builder: (SendState state, int i) {
+      builder: (FlSendState state, int i) {
         final current =
             (widget.sendVerificationCodeTextBuilder ??
                     Universally.get.config.textField?.sendVerificationCodeTextBuilder)
                 ?.call(state, i);
         if (current != null) return current;
         switch (state) {
-          case SendState.none:
+          case FlSendState.none:
             return TextMedium('发送验证码', color: context.theme.primaryColor);
-          case SendState.sending:
+          case FlSendState.sending:
             return TextMedium('发送中', color: context.theme.primaryColor);
-          case SendState.resend:
+          case FlSendState.resend:
             return TextMedium('重新发送', color: context.theme.primaryColor);
-          case SendState.countDown:
+          case FlSendState.countDown:
             return TextMedium('$i s', color: context.theme.primaryColor);
         }
       },
@@ -784,14 +799,28 @@ class _BaseTextFieldState extends State<BaseTextField> {
   @override
   void didUpdateWidget(covariant BaseTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value) controller.text = widget.value ?? '';
+    if (oldWidget.controller != widget.controller) {
+      // 内部创建的 controller 由自己释放，外部传入的交给调用方
+      if (oldWidget.controller == null) controller.dispose();
+      controller = widget.controller ?? TextEditingController();
+      if (widget.value != null) controller.text = widget.value!;
+    } else if (oldWidget.value != widget.value) {
+      controller.text = widget.value ?? '';
+    }
+    if (oldWidget.focusNode != widget.focusNode) {
+      if (ownsFocusNode) focusNode.dispose();
+      ownsFocusNode = widget.focusNode == null;
+      focusNode = widget.focusNode ?? FocusNode();
+    }
   }
 
   @override
   void dispose() {
     obscureTextNotifier?.dispose();
+    // 内部创建的 controller 必须释放；外部传入的由 disposeController 决定
+    if (widget.controller == null || widget.disposeController) controller.dispose();
+    if (ownsFocusNode) focusNode.dispose();
     super.dispose();
-    if (widget.disposeController) controller.dispose();
   }
 }
 
@@ -810,13 +839,13 @@ class TextFieldConfig {
 
   /// 搜索文字
   final Widget? searchText;
-  final DecoratorPendantPosition? searchTextPosition;
+  final FlDecoratorPendantPosition? searchTextPosition;
 
   /// 发送验证码
-  final ValueTwoCallbackT<Widget, SendState, int>? sendVerificationCodeTextBuilder;
+  final ValueTwoCallbackT<Widget, FlSendState, int>? sendVerificationCodeTextBuilder;
 
   /// 发送验证码位置
-  final DecoratorPendantPosition? sendVerificationCodePosition;
+  final FlDecoratorPendantPosition? sendVerificationCodePosition;
 
   /// 显示和隐藏 eye
   final ValueCallbackTV<Widget, bool>? eyeIconBuilder;
@@ -834,7 +863,7 @@ class TextFieldConfig {
   final StrutStyle? strutStyle;
 }
 
-extension ExtensionDecoratorPendant on DecoratorPendant<TextEditingController> {
+extension ExtensionFlDecoratorPendant on FlDecoratorPendant<TextEditingController> {
   /// 获取是否需要改变状态
   bool get needChangedState => needFocus != null || needEditing != null || needValue != null;
 }

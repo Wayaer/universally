@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:universally/src/dependencies/svg.dart';
+import 'package:universally/universally.dart';
 
 /// icon svg image 展示
 /// 仅支持本地 assets 显示

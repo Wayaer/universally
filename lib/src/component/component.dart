@@ -28,7 +28,27 @@ class BottomPadding extends StatelessWidget {
 }
 
 class BaseDivider extends Divider {
-  const BaseDivider({super.color, super.key, super.endIndent, super.indent, super.thickness = 0.5, super.height = 1});
+  const BaseDivider({
+    super.key,
+    super.height = 1,
+    super.thickness = 0.5,
+    super.indent,
+    super.endIndent,
+    super.color,
+    super.radius,
+  });
+}
+
+class BaseVerticalDivider extends VerticalDivider {
+  const BaseVerticalDivider({
+    super.key,
+    super.width = 1,
+    super.thickness = 0.5,
+    super.indent,
+    super.endIndent,
+    super.color,
+    super.radius,
+  });
 }
 
 class BaseError extends StatelessWidget {
@@ -125,18 +145,4 @@ class UButton extends Universal {
            borderRadius: BorderRadius.circular(8),
          ),
        );
-}
-
-class USpacing extends StatelessWidget {
-  const USpacing({super.key, this.spacing = 6, this.horizontal = false, this.color, this.height, this.width});
-
-  final double? spacing;
-  final bool horizontal;
-  final Color? color;
-  final double? height;
-  final double? width;
-
-  @override
-  Widget build(BuildContext context) =>
-      Container(color: color, height: height ?? (horizontal ? 0 : spacing), width: width ?? (horizontal ? spacing : 0));
 }

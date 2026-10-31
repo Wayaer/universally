@@ -31,7 +31,8 @@ export 'src/app/material_app.dart';
 export 'src/app/widgets_app.dart';
 
 /// component
-export 'src/component/arrow_shape.dart';
+export 'src/component/bubble_shape.dart';
+export 'src/component/builder.dart';
 export 'src/component/cache.dart';
 export 'src/component/changed_builder.dart';
 export 'src/component/component.dart';

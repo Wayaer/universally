@@ -110,6 +110,7 @@ class BaseApp extends StatefulWidget {
 class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
   @override
   void initState() {
+    super.initState();
     if (widget.navigatorKey != null) {
       FlExtended().navigatorKey = widget.navigatorKey!;
     }
@@ -118,7 +119,6 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
     if (widget.scaffoldMessengerKey != null) {
       FlExtended().scaffoldMessengerKey = widget.scaffoldMessengerKey!;
     }
-    super.initState();
     addObserver(this);
     widget.initState?.call(context);
   }
@@ -221,9 +221,9 @@ class _BaseAppState extends State<BaseApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    widget.dispose?.call(context);
     ConnectivityPlus().dispose();
     removeObserver(this);
     super.dispose();
-    widget.dispose?.call(context);
   }
 }

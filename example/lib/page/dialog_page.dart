@@ -1,116 +1,113 @@
-import 'package:app/main.dart';
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
 class DialogPage extends StatelessWidget {
   const DialogPage({super.key});
 
-  static bool isChecked = false;
-
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      isScroll: true,
-      padding: const EdgeInsets.all(12),
-      appBarTitleText: 'Dialog',
+    return DemoScaffold(
+      title: '弹窗 Dialog',
       children: [
-        Button(
-          onTap: () {
-            const ConfirmCancelActionDialog(
-              titleText: 'Title',
-              contentText: 'Content',
-              cancelText: 'Cancel',
-              confirmText: 'Confirm',
-            ).show();
-          },
-          text: 'ConfirmCancelActionDialog',
+        DemoSection(
+          title: 'ConfirmActionDialog',
+          description: 'Material 与 Cupertino 两种风格的确认弹窗。',
+          children: [
+            DemoButton(
+              text: '确认弹窗',
+              onTap: () async {
+                final dynamic result = await ConfirmActionDialog(
+                  titleText: '提示',
+                  contentText: '确定执行该操作吗？',
+                  onConfirmTap: () => 'confirm',
+                ).show();
+                showToast('返回：$result');
+              },
+            ),
+            DemoButton(
+              text: '确认 / 取消弹窗',
+              onTap: () async {
+                final dynamic result = await ConfirmCancelActionDialog(
+                  titleText: '提示',
+                  contentText: '请选择操作',
+                  onConfirmTap: () => 'confirm',
+                  onCancelTap: () => 'cancel',
+                ).show();
+                showToast('返回：$result');
+              },
+            ),
+            DemoButton(
+              text: 'Cupertino 确认 / 取消弹窗',
+              onTap: () async {
+                final dynamic result = await ConfirmCancelActionDialog.cupertino(
+                  titleText: 'Cupertino',
+                  contentText: 'iOS 风格弹窗',
+                  onConfirmTap: () => true,
+                ).show();
+                showToast('返回：$result');
+              },
+            ),
+          ],
         ),
-        Button(
-          onTap: () {
-            const ConfirmCancelActionDialog.cupertino(
-              titleText: 'Title',
-              contentText: 'Content',
-              cancelText: 'Cancel',
-              confirmText: 'Confirm',
-            ).show();
-          },
-          text: 'ConfirmCancelActionDialog.cupertino',
+        DemoSection(
+          title: 'TextFieldDialog',
+          description: '带输入框的确认弹窗，支持普通与 Cupertino 风格。',
+          children: [
+            DemoButton(
+              text: '输入框弹窗',
+              onTap: () async {
+                final dynamic result = await TextFieldDialog(
+                  titleText: '请输入',
+                  onConfirmTap: (String value) => value,
+                ).show();
+                showToast('输入内容：$result');
+              },
+            ),
+            DemoButton(
+              text: 'Cupertino 输入框弹窗',
+              onTap: () async {
+                final dynamic result = await TextFieldDialog.cupertino(
+                  titleText: '请输入',
+                  onConfirmTap: (String value) => value,
+                ).show();
+                showToast('输入内容：$result');
+              },
+            ),
+          ],
         ),
-        Button(
-          onTap: () {
-            const ConfirmActionDialog(titleText: 'Title', contentText: 'Content', confirmText: 'Confirm').show();
-          },
-          text: 'ConfirmActionDialog',
-        ),
-        Button(
-          onTap: () {
-            const ConfirmActionDialog.cupertino(
-              titleText: 'Title',
-              contentText: 'Content',
-              confirmText: 'Confirm',
-            ).show();
-          },
-          text: 'ConfirmActionDialog.cupertino',
-        ),
-        Button(
-          onTap: () {
-            TextFieldDialog(
-              titleText: 'Title',
-              hintText: 'HintText',
-              confirmText: 'Confirm',
-              cancelText: 'Cancel',
-            ).show();
-          },
-          text: 'TextFieldDialog',
-        ),
-        Button(
-          onTap: () {
-            TextFieldDialog(
-              titleText: 'Title',
-              hintText: 'HintText',
-              confirmText: 'Confirm',
-              cancelText: 'Cancel',
-              resizeToAvoidBottomInset: false,
-            ).show();
-          },
-          text: 'TextFieldDialog resizeToAvoidBottomInset(false)',
-        ),
-        Button(
-          onTap: () {
-            TextFieldDialog.cupertino(
-              titleText: 'Title',
-              hintText: 'HintText',
-              confirmText: 'Confirm',
-              cancelText: 'Cancel',
-            ).show();
-          },
-          text: 'TextFieldDialog.cupertino',
-        ),
-        Button(
-          text: 'showUserPrivacyDialog',
-          onTap: () {
-            BasePreferences().setBool(UConst.isPrivacy, false);
-            UserPrivacyDialog(
-              name: 'Universally',
-              onUserAgreementTap: () {},
-              onPrivacyPolicyTap: () {},
-              onConsentTap: () {},
-            ).show();
-          },
-        ),
-        Button(
-          text: 'showUserPrivacyCheckDialog',
-          onTap: () {
-            DialogPage.isChecked = false;
-            UserPrivacyCheckDialog(
-              onUserAgreementTap: () {},
-              onPrivacyPolicyTap: () {},
-              onConsentTap: () {},
-            ).show(DialogPage.isChecked).then((value) {
-              DialogPage.isChecked = value;
-              showToast(value.toString());
-            });
-          },
+        DemoSection(
+          title: 'GeneralDialog',
+          description: '任意 Widget 都可以通过 popupGeneralDialog 弹出；内容需自行限制尺寸并居中。',
+          children: [
+            DemoButton(
+              text: '自定义 GeneralDialog',
+              onTap: () => Center(
+                child: Universal(
+                  constraints: BoxConstraints(maxWidth: context.width - 60),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: context.theme.colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextLarge('自定义内容', color: context.theme.colorScheme.onSurface),
+                      const SizedBox(height: 12),
+                      TextMedium('这是任意 Widget 弹窗', color: context.theme.colorScheme.onSurface),
+                      const SizedBox(height: 20),
+                      Universal(
+                        onTap: closePopup,
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        child: TextMedium('关闭', color: context.theme.primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ).popupGeneralDialog(options: const GeneralDialogOptions(barrierLabel: '', barrierDismissible: true)),
+            ),
+          ],
         ),
       ],
     );

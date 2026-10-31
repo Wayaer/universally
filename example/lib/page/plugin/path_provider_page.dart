@@ -1,3 +1,4 @@
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
@@ -9,91 +10,61 @@ class PathProviderPage extends StatefulWidget {
 }
 
 class _PathProviderPageState extends State<PathProviderPage> {
-  final Map<String, List<String>> _directories = {};
+  String result = '';
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getDirectories();
-    });
-  }
-
-  void getDirectories() async {
-    final temp = await getTemporaryDirectory();
-    _directories.addAll({
-      'getTemporaryDirectory': [temp.path],
-    });
-    final appSupport = await PathProvider.instance.getApplicationSupportDirectory();
-    if (appSupport != null) {
-      _directories.addAll({
-        'getApplicationSupportDirectory': [appSupport.path],
-      });
-    }
-
-    final appDocuments = await PathProvider.instance.getApplicationDocumentsDirectory();
-
-    if (appDocuments != null) {
-      _directories.addAll({
-        'getApplicationDocumentsDirectory': [appDocuments.path],
-      });
-    }
-    final appCache = await PathProvider.instance.getApplicationCacheDirectory();
-    if (appCache != null) {
-      _directories.addAll({
-        'getApplicationCacheDirectory': [appCache.path],
-      });
-    }
-    final externalDocuments = await PathProvider.instance.getExternalStorageDirectory();
-    if (externalDocuments != null) {
-      _directories.addAll({
-        'getExternalStorageDirectory': [externalDocuments.path],
-      });
-    }
-    final downloads = await PathProvider.instance.getDownloadsDirectory();
-    if (downloads != null) {
-      _directories.addAll({
-        'getDownloadsDirectory': [downloads.path],
-      });
-    }
-    final externalCache = await PathProvider.instance.getExternalCacheDirectories();
-    if (externalCache != null) {
-      _directories.addAll({'getExternalCacheDirectories': externalCache.builder((e) => e.path)});
-    }
-    final externalStorage = await PathProvider.instance.getExternalStorageDirectories();
-    if (externalStorage != null) {
-      _directories.addAll({'getExternalStorageDirectories': externalStorage.builder((e) => e.path)});
-    }
-    for (final value in StorageDirectory.values) {
-      final directories = await PathProvider.instance.getExternalStorageDirectories(type: value);
-      if (directories != null) {
-        _directories.addAll({'getExternalStorageDirectories $value': directories.builder((e) => e.path)});
-      }
-    }
-    setState(() {});
+  Future<void> showPath(String name, Future<Object?> Function() callback) async {
+    final path = await callback();
+    setState(() => result = '$name: ${path ?? '不支持当前平台'}');
   }
 
   @override
-  Widget build(BuildContext context) {
-    List<Widget> children = [];
-    _directories.entriesMapKVToList((k, v) {
-      children.add(
-        Column(
-          spacing: 10,
-          children: [
-            TextLarge(k, maxLines: 2, textAlign: TextAlign.center),
-            ...v.builder((e) => TextMedium(e, maxLines: 10, textAlign: TextAlign.center)),
-            Divider(),
-          ],
-        ),
-      );
-    });
-    return BaseScaffold(
-      appBarTitleText: 'Path Provider',
-      spacing: 20,
-      padding: EdgeInsets.all(16),
-      isScroll: true,
-      children: children,
-    );
-  }
+  Widget build(BuildContext context) => DemoScaffold(
+    title: '路径',
+    children: [
+      DemoSection(
+        title: 'PathProvider',
+        description: '封装 path_provider，Web 平台返回 null。',
+        children: [
+          DemoButton(
+            text: 'getTemporaryDirectory',
+            onTap: () => showPath('临时目录', PathProvider().getTemporaryDirectory),
+          ),
+          DemoButton(
+            text: 'getApplicationSupportDirectory',
+            onTap: () => showPath('应用支持目录', PathProvider().getApplicationSupportDirectory),
+          ),
+          DemoButton(
+            text: 'getApplicationDocumentsDirectory',
+            onTap: () => showPath('文档目录', PathProvider().getApplicationDocumentsDirectory),
+          ),
+          DemoButton(
+            text: 'getApplicationCacheDirectory',
+            onTap: () => showPath('缓存目录', PathProvider().getApplicationCacheDirectory),
+          ),
+          DemoButton(
+            text: 'getExternalStorageDirectory',
+            onTap: () => showPath('外部存储', PathProvider().getExternalStorageDirectory),
+          ),
+          DemoButton(
+            text: 'getExternalCacheDirectories',
+            onTap: () => showPath('外部缓存', PathProvider().getExternalCacheDirectories),
+          ),
+          DemoButton(
+            text: 'getDownloadsDirectory',
+            onTap: () => showPath('下载目录', PathProvider().getDownloadsDirectory),
+          ),
+          DemoButton(
+            text: 'getLibraryDirectory',
+            onTap: () => showPath('Library 目录', PathProvider().getLibraryDirectory),
+          ),
+          DemoButton(text: 'getExternalDirectory', onTap: () => showPath('外部目录', PathProvider().getExternalDirectory)),
+          DemoButton(
+            text: 'getExternalApplicationCacheDirectory',
+            onTap: () => showPath('外部应用缓存', PathProvider().getExternalApplicationCacheDirectory),
+          ),
+          DemoResult(text: result),
+        ],
+      ),
+    ],
+  );
 }

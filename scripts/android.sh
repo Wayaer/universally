@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# 显示帮助信息
 show_help() {
   echo -e "${GREEN}用法: $0 [选项]"
   echo -e "${GREEN}Flutter Android打包脚本"
@@ -25,7 +23,6 @@ show_help() {
   echo
 }
 
-# 初始化参数
 app_name=""
 channel="android"
 output_type="apk"
@@ -38,7 +35,6 @@ current_date=$(date "+%Y%m%d%H%M")
 # 每次执行都显示帮助信息
 show_help
 
-# 解析参数
 while getopts ":n:c:o:t:b:p:sh" opt; do
   case $opt in
     n) app_name="$OPTARG" ;;
@@ -48,93 +44,72 @@ while getopts ":n:c:o:t:b:p:sh" opt; do
     b) build_type="$OPTARG" ;;
     p) main_path="$OPTARG" ;;
     s) split_abi=0 ;;
-    h) exit 0 ;;  # 如果指定了-h参数，显示帮助后退出
+    h) exit 0 ;;
     :) echo -e "${RED}错误: 选项 -$OPTARG 需要参数${NC}" >&2; exit 1 ;;
     \?) echo -e "${RED}错误: 未知选项 -$OPTARG${NC}" >&2; exit 1 ;;
   esac
 done
 
-# 参数验证
 validate_parameters() {
-  # 验证输出类型
   if ! [[ $output_type =~ ^(apk|appbundle|aar)$ ]]; then
     echo -e "${RED}错误: 输出类型必须是 apk, appbundle 或 aar${NC}" >&2; exit 1
   fi
 
-  # 验证目标平台
   if ! [[ $target_platform =~ ^[0-3]$ ]]; then
     echo -e "${RED}错误: 目标平台必须是 0-3 之间的数字${NC}" >&2; exit 1
   fi
 
-  # 验证构建类型
   if ! [[ $build_type =~ ^(release|profile|debug)$ ]]; then
     echo -e "${RED}错误: 构建类型必须是 release, profile 或 debug${NC}" >&2; exit 1
   fi
 
-  # 验证入口文件存在
   [ -f "$main_path" ] || { echo -e "${RED}错误: 入口文件 $main_path 不存在${NC}" >&2; exit 1; }
 
-  # 新增：验证android目录存在
   [ -d "android" ] || { echo -e "${RED}错误: android目录不存在，请确认在Flutter项目根目录执行此脚本${NC}" >&2; exit 1; }
 }
 
-# 提取版本号
 extract_version() {
+  local version
   version=$(awk '/^version: / {print $2; exit}' pubspec.yaml)
   [ -n "$version" ] || { echo -e "${RED}错误: 无法从 pubspec.yaml 提取版本号${NC}" >&2; exit 1; }
   echo "$version"
 }
 
-# 获取目标平台参数
 get_target_platform_args() {
-  local platform=$1
-  if [ "$platform" -eq 0 ]; then
-    echo "android-arm64"
-  elif [ "$platform" -eq 1 ]; then
-    echo "android-arm"
-  elif [ "$platform" -eq 2 ]; then
-    echo "android-arm,android-arm64"
-  elif [ "$platform" -eq 3 ]; then
-    echo "android-arm,android-arm64,android-x64"
-  fi
+  case "$1" in
+    0) echo "android-arm64" ;;
+    1) echo "android-arm" ;;
+    2) echo "android-arm,android-arm64" ;;
+    3) echo "android-arm,android-arm64,android-x64" ;;
+  esac
 }
 
-# 移动APK文件的辅助函数
 move_apk_file() {
   local abi=$1
   local suffix=$2
   local src="build/app/outputs/flutter-apk/app${abi:+-$abi}-$build_type.apk"
   local dest="app/android/$build_type/${app_name}-${channel}-${suffix}${version}-${current_date}.apk"
   if [ -f "$src" ]; then
+    mkdir -p "$(dirname "$dest")"
     mv -v "$src" "$dest"
   else
     echo -e "${YELLOW}警告: 未找到 $abi APK 文件 $src${NC}"
   fi
 }
 
-# 主执行函数
 main() {
   echo -e "${BLUE}========== 💪 开始打包Android 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
-  # 获取目标平台参数
+  local target_platform_str
   target_platform_str=$(get_target_platform_args "$target_platform")
-  target_platform_args="--target-platform $target_platform_str"
 
-  # ABI拆分参数
-  split_abi_flag=""
+  local split_abi_flag=""
   if [ "$split_abi" -eq 1 ] && [ "$output_type" = "apk" ]; then
     split_abi_flag="--split-per-abi"
   fi
 
-  # 渠道参数
-  channel_arguments=""
-  if [ -n "$channel" ]; then
-    channel_arguments="--dart-define channel=$channel --android-project-arg channel=$channel"
-  fi
-
-  # 显示打包信息（每行单独显示）
   echo -e "
  ${YELLOW}┌---------------------------------------------------------------${NC}
  ${YELLOW}|    版本: $version
@@ -143,21 +118,27 @@ main() {
  ${YELLOW}|    类型: $output_type
  ${YELLOW}|    构建类型: $build_type
  ${YELLOW}|    ABI拆分: $split_abi_flag
- ${YELLOW}|    平台: $target_platform_args
+ ${YELLOW}|    平台: --target-platform $target_platform_str
  ${YELLOW}|    入口: $main_path
  ${YELLOW}└---------------------------------------------------------------${NC}"
 
-  # 执行打包命令
-  build_command="flutter build $output_type --$build_type $split_abi_flag $target_platform_args $channel_arguments -t $main_path"
-  echo -e "${BLUE}执行命令:${NC} $build_command"
-  eval "$build_command"
+  local -a build_command=(flutter build "$output_type" "--$build_type")
+  if [ -n "$split_abi_flag" ]; then
+    build_command+=("$split_abi_flag")
+  fi
+  build_command+=("--target-platform" "$target_platform_str")
+  if [ -n "$channel" ]; then
+    build_command+=("--dart-define" "channel=$channel" "--android-project-arg" "channel=$channel")
+  fi
+  build_command+=("-t" "$main_path")
 
-  # 准备输出目录
-  output_dir="app/android/$build_type/"
+  echo -e "${BLUE}执行命令:${NC} ${build_command[*]}"
+  "${build_command[@]}"
+
+  local output_dir="app/android/$build_type/"
   mkdir -p "$output_dir"
   echo -e "${BLUE}输出目录: $output_dir${NC}"
 
-  # 移动打包
   if [ "$output_type" = "apk" ]; then
     if [ "$split_abi" -eq 1 ]; then
       if [ "$target_platform" -ge 1 ]; then
@@ -173,8 +154,8 @@ main() {
       move_apk_file "" ""
     fi
   elif [ "$output_type" = "appbundle" ]; then
-    src="build/app/outputs/bundle/$build_type/app-$build_type.aab"
-    dest="$output_dir${app_name}-${channel}-v${version}-${current_date}.aab"
+    local src="build/app/outputs/bundle/$build_type/app-$build_type.aab"
+    local dest="$output_dir${app_name}-${channel}-v${version}-${current_date}.aab"
     mv -v "$src" "$dest"
   fi
 
@@ -182,5 +163,4 @@ main() {
   echo -e "${GREEN}输出目录: $output_dir${NC}"
 }
 
-# 启动主函数
 main

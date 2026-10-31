@@ -110,7 +110,7 @@ extension ExtensionPathIterableString on Iterable<String> {
   String get joinAll => path.joinAll(this);
 }
 
-extension ExtensionPathObject on Object {
+extension ExtensionPathUriString on String {
   String get prettyUri => path.prettyUri(this);
 
   String get fromUri => path.fromUri(this);

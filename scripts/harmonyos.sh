@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# 显示帮助信息
 show_help() {
   echo -e "${GREEN}用法: $0 [选项]"
   echo -e "${GREEN}Flutter HarmonyOS打包脚本"
@@ -24,7 +22,6 @@ show_help() {
   echo
 }
 
-# 初始化参数
 app_name=""
 channel="ohos"
 output_type="app"  # 默认值为app
@@ -33,10 +30,8 @@ build_type="release"
 main_path="lib/main.dart"
 current_date=$(date "+%Y%m%d%H%M")
 
-# 显示帮助信息
 show_help
 
-# 解析参数
 while getopts ":n:c:o:t:b:p:h" opt; do
   case $opt in
     n) app_name="$OPTARG" ;;
@@ -51,18 +46,17 @@ while getopts ":n:c:o:t:b:p:h" opt; do
   esac
 done
 
-# 参数验证
 validate_parameters() {
   if ! [[ $output_type =~ ^(app|hap|har|hsp)$ ]]; then
-    echo -e "${RED}错误: 输出类型必须是 app, hap, har 或 hsp${NC}" >&2; exit 1;
+    echo -e "${RED}错误: 输出类型必须是 app, hap, har 或 hsp${NC}" >&2; exit 1
   fi
 
   if ! [[ $target_platform =~ ^[0-3]$ ]]; then
-    echo -e "${RED}错误: 目标平台必须是 0-3 之间的数字${NC}" >&2; exit 1;
+    echo -e "${RED}错误: 目标平台必须是 0-3 之间的数字${NC}" >&2; exit 1
   fi
 
   if ! [[ $build_type =~ ^(release|debug)$ ]]; then
-    echo -e "${RED}错误: 构建类型必须是 release 或 debug${NC}" >&2; exit 1;
+    echo -e "${RED}错误: 构建类型必须是 release 或 debug${NC}" >&2; exit 1
   fi
 
   [ -f "$main_path" ] || { echo -e "${RED}错误: 入口文件 $main_path 不存在${NC}" >&2; exit 1; }
@@ -70,73 +64,56 @@ validate_parameters() {
   [ -d "ohos" ] || { echo -e "${RED}错误: ohos目录不存在，请确认在Flutter项目根目录执行此脚本${NC}" >&2; exit 1; }
 }
 
-# 提取版本号
 extract_version() {
+  local version
   version=$(awk '/^version: / {print $2; exit}' pubspec.yaml)
   [ -n "$version" ] || { echo -e "${RED}错误: 无法从 pubspec.yaml 提取版本号${NC}" >&2; exit 1; }
   echo "$version"
 }
 
-# 获取目标平台参数转换
 get_target_platform_args() {
-  local platform=$1
-  if [ "$platform" -eq 0 ]; then
-    echo "ohos-arm64"
-  elif [ "$platform" -eq 1 ]; then
-    echo "ohos-arm"
-  elif [ "$platform" -eq 2 ]; then
-    echo "ohos-x64"
-  elif [ "$platform" -eq 3 ]; then
-    echo "ohos-arm,ohos-arm64,ohos-x64"
-  fi
+  case "$1" in
+    0) echo "ohos-arm64" ;;
+    1) echo "ohos-arm" ;;
+    2) echo "ohos-x64" ;;
+    3) echo "ohos-arm,ohos-arm64,ohos-x64" ;;
+  esac
 }
 
-# 移动输出文件的辅助函数（支持通配符匹配和unsigned标识保留）
+# 移动输出文件（支持通配符匹配并保留 unsigned 标识）
 move_output_file() {
   local src_pattern=$1
   local base_dest=$2
   local ext=$3
 
-  # 获取匹配的文件列表
-  local files=($src_pattern)
+  # 通配符需要展开后再判断，保留原有匹配行为
+  # shellcheck disable=SC2206
+  local -a files=($src_pattern)
 
-  # 检查是否有匹配的文件
   if [ ${#files[@]} -eq 0 ] || [ ! -f "${files[0]}" ]; then
     echo -e "${YELLOW}警告: 未找到匹配 $src_pattern 的文件${NC}"
-    return 1
+    return 0
   fi
 
-  # 获取第一个匹配文件的文件名
-  local filename=$(basename "${files[0]}")
+  local filename
+  filename=$(basename "${files[0]}")
 
-  # 检查文件名是否包含unsigned
   local unsigned_suffix=""
   if [[ $filename == *unsigned* ]]; then
     unsigned_suffix="-unsigned"
   fi
 
-  # 构建最终目标文件名
   local dest="${base_dest}${unsigned_suffix}.${ext}"
-
-  # 移动文件
   mv -v "${files[0]}" "$dest"
-  return 0
 }
 
-# 主执行函数
 main() {
   echo -e "${BLUE}========== 💪 开始打包HarmonyOS 💪 ==========${NC}"
   validate_parameters
   version=$(extract_version)
 
+  local target_platform_str
   target_platform_str=$(get_target_platform_args "$target_platform")
-
-  channel_arguments=""
-  if [ -n "$channel" ]; then
-    channel_arguments="--dart-define channel=$channel"
-  fi
-
-  target_platform_args="--target-platform $target_platform_str"
 
   echo -e "
  ${YELLOW}┌---------------------------------------------------------------${NC}
@@ -149,27 +126,25 @@ main() {
  ${YELLOW}|    入口: $main_path
  ${YELLOW}└---------------------------------------------------------------${NC}"
 
-  build_command="flutter build $output_type --$build_type $channel_arguments $target_platform_args -t $main_path"
-  echo -e "${BLUE}执行命令:${NC} $build_command"
-  eval "$build_command"
+  local -a build_command=(flutter build "$output_type" "--$build_type")
+  if [ -n "$channel" ]; then
+    build_command+=("--dart-define" "channel=$channel")
+  fi
+  build_command+=("--target-platform" "$target_platform_str" "-t" "$main_path")
 
-  output_dir="app/ohos/$build_type/"
+  echo -e "${BLUE}执行命令:${NC} ${build_command[*]}"
+  "${build_command[@]}"
+
+  local output_dir="app/ohos/$build_type/"
   mkdir -p "$output_dir"
   echo -e "${BLUE}输出目录: $output_dir${NC}"
 
-  # 统一路径格式 build/ohos/${output_type}/*.${output_type}
-  src_pattern="build/ohos/${output_type}/*.${output_type}"
-
-  # 构建基础目标文件名（不含后缀和unsigned标识）
-  base_dest_name="${app_name}-${channel}-v${version}-${current_date}"
-  full_base_dest="${output_dir}${base_dest_name}"
-
-  # 移动文件并处理unsigned标识
+  local src_pattern="build/ohos/${output_type}/*.${output_type}"
+  local full_base_dest="${output_dir}${app_name}-${channel}-v${version}-${current_date}"
   move_output_file "$src_pattern" "$full_base_dest" "$output_type"
 
   echo -e "${GREEN}========== ✅ 打包完成 ✅ ==========${NC}"
   echo -e "${GREEN}输出目录: $output_dir${NC}"
 }
 
-# 启动主函数
 main

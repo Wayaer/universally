@@ -1,51 +1,34 @@
+import 'dart:convert';
+
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class PackageInfoPage extends StatefulWidget {
+class PackageInfoPage extends StatelessWidget {
   const PackageInfoPage({super.key});
 
   @override
-  State<PackageInfoPage> createState() => _PackageInfoPageState();
-}
-
-class _PackageInfoPageState extends State<PackageInfoPage> {
-  Map<String, dynamic> packageInfoData = {};
-
-  @override
-  void initState() {
-    super.initState();
-    addPostFrameCallback((_) {
-      getPackageInfo();
-    });
-  }
-
-  void getPackageInfo() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    packageInfoData = packageInfo.data;
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> children = [];
-    packageInfoData.entriesMapKVToList((k, v) {
-      children.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          spacing: 10,
-          children: [
-            TextLarge(k),
-            TextMedium('$v', maxLines: 10, textAlign: TextAlign.end).flexible,
-          ],
-        ),
-      );
-    });
-    return BaseScaffold(
-      appBarTitleText: 'Package Info',
-      isScroll: true,
-      spacing: 20,
-      padding: EdgeInsets.all(16),
-      children: children,
-    );
-  }
+  Widget build(BuildContext context) => DemoScaffold(
+    title: '包信息',
+    children: [
+      DemoSection(
+        title: 'PackageInfoPlus',
+        description: '封装 package_info_plus，初始化后可直接读取应用名称、包名、版本与安装渠道。',
+        children: [
+          DemoResult(
+            text: [
+              'appName: ${PackageInfoPlus().appName}',
+              'packageName: ${PackageInfoPlus().packageName}',
+              'version: ${PackageInfoPlus().version}',
+              'buildNumber: ${PackageInfoPlus().buildNumber}',
+              'buildSignature: ${PackageInfoPlus().buildSignature}',
+              'installerStore: ${PackageInfoPlus().installerStore}',
+              '',
+              const JsonEncoder.withIndent('  ').convert(PackageInfoPlus().data),
+            ].join('\n'),
+          ),
+        ],
+      ),
+    ],
+  );
 }

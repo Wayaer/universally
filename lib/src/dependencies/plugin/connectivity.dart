@@ -30,16 +30,7 @@ class ConnectivityPlus {
   List<ConnectivityResult> get current => _currentResult;
 
   /// 网络是否可用
-  bool get networkAvailability {
-    bool availability = false;
-    for (var element in _currentResult) {
-      if (element != ConnectivityResult.none) {
-        availability = true;
-        continue;
-      }
-    }
-    return availability;
-  }
+  bool get networkAvailability => _currentResult.any((element) => element != ConnectivityResult.none);
 
   /// 订阅网络监听
   Future<void> subscription({
@@ -74,7 +65,7 @@ class ConnectivityPlus {
   }
 
   Future<void> _callListenerList() async {
-    for (var element in _listenerList) {
+    for (final element in _listenerList) {
       final value = await element.call(networkAvailability, _currentResult);
       if (!value) break;
     }

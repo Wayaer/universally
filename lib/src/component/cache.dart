@@ -15,9 +15,9 @@ class CleanCache extends StatefulWidget {
 }
 
 class _CleanCacheState extends State<CleanCache> {
+  final List<Directory> directories = [];
+
   String text = '0.00 MB';
-  String? path;
-  double size = 0.00;
 
   @override
   void initState() {
@@ -25,53 +25,55 @@ class _CleanCacheState extends State<CleanCache> {
     addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
   }
 
-  @override
-  void didUpdateWidget(covariant CleanCache oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    addPostFrameCallback((duration) => 1.seconds.delayed(getSize));
-  }
-
-  void getSize() async {
+  Future<void> collectDirectories() async {
     if (isWeb) return;
-    final dir = await PathProvider().getTemporaryDirectory();
-    getDirSize(dir!);
+    directories.clear();
+    final temp = await PathProvider().getTemporaryDirectory();
+    if (temp != null) directories.add(temp);
     if (isAndroid) {
       final dirs = await PathProvider().getExternalCacheDirectories();
-      dirs?.forEach((element) {
-        getDirSize(element);
-      });
+      if (dirs != null) directories.addAll(dirs);
     }
-    if (size > 0) {
-      final double s = size / 1024 / 1024;
-      text = '${s.toStringAsFixed(2)} MB';
-    } else {
-      text = '0.00 MB';
-    }
+  }
+
+  Future<void> getSize() async {
+    if (isWeb) return;
+    await collectDirectories();
+    final size = directories.fold<double>(0, (previous, dir) => previous + directorySize(dir));
+    text = size > 0 ? '${(size / 1024 / 1024).toStringAsFixed(2)} MB' : '0.00 MB';
     if (mounted) setState(() {});
   }
 
-  void getDirSize(Directory dir) {
-    if (dir.existsSync()) {
-      final files = dir.listSync(recursive: true);
-      for (var file in files) {
-        if (file.existsSync()) {
-          size += file.statSync().size;
-        }
+  double directorySize(Directory dir) {
+    if (!dir.existsSync()) return 0;
+    double size = 0;
+    for (final entity in dir.listSync(recursive: true)) {
+      if (entity is File && entity.existsSync()) {
+        size += entity.statSync().size;
       }
     }
+    return size;
+  }
+
+  Future<void> clearCache() async {
+    // 首次统计尚未完成时点击，也要先拿到目录
+    if (directories.isEmpty) await collectDirectories();
+    if (!mounted) return;
+    for (final dir in directories) {
+      if (!dir.existsSync()) continue;
+      for (final entity in dir.listSync()) {
+        if (entity.existsSync()) entity.deleteSync(recursive: true);
+      }
+    }
+    showToast('已清理');
+    text = '0.00 MB';
+    setState(() {});
+    1.seconds.delayed(getSize);
   }
 
   @override
   Widget build(BuildContext context) => Universal(
-    onTap: () {
-      if (path == null || path!.isEmpty) return;
-      final dir = Directory(path!);
-      if (!dir.existsSync()) return;
-      dir.delete(recursive: true);
-      showToast('已清理');
-      size = 0;
-      1.seconds.delayed(getSize);
-    },
+    onTap: clearCache,
     child: TextSmall(text, color: widget.color),
   );
 }
@@ -97,7 +99,7 @@ class _PushStateState extends State<PushSwitchState> {
   }
 
   @override
-  Widget build(BuildContext context) => XSwitch(
+  Widget build(BuildContext context) => FlSwitch(
     value: push,
     onChanged: (value) {
       if (value == push) return;

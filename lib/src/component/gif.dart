@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:extended_image_library/extended_image_library.dart';
@@ -112,7 +111,7 @@ class GifCache {
   void clear() => caches.clear();
 
   /// Removes single gif from the cache.
-  bool evict(Object key) => caches.remove(key) != null ? true : false;
+  bool evict(Object key) => caches.remove(key) != null;
 }
 
 /// Stores all the [ImageInfo] and duration of a gif.
@@ -177,10 +176,13 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   @override
   void didUpdateWidget(Gif oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != controller) {
+    final controllerChanged = oldWidget.controller != widget.controller;
+    if (controllerChanged) {
       removeListener();
-      controller.dispose();
+      if (oldWidget.controller == null) controller.dispose();
       initController();
+    }
+    if (controllerChanged || oldWidget.image != widget.image) {
       loadFrames().then((value) => autostart());
     }
   }
@@ -197,10 +199,8 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     removeListener();
+    if (widget.controller == null) controller.dispose();
     super.dispose();
-    if (widget.controller == null) {
-      controller.dispose();
-    }
   }
 
   /// Start this gif according to [widget.autostart] and [widget.loop].
@@ -222,9 +222,9 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
     } else if (provider is AssetImage) {
       return provider.assetName;
     } else if (provider is MemoryImage) {
-      return provider.bytes.toString();
+      return provider.bytes.hashCode.toString();
     } else if (provider is FileImage) {
-      return provider.file.path.toString();
+      return provider.file.path;
     }
     return '';
   }
@@ -295,19 +295,5 @@ class _GifState extends ExtendedState<Gif> with SingleTickerProviderStateMixin {
       duration += frameInfo.duration;
     }
     return GifInfo(frames: info, duration: duration);
-  }
-
-  Future<Uint8List> loadGifImageData(NetworkImage provider) async {
-    Completer<Uint8List> completer = Completer();
-    provider
-        .resolve(const ImageConfiguration())
-        .addListener(
-          ImageStreamListener((ImageInfo info, bool syncCall) {
-            info.image.toByteData(format: ImageByteFormat.rawRgba).then((byteData) {
-              completer.complete(Uint8List.view(byteData!.buffer));
-            });
-          }),
-        );
-    return await completer.future;
   }
 }

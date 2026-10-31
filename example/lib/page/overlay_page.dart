@@ -1,32 +1,86 @@
-import 'package:app/main.dart';
+import 'package:app/utils/demo.dart';
 import 'package:flutter/material.dart';
 import 'package:universally/universally.dart';
 
-class OverlayPage extends StatelessWidget {
+class OverlayPage extends StatefulWidget {
   const OverlayPage({super.key});
 
   @override
+  State<OverlayPage> createState() => _OverlayPageState();
+}
+
+class _OverlayPageState extends State<OverlayPage> {
+  FlOverlayEntry? overlayEntry;
+
+  @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      isScroll: true,
-      padding: const EdgeInsets.all(12),
-      appBarTitleText: 'Overlay',
-      canPop: false,
-      canHideOverlay: true,
-      onPopInvokedWithResult: (bool didPop, dynamic result, bool didCloseOverlay) {
-        log('OverlayPage onPopInvokedWithResult didPop=$didPop result=$result didCloseOverlay=$didCloseOverlay');
-        if (didCloseOverlay || didPop) return;
-        pop();
-      },
-      spacing: 12,
+    return DemoScaffold(
+      title: '底部弹层与 Overlay',
       children: [
-        TextMedium('如果当前页面有 Overlay 组件，点击返回键时，会先关闭 Overlay 组件，然后再关闭当前页面'),
-        const Button(onTap: showLoading, text: 'showLoading'),
-        Button(
-          onTap: () {
-            showToast('showToast');
-          },
-          text: 'showToast',
+        DemoSection(
+          title: 'ModalBottomSheet',
+          description: '通过 popupModalBottomSheet 打开任意 Widget，背景与文字颜色取自当前主题，保证可读性。',
+          children: [
+            DemoButton(
+              text: '自定义 ModalBottomSheet',
+              onTap: () =>
+                  Universal(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextLarge('ModalBottomSheet', color: context.theme.colorScheme.onSurface),
+                        const SizedBox(height: 12),
+                        TextMedium('通过 popupModalBottomSheet 打开', color: context.theme.colorScheme.onSurface),
+                        const SizedBox(height: 20),
+                        UButton(text: '关闭', onTap: () => Navigator.of(context).pop()),
+                      ],
+                    ),
+                  ).popupModalBottomSheet(
+                    options: ModalBottomSheetOptions(
+                      backgroundColor: context.theme.colorScheme.surface,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                      ),
+                    ),
+                  ),
+            ),
+          ],
+        ),
+        DemoSection(
+          title: 'Overlay',
+          description: 'Widget.showOverlay 可将任意组件插入 Overlay，并返回 FlOverlayEntry。',
+          children: [
+            DemoButton(
+              text: '显示 Overlay',
+              onTap: () {
+                overlayEntry?.remove();
+                overlayEntry = Universal(
+                  alignment: Alignment.center,
+                  color: Colors.black54,
+                  child: Universal(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextMedium('Overlay 内容，点击关闭', color: context.theme.colorScheme.onSurface),
+                  ),
+                  onTap: () {
+                    overlayEntry?.remove();
+                    overlayEntry = null;
+                  },
+                ).showOverlay(isCached: false);
+              },
+            ),
+            DemoButton(
+              text: '移除 Overlay',
+              onTap: () {
+                overlayEntry?.remove();
+                overlayEntry = null;
+              },
+            ),
+          ],
         ),
       ],
     );

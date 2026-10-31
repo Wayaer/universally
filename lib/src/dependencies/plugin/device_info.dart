@@ -1,4 +1,3 @@
-import 'package:device_info_plus_harmonyos/device_info_plus_harmonyos.dart';
 import 'package:universally/universally.dart';
 
 class DeviceInfoPlus {
@@ -10,7 +9,7 @@ class DeviceInfoPlus {
 
   static DeviceInfoPlus get instance => _instance;
 
-  final DeviceInfoPlusPlugin _deviceInfoPlugin = DeviceInfoPlusPlugin();
+  final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
 
   Future<BaseDeviceInfo?> get platform {
     if (isWeb) {
@@ -19,8 +18,6 @@ class DeviceInfoPlus {
       return android;
     } else if (isIOS) {
       return ios;
-    } else if (isHarmonyOS) {
-      return harmonyOS;
     } else if (isMacOS) {
       return macOS;
     } else if (isWindows) {
@@ -32,9 +29,11 @@ class DeviceInfoPlus {
     }
   }
 
+  AndroidDeviceInfo? _android;
+
   Future<AndroidDeviceInfo?> get android async {
     if (isAndroid && !isWeb) {
-      return await _deviceInfoPlugin.androidInfo;
+      return _android ??= await _deviceInfoPlugin.androidInfo;
     }
     return null;
   }
@@ -47,43 +46,46 @@ class DeviceInfoPlus {
     return false;
   }
 
-  Future<HarmonyOSDeviceInfo?> get harmonyOS async {
-    if (isHarmonyOS && !isWeb) {
-      return await _deviceInfoPlugin.harmonyOSInfo;
-    }
-    return null;
-  }
+  IosDeviceInfo? _ios;
 
   Future<IosDeviceInfo?> get ios async {
     if (isIOS && !isWeb) {
-      return await _deviceInfoPlugin.iosInfo;
+      return _ios ??= await _deviceInfoPlugin.iosInfo;
     }
     return null;
   }
+
+  MacOsDeviceInfo? _macOS;
 
   Future<MacOsDeviceInfo?> get macOS async {
     if (isMacOS && !isWeb) {
-      return await _deviceInfoPlugin.macOsInfo;
+      return _macOS ??= await _deviceInfoPlugin.macOsInfo;
     }
     return null;
   }
+
+  WindowsDeviceInfo? _windows;
 
   Future<WindowsDeviceInfo?> get windows async {
     if (isWindows && !isWeb) {
-      return await _deviceInfoPlugin.windowsInfo;
+      return _windows ??= await _deviceInfoPlugin.windowsInfo;
     }
     return null;
   }
+
+  LinuxDeviceInfo? _linux;
 
   Future<LinuxDeviceInfo?> get linux async {
     if (isLinux && !isWeb) {
-      return await _deviceInfoPlugin.linuxInfo;
+      return _linux ??= await _deviceInfoPlugin.linuxInfo;
     }
     return null;
   }
 
+  WebBrowserInfo? _webBrowserInfo;
+
   Future<WebBrowserInfo?> get webBrowserInfo async {
     if (!isWeb) return null;
-    return await _deviceInfoPlugin.webBrowserInfo;
+    return _webBrowserInfo ??= await _deviceInfoPlugin.webBrowserInfo;
   }
 }

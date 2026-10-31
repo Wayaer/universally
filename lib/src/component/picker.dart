@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:universally/universally.dart';
 
-class BasePickerOptions<T> extends PickerOptions<T> {
+class BasePickerOptions<T> extends FlPickerOptions<T> {
   BasePickerOptions({
     String? titleText,
     super.verifyConfirm,
