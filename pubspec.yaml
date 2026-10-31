@@ -1,0 +1,59 @@
+name: universally
+description: It depends on universally plug and can update the latest available version in time
+version: 11.4.0
+repository: https://github.com/Wayaer/universally.git
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.32.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  android_intent_plus: ^6.0.0
+  permission_handler: ^12.0.1
+  permission_handler_harmonyos: ^0.0.1
+  path_provider: ^2.1.5
+  path_provider_harmonyos: ^0.0.1
+  url_launcher: ^6.3.2
+  url_launcher_harmonyos: ^0.0.1
+  package_info_plus: ^9.0.1
+  package_info_plus_harmonyos: ^0.0.1
+  connectivity_plus: ^7.1.1
+  connectivity_plus_harmonyos: ^0.0.1
+  device_info_plus: ^12.4.0
+  device_info_plus_harmonyos: ^0.0.5
+  shared_preferences: ^2.5.5
+  shared_preferences_harmonyos: ^0.0.1
+
+  extended_image: ^10.0.1
+  extended_image_library: ^5.0.1
+  window_manager: ^0.5.1
+  flutter_curiosity: ^7.1.1
+
+  path: ^1.9.1
+  provider: ^6.1.5+1
+  flutter_svg: ^2.2.4
+  async: ^2.13.1
+  decimal: ^3.2.4
+  flutter_spinkit: ^5.2.2
+  keframe: ^3.0.0
+  synchronized: ^3.4.0+1
+
+  flutter_waya: ^11.5.2
+  fl_extended: ^3.3.0
+  fl_list_wheel: ^0.0.3
+  fl_scroll_view: ^1.0.2
+  fl_dio: ^1.6.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Universally
+      fonts:
+        - asset: assets/Universally.ttf
